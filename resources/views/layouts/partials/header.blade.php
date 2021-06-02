@@ -118,7 +118,7 @@
                                 <i class="fa fa-bars"></i>
                             </span>
                             <!-- logo -->
-                            <a href="index.html">
+                            <a href="{{url('/')}}">
                                 <img alt="" src="{{asset('public/assets/img/logo/logo.png')}}">
                             </a>
                         </div>
@@ -151,10 +151,10 @@
                                 <a class="account-satting-active" href="#"><i class="pe-7s-user-female"></i></a>
                                 <div class="account-dropdown">
                                     <ul>
-                                        <li><a href="login-register.html">Login/Register</a></li>
-                                        <li><a href="my-orders.html">My Orders</a></li>
-                                        <li><a href="my-account.html">my account</a></li>
-                                        <li><a href="index.html">Logout</a></li>
+                                        <li><a href="{{url('login')}}">Login/Register</a></li>
+                                        <li><a href="{{url('my-order')}}">My Orders</a></li>
+                                        <li><a href="{{url('my-account')}}">my account</a></li>
+                                        <li><a href="{{url('/')}}">Logout</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -252,7 +252,7 @@
                                 <li class="home-nav-category-btn"><a href="#" class="arrow heading w-100"><i class="fa fa-bars mr-2"></i> All
                                         Category</a>
                                         
-                                @if(Request::path() == 'home')
+                                @if(Request::path() == '/')
                                      <ul class="home-parent-categories">
                                   @else
                                       <ul>
@@ -307,22 +307,22 @@
                         <div class="main-menu">
                             <nav>
                                 <ul>
-                                    <li><a href="index.html">Home</a>
+                                    <li><a href="{{url('/')}}">Home</a>
                                     </li>
-                                    <li><a href="shop.html">Collection</a></li>
-                                    <li><a href="about.html"> About </a></li>
-                                    <li><a href="contact.html"> Contact</a></li>
+                                    <li><a href="{{url('/shop')}}">Collection</a></li>
+                                    <li><a href="{{url('/about')}}"> About </a></li>
+                                    <li><a href="{{url('/contact')}}"> Contact</a></li>
                                     <li><a href="#"> Pages <i class="fa fa-angle-down"></i></a>
                                         <ul class="submenu">
-                                            <li><a href="product-details.html">product details</a></li>
-                                            <li><a href="about.html">about us</a></li>
-                                            <li><a href="cart-page.html">cart page</a></li>
-                                            <li><a href="checkout.html">checkout </a></li>
-                                            <li><a href="wishlist.html">wishlist </a></li>
-                                            <li><a href="my-account.html">my account</a></li>
-                                            <li><a href="login-register.html">login / register </a></li>
-                                            <li><a href="contact.html">contact us </a></li>
-                                            <li><a href="./faq.html">FAQ</a></li>
+                                            <li><a href="{{url('product-details')}}">product details</a></li>
+                                            <li><a href="{{url('/about')}}">about us</a></li>
+                                            <li><a href="{{url('/cart')}}">cart page</a></li>
+                                            <li><a href="{{url('/checkout')}}">checkout </a></li>
+                                            <li><a href="{{url('/wishlist')}}">wishlist </a></li>
+                                            <li><a href="{{('my-account')}}">my account</a></li>
+                                            <li><a href="{{url('/login')}}">login / register </a></li>
+                                            <li><a href="{{url('/contact')}}">contact us </a></li>
+                                            <li><a href="{{url('/faq')}}">FAQ</a></li>
                                             <li><a href="404.html">404 page </a></li>
                                         </ul>
                                     </li>

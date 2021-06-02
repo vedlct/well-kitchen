@@ -5,10 +5,10 @@
         <div class="breadcrumb-content">
             <ul>
                 <li>
-                    <a href="index.html">Home</a>
+                    <a href="{{url('/')}}">Home</a>
                 </li>
                 <li>
-                    <a href="shop.html">Shop</a>
+                    <a href="{{url('/shop')}}">Shop</a>
                 </li>
                 <li class="active">Men dresses </li>
             </ul>
