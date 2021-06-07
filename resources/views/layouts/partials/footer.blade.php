@@ -6,7 +6,7 @@
                 <div class="col-lg-2 col-md-4 col-sm-4">
                     <div class="copyright mb-30">
                         <div class="footer-logo">
-                            <a href="index.html">
+                            <a href="{{url('/')}}">
                                 <img alt="" class="img-fluid" src="{{asset('public/assets/img/logo/logo.png')}}">
                             </a>
                         </div>
@@ -20,9 +20,9 @@
                         </div>
                         <div class="footer-list">
                             <ul>
-                                <li><a href="about.html">About us</a></li>
-                                <li><a href="contact.html">Contact</a></li>
-                                <li><a href="faq.html">FAQ</a></li>
+                                <li><a href="{{url('/about')}}">About us</a></li>
+                                <li><a href="{{url('/contact')}}">Contact</a></li>
+                                <li><a href="{{url('/faq')}}">FAQ</a></li>
                             </ul>
                         </div>
                     </div>
@@ -223,10 +223,10 @@
     </div>
     <div class="row my-md-5 my-4">
         <div class="col-6">
-            <a href="./cart-page.html" class="btn btn-secondary w-100">View Cart</a>
+            <a href="{{url('/cart')}}" class="btn btn-secondary w-100">View Cart</a>
         </div>
         <div class="col-6">
-            <a href="./checkout.html" class="btn btn-danger w-100">checkout</a>
+            <a href="{{url('/checkout')}}" class="btn btn-danger w-100">checkout</a>
         </div>
     </div>
 </section>
