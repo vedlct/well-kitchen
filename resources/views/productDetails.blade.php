@@ -57,29 +57,19 @@
                 <div class="product-details">
                     <div class="product-details-img">
                         <div class="tab-content jump">
-                            {{-- <div id="shop-details-1" class="zoom tab-pane large-img-style" style="background-image: url({{asset('public/assets/img/product-details/b-large-1.jpg')}});">
-                                <img src="public/assets/img/product-details/b-large-1.jpg" alt="">
-                                <span class="dec-price">-10% </span>
-                            </div>
-                            <div id="shop-details-2" class="zoom tab-pane large-img-style" style="background-image: url({{asset('public/assets/img/product-details/b-large-2.jpg')}});">
-                                <img src="public/assets/img/product-details/b-large-2.jpg" alt="">
-                                <span class="dec-price">-10% </span>
-                            </div> --}}
-                            <div id="shop-details-3" class="zoom tab-pane active large-img-style" style="background-image: url({{asset('admin/public/featureImage/'.$productDetails->featureImage)}});">
-                                <img src="{{asset('admin/public/featureImage/'.$productDetails->featureImage)}}" alt="">
+                            @foreach ($productDetails->images as $key=>$itemImg)
+                            <div id="shop-details-{{$key}}" class="zoom tab-pane {{$key == 0 ? 'active' : '' }} large-img-style" style="background-image: url({{asset('admin/public/productImages/'.$itemImg->image)}});">
+                                <img src="{{asset('admin/public/productImages/'.$itemImg->image)}}" alt="">
                                 <span class="dec-price">-10%</span>
                             </div>
+                            @endforeach
                         </div>
                         <div class="shop-details-tab nav">
-                            <a class="shop-details-overly" href="#shop-details-1" data-toggle="tab">
-                                <img src="{{asset('public/assets/img/product-details/small-1.jpg')}}" alt="">
-                            </a>
-                            <a class="shop-details-overly" href="#shop-details-2" data-toggle="tab">
-                                <img src="{{asset('public/assets/img/product-details/small-2.jpg')}}" alt="">
-                            </a>
-                            <a class="shop-details-overly active" href="#shop-details-3" data-toggle="tab">
-                                <img src="{{asset('public/assets/img/product-details/small-3.jpg')}}" alt="">
-                            </a>
+                            @foreach ($productDetails->images as $key=>$itemImg)
+                                <a class="shop-details-overly {{$key == 0 ? 'active' : '' }}" href="#shop-details-{{$key}}" data-toggle="tab">
+                                    <img src="{{asset('admin/public/productImages/'.$itemImg->image)}}" alt="">
+                                </a>
+                            @endforeach
                         </div>
 
                     </div>
@@ -105,7 +95,7 @@
                         </div>
                         <span><a href="#">3 Reviews</a></span>
                     </div>
-                    <p>{{$productDetails->details->fabricDetails}}</p>
+                    <p>{!! $productDetails->details->fabricDetails !!}</p>
                     <div class="pro-details-list">
                         <ul>
                             <li>- 0.5 mm Dail</li>
@@ -126,14 +116,17 @@
                                 </ul> -->
 
                                 <!-- select color -->
-                                <input type="radio" name="color" id="red" value="red" />
-                                <label for="red"><span class="red"></span></label>
-
-                                <input type="radio" name="color" id="orange" />
-                                <label for="orange"><span class="orange"></span></label>
-
-                                <input type="radio" name="color" id="yellow" />
-                                <label for="yellow"><span class="yellow"></span></label>
+                                @foreach($productDetails->sku as $productsku)
+                                @foreach($productsku->variationRelation as $variationRelation)
+                                 
+                                @if($variationRelation->variationDetailsdata->variationType == "Color")
+                                {{-- @dd($variationRelation->variationDetailsdata); --}}
+                                    <input type="radio" name="color" id="red" value="{{$variationRelation->variationDetailsdata->variationId}}" />
+                                    <label for="red"><span style="background: {{$variationRelation->variationDetailsdata->variationValue}}" class=""></span></label>
+                                @endif
+                                @endforeach
+                                @endforeach
+                              
                             </div>
                         </div>
                         <div class="pro-details-size">
@@ -148,26 +141,20 @@
                                 </ul> -->
 
                                 <!-- select size -->
-                                <input type="radio" id="size-1" name="size">
+                                @foreach($productDetails->sku as $productsku)
+                                @foreach($productsku->variationRelation as $variationRelation)
+                                 
+                                @if($variationRelation->variationDetailsdata->variationType == "Size")
+                                {{-- @dd($variationRelation->variationDetailsdata); --}}
+                                <input type="radio" id="size-1" name="size" value="{{$variationRelation->variationDetailsdata->variationId}}">
                                 <label for="size-1" class="text-center">
                                     <div class="variant-select_wrapper">
-                                        <span class="variant-select__title">L</span>
+                                        <span class="variant-select__title">{{$variationRelation->variationDetailsdata->variationValue}}</span>
                                     </div>
                                 </label>
-
-                                <input type="radio" id="size-2" name="size">
-                                <label for="size-2" class="text-center">
-                                    <div class="variant-select_wrapper">
-                                        <span class="variant-select__title">XL</span>
-                                    </div>
-                                </label>
-
-                                <input type="radio" id="size-3" name="size">
-                                <label for="size-3" class="text-center">
-                                    <div class="variant-select_wrapper">
-                                        <span class="variant-select__title">XXL</span>
-                                    </div>
-                                </label>
+                                @endif
+                                @endforeach
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -227,7 +214,7 @@
             <div class="tab-content description-review-bottom">
                 <div id="des-details2" class="tab-pane active">
                     <div class="product-description-wrapper">
-                        <p>{{$productDetails->details->description}}</p>
+                        <p>{!! $productDetails->details->description!!}</p>
                     </div>
                 </div>
                 <div id="des-details1" class="tab-pane ">

@@ -159,7 +159,8 @@
                     @foreach ($products->where('categoryId', $category->categoryId) as $product)
                         <div class="product-wrap mb-25">
                             <div class="product-img">
-                                <a href="product-details.html">
+                                {{-- <a href="product-details.html"> --}}
+                                    <a href="{{url('product-details/'.$product->productId)}}">
                                     <img class="default-img" src="{{asset('admin/public/featureImage/'.$product->featureImage)}}" alt="">
                                 </a>
                                 <div class="product-action">
@@ -495,7 +496,7 @@
                         <div class="col-6 col-xl-3 col-md-6 col-lg-4 col-sm-6">
                             <div class="product-wrap-5 mb-25">
                                 <div class="product-img">
-                                    <a href="product-details.html">
+                                    <a href="{{url('product-details/'.$item->productId)}}">
                                         <img src="{{asset('admin/public/featureImage/'.$item->featureImage)}}" alt="">
                                     </a>
                                     <span class="purple">New</span>

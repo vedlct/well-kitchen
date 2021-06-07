@@ -30,8 +30,8 @@ class HomeController extends Controller
     }
 
     public function productDetails($id){
-        $productDetails = Product::with('sku','details')->findOrfail($id);
-        // dd($productDetails);
+        $productDetails = Product::with('sku','details','images')->findOrfail($id);  
+        
         return view('productDetails',compact('productDetails'));
     }
 }

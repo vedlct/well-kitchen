@@ -162,7 +162,6 @@ class ProductController extends Controller
             $originalExtension = $request->featureImage->getClientOriginalExtension();
             $uniqueImageName = $product->productId.rand(100, 999).'.'.$originalExtension;
             $image = Image::make($request->featureImage);
-            $image->resize(280, 280);
             $image->save(public_path().'/featureImage/'.$uniqueImageName);
             $product->featureImage = $uniqueImageName;
             $product->save();
@@ -195,11 +194,23 @@ class ProductController extends Controller
                     $productImage->imageType = $originalExtension;
                     $uniqueImageName = $sku->skuId.rand(100, 999).'.'.$originalExtension;
                     $image = Image::make($pimage);
-                    $image->resize(280, 280);
                     $image->save(public_path().'/productImages/'.$uniqueImageName);
                     $productImage->image = $uniqueImageName;
                     $productImage->save();
                 }
+            }
+
+            if ($request->hasFile('featureImage')) {
+                $productImage = new ProductImages();
+                $productImage->fkskuId = $sku->skuId;
+                $productImage->fkProductId = $product->productId;
+                $originalExtension = $request->featureImage->getClientOriginalExtension();
+                $productImage->imageType = $originalExtension;
+                $uniqueImageName = $sku->skuId.rand(100, 999).'.'.$originalExtension;
+                $image = Image::make($request->featureImage);
+                $image->save(public_path().'/productImages/'.$uniqueImageName);
+                $productImage->image = $uniqueImageName;
+                $productImage->save();
             }
         }
 
@@ -246,6 +257,19 @@ class ProductController extends Controller
                 }
             }
             ProductVariationTemp::where('sessionId', $sessionId)->delete();
+
+            if ($request->hasFile('featureImage')) {
+                $productImage = new ProductImages();
+                $productImage->fkskuId = $sku->skuId;
+                $productImage->fkProductId = $product->productId;
+                $originalExtension = $request->featureImage->getClientOriginalExtension();
+                $productImage->imageType = $originalExtension;
+                $uniqueImageName = $sku->skuId.rand(100, 999).'.'.$originalExtension;
+                $image = Image::make($request->featureImage);
+                $image->save(public_path().'/productImages/'.$uniqueImageName);
+                $productImage->image = $uniqueImageName;
+                $productImage->save();
+            }
         }
         Session::flash('success', 'Product Created Successfully');
 
@@ -346,11 +370,23 @@ class ProductController extends Controller
                 $originalExtension = $vimage->getClientOriginalExtension();
                 $uniqueImageName = $sku->skuId.rand(100, 999).'.'.$originalExtension;
                 $image = Image::make($vimage);
-                $image->resize(280, 280);
                 $image->save(public_path().'/variationImage/'.$uniqueImageName);
                 $productImage->image = $uniqueImageName;
                 $productImage->save();
             }
+        }
+
+        if ($request->hasFile('featureImage')) {
+            $productImage = new ProductImages();
+            $productImage->fkskuId = $sku->skuId;
+            $productImage->fkProductId = $product->productId;
+            $originalExtension = $request->featureImage->getClientOriginalExtension();
+            $productImage->imageType = $originalExtension;
+            $uniqueImageName = $sku->skuId.rand(100, 999).'.'.$originalExtension;
+            $image = Image::make($request->featureImage);
+            $image->save(public_path().'/productImages/'.$uniqueImageName);
+            $productImage->image = $uniqueImageName;
+            $productImage->save();
         }
 
         $products = Product::with('sku', 'sku.variationRelation', 'sku.variationRelation.variationDetailsdata', 'sku.variationImage')->where('productId', $sku->fkproductId)->first();
@@ -413,11 +449,23 @@ class ProductController extends Controller
                 $originalExtension = $vimage->getClientOriginalExtension();
                 $uniqueImageName = $sku->skuId.rand(100, 999).'.'.$originalExtension;
                 $image = Image::make($vimage);
-                $image->resize(280, 280);
                 $image->save(public_path().'/variationImage/'.$uniqueImageName);
                 $productImage->image = $uniqueImageName;
                 $productImage->save();
             }
+        }
+
+        if ($request->hasFile('featureImage')) {
+            $productImage = new ProductImages();
+            $productImage->fkskuId = $sku->skuId;
+            $productImage->fkProductId = $product->productId;
+            $originalExtension = $request->featureImage->getClientOriginalExtension();
+            $productImage->imageType = $originalExtension;
+            $uniqueImageName = $sku->skuId.rand(100, 999).'.'.$originalExtension;
+            $image = Image::make($request->featureImage);
+            $image->save(public_path().'/productImages/'.$uniqueImageName);
+            $productImage->image = $uniqueImageName;
+            $productImage->save();
         }
 
         $fkproductId = $sku->fkproductId;
@@ -464,7 +512,6 @@ class ProductController extends Controller
             $originalExtension = $request->featureImage->getClientOriginalExtension();
             $uniqueImageName = $product->productId.rand(100, 999).'.'.$originalExtension;
             $image = Image::make($request->featureImage);
-            $image->resize(280, 280);
             $image->save(public_path().'/featureImage/'.$uniqueImageName);
             $product->featureImage = $uniqueImageName;
             $product->save();
@@ -502,11 +549,23 @@ class ProductController extends Controller
                     $productImage->imageType = $originalExtension;
                     $uniqueImageName = $sku->skuId.rand(100, 999).'.'.$originalExtension;
                     $image = Image::make($pimage);
-                    $image->resize(280, 280);
                     $image->save(public_path().'/productImages/'.$uniqueImageName);
                     $productImage->image = $uniqueImageName;
                     $productImage->save();
                 }
+            }
+
+            if ($request->hasFile('featureImage')) {
+                $productImage = new ProductImages();
+                $productImage->fkskuId = $sku->skuId;
+                $productImage->fkProductId = $product->productId;
+                $originalExtension = $request->featureImage->getClientOriginalExtension();
+                $productImage->imageType = $originalExtension;
+                $uniqueImageName = $sku->skuId.rand(100, 999).'.'.$originalExtension;
+                $image = Image::make($request->featureImage);
+                $image->save(public_path().'/productImages/'.$uniqueImageName);
+                $productImage->image = $uniqueImageName;
+                $productImage->save();
             }
         }
 
