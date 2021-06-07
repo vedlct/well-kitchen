@@ -9,10 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="">
-    
+
     <!-- CSS
 	============================================ -->
-   
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{asset('public/assets/css/bootstrap.min.css')}}">
     <!-- Icon Font CSS -->
@@ -90,7 +90,7 @@
         </div>
     </section>
     <!-- category for mobile end -->
-    
+
     <header class="header-area header-in-container clearfix">
         <!-- header top start -->
         <div class="header-top-area d-none d-md-block">
@@ -251,52 +251,32 @@
                             <ul class="menuH">
                                 <li class="home-nav-category-btn"><a href="#" class="arrow heading w-100"><i class="fa fa-bars mr-2"></i> All
                                         Category</a>
-                                        
                                 @if(Request::path() == '/')
                                      <ul class="home-parent-categories">
                                   @else
                                       <ul>
-                                @endif        
-                                        <li><a href="#">Men's Fashion <i class="fa fa-angle-right float-right"></i></a>
+                                @endif
+                                        @foreach($allCategories as $parentCategory)
+                                        <li><a href="#">{{ $parentCategory->categoryName }} <i class="fa fa-angle-right float-right"></i></a>
+                                            @if($subCategories)
                                             <ul>
-                                                <li><a href="#">Men's Fashion </a></li>
-                                                <li><a href="#">Men's Fashion</a></li>
-                                                <li><a href="#">Men's Fashion</a></li>
-                                                <li><a href="#">Men's Fashion</a></li>
+                                                @foreach($subCategories->where('parent', $parentCategory->categoryId) as $subCategory)
+                                                <li><a href="#">{{ $subCategory->categoryName }} </a>
+                                                    @if(!empty($subSubCategories))
+                                                    <ul>
+                                                        @foreach($subSubCategories->where('subParent', $subCategory->categoryId) as $subParentCategory)
+                                                            <li><a href="#">{{ $subParentCategory->categoryName }} </a>
+
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                    @endif
+                                                </li>
+                                                @endforeach
                                             </ul>
+                                                @endif
                                         </li>
-                                        <li><a href="#">Home Care <i class="fa fa-angle-right float-right"></i></a>
-                                            <ul>
-                                                <li><a href="#">Home Care</a></li>
-                                                <li><a href="#">Home Care</a></li>
-                                                <li><a href="#">Home Care</a></li>
-                                                <li><a href="#">Home Care</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="#">Kitchen Corner <i class="fa fa-angle-right float-right"></i></a>
-                                            <ul>
-                                                <li><a href="#">Kitchen Corner</a></li>
-                                                <li><a href="#">Kitchen Corner</a></li>
-                                                <li><a href="#">Kitchen Corner</a></li>
-                                                <li><a href="#">Kitchen Corner</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="#">Home Care <i class="fa fa-angle-right float-right"></i></a>
-                                            <ul>
-                                                <li><a href="#">Home Care</a></li>
-                                                <li><a href="#">Home Care</a></li>
-                                                <li><a href="#">Home Care</a></li>
-                                                <li><a href="#">Home Care</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="#">Kitchen Corner <i class="fa fa-angle-right float-right"></i></a>
-                                            <ul>
-                                                <li><a href="#">Kitchen Corner</a></li>
-                                                <li><a href="#">Kitchen Corner</a></li>
-                                                <li><a href="#">Kitchen Corner</a></li>
-                                                <li><a href="#">Kitchen Corner</a></li>
-                                            </ul>
-                                        </li>
+                                        @endforeach
                                     </ul>
                                 </li>
                                 <ul>
@@ -350,7 +330,7 @@
                                 </a>
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>

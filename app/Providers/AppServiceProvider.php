@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Category;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +24,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        //Coded By Naiem
+        $allCategories = Category::where('parent', null)->get();
+        $subCategories = Category::where('parent', '!=', null)->where('subParent', null)->get();
+        $subSubCategories = Category::where('parent', '!=', null)->where('subParent', '!=', null)->get();
+        view()->share(['allCategories'=>$allCategories, 'subCategories'=>$subCategories, 'subSubCategories'=>$subSubCategories]);
     }
 }

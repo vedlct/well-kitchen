@@ -50,6 +50,7 @@ class CategoryController extends Controller
         $category = new Category();
         $category->categoryName = $request->categoryName;
         $category->parent = $request->parent;
+        $category->subParent = $request->subParent;
         $category->homeShow = $request->homeShow;
         $category->save();
 
@@ -80,6 +81,7 @@ class CategoryController extends Controller
         $category = Category::where('categoryId', $categoryId)->first();
         $category->categoryName = $request->categoryName;
         $category->parent = $request->parent;
+        $category->subParent = $request->subParent;
         $category->homeShow = $request->homeShow;
         $category->save();
 

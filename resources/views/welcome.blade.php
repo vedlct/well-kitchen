@@ -81,7 +81,7 @@
                         <a class="active" href="./shop.html">
                             <div class="category-name">
                                 <h4 class="mb-0">
-                                    <span">Baby Care</span>
+                                    <span>Baby Care</span>
                                     <img src="assets/img/category-img.jpg" class="ml-3" alt="">
                                 </h4>
                             </div>
@@ -91,7 +91,7 @@
                         <a class="" href="./shop.html">
                             <div class="category-name">
                                 <h4 class="mb-0">
-                                    <span">Baby Care</span>
+                                    <span>Baby Care</span>
                                     <img src="assets/img/category-img.jpg" class="ml-3" alt="">
                                 </h4>
                             </div>
@@ -101,7 +101,7 @@
                         <a class="" href="./shop.html">
                             <div class="category-name">
                                 <h4 class="mb-0">
-                                    <span">Baby Care</span>
+                                    <span>Baby Care</span>
                                     <img src="assets/img/category-img.jpg" class="ml-3" alt="">
                                 </h4>
                             </div>
@@ -111,7 +111,7 @@
                         <a class="" href="./shop.html">
                             <div class="category-name">
                                 <h4 class="mb-0">
-                                    <span">Baby Care</span>
+                                    <span>Baby Care</span>
                                     <img src="assets/img/category-img.jpg" class="ml-3" alt="">
                                 </h4>
                             </div>
@@ -119,7 +119,7 @@
                     </li>
                 </ul>
             </div>
-            
+
         </div>
     </div>
     <!-- all categories mobile end -->
@@ -145,17 +145,17 @@
                         </a>
                     </li>
                     @endforeach
-                   
-                   
+
+
                 </ul>
             </div>
-           
+
             <!-- category img show -->
             <div class="tab-content" id="nav-tabContent">
                 @foreach ($categories as $key=>$category)
                 <div class="tab-pane fade show {{$key == 0 ? 'active' : '' }}" id="cat{{$category->categoryId}}" role="tabpanel">
                     <div class="product-slider-active-2 owl-carousel owl-dot-none">
-                        
+
                     @foreach ($products->where('categoryId', $category->categoryId) as $product)
                         <div class="product-wrap mb-25">
                             <div class="product-img">
@@ -260,9 +260,9 @@
                                     </div>
                                 </div>
                             </div>
-                       @endforeach 
-                       
-                        
+                       @endforeach
+
+
                     </div>
                 </div>
                 <div class="tab-pane" id="product-2">
@@ -522,8 +522,8 @@
                             </div>
                         </div>
                         @endforeach
-                        
-                        
+
+
                     </div>
                 </div>
             </div>
@@ -974,8 +974,8 @@
                             </div>
                         </div>
                         @endforeach
-                       
-                       
+
+
                     </div>
                 </div>
             </div>
