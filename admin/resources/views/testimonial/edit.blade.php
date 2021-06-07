@@ -37,6 +37,10 @@
                                                     <input type="text" class="form-control"  value="{{ $testimonial->name }}" name="name">
                                                 </div>
                                                 <div class="form-group">
+                                                    <label> Designation</label>
+                                                    <input type="text" class="form-control"  value="{{ $testimonial->designation }}" name="designation">
+                                                </div>
+                                                <div class="form-group">
                                                     <label> Details</label>
                                                    
                                                     <textarea class="form-control"  name="details"> {{ $testimonial->details }}</textarea>

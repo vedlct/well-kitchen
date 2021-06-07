@@ -35,6 +35,7 @@ class TestimonialController extends Controller
 
         $testimonial = new Testimonial();
         $testimonial->name = $request->name;
+        $testimonial->designation = $request->designation;
         $testimonial->details = $request->details;
         $testimonial->status = $request->status;
         $testimonial->home = $request->home;
@@ -66,6 +67,7 @@ class TestimonialController extends Controller
 
         $testimonial = Testimonial::where('testimonial_id', $testimonial_id)->first();
         $testimonial->name = $request->name;
+        $testimonial->designation = $request->designation;
         $testimonial->details = $request->details;
         $testimonial->status = $request->status;
         $testimonial->home = $request->home;

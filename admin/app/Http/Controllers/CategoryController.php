@@ -50,6 +50,7 @@ class CategoryController extends Controller
         $category = new Category();
         $category->categoryName = $request->categoryName;
         $category->parent = $request->parent;
+        $category->homeShow = $request->homeShow;
         $category->save();
 
         if ($request->hasFile('imageLink')) {
@@ -79,6 +80,7 @@ class CategoryController extends Controller
         $category = Category::where('categoryId', $categoryId)->first();
         $category->categoryName = $request->categoryName;
         $category->parent = $request->parent;
+        $category->homeShow = $request->homeShow;
         $category->save();
 
         if ($request->hasFile('imageLink')) {

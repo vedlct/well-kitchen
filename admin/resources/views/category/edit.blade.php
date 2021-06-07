@@ -45,6 +45,14 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
+                                                <div id="subCategory" class="form-group">
+                                                    <label>Home show</label>
+                                                    <select name="homeShow" id="parentCategory" class="form-control">
+                                                        <option value="1" {{$category->homeShow == 1? 'selected' : ''}}> Active</option>
+                                                        <option value="0" {{$category->homeShow == 0? 'selected' : ''}}> Inactive</option>
+                                                       
+                                                    </select>
+                                                </div>
                                                 <div class="row">
                                                     <div @if($category->imageLink) class="col-md-10" @else class="col-md-12" @endif>
                                                         <div class="form-group">

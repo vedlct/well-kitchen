@@ -54,6 +54,16 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
+                                                
+                                                <div id="subCategory" class="form-group">
+                                                    <label>Home show</label>
+                                                    <select name="homeShow" id="parentCategory" class="form-control">
+                                                        <option value="" selected>Select One</option>
+                                                        <option value="1"> Active</option>
+                                                        <option value="0"> Inactive</option>
+                                                       
+                                                    </select>
+                                                </div>
                                                 <div id="subSubCategory" class="form-group">
                                                     <label>Sub Category</label>
                                                     <select name="parent" id="subCat" class="form-control">
