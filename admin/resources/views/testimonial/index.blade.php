@@ -62,8 +62,9 @@
                 serverSide: true,
                 ajax: "{{ url('testimonial/list') }}",
                 columns: [
-                    {title: 'testimonial ID', data: 'testimonial_id', name: 'testimonial_id', className: "text-center", orderable: true, searchable: true},
+                    // {title: 'testimonial ID', data: 'testimonial_id', name: 'testimonial_id', className: "text-center", orderable: true, searchable: true},
                     {title: 'Name', data: 'name', name: 'name', className: "text-center", orderable: true, searchable: true},
+                    {title: 'Designation', data: 'designation', name: 'designation', className: "text-center", orderable: true, searchable: true},
                     {title: 'Status', data: 'status', name: 'status', className: "text-center", orderable: true, searchable: true},
                     {title: 'Home', data: 'home', name: 'home', className: "text-center", orderable: true, searchable: true},
                     {title: 'Action', className: "text-center", data: function (data) {

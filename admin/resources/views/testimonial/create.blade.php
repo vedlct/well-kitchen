@@ -37,6 +37,10 @@
                                                     <input type="text" class="form-control" placeholder="Testimonial Name" value="{{ old('name') }}" name="name">
                                                 </div>
                                                 <div class="form-group">
+                                                    <label> Designation</label>
+                                                    <input type="text" class="form-control" placeholder="Designation Name" value="{{ old('designation') }}" name="designation">
+                                                </div>
+                                                <div class="form-group">
                                                     <label> Details</label>
                                                    
                                                     <textarea class="form-control"  placeholder="Testimonial Name" value="{{ old('details') }}" name="details"></textarea>
