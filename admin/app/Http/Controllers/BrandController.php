@@ -22,7 +22,7 @@ class BrandController extends Controller
         return datatables()->of($brand)
             ->addColumn('brandLogo', function ($image) {
                 if (isset($image->brandLogo)) {
-                    return '<img 
+                    return '<img
                     src="'.url('public/brandLogo/'.$image->brandLogo).'" border="0" class="img-rounded" align="center"
                      />';
                 } else {
@@ -63,7 +63,6 @@ class BrandController extends Controller
             $originalName = $request->brandLogo->getClientOriginalName();
             $uniqueImageName = $request->brandName.$originalName;
             $image = Image::make($request->brandLogo);
-            $image->resize(180, 50);
             $image->save(public_path().'/brandLogo/'.$uniqueImageName);
             $brand->brandLogo = $uniqueImageName;
             $brand->save();
@@ -97,7 +96,6 @@ class BrandController extends Controller
             $file_path = public_path().'/brandLogo/'.$brand->brandLogo;
             File::delete($file_path);
             $image = Image::make($request->brandLogo);
-            $image->resize(180, 50);
             $image->save(public_path().'/brandLogo/'.$uniqueImageName);
             $brand->brandLogo = $uniqueImageName;
             $brand->save();

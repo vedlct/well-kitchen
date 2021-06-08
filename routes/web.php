@@ -1,19 +1,21 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/product-details/{id}', [HomeController::class, 'productDetails'])->name('product.details');
+Route::get('/categories/{categoryId}', [CategoryController::class, 'categoryProducts'])->name('category.products');
 
 
 Route::get('/wishlist', function () {
     return view('wishlist');
 });
 
-Route::get('/shop', function () {
-    return view('shop');
-});
+//Route::get('/shop', function () {
+//    return view('shop');
+//});
 
 Route::get('/my-order', function () {
     return view('myOrder');

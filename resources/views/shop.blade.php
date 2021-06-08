@@ -59,7 +59,7 @@
                                     <div class="product-wrap mb-25 scroll-zoom">
                                         <div class="product-img">
                                             <a href="#">
-                                                <img class="default-img" src="assets/img/product/pro-1.jpg" alt="">
+                                                <img class="default-img" src="{{asset('public/assets/img/product/pro-1.jpg')}}" alt="">
                                             </a>
                                             <span class="pink">-10%</span>
                                             <div class="product-action">
@@ -87,7 +87,7 @@
                                     <div class="product-wrap mb-25 scroll-zoom">
                                         <div class="product-img">
                                             <a href="single-product.html">
-                                                <img class="default-img" src="assets/img/product/pro-2.jpg" alt="">
+                                                <img class="default-img" src="{{asset('public/assets/img/product/pro-2.jpg')}}" alt="">
                                             </a>
                                             <span class="purple">New</span>
                                             <div class="product-action">
@@ -114,7 +114,7 @@
                                     <div class="product-wrap mb-25 scroll-zoom">
                                         <div class="product-img">
                                             <a href="#">
-                                                <img class="default-img" src="assets/img/product/pro-3.jpg" alt="">
+                                                <img class="default-img" src="{{asset('public/assets/img/product/pro-3.jpg')}}" alt="">
                                             </a>
                                             <span class="pink">-10%</span>
                                             <div class="product-action">
@@ -142,7 +142,7 @@
                                     <div class="product-wrap mb-25 scroll-zoom">
                                         <div class="product-img">
                                             <a href="#">
-                                                <img class="default-img" src="assets/img/product/pro-4.jpg" alt="">
+                                                <img class="default-img" src="{{asset('public/assets/img/product/pro-4.jpg')}}" alt="">
                                             </a>
                                             <span class="purple">New</span>
                                             <div class="product-action">
@@ -169,7 +169,7 @@
                                     <div class="product-wrap mb-25 scroll-zoom">
                                         <div class="product-img">
                                             <a href="#">
-                                                <img class="default-img" src="assets/img/product/pro-5.jpg" alt="">
+                                                <img class="default-img" src="{{asset('public/assets/img/product/pro-5.jpg')}}" alt="">
                                             </a>
                                             <span class="pink">-10%</span>
                                             <div class="product-action">
@@ -197,7 +197,7 @@
                                     <div class="product-wrap mb-25 scroll-zoom">
                                         <div class="product-img">
                                             <a href="#">
-                                                <img class="default-img" src="assets/img/product/pro-6.jpg" alt="">
+                                                <img class="default-img" src="{{asset('public/assets/img/product/pro-6.jpg')}}" alt="">
                                             </a>
                                             <span class="purple">New</span>
                                             <div class="product-action">
@@ -224,7 +224,7 @@
                                     <div class="product-wrap mb-25 scroll-zoom">
                                         <div class="product-img">
                                             <a href="#">
-                                                <img class="default-img" src="assets/img/product/pro-7.jpg" alt="">
+                                                <img class="default-img" src="{{asset('public/assets/img/product/pro-7.jpg')}}" alt="">
                                             </a>
                                             <span class="pink">-10%</span>
                                             <div class="product-action">
@@ -252,7 +252,7 @@
                                     <div class="product-wrap mb-25 scroll-zoom">
                                         <div class="product-img">
                                             <a href="#">
-                                                <img class="default-img" src="assets/img/product/pro-8.jpg" alt="">
+                                                <img class="default-img" src="{{asset('public/assets/img/product/pro-8.jpg')}}" alt="">
                                             </a>
                                             <span class="purple">New</span>
                                             <div class="product-action">
@@ -279,7 +279,7 @@
                                     <div class="product-wrap mb-25 scroll-zoom">
                                         <div class="product-img">
                                             <a href="#">
-                                                <img class="default-img" src="assets/img/product/pro-1.jpg" alt="">
+                                                <img class="default-img" src="{{asset('public/assets/img/product/pro-1.jpg')}}" alt="">
                                             </a>
                                             <span class="pink">-10%</span>
                                             <div class="product-action">
@@ -335,13 +335,13 @@
                             <ul>
                                 <li>
                                     <div class="sidebar-widget-list-left">
-                                        <input type="checkbox"> <a href="#">On Sale <span>4</span> </a> 
+                                        <input type="checkbox"> <a href="#">On Sale <span>4</span> </a>
                                         <span class="checkmark"></span>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="sidebar-widget-list-left">
-                                        <input type="checkbox" value=""> <a href="#">New <span>4</span></a> 
+                                        <input type="checkbox" value=""> <a href="#">New <span>4</span></a>
                                         <span class="checkmark"></span>
                                     </div>
                                 </li>
@@ -370,19 +370,19 @@
                                 <li>
                                     <div class="sidebar-widget-list-left">
                                         <input type="checkbox" value=""> <a href="#">Green <span>4</span> </a>
-                                        <span class="checkmark"></span> 
+                                        <span class="checkmark"></span>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="sidebar-widget-list-left">
                                         <input type="checkbox" value=""> <a href="#">Cream <span>4</span> </a>
-                                        <span class="checkmark"></span> 
+                                        <span class="checkmark"></span>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="sidebar-widget-list-left">
                                         <input type="checkbox" value=""> <a href="#">Blue <span>4</span> </a>
-                                        <span class="checkmark"></span> 
+                                        <span class="checkmark"></span>
                                     </div>
                                 </li>
                                 <li>
@@ -401,7 +401,7 @@
                                 <li>
                                     <div class="sidebar-widget-list-left">
                                         <input type="checkbox" value=""> <a href="#">XL</a>
-                                        <span class="checkmark"></span> 
+                                        <span class="checkmark"></span>
                                     </div>
                                 </li>
                                 <li>
@@ -413,13 +413,13 @@
                                 <li>
                                     <div class="sidebar-widget-list-left">
                                         <input type="checkbox" value=""> <a href="#">SM</a>
-                                        <span class="checkmark"></span> 
+                                        <span class="checkmark"></span>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="sidebar-widget-list-left">
                                         <input type="checkbox" value=""> <a href="#">XXL</a>
-                                        <span class="checkmark"></span> 
+                                        <span class="checkmark"></span>
                                     </div>
                                 </li>
                             </ul>
