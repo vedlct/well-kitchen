@@ -168,7 +168,7 @@
                                         <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a>
                                     </div>
                                     <div class="pro-same-action pro-cart">
-                                        <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a>
+                                        <a title="Add To Cart" href="#" onclick="addTocart()"><i class="pe-7s-cart"></i> Add to cart</a>
                                     </div>
                                     <div class="pro-same-action pro-quickview">
                                         <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a>
@@ -1150,5 +1150,40 @@
         </div>
     </div>
     <!-- subscribe area end -->
+
+    @endsection
+
+    @section('js')
+
+    <script>
+         
+     
+
+        function addTocart(){
+            
+            let quantity=$('#quantity').val() ;
+            
+            $.ajax({
+                type: "post",
+                url: "{{route('product.addTocart')}}",
+                data:{
+                    _token:'{{csrf_token()}}',
+                    _sku:sku,
+                    _quantity:quantity
+                },
+                success: function (response) {
+                    console.log('res',response);
+                    $('#cartPage').empty().html(response.cart)
+                    $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
+                    toastr.success('Item added to cart')
+                },
+                error:(response)=>{
+                toastr.error('Out of quantity')
+                }
+            });
+        }
+
+    </script>
+    
 
     @endsection

@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="{{asset('public/assets/css/style.css')}}">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{asset('public/assets/css/custom.css')}}">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 </head>
 
 <body class="position-relative">
@@ -162,9 +163,9 @@
                                 <a href="{{url('/wishlist')}}"><i class="pe-7s-like"></i></a>
                             </div>
                             <div class="same-style cart-wrap">
-                                <button class="icon-cart" onclick="showNav()">
+                                <button class="icon-cart" onclick="showNav()" id="mobile-cart">
                                     <i class="pe-7s-shopbag"></i>
-                                    <span class="count-style">02</span>
+                                    <span class="count-style">{{Cart::getContent()->count()}}</span>
                                 </button>
                                 <!-- <div class="shopping-cart-content">
                                     <div class="full-wrapper position-relative">
