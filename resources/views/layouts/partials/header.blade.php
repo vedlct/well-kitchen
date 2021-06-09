@@ -163,7 +163,7 @@
                                 <a href="{{url('/wishlist')}}"><i class="pe-7s-like"></i></a>
                             </div>
                             <div class="same-style cart-wrap">
-                                <button class="icon-cart" onclick="showNav()" id="mobile-cart">
+                                <button class="icon-cart" onclick="showNav()">
                                     <i class="pe-7s-shopbag"></i>
                                     <span class="count-style">{{Cart::getContent()->count()}}</span>
                                 </button>

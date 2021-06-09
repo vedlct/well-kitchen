@@ -96,7 +96,7 @@ class HomeController extends Controller
     }
 
     public function updateQuantity(Request $request){
-        dd($request->all());
+        // dd($request->all());
         $cart= \Cart::update($request->_sku, array(
             'quantity' => $request->value, 
         ));
