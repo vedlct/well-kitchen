@@ -4,12 +4,18 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\PageController;
+use Illuminate\Support\Facades\Auth;
+
+Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('categories/{categoryId?}', [CategoryController::class, 'categoryProducts'])->name('category.products');
+Route::get('/product-details/{id}', [HomeController::class, 'productDetails'])->name('product.details');
+Route::get('/categories/{categoryId?}', [CategoryController::class, 'categoryProducts'])->name('category.products');
 
-Route::get('cart',[HomeController::class,'cartIndex'])->name('cart');
-Route::get('checkout' ,[HomeController::class,'index'])->name('checkout.index');
+Route::get('/cart',[HomeController::class,'cartIndex'])->name('cart');
+Route::get('/checkout' ,[HomeController::class,'index'])->name('checkout.index');
 
 Route::post('add-to-cart',[HomeController::class,'addToCart'])->name('product.addTocart');
 Route::post('cart-remove',[HomeController::class,'removeItem'])->name('product.cartRemove');
@@ -22,6 +28,16 @@ Route::post('variation/color/choose',[ProductController::class,'colorChoose'])->
 Route::post('variation/size/choose',[ProductController::class,'sizeChoose'])->name('size.choose');
 
 
+
+//Search
+Route::post('/search-category-product' ,[CategoryController::class,'searchByProducts'])->name('search.product');
+
+    Route::get('wish-list',[WishlistController::class,'index'])->name('wishlist');
+    Route::get('add-to-wishlist/{id}',[WishlistController::class,'AddToWishlist'])->name('wishlistAdd');
+    Route::get('remove-wishlist/{id}',[WishlistController::class,'RemoveItem'])->name('wishlistRemove');
+
+
+    Route::get('page/{id}',[PageController::class,'index'])->name('page');
 
 Route::get('/wishlist', function () {
     return view('wishlist');

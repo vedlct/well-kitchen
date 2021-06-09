@@ -26,9 +26,9 @@
                                         </td>
                                         <td class="product-name"><a href="#">{{$item->associatedModel->productName}}</a></td>
                                         <td class="product-price-cart"><span class="amount">${{$item->price}}</span></td>
-                                        <td class="product-quantity">
-                                            <div class="cart-plus-minus" onclick="quantityUpdate('{{$item->quantity}}','{{$item->id}}')">
-                                                <input class="cart-plus-minus-box" type="text" name="quantity" id="qtyBtn{{$item->quantity}}" value="{{$item->quantity}}">
+                                        <td class="product-quantity" id="quantity">
+                                            <div class="cart-plus-minus"  onclick="quantityUpdate('{{$key}}','{{$item->id}}')">
+                                                <input class="cart-plus-minus-box" type="text" name="quantity"  id="qtyBtn{{$key}}" value="{{$item->quantity}}">
                                             </div>
                                         </td>
                                         <td class="product-subtotal">{{$item->price * $item->quantity}} </td>
@@ -112,10 +112,10 @@
             });
         }
 
-        function quantityUpdate(q,id){
+        function quantityUpdate(data,id){
 
-            var value = parseInt($(`#qtyBtn${q}`).val());
-
+            var value = parseInt($(`#qtyBtn${data}`).val());
+            // console.log(value);
             $.ajax({
                 type: "POST",
                 url: "{{route('product.cartUpdateQuantity')}}",

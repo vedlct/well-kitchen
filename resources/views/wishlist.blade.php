@@ -16,57 +16,31 @@
                                     <th>Qty</th>
                                     <th>Subtotal</th>
                                     <th>Add To Cart</th>
+                                    <th>Remove</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="product-thumbnail">
-                                        <a href="#"><img src="assets/img/cart/cart-1.png" alt=""></a>
-                                    </td>
-                                    <td class="product-name"><a href="#">Product Name</a></td>
-                                    <td class="product-price-cart"><span class="amount">$260.00</span></td>
-                                    <td class="product-quantity">
-                                        <div class="cart-plus-minus">
-                                            <input class="cart-plus-minus-box" type="text" name="qtybutton" value="2">
-                                        </div>
-                                    </td>
-                                    <td class="product-subtotal">$110.00</td>
-                                    <td class="product-wishlist-cart">
-                                        <a href="#">add to cart</a>
-                                </td>
-                                </tr>
-                                <tr>
-                                    <td class="product-thumbnail">
-                                        <a href="#"><img src="assets/img/cart/cart-2.png" alt=""></a>
-                                    </td>
-                                    <td class="product-name"><a href="#">Product Name</a></td>
-                                    <td class="product-price-cart"><span class="amount">$150.00</span></td>
-                                    <td class="product-quantity">
-                                        <div class="cart-plus-minus">
-                                            <input class="cart-plus-minus-box" type="text" name="qtybutton" value="2">
-                                        </div>
-                                    </td>
-                                    <td class="product-subtotal">$150.00</td>
-                                    <td class="product-wishlist-cart">
-                                        <a href="#">add to cart</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="product-thumbnail">
-                                        <a href="#"><img src="assets/img/cart/cart-1.png" alt=""></a>
-                                    </td>
-                                    <td class="product-name"><a href="#">Product Name</a></td>
-                                    <td class="product-price-cart"><span class="amount">$170.00</span></td>
-                                    <td class="product-quantity">
-                                        <div class="cart-plus-minus">
-                                            <input class="cart-plus-minus-box" type="text" name="qtybutton" value="2">
-                                        </div>
-                                    </td>
-                                    <td class="product-subtotal">$170.00</td>
-                                    <td class="product-wishlist-cart">
-                                        <a href="#">add to cart</a>
-                                    </td>
-                                </tr>
+                                @foreach ($wishList as $item)
+                                    <tr>
+                                        <td class="product-thumbnail">
+                                            <a href="#"><img src="{{('admin/public/featureImage/'.$item->product->featureImage)}}" alt=""></a>
+                                        </td>
+                                        <td class="product-name"><a href="#">{{$item->product->productName}}</a></td>
+                                        <td class="product-price-cart"><span class="amount">${{$item->product->sku->first()->salePrice}}</span></td>
+                                        <td class="product-quantity">
+                                            <div class="cart-plus-minus">
+                                                <input class="cart-plus-minus-box" type="text" name="qtybutton" value="2">
+                                            </div>
+                                        </td>
+                                        <td class="product-subtotal">$110.00</td>
+                                        <td class="product-wishlist-cart">
+                                            <a href="{{route('product.details',$item->product->productId)}}">add to cart</a>
+                                        </td>
+                                        <td class="product-wishlist-cart">
+                                            <a  href="{{route('wishlistRemove',$item->wishlistId)}}"> <i class="fas fa-trash-alt"></i>  </a>
+                                        </td>
+                                    </tr>    
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
