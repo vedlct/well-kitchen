@@ -1,19 +1,27 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/product-details/{id}', [HomeController::class, 'productDetails'])->name('product.details');
-Route::get('/categories/{categoryId?}', [CategoryController::class, 'categoryProducts'])->name('category.products');
+Route::get('categories/{categoryId?}', [CategoryController::class, 'categoryProducts'])->name('category.products');
 
-Route::get('/cart',[HomeController::class,'cartIndex'])->name('cart');
-Route::get('/checkout' ,[HomeController::class,'index'])->name('checkout.index');
+Route::get('cart',[HomeController::class,'cartIndex'])->name('cart');
+Route::get('checkout' ,[HomeController::class,'index'])->name('checkout.index');
 
 Route::post('add-to-cart',[HomeController::class,'addToCart'])->name('product.addTocart');
 Route::post('cart-remove',[HomeController::class,'removeItem'])->name('product.cartRemove');
 Route::post('cart-update-quantity',[HomeController::class,'updateQuantity'])->name('product.cartUpdateQuantity');
+
+
+//product
+Route::get('product-details/{id}', [ProductController::class, 'productDetails'])->name('product.details');
+Route::post('variation/color/choose',[ProductController::class,'colorChoose'])->name('color.choose');
+Route::post('variation/size/choose',[ProductController::class,'sizeChoose'])->name('size.choose');
+
+
 
 Route::get('/wishlist', function () {
     return view('wishlist');

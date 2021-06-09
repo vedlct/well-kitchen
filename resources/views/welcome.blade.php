@@ -156,12 +156,13 @@
                 <div class="tab-pane fade show {{$key == 0 ? 'active' : '' }}" id="cat{{$category->categoryId}}" role="tabpanel">
                     <div class="product-slider-active-2 owl-carousel owl-dot-none">
 
-                    @foreach ($products->where('categoryId', $category->categoryId) as $product)
+                    @foreach ($skus->unique('fkproductId') as $sku)
+                        @if(!empty($sku->product()) && $sku->product()->first()->categoryId == $category->categoryId)
                         <div class="product-wrap mb-25">
                             <div class="product-img">
                                 {{-- <a href="product-details.html"> --}}
-                                    <a href="{{route('product.details',$product->productId)}}">
-                                    <img class="default-img" src="{{asset('admin/public/featureImage/'.$product->featureImage)}}" alt="">
+                                    <a href="{{route('product.details',$sku->skuId)}}">
+                                    <img class="default-img" src="{{asset('admin/public/featureImage/'.$sku->product()->first()->featureImage)}}" alt="">
                                 </a>
                                 <div class="product-action">
                                     <div class="pro-same-action pro-wishlist">
@@ -176,14 +177,13 @@
                                 </div>
                             </div>
                             <div class="product-content text-center">
-                                <h3><a href="product-details.html">{{$product->productName}}</a></h3>
+                                <h3><a href="product-details.html">{{$sku->product()->first()->productName}}</a></h3>
                                 <div class="product-price">
-                                    @foreach ($sku->where('fkproductId', $product->productId) as $skuPrice)
-                                        <span>৳  {{$skuPrice->salePrice}}</span>
-                                    @endforeach
+                                        <span>৳  {{$sku->salePrice}}</span>
                                 </div>
                             </div>
                         </div>
+                            @endif
                         @endforeach
                     </div>
                 </div>
@@ -231,12 +231,13 @@
             <div class="tab-content jump">
                 <div class="tab-pane active" id="product-1">
                     <div class="row">
-                       @foreach ($newArrival as $item)
+                            @foreach ($skus->unique('fkproductId') as $sku)
+                                @if(!empty($sku->product()) && $sku->product()->first()->newarrived == 1)
                             <div class="col-6 col-xl-3 col-md-6 col-lg-4 col-sm-6">
                                 <div class="product-wrap-5 mb-25">
                                     <div class="product-img">
-                                        <a href="{{url('product-details/'.$item->productId)}}">
-                                            <img src="{{asset('admin/public/featureImage/'.$item->featureImage)}}" alt="">
+                                        <a href="{{route('product.details',$sku->skuId)}}">
+                                            <img src="{{asset('admin/public/featureImage/'.$sku->product()->first()->featureImage)}}" alt="">
                                         </a>
                                         <span class="purple">New</span>
                                         <div class="product-action-4">
@@ -252,15 +253,14 @@
                                         </div>
                                     </div>
                                     <div class="product-content-5 text-center">
-                                        <h3><a href="product-details.html">{{$item->productName}}</a></h3>
+                                        <h3><a href="product-details.html">{{$sku->product()->first()->productName}}</a></h3>
                                         <div class="price-5">
-                                            @foreach ($sku->where('fkproductId', $item->productId) as $skuPrice)
-                                                <span>৳  {{$skuPrice->salePrice}}</span>
-                                            @endforeach
+                                                <span>৳  {{$sku->salePrice}}</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            @endif
                        @endforeach
 
 
@@ -492,14 +492,15 @@
                 </div>
                 <div class="tab-pane" id="product-3">
                     <div class="row">
-                        @foreach ($recommendedProduct as $item)
+                        @foreach ($skus->unique('fkproductId') as $sku)
+                            @if(!empty($sku->product()) && $sku->product()->first()->isrecommended == 1)
                         <div class="col-6 col-xl-3 col-md-6 col-lg-4 col-sm-6">
                             <div class="product-wrap-5 mb-25">
                                 <div class="product-img">
-                                    <a href="{{url('product-details/'.$item->productId)}}">
-                                        <img src="{{asset('admin/public/featureImage/'.$item->featureImage)}}" alt="">
+                                    <a href="{{route('product.details',$sku->skuId)}}">
+                                        <img src="{{asset('admin/public/featureImage/'.$sku->product()->first()->featureImage)}}" alt="">
                                     </a>
-                                    <span class="purple">New</span>
+                                    <span class="purple">Feature</span>
                                     <div class="product-action-4">
                                         <div class="pro-same-action pro-wishlist">
                                             <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a>
@@ -513,15 +514,14 @@
                                     </div>
                                 </div>
                                 <div class="product-content-5 text-center">
-                                    <h3><a href="product-details.html">{{$item->productName}}</a></h3>
+                                    <h3><a href="product-details.html">{{$sku->product()->first()->productName}}</a></h3>
                                     <div class="price-5">
-                                            @foreach ($sku->where('fkproductId', $item->productId) as $skuPrice)
-                                                <span>৳  {{$skuPrice->salePrice}}</span>
-                                            @endforeach
+                                                <span>৳  {{$sku->salePrice}}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                            @endif
                         @endforeach
 
 
@@ -1156,13 +1156,13 @@
     @section('js')
 
     <script>
-         
-     
+
+
 
         function addTocart(){
-            
+
             let quantity=$('#quantity').val() ;
-            
+
             $.ajax({
                 type: "post",
                 url: "{{route('product.addTocart')}}",
@@ -1184,6 +1184,6 @@
         }
 
     </script>
-    
+
 
     @endsection

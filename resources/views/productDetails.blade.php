@@ -21,51 +21,17 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-6 col-md-6">
-
-                <!-- <div class="product-details-img mr-20 product-details-tab">
-                    <div class="zoompro-wrap zoompro-2 pr-20">
-                         <div class="zoompro-border zoompro-span">
-                             <img class="zoompro" src="assets/img/product-details/product-detalis-l1.jpg" data-zoom-image="assets/img/product-details/product-detalis-l1.jpg" alt=""/>          
-                             <span>-29%</span>
-                             <div class="product-video">
-                                 <a class="video-popup" href="https://www.youtube.com/watch?v=tce_Ap96b0c">
-                                     <i class="fa fa-video-camera"></i>
-                                     View Video
-                                 </a>
-                             </div>
-                         </div>
-                     </div>
-                     <div id="gallery" class="product-dec-slider-2">
-                         <a data-image="assets/img/product-details/product-detalis-l1.jpg" data-zoom-image="assets/img/product-details/product-detalis-l1.jpg">
-                             <img src="assets/img/product-details/product-detalis-l1.jpg" alt="">
-                         </a>
-                         <a data-image="assets/img/product-details/product-detalis-l2.jpg" data-zoom-image="assets/img/product-details/product-detalis-l2.jpg">
-                             <img src="assets/img/product-details/product-detalis-l2.jpg" alt="">
-                         </a>
-                         <a data-image="assets/img/product-details/product-detalis-l3.jpg" data-zoom-image="assets/img/product-details/product-detalis-l3.jpg">
-                             <img src="assets/img/product-details/product-detalis-l3.jpg" alt="">
-                         </a>
-                         <a data-image="assets/img/product-details/product-detalis-l5.jpg" data-zoom-image="assets/img/product-details/product-detalis-l5.jpg">
-                             <img src="assets/img/product-details/product-detalis-l5.jpg" alt="">
-                         </a> 
-                         <a data-image="assets/img/product-details/product-detalis-l5.jpg" data-zoom-image="assets/img/product-details/product-detalis-l5.jpg">
-                             <img src="assets/img/product-details/product-detalis-l5.jpg" alt="">
-                         </a> 
-                     </div>
-                 </div> -->
-
                 <div class="product-details">
                     <div class="product-details-img">
                         <div class="tab-content jump">
-                            @foreach ($productDetails->images as $key=>$itemImg)
+                            @foreach ($product->images as $key=>$itemImg)
                             <div id="shop-details-{{$key}}" class="zoom tab-pane {{$key == 0 ? 'active' : '' }} large-img-style" style="background-image: url({{asset('admin/public/productImages/'.$itemImg->image)}});">
                                 <img src="{{asset('admin/public/productImages/'.$itemImg->image)}}" alt="">
-                                <span class="dec-price">-10%</span>
                             </div>
                             @endforeach
                         </div>
                         <div class="shop-details-tab nav">
-                            @foreach ($productDetails->images as $key=>$itemImg)
+                            @foreach ($product->images as $key=>$itemImg)
                                 <a class="shop-details-overly {{$key == 0 ? 'active' : '' }}" href="#shop-details-{{$key}}" data-toggle="tab">
                                     <img src="{{asset('admin/public/productImages/'.$itemImg->image)}}" alt="">
                                 </a>
@@ -75,16 +41,11 @@
                     </div>
                 </div>
             </div>
-            {{-- @dd($productDetails->sku->first()->salePrice); --}}
             <div class="col-lg-6 col-md-6">
                 <div class="product-details-content ml-70">
-                    <h2>{{$productDetails->productName}}</h2>
+                    <h2>{{$product->productName}}</h2>
                     <div class="product-details-price">
-                      
-                            <span>৳ {{$productDetails->sku->first()->salePrice}} </span>
-                        
-                       
-                        <span class="old">৳ 20.00 </span>
+                            <span class="salePrice">৳ {{$sku->salePrice}} </span>
                     </div>
                     <div class="pro-details-rating-wrap">
                         <div class="pro-details-rating">
@@ -96,62 +57,38 @@
                         </div>
                         <span><a href="#">3 Reviews</a></span>
                     </div>
-                    <p>{!! $productDetails->details->fabricDetails !!}</p>
-                    <div class="pro-details-list">
-                        <ul>
-                            <li>- 0.5 mm Dail</li>
-                            <li>- Inspired vector icons</li>
-                            <li>- Very modern style </li>
-                        </ul>
-                    </div>
-                    <div class="pro-details-size-color">
-                        <div class="pro-details-color-wrap">
+                    <p>{!! $product->details->fabricDetails !!}</p>
+
+                    <div class="pro-details-size-color" >
+                        <div class="pro-details-color-wrap" id="colors">
+
                             <span>Color</span>
                             <div class="pro-details-color-content">
-                                <!-- <ul>
-                                    <li class="blue"></li>
-                                    <li class="maroon active"></li>
-                                    <li class="gray"></li>
-                                    <li class="green"></li>
-                                    <li class="yellow"></li>
-                                </ul> -->
-
                                 <!-- select color -->
-                                {{-- @dd($productDetails->sku->first()->skuId); --}}
-                                @foreach($productDetails->sku as $productsku)
+                                @foreach($product->sku as $productsku)
                                 @foreach($productsku->variationRelation as $variationRelation)
-                                 
+
                                 @if($variationRelation->variationDetailsdata->variationType == "Color")
-                                {{-- @dd($variationRelation->variationDetailsdata); --}}
-                                    <input type="radio" name="color" id="red" value="{{$variationRelation->variationDetailsdata->variationId}}" />
-                                    <label for="red"><span style="background: {{$variationRelation->variationDetailsdata->variationValue}}" class=""></span></label>
+                                          <input type="radio" name="color" id="red" />
+                                    <label for="red"><span onclick="changeColor({{$variationRelation->variationRelationId}})"  style="background: {{$variationRelation->variationDetailsdata->variationValue}}" class=""></span></label>
                                 @endif
                                 @endforeach
                                 @endforeach
-                              
+
                             </div>
                         </div>
-                        <div class="pro-details-size">
+                        <div class="pro-details-size" id="sizes">
                             <span>Size</span>
                             <div class="pro-details-size-content">
-                                <!-- <ul>
-                                    <li><a href="#">s</a></li>
-                                    <li><a href="#">m</a></li>
-                                    <li><a href="#">l</a></li>
-                                    <li><a href="#">xl</a></li>
-                                    <li><a href="#">xxl</a></li>
-                                </ul> -->
-
                                 <!-- select size -->
-                                @foreach($productDetails->sku as $productsku)
+                                @foreach($product->sku as $productsku)
                                 @foreach($productsku->variationRelation as $variationRelation)
-                                 
+
                                 @if($variationRelation->variationDetailsdata->variationType == "Size")
-                                {{-- @dd($variationRelation->variationDetailsdata); --}}
-                                <input type="radio" id="size-1" name="size" value="{{$variationRelation->variationDetailsdata->variationId}}">
+                                           <input type="radio" id="size-1" name="size">
                                 <label for="size-1" class="text-center">
                                     <div class="variant-select_wrapper">
-                                        <span class="variant-select__title">{{$variationRelation->variationDetailsdata->variationValue}}</span>
+                                        <span class="variant-select__title" onclick="changeColor({{$variationRelation->variationRelationId}})">{{$variationRelation->variationDetailsdata->variationValue}}</span>
                                     </div>
                                 </label>
                                 @endif
@@ -216,7 +153,7 @@
             <div class="tab-content description-review-bottom">
                 <div id="des-details2" class="tab-pane active">
                     <div class="product-description-wrapper">
-                        <p>{!! $productDetails->details->description!!}</p>
+                        <p>{!! $product->details->description!!}</p>
                     </div>
                 </div>
                 <div id="des-details1" class="tab-pane ">
@@ -235,7 +172,7 @@
                             <div class="review-wrapper">
                                 <div class="single-review">
                                     <div class="review-img">
-                                        <img src="assets/img/testimonial/1.jpg" alt="">
+{{--                                        <img src="assets/img/testimonial/1.jpg" alt="">--}}
                                     </div>
                                     <div class="review-content">
                                         <div class="review-top-wrap">
@@ -261,7 +198,7 @@
                                 </div>
                                 <div class="single-review">
                                     <div class="review-img">
-                                        <img src="assets/img/testimonial/2.jpg" alt="">
+{{--                                        <img src="assets/img/testimonial/2.jpg" alt="">--}}
                                     </div>
                                     <div class="review-content">
                                         <div class="review-top-wrap">
@@ -347,7 +284,7 @@
             <div class="product-wrap mb-25">
                 <div class="product-img">
                     <a href="product-details.html">
-                        <img class="default-img" src="assets/img/product/hm29-pro-9.jpg" alt="">
+{{--                        <img class="default-img" src="assets/img/product/hm29-pro-9.jpg" alt="">--}}
                     </a>
                     <span class="purple">New</span>
                     <div class="product-action">
@@ -372,7 +309,7 @@
             <div class="product-wrap mb-25">
                 <div class="product-img">
                     <a href="product-details.html">
-                        <img class="default-img" src="assets/img/product/hm29-pro-10.jpg" alt="">
+{{--                        <img class="default-img" src="assets/img/product/hm29-pro-10.jpg" alt="">--}}
                     </a>
                     <span class="pink">-10%</span>
                     <div class="product-action">
@@ -398,7 +335,7 @@
             <div class="product-wrap mb-25">
                 <div class="product-img">
                     <a href="product-details.html">
-                        <img class="default-img" src="assets/img/product/hm29-pro-11.jpg" alt="">
+{{--                        <img class="default-img" src="assets/img/product/hm29-pro-11.jpg" alt="">--}}
                     </a>
                     <span class="purple">New</span>
                     <div class="product-action">
@@ -423,7 +360,7 @@
             <div class="product-wrap mb-25">
                 <div class="product-img">
                     <a href="product-details.html">
-                        <img class="default-img" src="assets/img/product/hm29-pro-12.jpg" alt="">
+{{--                        <img class="default-img" src="assets/img/product/hm29-pro-12.jpg" alt="">--}}
                     </a>
                     <span class="pink">-10%</span>
                     <div class="product-action">
@@ -449,7 +386,7 @@
             <div class="product-wrap mb-25">
                 <div class="product-img">
                     <a href="product-details.html">
-                        <img class="default-img" src="assets/img/product/hm29-pro-10.jpg" alt="">
+{{--                        <img class="default-img" src="assets/img/product/hm29-pro-10.jpg" alt="">--}}
                     </a>
                     <span class="purple">New</span>
                     <div class="product-action">
@@ -481,13 +418,90 @@
 @section('js')
 
 <script>
-    let sku='{{$productDetails->sku->first()->skuId}}'
-    
+    let sku='{{$product->sku->first()->skuId}}'
+
+
+    function changeSize(id)
+    {
+        var variationRelationId = id;
+        $.ajax({
+            url: "{{route('size.choose')}}",
+            method: 'POST',
+            data: {
+                _token: "{{csrf_token()}}",
+                variationRelationId: variationRelationId,
+            },
+            success: function (data) {
+                console.log(data);
+                var data = data;
+                $('.salePrice').empty().append("<span>"+"Price: ৳ "+data.salePrice+"</span>")
+                if(data.variations.length < 1){
+                    $('.sizeColors').hide();
+                    $('#colors').empty();
+                }else{
+                    $('#colors').empty();
+                    $('.sizeColors').show();
+                    $.each(data.variations, function (key, val)
+                    {
+                        $('#colors').append("<div style='display: inline-block;'>"+"<div class='select-color'>"+"<ul class='colorBlock' style='margin-right: 5px'>"+
+                            "<li value="+val.skuID+" class='colorsize"+val.skuID+"' onclick='colorSize("+val.skuID+")'>"+"<span onclick='colorSize("+val.skuID+")' class='colorsize"+val.skuID+" color-option' style='background-color: "+val.variation_details.variationValue+"'>"+"</span>"+"</li>"+"</ul>"+"</div>"+"</div>")
+                    });
+                }
+            }
+        });
+    }
+
+    function changeColor(id)
+    {
+        variationRelationId = id;
+        $.ajax({
+            url: "{{route('color.choose')}}",
+            method: 'POST',
+            data: {
+                _token: "{{csrf_token()}}",
+                variationRelationId: variationRelationId,
+            },
+            success: function(data){
+                console.log(data);
+                // console.log(data.sku.salePrice);
+                // console.log(data.variationDatas);
+                var data = data;
+                $('.salePrice').empty().append("<span>"+"৳ "+data.sku.salePrice+"</span>")
+                $.each(data.variationDatas, function (key, val)
+                {
+                    // console.log(val.variationRelationId);
+                    // console.log(val.variation_detailsdata);
+
+                    if(val.variation_detailsdata.variationType == "Color"){
+                        $('#colors').empty();
+                        $('#colors').append("<span>Color</span><div class='pro-details-color-content'><input type='radio' id='red' name='color'> <label for='red' class='text-center'><span class='' onclick='changeColor("+val.variationRelationId+")' style='background:"+ val.variation_detailsdata.variationValue+"'></span></label></div>")
+                    }
+                    if(val.variation_detailsdata.variationType == "Size"){
+
+                        $('#sizes').empty();
+                        $('#sizes').append("<span>Size</span><div class='pro-details-size-content'><input type='radio' id='size-1' name='size'> <label for='size-1' class='text-center'><div class='variant-select_wrapper'><span class='variant-select__title' onclick='changeColor("+val.variationRelationId+")'>"+val.variation_detailsdata.variationValue+"</span></div></label></div>")
+                    }
+                });
+                // if(data.variationDatas.length < 1){
+                //     $('.colorSizes').hide();
+                //     $('#sizes').empty();
+                // }else{
+                //     $('.colorSizes').show();
+                //     $('#sizes').empty();
+                //     $.each(data.variations, function (key, val)
+                //     {
+                //         $('#sizes').append("<div style='display: inline-block;'>"+"<div class='select-size'>"+"<ul class='productsize' style='margin-right: 5px'>"+
+                //             "<li value="+val.skuID+"  class='colorsize"+val.skuID+"' onclick='colorSize("+val.skuID+")'>"+"<span style='width: 100%;'>"+val.variation_details.variationValue+"</span>"+"</li>"+"</ul>"+"</div>"+"</div>")
+                //     });
+                // }
+            }
+        });
+    }
 
     function addTocart(){
-       
+
         let quantity=$('#quantity').val() ;
-        
+
         $.ajax({
             type: "post",
             url: "{{route('product.addTocart')}}",
