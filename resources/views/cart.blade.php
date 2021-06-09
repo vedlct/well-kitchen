@@ -18,55 +18,25 @@
                                     <th>action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="product-thumbnail">
-                                        <a href="#"><img src="assets/img/cart/cart-1.png" alt=""></a>
-                                    </td>
-                                    <td class="product-name"><a href="#">Product Name</a></td>
-                                    <td class="product-price-cart"><span class="amount">$260.00</span></td>
-                                    <td class="product-quantity">
-                                        <div class="cart-plus-minus">
-                                            <input class="cart-plus-minus-box" type="text" name="qtybutton" value="2">
-                                        </div>
-                                    </td>
-                                    <td class="product-subtotal">$110.00</td>
-                                    <td class="product-remove">
-                                        <a href="#"><i class="fa fa-times"></i></a>
-                                </td>
-                                </tr>
-                                <tr>
-                                    <td class="product-thumbnail">
-                                        <a href="#"><img src="assets/img/cart/cart-2.png" alt=""></a>
-                                    </td>
-                                    <td class="product-name"><a href="#">Product Name</a></td>
-                                    <td class="product-price-cart"><span class="amount">$150.00</span></td>
-                                    <td class="product-quantity">
-                                        <div class="cart-plus-minus">
-                                            <input class="cart-plus-minus-box" type="text" name="qtybutton" value="2">
-                                        </div>
-                                    </td>
-                                    <td class="product-subtotal">$150.00</td>
-                                    <td class="product-remove">
-                                        <a href="#"><i class="fa fa-times"></i></a>
-                                </td>
-                                </tr>
-                                <tr>
-                                    <td class="product-thumbnail">
-                                        <a href="#"><img src="assets/img/cart/cart-1.png" alt=""></a>
-                                    </td>
-                                    <td class="product-name"><a href="#">Product Name </a></td>
-                                    <td class="product-price-cart"><span class="amount">$170.00</span></td>
-                                    <td class="product-quantity">
-                                        <div class="cart-plus-minus">
-                                            <input class="cart-plus-minus-box" type="text" name="qtybutton" value="2">
-                                        </div>
-                                    </td>
-                                    <td class="product-subtotal">$170.00</td>
-                                    <td class="product-remove">
-                                        <a href="#"><i class="fa fa-times"></i></a>
-                                </td>
-                                </tr>
+                            <tbody id="cartBody">
+                                @foreach (\Cart::getContent()->sort() as $key=>$item)
+                                    <tr>
+                                        <td class="product-thumbnail">
+                                            <a href="#"><img src="{{('admin/public/featureImage/').$item->associatedModel->featureImage}}" alt=""></a>
+                                        </td>
+                                        <td class="product-name"><a href="#">{{$item->associatedModel->productName}}</a></td>
+                                        <td class="product-price-cart"><span class="amount">${{$item->price}}</span></td>
+                                        <td class="product-quantity">
+                                            <div class="cart-plus-minus" onclick="quantityUpdate('{{$item->quantity}}','{{$item->id}}')">
+                                                <input class="cart-plus-minus-box" type="text" name="quantity" id="qtyBtn{{$item->quantity}}" value="{{$item->quantity}}">
+                                            </div>
+                                        </td>
+                                        <td class="product-subtotal">{{$item->price * $item->quantity}} </td>
+                                        <td class="product-remove" onclick="removeItem('{{$item->id}}')">
+                                            <a href="#"><i class="fa fa-times"></i></a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -103,7 +73,7 @@
                             <div class="title-wrap">
                                 <h4 class="cart-bottom-title section-bg-gary-cart">Cart Total</h4>
                             </div>
-                            <h5>Total products <span>$260.00</span></h5>
+                            <h5>Total products <span>${{\Cart::getSubTotal()}}</span></h5>
                             <div class="total-shipping">
                                 <h5>Total shipping</h5>
                                 <ul>
@@ -121,4 +91,46 @@
     </div>
 </div>
 
+@endsection
+
+@section('js')
+ <script>
+       function removeItem(id) {
+            $.ajax({
+                type: "POST",
+                url: "{{route('product.cartRemove')}}",
+                data: {
+                    _token:'{{csrf_token()}}',
+                    _sku:id,
+                },
+                success: function (response) {
+                    // $('#cartBody').empty().html(response.cart);
+                    $('#cartPage').empty().html(response.cart);
+                    $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br> Cart(${response.cartQuantity})`);
+                    toastr.success('Item delete from cart')
+                }
+            });
+        }
+        
+        function quantityUpdate(q,id){
+        
+            var value = parseInt($(`#qtyBtn${q}`).val());
+           
+            $.ajax({
+                type: "POST",
+                url: "{{route('product.cartUpdateQuantity')}}",
+                data: {
+                    _token:'{{csrf_token()}}',
+                    _sku:id,
+                    // value:value,
+                },
+                success: function (response) {
+                    // console.log('success',response);
+                    $('#cartMain').empty().html(response.cart);
+                    $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br> Cart(${response.cartQuantity})`);
+                    toastr.success('Item updated to cart')
+                }
+            });
+        }
+ </script>
 @endsection

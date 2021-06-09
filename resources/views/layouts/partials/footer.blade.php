@@ -156,82 +156,9 @@
     </div>
 </div>
 <!-- Modal end -->
-
-<!-- cart button right fixed start -->
-<div class="cart-button-fixed" onclick="showNav()">
-    <i class="pe-7s-shopbag"></i>
-    <h5 class="mb-0">Cart</h5>
+<div id="cartPage" >
+@include('layouts.partials.cartNav')
 </div>
-<!-- cart button right fixed end -->
-
-<!-- right fixed cart start -->
-<div class="full-body-overlay" id="fullBodyOverlay" onclick="hideOverlay()"></div>
-<section class="side-cart side-nav px-3 py-md-5 py-3" id="sideNav">
-  <div class="d-flex justify-content-between">
-      <div>
-          <h4>Shopping Cart</h4>
-      </div>
-      <div class="">
-        <i class="fa fa-times close-icon" onclick="hideNav()"></i>
-      </div>
-  </div>
-  <div class="product-area my-md-5 my-4">
-    <div class="d-flex justify-content-between align-items-center border-bottom py-2">
-        <div>
-            <img src="{{asset('public/assets/img/product/hm10-pro-1.jpg')}}" alt="" class="product-img">
-        </div>
-        <div class="name-area px-2">
-          <h5 class="product-name"><a href="#">Yellow premium Chair</a></h5>
-          <h6 class="quantity">1 x $49.00</h6>
-        </div>
-        <div class="">
-            <i class="fa fa-trash"></i>
-          </div>
-    </div>
-    <div class="d-flex justify-content-between align-items-center border-bottom py-2">
-        <div>
-            <img src="{{asset('public/assets/img/product/hm10-pro-1.jpg')}}" alt="" class="product-img">
-        </div>
-        <div class="name-area px-2">
-          <h5 class="product-name"><a href="#">Yellow premium Chair</a></h5>
-          <h6 class="quantity">1 x $49.00</h6>
-        </div>
-        <div class="">
-            <i class="fa fa-trash"></i>
-          </div>
-    </div>
-    <div class="d-flex justify-content-between align-items-center border-bottom py-2">
-        <div>
-            <img src="{{asset('public/assets/img/product/hm10-pro-1.jpg')}}" alt="" class="product-img">
-        </div>
-        <div class="name-area px-2">
-          <h5 class="product-name"><a href="#">Yellow premium Chair</a></h5>
-          <h6 class="quantity">1 x $49.00</h6>
-        </div>
-        <div class="">
-            <i class="fa fa-trash"></i>
-          </div>
-    </div>
-  </div>
-  <div class="d-flex justify-content-between">
-        <div>
-            <h5>Sub-Total:</h5>
-        </div>
-        <div class="">
-        <h5>$20</h5>
-        </div>
-    </div>
-    <div class="row my-md-5 my-4">
-        <div class="col-6">
-            <a href="{{url('/cart')}}" class="btn btn-secondary w-100">View Cart</a>
-        </div>
-        <div class="col-6">
-            <a href="{{url('/checkout')}}" class="btn btn-danger w-100">checkout</a>
-        </div>
-    </div>
-</section>
-<!-- right fixed cart end -->
-
 <!-- chat icon start -->
 <div class="chat-icon-area">
     <i class="fa fa-comment"></i>
@@ -249,6 +176,23 @@
 <script src="{{asset('public/assets/js/plugins.js')}}"></script>
 <!-- Main JS -->
 <script src="{{asset('public/assets/js/main.js')}}"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+  <script>
+      toastr.options.preventDuplicates = true;
+    toastr.options.showMethod = 'slideDown';
+    @if(session()->has('success'))
+    toastr.success('{{session('success')}}');
+    @endif
+    @if(session()->has('error'))
+    toastr.error('{{session('error')}}');
+    @endif
+    @if(session()->has('warning'))
+    toastr.warning('{{session('warning')}}');
+    @endif
+  </script>
+@yield('js')
+
 
 </body>
 

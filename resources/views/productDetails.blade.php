@@ -75,13 +75,14 @@
                     </div>
                 </div>
             </div>
+            {{-- @dd($productDetails->sku->first()->salePrice); --}}
             <div class="col-lg-6 col-md-6">
                 <div class="product-details-content ml-70">
                     <h2>{{$productDetails->productName}}</h2>
                     <div class="product-details-price">
-                        @foreach ($productDetails->sku as $skuPrice)
-                            <span>৳ {{$skuPrice->salePrice}} </span>
-                        @endforeach
+                      
+                            <span>৳ {{$productDetails->sku->first()->salePrice}} </span>
+                        
                        
                         <span class="old">৳ 20.00 </span>
                     </div>
@@ -116,6 +117,7 @@
                                 </ul> -->
 
                                 <!-- select color -->
+                                {{-- @dd($productDetails->sku->first()->skuId); --}}
                                 @foreach($productDetails->sku as $productsku)
                                 @foreach($productsku->variationRelation as $variationRelation)
                                  
@@ -160,10 +162,10 @@
                     </div>
                     <div class="pro-details-quality">
                         <div class="cart-plus-minus">
-                            <input class="cart-plus-minus-box" type="text" name="qtybutton" value="2">
+                            <input class="cart-plus-minus-box" type="text" name="qtybutton" id="quantity" value="1">
                         </div>
                         <div class="pro-details-cart btn-hover">
-                            <a href="#">Add To Cart</a>
+                            <a href="#" onclick="addTocart()">Add To Cart</a>
                         </div>
                         <div class="pro-details-wishlist">
                             <a href="#"><i class="fa fa-heart-o"></i></a>
@@ -473,5 +475,56 @@
     </div>
 </div>
 <!-- related product start -->
+
+@endsection
+
+@section('js')
+
+<script>
+    let sku='{{$productDetails->sku->first()->skuId}}'
+    
+
+    function addTocart(){
+       
+        let quantity=$('#quantity').val() ;
+        
+        $.ajax({
+            type: "post",
+            url: "{{route('product.addTocart')}}",
+            data:{
+                _token:'{{csrf_token()}}',
+                _sku:sku,
+                _quantity:quantity
+            },
+            success: function (response) {
+                console.log(response);
+                $('#cartPage').empty().html(response.cart)
+                $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
+                toastr.success('Item added to cart')
+            },
+            error:(response)=>{
+            toastr.error('Out of quantity')
+            }
+        });
+    }
+
+    function removeItem(id) {
+            $.ajax({
+                type: "POST",
+                url: "{{route('product.cartRemove')}}",
+                data: {
+                    _token:'{{csrf_token()}}',
+                    _sku:id,
+                },
+                success: function (response) {
+                    $('#cartPage').empty().html(response.cart);
+                    $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br> Cart(${response.cartQuantity})`);
+                    toastr.success('Item delete from cart')
+                }
+            });
+        }
+
+</script>
+
 
 @endsection
