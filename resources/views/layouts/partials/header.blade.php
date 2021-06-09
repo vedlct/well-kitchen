@@ -24,6 +24,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{asset('public/assets/css/custom.css')}}">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 </head>
 
 <body class="position-relative">
@@ -127,13 +128,16 @@
                     <div class="col-xl-6 col-lg-6 d-none d-lg-block">
                         <!-- big search -->
                         <div class="big-search">
+                         <form action="{{route('search.product')}}" method="POST">
+                            @csrf
                             <div class="input-group">
-                                <input type="text" class="form-control" placeholder="Search..."
-                                    aria-label="Recipient's username" aria-describedby="basic-addon2">
+                                <input type="text" class="form-control" placeholder="Search... "
+                                    aria-label="Recipient's username" aria-describedby="basic-addon2"  name="allSearch" id="search" value="{{Session::get('search')}}">
                                 <div class="input-group-append">
-                                    <span class="input-group-text" id="basic-addon2"><i class="fa fa-search"></i></span>
+                                    <span class="input-group-text" id="basic-addon2" type="submit"><i class="fa fa-search"></i></span>
                                 </div>
                             </div>
+                         </form>
                         </div>
                     </div>
                     <div class="col-xl-3 col-lg-3 col-md-6 col-6">
@@ -142,8 +146,9 @@
                             <div class="same-style header-search d-lg-none">
                                 <a class="search-active" href="#"><i class="pe-7s-search"></i></a>
                                 <div class="search-content">
-                                    <form action="#">
-                                        <input type="text" placeholder="Search" />
+                                    <form action="{{route('search.product')}}" method="POST">
+                                        @csrf
+                                        <input type="text" placeholder="Search " name="allSearch" id="search" value="{{Session::get('search')}}" />
                                         <button class="button-search"><i class="pe-7s-search"></i></button>
                                     </form>
                                 </div>
@@ -152,15 +157,23 @@
                                 <a class="account-satting-active" href="#"><i class="pe-7s-user-female"></i></a>
                                 <div class="account-dropdown">
                                     <ul>
-                                        <li><a href="{{url('login')}}">Login/Register</a></li>
+                                        @if(!(Auth::check()))
+                                            <li><a href="{{url('login')}}">Login/Register</a></li>
+                                        @else
+                                        <li><a href="">Hello,{{Auth::user()->firstName}}</a></li>
+                                            
+                                       @endif 
                                         <li><a href="{{url('my-order')}}">My Orders</a></li>
                                         <li><a href="{{url('my-account')}}">my account</a></li>
-                                        <li><a href="{{url('/')}}">Logout</a></li>
+                                        <li><a href="{{route('logout')}}"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
                                     </ul>
                                 </div>
                             </div>
                             <div class="same-style header-wishlist">
-                                <a href="{{url('/wishlist')}}"><i class="pe-7s-like"></i></a>
+                                <a href="{{route('wishlist')}}"><i class="pe-7s-like"></i></a>
                             </div>
                             <div class="same-style cart-wrap">
                                 <button class="icon-cart" onclick="showNav()">

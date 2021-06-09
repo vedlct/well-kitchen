@@ -235,16 +235,16 @@
                             <div class="col-6 col-xl-3 col-md-6 col-lg-4 col-sm-6">
                                 <div class="product-wrap-5 mb-25">
                                     <div class="product-img">
-                                        <a href="{{url('product-details/'.$item->productId)}}">
+                                        <a href="{{route('product.details',$item->productId)}}">
                                             <img src="{{asset('admin/public/featureImage/'.$item->featureImage)}}" alt="">
                                         </a>
                                         <span class="purple">New</span>
                                         <div class="product-action-4">
                                             <div class="pro-same-action pro-wishlist">
-                                                <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a>
+                                                <a title="Wishlist" href="{{route('wishlistAdd',$item->productId)}}"><i class="pe-7s-like"></i></a>
                                             </div>
                                             <div class="pro-same-action pro-cart">
-                                                <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i></a>
+                                                <a title="Add To Cart" href="#" onclick="addTocart()"><i class="pe-7s-cart"></i></a>
                                             </div>
                                             <div class="pro-same-action pro-quickview">
                                                 <a title="Quick View" href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a>
@@ -252,7 +252,7 @@
                                         </div>
                                     </div>
                                     <div class="product-content-5 text-center">
-                                        <h3><a href="product-details.html">{{$item->productName}}</a></h3>
+                                        <h3><a href="{{route('product.details',$item->productId)}}">{{$item->productName}}</a></h3>
                                         <div class="price-5">
                                             @foreach ($sku->where('fkproductId', $item->productId) as $skuPrice)
                                                 <span>৳  {{$skuPrice->salePrice}}</span>
@@ -496,7 +496,7 @@
                         <div class="col-6 col-xl-3 col-md-6 col-lg-4 col-sm-6">
                             <div class="product-wrap-5 mb-25">
                                 <div class="product-img">
-                                    <a href="{{url('product-details/'.$item->productId)}}">
+                                    <a href="{{route('product.details',$item->productId)}}">
                                         <img src="{{asset('admin/public/featureImage/'.$item->featureImage)}}" alt="">
                                     </a>
                                     <span class="purple">New</span>
@@ -513,7 +513,7 @@
                                     </div>
                                 </div>
                                 <div class="product-content-5 text-center">
-                                    <h3><a href="product-details.html">{{$item->productName}}</a></h3>
+                                    <h3><a href="{{route('product.details',$item->productId)}}">{{$item->productName}}</a></h3>
                                     <div class="price-5">
                                             @foreach ($sku->where('fkproductId', $item->productId) as $skuPrice)
                                                 <span>৳  {{$skuPrice->salePrice}}</span>
@@ -1157,30 +1157,36 @@
 
     <script>
          
+        
      
 
         function addTocart(){
+           
+
+
+            let qty = 1;
+            let quantity= 1;
             
-            let quantity=$('#quantity').val() ;
+
             
-            $.ajax({
-                type: "post",
-                url: "{{route('product.addTocart')}}",
-                data:{
-                    _token:'{{csrf_token()}}',
-                    _sku:sku,
-                    _quantity:quantity
-                },
-                success: function (response) {
-                    console.log('res',response);
-                    $('#cartPage').empty().html(response.cart)
-                    $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
-                    toastr.success('Item added to cart')
-                },
-                error:(response)=>{
-                toastr.error('Out of quantity')
-                }
-            });
+            // $.ajax({
+            //     type: "post",
+            //     url: "{{route('product.addTocart')}}",
+            //     data:{
+            //         _token:'{{csrf_token()}}',
+            //         _sku:sku,
+            //         _quantity:quantity
+            //     },
+            //     success: function (response) {
+            //         console.log('res',response);
+            //         $('#cartPage').empty().html(response.cart)
+            //         $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
+            //         toastr.success('Item added to cart')
+            //     },
+            //     error:(response)=>{
+            //     toastr.error('Out of quantity')
+            //     }
+            // });
         }
 
     </script>
