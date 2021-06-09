@@ -139,7 +139,7 @@
                             <div class="category-name">
                                 <h4 class="mb-0">
                                     <span>{{$category->categoryName}} </span>
-                                    <img src="{{asset('public/assets/img/category-img.jpg')}}" class="ml-3" alt="">
+                                    <img src="{{asset('admin/public/categoryImage/'.$category->imageLink)}}" class="ml-3" alt="">
                                 </h4>
                             </div>
                         </a>

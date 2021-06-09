@@ -58,7 +58,6 @@ class CategoryController extends Controller
             $originalName = $request->imageLink->getClientOriginalName();
             $uniqueImageName =  $category->categoryName.$originalName;
             $image = Image::make($request->imageLink);
-            $image->resize(280, 280);
             $image->save(public_path().'/categoryImage/'.$uniqueImageName);
             $category->imageLink = $uniqueImageName;
             $category->save();
@@ -91,7 +90,6 @@ class CategoryController extends Controller
             $file_path = public_path().'/categoryImage/'.$category->imageLink;
             File::delete($file_path);
             $image = Image::make($request->imageLink);
-            $image->resize(280, 280);
             $image->save(public_path().'/categoryImage/'.$uniqueImageName);
             $category->imageLink = $uniqueImageName;
             $category->save();

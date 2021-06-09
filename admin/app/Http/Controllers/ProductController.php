@@ -117,7 +117,6 @@ class ProductController extends Controller
                 $originalExtension = $vimage->getClientOriginalExtension();
                 $uniqueImageName = rand(100, 999).'.'.$originalExtension;
                 $image = Image::make($vimage);
-                $image->resize(280, 280);
                 $image->save(public_path().'/variationImage/'.$uniqueImageName);
                 $data[] = $uniqueImageName;
             }
@@ -368,25 +367,14 @@ class ProductController extends Controller
                 $productImage->fkskuId = $sku->skuId;
                 $productImage->fkProductId = $request->productId;
                 $originalExtension = $vimage->getClientOriginalExtension();
+                $productImage->imageType = $originalExtension;
                 $uniqueImageName = $sku->skuId.rand(100, 999).'.'.$originalExtension;
                 $image = Image::make($vimage);
                 $image->save(public_path().'/variationImage/'.$uniqueImageName);
+                $image->save(public_path().'/productImages/'.$uniqueImageName);
                 $productImage->image = $uniqueImageName;
                 $productImage->save();
             }
-        }
-
-        if ($request->hasFile('featureImage')) {
-            $productImage = new ProductImages();
-            $productImage->fkskuId = $sku->skuId;
-            $productImage->fkProductId = $product->productId;
-            $originalExtension = $request->featureImage->getClientOriginalExtension();
-            $productImage->imageType = $originalExtension;
-            $uniqueImageName = $sku->skuId.rand(100, 999).'.'.$originalExtension;
-            $image = Image::make($request->featureImage);
-            $image->save(public_path().'/productImages/'.$uniqueImageName);
-            $productImage->image = $uniqueImageName;
-            $productImage->save();
         }
 
         $products = Product::with('sku', 'sku.variationRelation', 'sku.variationRelation.variationDetailsdata', 'sku.variationImage')->where('productId', $sku->fkproductId)->first();
@@ -447,25 +435,14 @@ class ProductController extends Controller
                 $productImage->fkskuId = $sku->skuId;
                 $productImage->fkProductId = $sku->fkproductId;
                 $originalExtension = $vimage->getClientOriginalExtension();
+                $productImage->imageType = $originalExtension;
                 $uniqueImageName = $sku->skuId.rand(100, 999).'.'.$originalExtension;
                 $image = Image::make($vimage);
                 $image->save(public_path().'/variationImage/'.$uniqueImageName);
+                $image->save(public_path().'/productImages/'.$uniqueImageName);
                 $productImage->image = $uniqueImageName;
                 $productImage->save();
             }
-        }
-
-        if ($request->hasFile('featureImage')) {
-            $productImage = new ProductImages();
-            $productImage->fkskuId = $sku->skuId;
-            $productImage->fkProductId = $product->productId;
-            $originalExtension = $request->featureImage->getClientOriginalExtension();
-            $productImage->imageType = $originalExtension;
-            $uniqueImageName = $sku->skuId.rand(100, 999).'.'.$originalExtension;
-            $image = Image::make($request->featureImage);
-            $image->save(public_path().'/productImages/'.$uniqueImageName);
-            $productImage->image = $uniqueImageName;
-            $productImage->save();
         }
 
         $fkproductId = $sku->fkproductId;

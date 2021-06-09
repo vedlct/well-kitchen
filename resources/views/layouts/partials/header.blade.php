@@ -258,24 +258,24 @@
                                       <ul>
                                 @endif
                                         @foreach($allCategories as $parentCategory)
-                                        <li><a href="#">{{ $parentCategory->categoryName }} <i class="fa fa-angle-right float-right"></i></a>
-                                            @if($subCategories)
+                                        <li><a href="{{route('category.products', $parentCategory->categoryId)}}">{{ $parentCategory->categoryName }} <i class="fa fa-angle-right float-right"></i></a>
+                                            @foreach($subCategories->where('parent', $parentCategory->categoryId) as $subCategory)
                                             <ul>
                                                 @foreach($subCategories->where('parent', $parentCategory->categoryId) as $subCategory)
-                                                <li><a href="#">{{ $subCategory->categoryName }} </a>
-                                                    @if(!empty($subSubCategories))
+                                                <li><a href="{{route('category.products', $subCategory->categoryId)}}">{{ $subCategory->categoryName }} </a>
+                                                    @foreach($subSubCategories->where('subParent', $subCategory->categoryId) as $subParentCategory)
                                                     <ul>
                                                         @foreach($subSubCategories->where('subParent', $subCategory->categoryId) as $subParentCategory)
-                                                            <li><a href="#">{{ $subParentCategory->categoryName }} </a>
+                                                            <li><a href="{{route('category.products', $subParentCategory->categoryId)}}">{{ $subParentCategory->categoryName }} </a>
 
                                                             </li>
                                                         @endforeach
                                                     </ul>
-                                                    @endif
+                                                    @endforeach
                                                 </li>
                                                 @endforeach
                                             </ul>
-                                                @endif
+                                                @endforeach
                                         </li>
                                         @endforeach
                                     </ul>

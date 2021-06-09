@@ -345,16 +345,16 @@
                                                             </div>
                                                         </div>
                                                         <div class="row m-0">
-                                                            <div style="padding: 4px;">
-                                                                <div class="product-img-with-delete">
-                                                                    <img src="{{url('public/featureImage/'.$product->featureImage)}}" alt="product_small_img1" />
-                                                                    <div class="hover-icon">
-                                                                        <a href="#" id="productImage" onclick="productImage({{$product->productId}})" >
-                                                                        <i class="ft ft-trash"></i>
-                                                                        </a>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+{{--                                                            <div style="padding: 4px;">--}}
+{{--                                                                <div class="product-img-with-delete">--}}
+{{--                                                                    <img src="{{url('public/featureImage/'.$product->featureImage)}}" alt="product_small_img1" />--}}
+{{--                                                                    <div class="hover-icon">--}}
+{{--                                                                        <a href="#" id="productImage" onclick="productImage({{$product->productId}})" >--}}
+{{--                                                                        <i class="ft ft-trash"></i>--}}
+{{--                                                                        </a>--}}
+{{--                                                                    </div>--}}
+{{--                                                                </div>--}}
+{{--                                                            </div>--}}
                                                             @if (count($product->images)>0)
                                                                 @foreach ($product->images as $key=>$item)
                                                                     <div style="padding: 4px;">
