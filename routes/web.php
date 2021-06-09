@@ -6,7 +6,7 @@ use App\Http\Controllers\HomeController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/product-details/{id}', [HomeController::class, 'productDetails'])->name('product.details');
-Route::get('/categories/{categoryId}', [CategoryController::class, 'categoryProducts'])->name('category.products');
+Route::get('/categories/{categoryId?}', [CategoryController::class, 'categoryProducts'])->name('category.products');
 
 Route::get('/cart',[HomeController::class,'cartIndex'])->name('cart');
 Route::get('/checkout' ,[HomeController::class,'index'])->name('checkout.index');

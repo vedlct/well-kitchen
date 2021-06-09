@@ -55,13 +55,13 @@
                     <div class="tab-content jump">
                         <div id="shop-1" class="tab-pane active">
                             <div class="row">
+                                @foreach($products as $product)
                                 <div class="col-6 col-md-4 shop-col-item">
                                     <div class="product-wrap mb-25 scroll-zoom">
                                         <div class="product-img">
-                                            <a href="#">
-                                                <img class="default-img" src="{{asset('public/assets/img/product/pro-1.jpg')}}" alt="">
+                                            <a href="{{route('product.details',$product->productId)}}">
+                                                <img class="default-img" src="{{asset('admin/public/featureImage/'.$product->featureImage)}}" alt="">
                                             </a>
-                                            <span class="pink">-10%</span>
                                             <div class="product-action">
                                                 <div class="pro-same-action pro-wishlist">
                                                     <a title="Wishlist" href="#"><i class="pe-7s-like"></i></a>
@@ -75,7 +75,7 @@
                                             </div>
                                         </div>
                                         <div class="product-content text-center">
-                                            <h3><a href="product-details.html">T- Shirt And Jeans</a></h3>
+                                            <h3><a href="product-details.html">{{ $product->productName }}</a></h3>
                                             <div class="product-price">
                                                 <span>৳  60.00</span>
                                                 <span class="old">৳  60.00</span>
@@ -83,229 +83,11 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-6 col-md-4 shop-col-item">
-                                    <div class="product-wrap mb-25 scroll-zoom">
-                                        <div class="product-img">
-                                            <a href="single-product.html">
-                                                <img class="default-img" src="{{asset('public/assets/img/product/pro-2.jpg')}}" alt="">
-                                            </a>
-                                            <span class="purple">New</span>
-                                            <div class="product-action">
-                                                <div class="pro-same-action pro-wishlist">
-                                                    <a title="Wishlist" href="#"><i class="pe-7s-like"></i></a>
-                                                </div>
-                                                <div class="pro-same-action pro-cart">
-                                                    <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a>
-                                                </div>
-                                                <div class="pro-same-action pro-quickview">
-                                                    <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product-content text-center">
-                                            <h3><a href="product-details.html">T- Shirt And Jeans</a></h3>
-                                            <div class="product-price">
-                                                <span>৳  60.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-4 shop-col-item">
-                                    <div class="product-wrap mb-25 scroll-zoom">
-                                        <div class="product-img">
-                                            <a href="#">
-                                                <img class="default-img" src="{{asset('public/assets/img/product/pro-3.jpg')}}" alt="">
-                                            </a>
-                                            <span class="pink">-10%</span>
-                                            <div class="product-action">
-                                                <div class="pro-same-action pro-wishlist">
-                                                    <a title="Wishlist" href="#"><i class="pe-7s-like"></i></a>
-                                                </div>
-                                                <div class="pro-same-action pro-cart">
-                                                    <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a>
-                                                </div>
-                                                <div class="pro-same-action pro-quickview">
-                                                    <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product-content text-center">
-                                            <h3><a href="product-details.html">T- Shirt And Jeans</a></h3>
-                                            <div class="product-price">
-                                                <span>৳  60.00</span>
-                                                <span class="old">৳  60.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-4 shop-col-item">
-                                    <div class="product-wrap mb-25 scroll-zoom">
-                                        <div class="product-img">
-                                            <a href="#">
-                                                <img class="default-img" src="{{asset('public/assets/img/product/pro-4.jpg')}}" alt="">
-                                            </a>
-                                            <span class="purple">New</span>
-                                            <div class="product-action">
-                                                <div class="pro-same-action pro-wishlist">
-                                                    <a title="Wishlist" href="#"><i class="pe-7s-like"></i></a>
-                                                </div>
-                                                <div class="pro-same-action pro-cart">
-                                                    <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a>
-                                                </div>
-                                                <div class="pro-same-action pro-quickview">
-                                                    <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product-content text-center">
-                                            <h3><a href="product-details.html">T- Shirt And Jeans</a></h3>
-                                            <div class="product-price">
-                                                <span>৳  60.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-4 shop-col-item">
-                                    <div class="product-wrap mb-25 scroll-zoom">
-                                        <div class="product-img">
-                                            <a href="#">
-                                                <img class="default-img" src="{{asset('public/assets/img/product/pro-5.jpg')}}" alt="">
-                                            </a>
-                                            <span class="pink">-10%</span>
-                                            <div class="product-action">
-                                                <div class="pro-same-action pro-wishlist">
-                                                    <a title="Wishlist" href="#"><i class="pe-7s-like"></i></a>
-                                                </div>
-                                                <div class="pro-same-action pro-cart">
-                                                    <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a>
-                                                </div>
-                                                <div class="pro-same-action pro-quickview">
-                                                    <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product-content text-center">
-                                            <h3><a href="product-details.html">T- Shirt And Jeans</a></h3>
-                                            <div class="product-price">
-                                                <span>৳  60.00</span>
-                                                <span class="old">৳  60.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-4 shop-col-item">
-                                    <div class="product-wrap mb-25 scroll-zoom">
-                                        <div class="product-img">
-                                            <a href="#">
-                                                <img class="default-img" src="{{asset('public/assets/img/product/pro-6.jpg')}}" alt="">
-                                            </a>
-                                            <span class="purple">New</span>
-                                            <div class="product-action">
-                                                <div class="pro-same-action pro-wishlist">
-                                                    <a title="Wishlist" href="#"><i class="pe-7s-like"></i></a>
-                                                </div>
-                                                <div class="pro-same-action pro-cart">
-                                                    <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a>
-                                                </div>
-                                                <div class="pro-same-action pro-quickview">
-                                                    <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product-content text-center">
-                                            <h3><a href="product-details.html">T- Shirt And Jeans</a></h3>
-                                            <div class="product-price">
-                                                <span>৳  60.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-4 shop-col-item">
-                                    <div class="product-wrap mb-25 scroll-zoom">
-                                        <div class="product-img">
-                                            <a href="#">
-                                                <img class="default-img" src="{{asset('public/assets/img/product/pro-7.jpg')}}" alt="">
-                                            </a>
-                                            <span class="pink">-10%</span>
-                                            <div class="product-action">
-                                                <div class="pro-same-action pro-wishlist">
-                                                    <a title="Wishlist" href="#"><i class="pe-7s-like"></i></a>
-                                                </div>
-                                                <div class="pro-same-action pro-cart">
-                                                    <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a>
-                                                </div>
-                                                <div class="pro-same-action pro-quickview">
-                                                    <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product-content text-center">
-                                            <h3><a href="product-details.html">T- Shirt And Jeans</a></h3>
-                                            <div class="product-price">
-                                                <span>৳  60.00</span>
-                                                <span class="old">৳  60.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-4 shop-col-item">
-                                    <div class="product-wrap mb-25 scroll-zoom">
-                                        <div class="product-img">
-                                            <a href="#">
-                                                <img class="default-img" src="{{asset('public/assets/img/product/pro-8.jpg')}}" alt="">
-                                            </a>
-                                            <span class="purple">New</span>
-                                            <div class="product-action">
-                                                <div class="pro-same-action pro-wishlist">
-                                                    <a title="Wishlist" href="#"><i class="pe-7s-like"></i></a>
-                                                </div>
-                                                <div class="pro-same-action pro-cart">
-                                                    <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a>
-                                                </div>
-                                                <div class="pro-same-action pro-quickview">
-                                                    <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product-content text-center">
-                                            <h3><a href="product-details.html">T- Shirt And Jeans</a></h3>
-                                            <div class="product-price">
-                                                <span>৳  60.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-4 shop-col-item">
-                                    <div class="product-wrap mb-25 scroll-zoom">
-                                        <div class="product-img">
-                                            <a href="#">
-                                                <img class="default-img" src="{{asset('public/assets/img/product/pro-1.jpg')}}" alt="">
-                                            </a>
-                                            <span class="pink">-10%</span>
-                                            <div class="product-action">
-                                                <div class="pro-same-action pro-wishlist">
-                                                    <a title="Wishlist" href="#"><i class="pe-7s-like"></i></a>
-                                                </div>
-                                                <div class="pro-same-action pro-cart">
-                                                    <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a>
-                                                </div>
-                                                <div class="pro-same-action pro-quickview">
-                                                    <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="product-content text-center">
-                                            <h3><a href="product-details.html">T- Shirt And Jeans</a></h3>
-                                            <div class="product-price">
-                                                <span>৳  60.00</span>
-                                                <span class="old">৳  60.00</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                     </div>
+                    {{ $products->links() }}
                     <div class="pro-pagination-style text-center mt-30">
                         <ul>
                             <li><a class="prev" href="#"><i class="fa fa-angle-double-left"></i></a></li>

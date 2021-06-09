@@ -290,7 +290,7 @@
                                 <ul>
                                     <li><a href="{{url('/')}}">Home</a>
                                     </li>
-                                    <li><a href="{{url('/shop')}}">Collection</a></li>
+                                    <li><a href="{{route('category.products')}}">Collection</a></li>
                                     <li><a href="{{url('/about')}}"> About </a></li>
                                     <li><a href="{{url('/contact')}}"> Contact</a></li>
                                     <li><a href="#"> Pages <i class="fa fa-angle-down"></i></a>

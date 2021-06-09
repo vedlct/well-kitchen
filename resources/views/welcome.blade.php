@@ -160,7 +160,7 @@
                         <div class="product-wrap mb-25">
                             <div class="product-img">
                                 {{-- <a href="product-details.html"> --}}
-                                    <a href="{{url('product-details/'.$product->productId)}}">
+                                    <a href="{{route('product.details',$product->productId)}}">
                                     <img class="default-img" src="{{asset('admin/public/featureImage/'.$product->featureImage)}}" alt="">
                                 </a>
                                 <div class="product-action">
