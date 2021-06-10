@@ -39,9 +39,9 @@ Route::post('/search-category-product' ,[CategoryController::class,'searchByProd
 
     Route::get('page/{id}',[PageController::class,'index'])->name('page');
 
-Route::get('/wishlist', function () {
-    return view('wishlist');
-});
+// Route::get('/wishlist', function () {
+//     return view('wishlist');
+// });
 
 //Route::get('/shop', function () {
 //    return view('shop');
