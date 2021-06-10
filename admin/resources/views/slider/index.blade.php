@@ -70,14 +70,14 @@
                 },
 
                 columns: [
-                    {title:'ID', data: 'sliderId', name: 'sliderId', class: 'text-center'},
+                    // {title:'ID', data: 'sliderId', name: 'sliderId', class: 'text-center'},
                     {title:'Main Text', data: 'mainText', name: 'mainText', class: 'text-center'},
                     {title:'Sub Text', data: 'subText', name: 'subText', class: 'text-center'},
                     {title:'Image', data: 'image', name: 'image', class: 'text-center'},
                     {title:'Status',data: 'status', name: 'status', class: 'text-center'},
                     {title:'Action', data: function (data) {
-                        return '<a class="btn btn-info btn-sm" data-panel-id="' + data.sliderId + '" onclick="editSlider(this)"><i class="ft-edit"></i></a>' 
-                            // '<button type="button" class="btn btn-danger btn-sm" data-panel-id2="' + data.hotDealsId + '" onclick="deleteDeals(this)"> <i class="fa fa-trash "></i> </button>'
+                        return '<a class="btn btn-info btn-sm" data-panel-id="' + data.sliderId + '" onclick="editSlider(this)"><i class="ft-edit"></i></a>'+
+                        ' <a title="delete" class="btn btn-danger btn-sm" data-panel-id="' + data.sliderId + '" onclick="deleteSlider(this)"><i class="ft-trash-2"></i></a>'
                             ;
                     }
                     }
@@ -93,5 +93,23 @@
             var newUrl = url.replace(':id', id);
             window.location.href = newUrl;
         }
+
+        function deleteSlider(x) {
+            sliderId = $(x).data('panel-id');
+            if(!confirm("Delete This Category?")){
+                return false;
+            }
+            $.ajax({
+                type: 'POST',
+                url: "{!! route('slider.delete') !!}",
+                cache: false,
+                data: {_token: "{{csrf_token()}}",'sliderId': sliderId},
+                success: function (data) {
+                    toastr.success('Slider deleted Successfully');
+                    $('#sliderTable').DataTable().clear().draw();
+                }
+            });
+        }
+
     </script>
 @endsection

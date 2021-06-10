@@ -352,6 +352,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('slider-add', [SLiderController::class,'add'])->name('add');
         Route::post('slider-add',[SLiderController::class,'store'])->name('store');
         Route::get('slider-edit/{id}', [SLiderController::class,'edit'])->name('edit');
+        Route::post('delete', [SLiderController::class, 'delete'])->name('delete');
     });
 
     //page
