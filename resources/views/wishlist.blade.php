@@ -37,7 +37,7 @@
                                             <a href="{{route('product.details',$item->sku->skuId)}}">add to cart</a>
                                         </td>
                                         <td class="product-wishlist-cart">
-                                            <a  href="{{route('wishlistRemove',$item->wishlistId)}}"> <i class="fas fa-trash-alt"></i>  </a>
+                                            <a  href="{{route('wishlistRemove',$item->wishlistId)}}"> <i class="fa fa-trash"></i>  </a>
                                         </td>
                                     </tr>
                                 @endforeach

@@ -191,7 +191,54 @@
     @if(session()->has('warning'))
     toastr.warning('{{session('warning')}}');
     @endif
-  </script>
+
+    function addTocart() {
+        // $.ajax({
+        //     type: "post",
+        //     url: "",
+        //     data:{
+        //         _token:'',
+        //         _sku:sku,
+        //         _quantity:quantity
+        //     },
+        //     success: function (response) {
+        //         console.log('res',response);
+        //         $('#cartPage').empty().html(response.cart)
+        //         $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
+        //         toastr.success('Item added to cart')
+        //     },
+        //     error:(response)=>{
+        //     toastr.error('Out of quantity')
+        //     }
+        // });
+
+
+        let quantity=$('#quantity').val() ;
+        if(quantity && quantity >= 1){
+        }
+        if(!quantity || quantity<1){
+            quantity = 1;
+        }
+        $.ajax({
+            type: "post",
+            url: "{{route('product.addTocart')}}",
+            data:{
+                _token:'{{csrf_token()}}',
+                _sku:sku,
+                _quantity:quantity
+            },
+            success: function (response) {
+                console.log('res',response);
+                $('#cartPage').empty().html(response.cart)
+                $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
+                toastr.success('Item added to cart')
+            },
+            error:(response)=>{
+            toastr.error('Out of quantity')
+            }
+        });
+    }
+</script>
 @yield('js')
 
 
