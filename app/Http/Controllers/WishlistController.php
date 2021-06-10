@@ -13,7 +13,7 @@ class WishlistController extends Controller
     public function index()
     {
         if(Auth::check()){
-            $wishList=Wishlist::where('fkcustomerId',Auth::user()->userId)->with('product')->get();
+            $wishList=Wishlist::where('fkcustomerId',Auth::user()->userId)->with('sku', 'sku.product')->get();
             return view('wishlist',compact('wishList'));
         }else{
             return redirect('login');
@@ -23,11 +23,10 @@ class WishlistController extends Controller
 
    public function AddToWishlist($id)
    {
-
        if (auth()->check()) {
            $sku = Sku::where('skuId', $id)->first();
            $wishList=new Wishlist();
-           $wishList->fkproductId=$sku->fkproductId;
+           $wishList->fkproductId=$id;
            $wishList->fkcustomerId=Auth::user()->userId;
            $wishList->save();
            Session::flash('success','Item added to wishlist');

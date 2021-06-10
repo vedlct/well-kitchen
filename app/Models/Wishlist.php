@@ -15,6 +15,12 @@ class Wishlist extends Model
     public function product()
     {
         return $this->hasOne('App\Models\Product','productId','fkproductId');
-     
+
+    }
+
+    public function sku()
+    {
+        return $this->hasOne('App\Models\Sku','skuId','fkproductId');
+
     }
 }

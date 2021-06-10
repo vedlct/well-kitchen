@@ -492,17 +492,18 @@
                 </div>
                 <div class="tab-pane" id="product-3">
                     <div class="row">
-                        @foreach ($recommendedProduct as $item)
+                        @foreach ($skus->unique('fkproductId') as $sku)
+                            @if(!empty($sku->product()) && $sku->product()->first()->isrecommended == 1)
                         <div class="col-6 col-xl-3 col-md-6 col-lg-4 col-sm-6">
                             <div class="product-wrap-5 mb-25">
                                 <div class="product-img">
                                     <a href="{{route('product.details',$sku->skuId)}}">
                                         <img src="{{asset('admin/public/featureImage/'.$sku->product()->first()->featureImage)}}" alt="">
                                     </a>
-                                    <span class="purple">New</span>
+                                    <span class="purple">Feature</span>
                                     <div class="product-action-4">
                                         <div class="pro-same-action pro-wishlist">
-                                            <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a>
+                                            <a title="Wishlist" href="{{route('wishlistAdd', $sku->skuId)}}"><i class="pe-7s-like"></i></a>
                                         </div>
                                         <div class="pro-same-action pro-cart">
                                             <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i></a>
@@ -520,6 +521,7 @@
                                 </div>
                             </div>
                         </div>
+                            @endif
                         @endforeach
 
 
