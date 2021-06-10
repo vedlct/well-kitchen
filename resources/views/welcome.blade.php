@@ -82,7 +82,7 @@
                             <div class="category-name">
                                 <h4 class="mb-0">
                                     <span>Baby Care</span>
-                                    <img src="assets/img/category-img.jpg" class="ml-3" alt="">
+                                    <img src="" class="ml-3" alt="">
                                 </h4>
                             </div>
                         </a>
@@ -92,7 +92,7 @@
                             <div class="category-name">
                                 <h4 class="mb-0">
                                     <span>Baby Care</span>
-                                    <img src="assets/img/category-img.jpg" class="ml-3" alt="">
+                                    <img src="" class="ml-3" alt="">
                                 </h4>
                             </div>
                         </a>
@@ -102,7 +102,7 @@
                             <div class="category-name">
                                 <h4 class="mb-0">
                                     <span>Baby Care</span>
-                                    <img src="assets/img/category-img.jpg" class="ml-3" alt="">
+                                    <img src="" class="ml-3" alt="">
                                 </h4>
                             </div>
                         </a>
@@ -112,7 +112,7 @@
                             <div class="category-name">
                                 <h4 class="mb-0">
                                     <span>Baby Care</span>
-                                    <img src="assets/img/category-img.jpg" class="ml-3" alt="">
+                                    <img src="" class="ml-3" alt="">
                                 </h4>
                             </div>
                         </a>
@@ -245,7 +245,7 @@
                                                 <a title="Wishlist" href="{{route('wishlistAdd', $sku->skuId)}}"><i class="pe-7s-like"></i></a>
                                             </div>
                                             <div class="pro-same-action pro-cart">
-                                                <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i></a>
+                                                <a title="Add To Cart" href="#" onclick="addTocart()"><i class="pe-7s-cart"></i></a>
                                             </div>
                                             <div class="pro-same-action pro-quickview">
                                                 <a title="Quick View" href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a>
@@ -506,7 +506,7 @@
                                             <a title="Wishlist" href="{{route('wishlistAdd', $sku->skuId)}}"><i class="pe-7s-like"></i></a>
                                         </div>
                                         <div class="pro-same-action pro-cart">
-                                            <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i></a>
+                                            <a title="Add To Cart" href="#" onclick="addTocart()"><i class="pe-7s-cart"></i></a>
                                         </div>
                                         <div class="pro-same-action pro-quickview">
                                             <a title="Quick View" href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a>
@@ -959,7 +959,7 @@
     <!-- offer product end -->
 
     <!-- testimonial start -->
-    <div class="testimonial-area bg-img pt-100 pb-95" style="background-image:url(assets/img/bg/section-bg-3.png);">
+    <div class="testimonial-area bg-img pt-100 pb-95" style="background-image:url({{url('public/assets/img/bg/section-bg-3.png')}});">
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 ml-auto mr-auto">
@@ -1154,65 +1154,5 @@
     @endsection
 
     @section('js')
-
-    <script>
-
-
-
-
-
-
-        function addTocart(){
-
-
-
-            let qty = 1;
-            let quantity= 1;
-
-
-
-            // $.ajax({
-            //     type: "post",
-            //     url: "{{route('product.addTocart')}}",
-            //     data:{
-            //         _token:'{{csrf_token()}}',
-            //         _sku:sku,
-            //         _quantity:quantity
-            //     },
-            //     success: function (response) {
-            //         console.log('res',response);
-            //         $('#cartPage').empty().html(response.cart)
-            //         $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
-            //         toastr.success('Item added to cart')
-            //     },
-            //     error:(response)=>{
-            //     toastr.error('Out of quantity')
-            //     }
-            // });
-
-            let quantity=$('#quantity').val() ;
-
-            $.ajax({
-                type: "post",
-                url: "{{route('product.addTocart')}}",
-                data:{
-                    _token:'{{csrf_token()}}',
-                    _sku:sku,
-                    _quantity:quantity
-                },
-                success: function (response) {
-                    console.log('res',response);
-                    $('#cartPage').empty().html(response.cart)
-                    $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
-                    toastr.success('Item added to cart')
-                },
-                error:(response)=>{
-                toastr.error('Out of quantity')
-                }
-            });
-        }
-
-    </script>
-
 
     @endsection
