@@ -166,7 +166,7 @@
                                 </a>
                                 <div class="product-action">
                                     <div class="pro-same-action pro-wishlist">
-                                        <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a>
+                                        <a title="Wishlist" href="{{route('wishlistAdd', $sku->skuId)}}"><i class="pe-7s-like"></i></a>
                                     </div>
                                     <div class="pro-same-action pro-cart">
                                         <a title="Add To Cart" href="#" onclick="addTocart()"><i class="pe-7s-cart"></i> Add to cart</a>

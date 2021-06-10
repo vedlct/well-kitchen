@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Category;
 use App\Models\Sku;
 use App\Models\VariationDetails;
 use Illuminate\Http\Request;
@@ -12,8 +13,10 @@ class ProductController extends Controller
     public function productDetails($id)
     {
         $sku = Sku::with('product', 'variationImages')->findOrfail($id);
+        $relatedProducts = Product::where('categoryId', $sku->product->categoryId)->pluck('productId');
+        $skus = Sku::whereIn('fkproductId', $relatedProducts)->with('product')->get()->unique('fkproductId');
         $product = Product::where('productId', $sku->fkproductId)->first();
-        return view('productDetails', compact('sku', 'product'));
+        return view('productDetails', compact('sku', 'product','skus'));
     }
 
     public function colorChoose(Request $request)
