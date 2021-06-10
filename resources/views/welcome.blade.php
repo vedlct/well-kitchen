@@ -177,7 +177,7 @@
                                 </div>
                             </div>
                             <div class="product-content text-center">
-                                <h3><a href="product-details.html">{{$sku->product()->first()->productName}}</a></h3>
+                                <h3><a href="{{route('product.details',$sku->skuId)}}">{{$sku->product()->first()->productName}}</a></h3>
                                 <div class="product-price">
                                         <span>৳  {{$sku->salePrice}}</span>
                                 </div>
