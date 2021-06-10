@@ -40,7 +40,7 @@
                                                    class="table table-striped table-bordered nowrap">
                                                    <thead>
                                                     <tr>
-                                                        <th class="text-center">Serial</th>
+                                                        {{-- <th class="text-center">Serial</th> --}}
                                                         <th class="text-center">Menu Name</th>
                                                         <th class="text-center">Menu Order</th>
                                                         <th class="text-center">Menu Type</th>
@@ -82,7 +82,7 @@
                 },
 
                 columns: [
-                    { data: 'menuId', },
+                    // { data: 'menuId', },
                     { data: 'menuName', },
                     { data: 'menuOrder', },
                     { data: 'menuType', },

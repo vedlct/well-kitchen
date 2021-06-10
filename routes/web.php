@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\WishlistController;
+use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
@@ -26,6 +27,8 @@ Route::post('/search-category-product' ,[CategoryController::class,'searchByProd
     Route::get('add-to-wishlist/{id}',[WishlistController::class,'AddToWishlist'])->name('wishlistAdd');
     Route::get('remove-wishlist/{id}',[WishlistController::class,'RemoveItem'])->name('wishlistRemove');
 
+
+    Route::get('page/{id}',[PageController::class,'index'])->name('page');
 
 Route::get('/wishlist', function () {
     return view('wishlist');

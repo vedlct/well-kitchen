@@ -10,9 +10,14 @@ use Illuminate\Support\Facades\Session;
 class WishlistController extends Controller
 {
     public function index()
-    {
-        $wishList=Wishlist::where('fkcustomerId',Auth::user()->userId)->with('product')->get();
-        return view('wishlist',compact('wishList'));
+    { 
+        if(Auth::check()){
+            $wishList=Wishlist::where('fkcustomerId',Auth::user()->userId)->with('product')->get();
+            return view('wishlist',compact('wishList'));
+        }else{
+            return redirect('login');
+        }
+       
     }
 
    public function AddToWishlist($id)

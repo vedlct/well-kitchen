@@ -301,7 +301,9 @@
                         <div class="main-menu">
                             <nav>
                                 <ul>
-                                    <li><a href="{{url('/')}}">Home</a>
+                                    @foreach($menu->where('menuType','Header')->sortByDesc('menuOrder')->take(8) as $headerMenu) 
+                                    
+                                    {{-- <li><a href="{{url('/')}}">Home</a>
                                     </li>
                                     <li><a href="{{route('category.products')}}">Collection</a></li>
                                     <li><a href="{{url('/about')}}"> About </a></li>
@@ -319,7 +321,9 @@
                                             <li><a href="{{url('/faq')}}">FAQ</a></li>
                                             <li><a href="404.html">404 page </a></li>
                                         </ul>
-                                    </li>
+                                    </li> --}}
+                                        <li><a href="{{route('page',$headerMenu->fkpageId)}}">{{$headerMenu->menuName}}</a>
+                                    @endforeach
                                 </ul>
                             </nav>
                         </div>

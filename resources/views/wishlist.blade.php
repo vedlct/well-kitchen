@@ -21,7 +21,6 @@
                             </thead>
                             <tbody>
                                 @foreach ($wishList as $item)
-                                 
                                     <tr>
                                         <td class="product-thumbnail">
                                             <a href="#"><img src="{{('admin/public/featureImage/'.$item->product->featureImage)}}" alt=""></a>
@@ -35,15 +34,13 @@
                                         </td>
                                         <td class="product-subtotal">$110.00</td>
                                         <td class="product-wishlist-cart">
-                                            <a href="#">add to cart</a>
+                                            <a href="{{route('product.details',$item->product->productId)}}">add to cart</a>
                                         </td>
                                         <td class="product-wishlist-cart">
                                             <a  href="{{route('wishlistRemove',$item->wishlistId)}}"> <i class="fas fa-trash-alt"></i>  </a>
                                         </td>
                                     </tr>    
                                 @endforeach
-                                
-                                
                             </tbody>
                         </table>
                     </div>
