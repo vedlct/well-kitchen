@@ -255,13 +255,12 @@
                                     <div class="product-content-5 text-center">
                                         <h3><a href="product-details.html">{{$sku->product()->first()->productName}}</a></h3>
                                         <div class="price-5">
-                                            @foreach ($sku->where('fkproductId', $item->productId) as $skuPrice)
-                                                <span>৳  {{$skuPrice->salePrice}}</span>
-                                            @endforeach
+                                                <span>৳  {{$sku->salePrice}}</span>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            @endif
                        @endforeach
 
 

@@ -24,7 +24,7 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{asset('public/assets/css/custom.css')}}">
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+{{--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">--}}
 </head>
 
 <body class="position-relative">
@@ -161,8 +161,8 @@
                                             <li><a href="{{url('login')}}">Login/Register</a></li>
                                         @else
                                         <li><a href="">Hello,{{Auth::user()->firstName}}</a></li>
-                                            
-                                       @endif 
+
+                                       @endif
                                         <li><a href="{{url('my-order')}}">My Orders</a></li>
                                         <li><a href="{{url('my-account')}}">my account</a></li>
                                         <li><a href="{{route('logout')}}"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
@@ -301,8 +301,8 @@
                         <div class="main-menu">
                             <nav>
                                 <ul>
-                                    @foreach($menu->where('menuType','Header')->sortByDesc('menuOrder')->take(8) as $headerMenu) 
-                                    
+                                    @foreach($menu->where('menuType','Header')->sortByDesc('menuOrder')->take(8) as $headerMenu)
+
                                     {{-- <li><a href="{{url('/')}}">Home</a>
                                     </li>
                                     <li><a href="{{route('category.products')}}">Collection</a></li>
