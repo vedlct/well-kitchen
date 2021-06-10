@@ -301,6 +301,7 @@
                         <div class="main-menu">
                             <nav>
                                 <ul>
+                                    <li><a href="{{url('/')}}">Home</a>
                                     @foreach($menu->where('menuType','Header')->sortByDesc('menuOrder')->take(8) as $headerMenu) 
                                     
                                     {{-- <li><a href="{{url('/')}}">Home</a>
