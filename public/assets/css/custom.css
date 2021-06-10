@@ -372,7 +372,7 @@ ul.menuH ul {
 /* zoom image */
 .product-details .zoom {
 	background-repeat: no-repeat;
-	max-width: 500px;
+	max-width: 100%;
 	overflow: hidden;
 	cursor: zoom-in;
 	margin: auto;

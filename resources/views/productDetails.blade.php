@@ -23,20 +23,27 @@
             <div class="col-lg-6 col-md-6">
                 <div class="product-details">
                     <div class="product-details-img">
-                        <div class="tab-content jump">
+                        <div class="tab-content jump mb-4">
                             @foreach ($product->images as $key=>$itemImg)
                             <div id="shop-details-{{$key}}" class="zoom tab-pane {{$key == 0 ? 'active' : '' }} large-img-style" style="background-image: url({{asset('admin/public/productImages/'.$itemImg->image)}});">
                                 <img src="{{asset('admin/public/productImages/'.$itemImg->image)}}" alt="">
                             </div>
                             @endforeach
                         </div>
-                        <div class="shop-details-tab nav">
+                        <div class="quickview-slide-active owl-carousel nav nav-style-1">
                             @foreach ($product->images as $key=>$itemImg)
                                 <a class="shop-details-overly {{$key == 0 ? 'active' : '' }}" href="#shop-details-{{$key}}" data-toggle="tab">
                                     <img src="{{asset('admin/public/productImages/'.$itemImg->image)}}" alt="">
                                 </a>
                             @endforeach
                         </div>
+                        {{-- <div class="shop-details-tab nav">
+                           @foreach ($product->images as $key=>$itemImg)
+                                <a class="shop-details-overly {{$key == 0 ? 'active' : '' }}" href="#shop-details-{{$key}}" data-toggle="tab">
+                                    <img src="{{asset('admin/public/productImages/'.$itemImg->image)}}" alt="">
+                                </a>
+                            @endforeach
+                        </div>  --}}
 
                     </div>
                 </div>
