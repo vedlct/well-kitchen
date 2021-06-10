@@ -57,7 +57,7 @@
                     <div class="col-lg-4 col-md-6">
                         <div class="discount-code-wrapper">
                             <div class="title-wrap">
-                            <h4 class="cart-bottom-title section-bg-gray">Use Coupon Code</h4> 
+                            <h4 class="cart-bottom-title section-bg-gray">Use Coupon Code</h4>
                             </div>
                             <div class="discount-code">
                                 <p>Enter your coupon code if you have one.</p>
@@ -111,9 +111,9 @@
                 }
             });
         }
-        
+
         function quantityUpdate(data,id){
-            
+
             var value = parseInt($(`#qtyBtn${data}`).val());
             // console.log(value);
             $.ajax({

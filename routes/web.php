@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\WishlistController;
@@ -19,6 +20,14 @@ Route::get('/checkout' ,[HomeController::class,'index'])->name('checkout.index')
 Route::post('add-to-cart',[HomeController::class,'addToCart'])->name('product.addTocart');
 Route::post('cart-remove',[HomeController::class,'removeItem'])->name('product.cartRemove');
 Route::post('cart-update-quantity',[HomeController::class,'updateQuantity'])->name('product.cartUpdateQuantity');
+
+
+//product
+Route::get('product-details/{id}', [ProductController::class, 'productDetails'])->name('product.details');
+Route::post('variation/color/choose',[ProductController::class,'colorChoose'])->name('color.choose');
+Route::post('variation/size/choose',[ProductController::class,'sizeChoose'])->name('size.choose');
+
+
 
 //Search
 Route::post('/search-category-product' ,[CategoryController::class,'searchByProducts'])->name('search.product');
@@ -46,7 +55,9 @@ Route::get('/my-account', function () {
     return view('myAccount');
 });
 
-
+Route::get('/login', function () {
+    return view('login');
+});
 
 Route::get('/faq', function () {
     return view('faq');
@@ -67,7 +78,3 @@ Route::get('/cart', function () {
 Route::get('/checkout', function () {
     return view('checkout');
 });
-
-
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

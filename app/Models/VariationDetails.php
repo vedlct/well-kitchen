@@ -16,4 +16,8 @@ class VariationDetails extends Model
     {
         return $this->hasOne('App\Models\Variation', 'variationId', 'variationData');
     }
+
+    public function sku(){
+        return $this->hasOne('App\Models\Sku', 'skuId', 'skuId');
+    }
 }

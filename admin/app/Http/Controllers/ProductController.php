@@ -117,7 +117,7 @@ class ProductController extends Controller
                 $originalExtension = $vimage->getClientOriginalExtension();
                 $uniqueImageName = rand(100, 999).'.'.$originalExtension;
                 $image = Image::make($vimage);
-                $image->save(public_path().'/variationImage/'.$uniqueImageName);
+                $image->save(public_path().'/productImages/'.$uniqueImageName);
                 $data[] = $uniqueImageName;
             }
         }
@@ -249,7 +249,7 @@ class ProductController extends Controller
                         $productImage->fkskuId = $sku->skuId;
                         $productImage->fkProductId = $product->productId;
                         $productImage->imageType = substr(strrchr($vimage, '.'), 1);
-                        rename(public_path().'/variationImage/'.$vimage, public_path().'/variationImage/'.$sku->skuId.$vimage);
+                        rename(public_path().'/productImages/'.$vimage, public_path().'/productImages/'.$sku->skuId.$vimage);
                         $productImage->image = $sku->skuId.$vimage;
                         $productImage->save();
                     }
@@ -370,7 +370,6 @@ class ProductController extends Controller
                 $productImage->imageType = $originalExtension;
                 $uniqueImageName = $sku->skuId.rand(100, 999).'.'.$originalExtension;
                 $image = Image::make($vimage);
-                $image->save(public_path().'/variationImage/'.$uniqueImageName);
                 $image->save(public_path().'/productImages/'.$uniqueImageName);
                 $productImage->image = $uniqueImageName;
                 $productImage->save();
@@ -438,7 +437,6 @@ class ProductController extends Controller
                 $productImage->imageType = $originalExtension;
                 $uniqueImageName = $sku->skuId.rand(100, 999).'.'.$originalExtension;
                 $image = Image::make($vimage);
-                $image->save(public_path().'/variationImage/'.$uniqueImageName);
                 $image->save(public_path().'/productImages/'.$uniqueImageName);
                 $productImage->image = $uniqueImageName;
                 $productImage->save();

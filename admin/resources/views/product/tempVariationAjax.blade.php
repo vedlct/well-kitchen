@@ -69,7 +69,7 @@
                         <td>
                             @foreach ($sku->variationImages as $vimage)
                                 <div class="variation-img position-relative d-inline-block">
-                                    <img  class="variationImg" src="{{ url('public/variationImage', $vimage->image) }}" width="50px" alt="Variation Image">
+                                    <img  class="variationImg" src="{{ url('public/productImages', $vimage->image) }}" width="50px" alt="Variation Image">
                                     <div class="overlay d-none">
                                         <a href="{{ route('product.variation.image.delete', $vimage->product_imageId) }}" class="icon" title="Variation Image">
                                             <i class="ft ft-trash-2 delete-icon"></i>
@@ -100,7 +100,7 @@
                         <td>
                             @if(!empty($product_variation->variationImage))
                             @foreach (json_decode($product_variation->variationImage) as $vimage)
-                                <img src="{{ url('public/variationImage', $vimage) }}" width="50px" alt="Variation Image">
+                                <img src="{{ url('public/productImages', $vimage) }}" width="50px" alt="Variation Image">
                             @endforeach
                             @else
                                 null

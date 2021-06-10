@@ -32,10 +32,11 @@ class Sku extends Model
     }
 
     public function variationImages(){
+
         return $this->hasMany('App\Models\ProductImages', 'fkskuId', 'skuId');
     }
 
-    public function variationImage(){
-        return $this->hasOne('App\Models\ProductImages', 'fkskuId', 'skuId');
-    }
+//    public function variationImage(){
+//        return $this->hasOne('App\Models\ProductImages', 'fkskuId', 'skuId');
+//    }
 }
