@@ -56,13 +56,27 @@
                     </div>
                     <div class="pro-details-rating-wrap">
                         <div class="pro-details-rating">
-                            <i class="fa fa-star-o yellow"></i>
-                            <i class="fa fa-star-o yellow"></i>
-                            <i class="fa fa-star-o yellow"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
+                            {{-- @dd($product->review->count()); --}}
+                            @if($product->review->count()>0)
+                           
+                                    @for ($i = 0; $i < ceil($product->review->avg('rating')); $i++)
+                                        <i class="fa fa-star-o yellow"></i>
+                                    @endfor
+                                    @for ($i = 0; $i < $count=4-($product->review->avg('rating')); $i++)
+                                        <i class="fa fa-star-o red"></i>
+                                    @endfor
+                                @else
+                                
+                                <i class="fa fa-star-o yellow"></i>
+                                <i class="fa fa-star-o yellow"></i>
+                                <i class="fa fa-star-o yellow"></i>
+                                <i class="fa fa-star-o yellow"></i>
+                                <i class="fa fa-star-o yellow"></i>
+                                @endif
+                            
                         </div>
-                        <span><a href="#">3 Reviews</a></span>
+                        {{-- @dd($product); --}}
+                        <span><a href="#">{{$product->review->count()}} Reviews</a></span>
                     </div>
                     <p>{!! $product->details->fabricDetails !!}</p>
 
@@ -155,7 +169,7 @@
             <div class="description-review-topbar nav">
                 <a data-toggle="tab" href="#des-details1">Additional information</a>
                 <a class="active" data-toggle="tab" href="#des-details2">Description</a>
-                <a data-toggle="tab" href="#des-details3">Reviews (2)</a>
+                <a data-toggle="tab" href="#des-details3">Reviews ( {{$product->review->count()}} )</a>
             </div>
             <div class="tab-content description-review-bottom">
                 <div id="des-details2" class="tab-pane active">
@@ -177,65 +191,51 @@
                     <div class="row">
                         <div class="col-lg-7">
                             <div class="review-wrapper">
-                                <div class="single-review">
-                                    <div class="review-img">
-{{--                                        <img src="assets/img/testimonial/1.jpg" alt="">--}}
-                                    </div>
-                                    <div class="review-content">
-                                        <div class="review-top-wrap">
-                                            <div class="review-left">
-                                                <div class="review-name">
-                                                    <h4>White Lewis</h4>
-                                                </div>
-                                                <div class="review-rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                            </div>
+                                {{-- @dd($product->review->where('fkproductId',$product->productId)) --}}
+                               @foreach ($product->review as $item)
+                                {{-- @dd($item->where('fkproduct',$product->productId)); --}}
+                                    <div class="single-review">
+                                        <div class="review-img">
+                                        <img src="assets/img/testimonial/1.jpg" alt="">
                                         </div>
-                                        <div class="review-bottom">
-                                            <p>Vestibulum ante ipsum primis aucibus orci luctustrices posuere
-                                                cubilia Curae Suspendisse viverra ed viverra. Mauris ullarper
-                                                euismod vehicula. Phasellus quam nisi, congue id nulla.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single-review">
-                                    <div class="review-img">
-{{--                                        <img src="assets/img/testimonial/2.jpg" alt="">--}}
-                                    </div>
-                                    <div class="review-content">
-                                        <div class="review-top-wrap">
-                                            <div class="review-left">
-                                                <div class="review-name">
-                                                    <h4>White Lewis</h4>
-                                                </div>
-                                                <div class="review-rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
+                                        <div class="review-content">
+                                            <div class="review-top-wrap">
+                                                <div class="review-left">
+                                                    <div class="review-name">
+                                                       
+                                                        {{-- @php
+                                                            $name = $item->customer->user->firstName;
+                                                           
+                                                        @endphp --}}
+                                                         {{-- @dd($name); --}}
+                                                         {{-- {{$name}} --}}
+                                                        <h4>jhon doe</h4>
+                                                        {{-- <h4>{{dd($item->customer)}}</h4> --}}
+                                                    </div>
+                                                    <div class="review-rating">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="review-bottom">
-                                            <p>Vestibulum ante ipsum primis aucibus orci luctustrices posuere
-                                                cubilia Curae Sus pen disse viverra ed viverra. Mauris ullarper
-                                                euismod vehicula. </p>
+                                            <div class="review-bottom">
+                                                <p>{{$item->review}}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endforeach 
                             </div>
                         </div>
                         <div class="col-lg-5">
                             <div class="ratting-form-wrapper pl-50">
                                 <h3>Add a Review</h3>
                                 <div class="ratting-form">
-                                    <form action="#">
+                                    <form  method="POST" action="{{route('review.submit')}}">
+                                        @csrf
+                                        <input type="hidden" name="productId" value="{{$product->productId}}">
                                         <div class="star-box">
                                             <span>Your rating:</span>
                                             <div class="star-rating">
@@ -247,7 +247,7 @@
                                                 <label for="3-stars" class="star">&#9733;</label>
                                                 <input type="radio" id="2-stars" name="rating" value="2" />
                                                 <label for="2-stars" class="star">&#9733;</label>
-                                                <input type="radio" id="1-star" name="rating" value="1" />
+                                                <input type="radio" id="1-star" name="rating" value="1" required/>
                                                 <label for="1-star" class="star">&#9733;</label>
                                             </div>
                                         </div>
@@ -264,7 +264,7 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="rating-form-style form-submit">
-                                                    <textarea name="Your Review" placeholder="Message"></textarea>
+                                                    <textarea name="review" placeholder="Message" required></textarea>
                                                     <input type="submit" value="Submit">
                                                 </div>
                                             </div>
@@ -288,133 +288,36 @@
             <h2>Related Products</h2>
         </div>
         <div class="product-slider-active-2 owl-carousel owl-dot-none">
-            <div class="product-wrap mb-25">
-                <div class="product-img">
-                    <a href="product-details.html">
-{{--                        <img class="default-img" src="assets/img/product/hm29-pro-9.jpg" alt="">--}}
-                    </a>
-                    <span class="purple">New</span>
-                    <div class="product-action">
-                        <div class="pro-same-action pro-wishlist">
-                            <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a>
+            {{-- @dd($skus); --}}
+            @foreach ($skus as $sku)
+                {{-- @dd($sku->product);                 --}}
+            
+                <div class="product-wrap mb-25">
+                    <div class="product-img">
+                        <a href="{{route('product.details',$sku->skuId)}}">
+                           <img class="default-img" src="{{asset('admin/public/featureImage/'.$sku->product->featureImage)}}" alt="">
+                        </a>
+                        <span class="purple">New</span>
+                        <div class="product-action">
+                            <div class="pro-same-action pro-wishlist">
+                                <a title="Wishlist" href="{{route('wishlistAdd', $sku->skuId)}}"><i class="pe-7s-like"></i></a>
+                            </div>
+                            <div class="pro-same-action pro-cart">
+                                <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a>
+                            </div>
+                            <div class="pro-same-action pro-quickview">
+                                <a href="#" data-toggle="modal" data-target="#quickView"><i class="pe-7s-look"></i></a>
+                            </div>
                         </div>
-                        <div class="pro-same-action pro-cart">
-                            <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a>
-                        </div>
-                        <div class="pro-same-action pro-quickview">
-                            <a href="#" data-toggle="modal" data-target="#quickView"><i class="pe-7s-look"></i></a>
+                    </div>
+                    <div class="product-content text-center">
+                        <h3><a href="{{route('product.details',$sku->skuId)}}">{{$sku->product->productName}}</a></h3>
+                        <div class="product-price">
+                            <span>৳ {{$sku->salePrice}}</span>
                         </div>
                     </div>
                 </div>
-                <div class="product-content text-center">
-                    <h3><a href="product-details.html">Product Title Here</a></h3>
-                    <div class="product-price">
-                        <span>৳ 60.00</span>
-                    </div>
-                </div>
-            </div>
-            <div class="product-wrap mb-25">
-                <div class="product-img">
-                    <a href="product-details.html">
-{{--                        <img class="default-img" src="assets/img/product/hm29-pro-10.jpg" alt="">--}}
-                    </a>
-                    <span class="pink">-10%</span>
-                    <div class="product-action">
-                        <div class="pro-same-action pro-wishlist">
-                            <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a>
-                        </div>
-                        <div class="pro-same-action pro-cart">
-                            <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a>
-                        </div>
-                        <div class="pro-same-action pro-quickview">
-                            <a href="#" data-toggle="modal" data-target="#quickView"><i class="pe-7s-look"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-content text-center">
-                    <h3><a href="product-details.html">Product Title Here</a></h3>
-                    <div class="product-price">
-                        <span>৳ 60.00</span>
-                        <span class="old">৳ 60.00</span>
-                    </div>
-                </div>
-            </div>
-            <div class="product-wrap mb-25">
-                <div class="product-img">
-                    <a href="product-details.html">
-{{--                        <img class="default-img" src="assets/img/product/hm29-pro-11.jpg" alt="">--}}
-                    </a>
-                    <span class="purple">New</span>
-                    <div class="product-action">
-                        <div class="pro-same-action pro-wishlist">
-                            <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a>
-                        </div>
-                        <div class="pro-same-action pro-cart">
-                            <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a>
-                        </div>
-                        <div class="pro-same-action pro-quickview">
-                            <a href="#" data-toggle="modal" data-target="#quickView"><i class="pe-7s-look"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-content text-center">
-                    <h3><a href="product-details.html">Product Title Here</a></h3>
-                    <div class="product-price">
-                        <span>৳ 60.00</span>
-                    </div>
-                </div>
-            </div>
-            <div class="product-wrap mb-25">
-                <div class="product-img">
-                    <a href="product-details.html">
-{{--                        <img class="default-img" src="assets/img/product/hm29-pro-12.jpg" alt="">--}}
-                    </a>
-                    <span class="pink">-10%</span>
-                    <div class="product-action">
-                        <div class="pro-same-action pro-wishlist">
-                            <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a>
-                        </div>
-                        <div class="pro-same-action pro-cart">
-                            <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a>
-                        </div>
-                        <div class="pro-same-action pro-quickview">
-                            <a href="#" data-toggle="modal" data-target="#quickView"><i class="pe-7s-look"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-content text-center">
-                    <h3><a href="product-details.html">Product Title Here</a></h3>
-                    <div class="product-price">
-                        <span>৳ 60.00</span>
-                        <span class="old">৳ 60.00</span>
-                    </div>
-                </div>
-            </div>
-            <div class="product-wrap mb-25">
-                <div class="product-img">
-                    <a href="product-details.html">
-{{--                        <img class="default-img" src="assets/img/product/hm29-pro-10.jpg" alt="">--}}
-                    </a>
-                    <span class="purple">New</span>
-                    <div class="product-action">
-                        <div class="pro-same-action pro-wishlist">
-                            <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a>
-                        </div>
-                        <div class="pro-same-action pro-cart">
-                            <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a>
-                        </div>
-                        <div class="pro-same-action pro-quickview">
-                            <a href="#" data-toggle="modal" data-target="#quickView"><i class="pe-7s-look"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="product-content text-center">
-                    <h3><a href="product-details.html">Product Title Here</a></h3>
-                    <div class="product-price">
-                        <span>৳ 60.00</span>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
 </div>

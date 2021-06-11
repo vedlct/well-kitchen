@@ -35,5 +35,9 @@ class Product extends Model
      {
          return $this->hasOne('App\Models\ProductDetails', 'productId', 'productId');
      }
+     public function review()
+     {
+        return $this->hasMany(Review::class,'fkproductId','productId');
+     }
 
 }

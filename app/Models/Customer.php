@@ -19,6 +19,7 @@ class Customer extends Model
     public function user()
     {
         return $this->hasOne('App\Models\User', 'userId', 'fkuserId');
+        // return $this->hasOne('App\Models\User', 'fkuserId', 'userId');
     }
 
     public function address()
@@ -35,6 +36,11 @@ class Customer extends Model
     {
         return $this->membership()->where('fkcustomerId',$id)->sum('point');
     }
+
+    // public function reviews()
+    // {
+    //     return $this->hasMany('App\Models\Review','idreviews','customerId');
+    // }
 
     // public function balance()
     // {

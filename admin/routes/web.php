@@ -352,6 +352,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('slider-add', [SLiderController::class,'add'])->name('add');
         Route::post('slider-add',[SLiderController::class,'store'])->name('store');
         Route::get('slider-edit/{id}', [SLiderController::class,'edit'])->name('edit');
+        Route::post('delete', [SLiderController::class, 'delete'])->name('delete');
     });
 
     //page
@@ -383,6 +384,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('shipping-list',[ShippingController::class,'list'])->name('list');
         Route::get('shipping-add', [ShippingController::class,'create'])->name('add');
         Route::post('shipping-add',[ShippingController::class,'store'])->name('store');
+        Route::post('/shipping-change-status',[ShippingController::class,'shippingChangeStatus'])->name('change.status');
     });
 });
 

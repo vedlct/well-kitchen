@@ -6,7 +6,7 @@ use App\Models\Slider;
 use datatables;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
-
+use File;
 class SLiderController extends Controller
 {
     public function index()
@@ -75,4 +75,33 @@ class SLiderController extends Controller
 
         return view('slider.edit', compact('slider'));
     }
+
+    public function delete(Request $request){
+        // dd($request->sliderId);
+        // $slider = Slider::where('sliderId', $request->sliderId)->first();
+        // dd($slider);
+        $slider = Slider::findOrFail($request->sliderId)->first();
+        $slider->delete();
+
+        if(\File::exists(public_path('/sliderImage/'.$slider->imageLink))){
+ 
+            \File::delete(public_path('/sliderImage/'.$slider->imageLink));
+        
+          }else{
+        
+            dd('File does not exists.');
+        
+          }
+ 
+         $slider = Slider::get();
+         return response()->json();
+        // return redirect('favourite')->with('success', true);
+    
+// $file_path = public_path().'/sliderImage/'.$slider->imageLink;
+        // File::delete($file_path);
+        // $slider->delete();
+        // return response()->json();
+
+    }
+
 }

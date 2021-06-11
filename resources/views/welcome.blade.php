@@ -4,38 +4,24 @@
     <!-- banner slider start -->
     <div class="slider-area">
         <div class="slider-active owl-carousel nav-style-1 owl-dot-none">
-            <div class="single-slider-2 slider-height-20 d-flex align-items-center slider-height-res bg-img" style="background-image:url(public/assets/img/slider/slider-20-1.jpg);">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="slider-content-20 slider-animated-1">
-                                <h3 class="animated">Hurry Up</h3>
-                                <h1 class="animated">Get 50% Offer</h1>
-                                <p class="animated">All Electronic Products & Instrument For This Summer.</p>
-                                <div class="slider-btn slider-btn-round btn-hover">
-                                    <a class="animated" href="shop.html">SHOP NOW</a>
+            @foreach ($sliders as $slider)
+                <div class="single-slider-2 slider-height-20 d-flex align-items-center slider-height-res bg-img" style="background-image:url('{{('admin/public/sliderImage/'.$slider->imageLink)}}');">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="slider-content-20 slider-animated-1">
+                                    <h3 class="animated">Hurry Up</h3>
+                                    <h1 class="animated">{{$slider->subText}}</h1>
+                                    <p class="animated">{{$slider->mainText}}</p>
+                                    <div class="slider-btn slider-btn-round btn-hover">
+                                        <a class="animated" href="shop.html">SHOP NOW</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="single-slider-2 slider-height-20 d-flex align-items-center slider-height-res bg-img" style="background-image:url(public/assets/img/slider/slider-20-1.jpg);">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="slider-content-20 slider-animated-1">
-                                <h3 class="animated">Hurry Up</h3>
-                                <h1 class="animated">Get 50% Offer</h1>
-                                <p class="animated">All Electronic Products & Instrument For This Summer.</p>
-                                <div class="slider-btn slider-btn-round btn-hover">
-                                    <a class="animated" href="shop.html">SHOP NOW</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
 
@@ -166,7 +152,7 @@
                                 </a>
                                 <div class="product-action">
                                     <div class="pro-same-action pro-wishlist">
-                                        <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a>
+                                        <a title="Wishlist" href="{{route('wishlistAdd', $sku->skuId)}}"><i class="pe-7s-like"></i></a>
                                     </div>
                                     <div class="pro-same-action pro-cart">
                                         @if($sku->product()->first()->type == "single")
