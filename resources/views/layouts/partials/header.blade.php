@@ -80,10 +80,10 @@
                     </a>
                 </div>
                 <p class="p-2 pl-3 m-0">
-                    <i class="fa fa-phone-square"></i> +8801654332233
+                    <i class="fa fa-phone-square"></i> {{$setting->phone}}
                 </p>
                 <p class="p-2 pl-3 m-0">
-                    <i class="fa fa-envelope"></i> wellkitchen@mail.com
+                    <i class="fa fa-envelope"></i> {{$setting->email}}
                 </p>
                 <p class="p-2 pl-3">
                     FAQ ?
@@ -100,7 +100,7 @@
                 <div class="header-top-wap">
                     <div class="language-currency-wrap">
                         <div class="same-language-currency">
-                            <p class="contact">Call Us +8801654332233</p>
+                            <p class="contact">Call Us {{$setting->phone}}</p>
                         </div>
                     </div>
                     <div class="header-offer">
@@ -121,7 +121,7 @@
                             </span>
                             <!-- logo -->
                             <a href="{{url('/')}}">
-                                <img alt="" src="{{asset('public/assets/img/logo/logo.png')}}">
+                                <img alt="" src="{{asset('admin/public/settingImage/'.$setting->imageLink)}}">
                             </a>
                         </div>
                     </div>

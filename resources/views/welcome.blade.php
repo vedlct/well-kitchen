@@ -22,22 +22,6 @@
                     </div>
                 </div>
             @endforeach
-            {{-- <div class="single-slider-2 slider-height-20 d-flex align-items-center slider-height-res bg-img" style="background-image:url(public/assets/img/slider/slider-20-1.jpg);">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="slider-content-20 slider-animated-1">
-                                <h3 class="animated">Hurry Up</h3>
-                                <h1 class="animated">Get 50% Offer</h1>
-                                <p class="animated">All Electronic Products & Instrument For This Summer.</p>
-                                <div class="slider-btn slider-btn-round btn-hover">
-                                    <a class="animated" href="shop.html">SHOP NOW</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> --}}
         </div>
     </div>
 

@@ -7,10 +7,10 @@
                     <div class="copyright mb-30">
                         <div class="footer-logo">
                             <a href="{{url('/')}}">
-                                <img alt="" class="img-fluid" src="{{asset('public/assets/img/logo/logo.png')}}">
+                                <img alt="" class="img-fluid" src="{{asset('admin/public/settingImage/'.$setting->imageLink)}}">
                             </a>
                         </div>
-                        <p>© 2021 <a href="#">Well Kitchen</a><br> All Rights Reserved</p>
+                        <p>© 2021 <a href="#">{{$setting->companyName}}</a><br> All Rights Reserved</p>
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-4">
@@ -20,9 +20,9 @@
                         </div>
                         <div class="footer-list">
                             <ul>
-                                <li><a href="{{url('/about')}}">About us</a></li>
-                                <li><a href="{{url('/contact')}}">Contact</a></li>
-                                <li><a href="{{url('/faq')}}">FAQ</a></li>
+                                @foreach($menu->where('menuType','Footer')->sortByDesc('menuOrder')->take(4) as $footerMenu)
+                                <li><a href="{{route('page',$footerMenu->fkpageId)}}">{{$footerMenu->menuName}}</a></li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
                         </div>
                         <div class="footer-list">
                             <ul>
-                                <li><a href="#">Facebook</a></li>
+                                <li><a href="">Facebook</a></li>
                                 <li><a href="#">Twitter</a></li>
                                 <li><a href="#">Instagram</a></li>
                                 <li><a href="#">Youtube</a></li>

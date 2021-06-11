@@ -15,7 +15,7 @@ class ProductController extends Controller
         $sku = Sku::with('product', 'variationImages')->findOrfail($id);
         $relatedProducts = Product::where('categoryId', $sku->product->categoryId)->pluck('productId');
         $skus = Sku::whereIn('fkproductId', $relatedProducts)->with('product')->get()->unique('fkproductId');
-        $product = Product::where('productId', $sku->fkproductId)->first();
+        $product = Product::where('productId', $sku->fkproductId)->with('review')->first();
         return view('productDetails', compact('sku', 'product','skus'));
     }
 

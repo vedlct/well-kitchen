@@ -62,7 +62,8 @@
                             <i class="fa fa-star-o"></i>
                             <i class="fa fa-star-o"></i>
                         </div>
-                        <span><a href="#">3 Reviews</a></span>
+                        {{-- @dd($product); --}}
+                        <span><a href="#">{{$product->review->count()}} Reviews</a></span>
                     </div>
                     <p>{!! $product->details->fabricDetails !!}</p>
 
@@ -155,7 +156,7 @@
             <div class="description-review-topbar nav">
                 <a data-toggle="tab" href="#des-details1">Additional information</a>
                 <a class="active" data-toggle="tab" href="#des-details2">Description</a>
-                <a data-toggle="tab" href="#des-details3">Reviews (2)</a>
+                <a data-toggle="tab" href="#des-details3">Reviews ( {{$product->review->count()}} )</a>
             </div>
             <div class="tab-content description-review-bottom">
                 <div id="des-details2" class="tab-pane active">
@@ -177,65 +178,42 @@
                     <div class="row">
                         <div class="col-lg-7">
                             <div class="review-wrapper">
-                                <div class="single-review">
-                                    <div class="review-img">
-{{--                                        <img src="assets/img/testimonial/1.jpg" alt="">--}}
-                                    </div>
-                                    <div class="review-content">
-                                        <div class="review-top-wrap">
-                                            <div class="review-left">
-                                                <div class="review-name">
-                                                    <h4>White Lewis</h4>
-                                                </div>
-                                                <div class="review-rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                            </div>
+                               @foreach ($product->review as $item)
+                               {{-- @dd($item); --}}
+                                    <div class="single-review">
+                                        <div class="review-img">
+                                        <img src="assets/img/testimonial/1.jpg" alt="">
                                         </div>
-                                        <div class="review-bottom">
-                                            <p>Vestibulum ante ipsum primis aucibus orci luctustrices posuere
-                                                cubilia Curae Suspendisse viverra ed viverra. Mauris ullarper
-                                                euismod vehicula. Phasellus quam nisi, congue id nulla.</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single-review">
-                                    <div class="review-img">
-{{--                                        <img src="assets/img/testimonial/2.jpg" alt="">--}}
-                                    </div>
-                                    <div class="review-content">
-                                        <div class="review-top-wrap">
-                                            <div class="review-left">
-                                                <div class="review-name">
-                                                    <h4>White Lewis</h4>
-                                                </div>
-                                                <div class="review-rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
+                                        <div class="review-content">
+                                            <div class="review-top-wrap">
+                                                <div class="review-left">
+                                                    <div class="review-name">
+                                                        <h4>White Lewis</h4>
+                                                    </div>
+                                                    <div class="review-rating">
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                        <i class="fa fa-star"></i>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="review-bottom">
-                                            <p>Vestibulum ante ipsum primis aucibus orci luctustrices posuere
-                                                cubilia Curae Sus pen disse viverra ed viverra. Mauris ullarper
-                                                euismod vehicula. </p>
+                                            <div class="review-bottom">
+                                                <p>{{$item->review}}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endforeach 
                             </div>
                         </div>
                         <div class="col-lg-5">
                             <div class="ratting-form-wrapper pl-50">
                                 <h3>Add a Review</h3>
                                 <div class="ratting-form">
-                                    <form action="#">
+                                    <form  method="POST" action="{{route('review.submit')}}">
+                                        @csrf
+                                        <input type="hidden" name="productId" value="{{$product->productId}}">
                                         <div class="star-box">
                                             <span>Your rating:</span>
                                             <div class="star-rating">
@@ -264,7 +242,7 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="rating-form-style form-submit">
-                                                    <textarea name="Your Review" placeholder="Message"></textarea>
+                                                    <textarea name="review" placeholder="Message"></textarea>
                                                     <input type="submit" value="Submit">
                                                 </div>
                                             </div>
