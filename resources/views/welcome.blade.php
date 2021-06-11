@@ -169,7 +169,12 @@
                                         <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a>
                                     </div>
                                     <div class="pro-same-action pro-cart">
-                                        <a title="Add To Cart" href="#" onclick="addTocart()"><i class="pe-7s-cart"></i> Add to cart</a>
+                                        @if($sku->product()->first()->type == "single")
+                                        <a title="Add To Cart" href="#" onclick="addTocart({{$sku->skuId}})"><i class="pe-7s-cart"></i> Add to cart</a>
+                                        @endif
+                                        @if($sku->product()->first()->type == "variation")
+                                        <a title="Add To Cart" href="{{route('product.details',$sku->skuId)}}"><i class="pe-7s-cart"></i> Add to cart</a>
+                                        @endif
                                     </div>
                                     <div class="pro-same-action pro-quickview">
                                         <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a>
@@ -245,7 +250,12 @@
                                                 <a title="Wishlist" href="{{route('wishlistAdd', $sku->skuId)}}"><i class="pe-7s-like"></i></a>
                                             </div>
                                             <div class="pro-same-action pro-cart">
-                                                <a title="Add To Cart" href="#" onclick="addTocart()"><i class="pe-7s-cart"></i></a>
+                                                @if($sku->product()->first()->type == "single")
+                                                    <a title="Add To Cart" href="#" onclick="addTocart({{$sku->skuId}})"><i class="pe-7s-cart"></i></a>
+                                                @endif
+                                                @if($sku->product()->first()->type == "variation")
+                                                        <a title="Add To Cart" href="{{route('product.details',$sku->skuId)}}" ><i class="pe-7s-cart"></i></a>
+                                                @endif
                                             </div>
                                             <div class="pro-same-action pro-quickview">
                                                 <a title="Quick View" href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a>
@@ -506,7 +516,13 @@
                                             <a title="Wishlist" href="{{route('wishlistAdd', $sku->skuId)}}"><i class="pe-7s-like"></i></a>
                                         </div>
                                         <div class="pro-same-action pro-cart">
-                                            <a title="Add To Cart" href="#" onclick="addTocart()"><i class="pe-7s-cart"></i></a>
+                                            @if($sku->product()->first()->type == "single")
+                                                <a title="Add To Cart" href="#" onclick="addTocart({{$sku->skuId}})"><i class="pe-7s-cart"></i></a>
+                                            @endif
+                                            @if($sku->product()->first()->type == "variation")
+                                                    <a title="Add To Cart" href="{{route('product.details',$sku->skuId)}}"><i class="pe-7s-cart"></i></a>
+                                            @endif
+
                                         </div>
                                         <div class="pro-same-action pro-quickview">
                                             <a title="Quick View" href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a>

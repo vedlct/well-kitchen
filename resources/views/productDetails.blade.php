@@ -76,8 +76,8 @@
                                 @foreach($productsku->variationRelation as $variationRelation)
 
                                 @if($variationRelation->variationDetailsdata->variationType == "Color")
-                                          <input type="radio" name="color" id="red" />
-                                    <label for="red"><span onclick="changeColor({{$variationRelation->variationRelationId}})"  style="background: {{$variationRelation->variationDetailsdata->variationValue}}" class=""></span></label>
+                                          <input type="radio" name="color" id="red{{$variationRelation->variationDetailsdata->variationId}}" />
+                                    <label for="red{{$variationRelation->variationDetailsdata->variationId}}"><span onclick="changeVariation({{$variationRelation->variationRelationId}})"  style="background: {{$variationRelation->variationDetailsdata->variationValue}}" class=""></span></label>
                                 @endif
                                 @endforeach
                                 @endforeach
@@ -92,10 +92,10 @@
                                 @foreach($productsku->variationRelation as $variationRelation)
 
                                 @if($variationRelation->variationDetailsdata->variationType == "Size")
-                                           <input type="radio" id="size-1" name="size">
-                                <label for="size-1" class="text-center">
+                                           <input type="radio" id="size-1{{$variationRelation->variationDetailsdata->variationId}}" name="size">
+                                <label for="size-1{{$variationRelation->variationDetailsdata->variationId}}" class="text-center">
                                     <div class="variant-select_wrapper">
-                                        <span class="variant-select__title" onclick="changeColor({{$variationRelation->variationRelationId}})">{{$variationRelation->variationDetailsdata->variationValue}}</span>
+                                        <span class="variant-select__title" onclick="changeVariation({{$variationRelation->variationRelationId}})">{{$variationRelation->variationDetailsdata->variationValue}}</span>
                                     </div>
                                 </label>
                                 @endif
@@ -108,8 +108,8 @@
                         <div class="cart-plus-minus">
                             <input class="cart-plus-minus-box" type="text" name="qtybutton" id="quantity" value="1">
                         </div>
-                        <div class="pro-details-cart btn-hover">
-                            <a href="#" onclick="addTocart()">Add To Cart</a>
+                        <div class="pro-details-cart btn-hover addtocartsku">
+                            <a href="#" onclick="addTocart({{$sku->skuId}})">Add To Cart</a>
                         </div>
                         <div class="pro-details-wishlist">
                             <a href="#"><i class="fa fa-heart-o"></i></a>
@@ -425,8 +425,33 @@
 @section('js')
 
 <script>
-    let sku='{{$product->sku->first()->skuId}}'
-
+    function changeVariation(id)
+    {
+        variationRelationId = id;
+        $.ajax({
+            url: "{{route('color.choose')}}",
+            method: 'POST',
+            data: {
+                _token: "{{csrf_token()}}",
+                variationRelationId: variationRelationId,
+            },
+            success: function(data){
+                console.log(data);
+                var data = data;
+                $('.salePrice').empty().append("<span>"+"৳ "+data.sku.salePrice+"</span>")
+                $('.addtocartsku').empty().append("<a href='#' onclick='addTocart("+data.sku.skuId+")'>Add To Cart</a>");
+                $.each(data.variationDatas, function (key, val)
+                {
+                    if(val.variation_detailsdata.variationType == "Color"){
+                        $('#colors').empty().append("<span>Color</span><div class='pro-details-color-content'><input type='radio' id=`red"+val.variation_detailsdata.variationId+"` name='color'> <label for=`red"+val.variation_detailsdata.variationId+"` class='text-center'><span class='' onclick='changeVariation("+val.variationRelationId+")' style='background:"+ val.variation_detailsdata.variationValue+"'></span></label></div>")
+                    }
+                    if(val.variation_detailsdata.variationType == "Size"){
+                        $('#sizes').empty().append("<span>Size</span><div class='pro-details-size-content'><input type='radio' id=`size-1"+val.variation_detailsdata.variationId+"` name='size'> <label for=`size-1"+val.variation_detailsdata.variationId+"` class='text-center'><div class='variant-select_wrapper'><span class='variant-select__title' onclick='changeVariation("+val.variationRelationId+")'>"+val.variation_detailsdata.variationValue+"</span></div></label></div>")
+                    }
+                });
+            }
+        });
+    }
 
     function changeSize(id)
     {
@@ -457,93 +482,6 @@
             }
         });
     }
-
-    function changeColor(id)
-    {
-        variationRelationId = id;
-        $.ajax({
-            url: "{{route('color.choose')}}",
-            method: 'POST',
-            data: {
-                _token: "{{csrf_token()}}",
-                variationRelationId: variationRelationId,
-            },
-            success: function(data){
-                console.log(data);
-                // console.log(data.sku.salePrice);
-                // console.log(data.variationDatas);
-                var data = data;
-                $('.salePrice').empty().append("<span>"+"৳ "+data.sku.salePrice+"</span>")
-                $.each(data.variationDatas, function (key, val)
-                {
-                    // console.log(val.variationRelationId);
-                    // console.log(val.variation_detailsdata);
-
-                    if(val.variation_detailsdata.variationType == "Color"){
-                        $('#colors').empty();
-                        $('#colors').append("<span>Color</span><div class='pro-details-color-content'><input type='radio' id='red' name='color'> <label for='red' class='text-center'><span class='' onclick='changeColor("+val.variationRelationId+")' style='background:"+ val.variation_detailsdata.variationValue+"'></span></label></div>")
-                    }
-                    if(val.variation_detailsdata.variationType == "Size"){
-
-                        $('#sizes').empty();
-                        $('#sizes').append("<span>Size</span><div class='pro-details-size-content'><input type='radio' id='size-1' name='size'> <label for='size-1' class='text-center'><div class='variant-select_wrapper'><span class='variant-select__title' onclick='changeColor("+val.variationRelationId+")'>"+val.variation_detailsdata.variationValue+"</span></div></label></div>")
-                    }
-                });
-                // if(data.variationDatas.length < 1){
-                //     $('.colorSizes').hide();
-                //     $('#sizes').empty();
-                // }else{
-                //     $('.colorSizes').show();
-                //     $('#sizes').empty();
-                //     $.each(data.variations, function (key, val)
-                //     {
-                //         $('#sizes').append("<div style='display: inline-block;'>"+"<div class='select-size'>"+"<ul class='productsize' style='margin-right: 5px'>"+
-                //             "<li value="+val.skuID+"  class='colorsize"+val.skuID+"' onclick='colorSize("+val.skuID+")'>"+"<span style='width: 100%;'>"+val.variation_details.variationValue+"</span>"+"</li>"+"</ul>"+"</div>"+"</div>")
-                //     });
-                // }
-            }
-        });
-    }
-
-//     function addTocart(){
-//
-//         let quantity=$('#quantity').val() ;
-// alert(quantity);
-        {{--$.ajax({--}}
-        {{--    type: "post",--}}
-        {{--    url: "{{route('product.addTocart')}}",--}}
-        {{--    data:{--}}
-        {{--        _token:'{{csrf_token()}}',--}}
-        {{--        _sku:sku,--}}
-        {{--        _quantity:quantity--}}
-        {{--    },--}}
-        {{--    success: function (response) {--}}
-        {{--        console.log(response);--}}
-        {{--        $('#cartPage').empty().html(response.cart)--}}
-        {{--        $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);--}}
-        {{--        toastr.success('Item added to cart')--}}
-        {{--    },--}}
-        {{--    error:(response)=>{--}}
-        {{--    toastr.error('Out of quantity')--}}
-        {{--    }--}}
-        {{--});--}}
-    // }
-
-    function removeItem(id) {
-            $.ajax({
-                type: "POST",
-                url: "{{route('product.cartRemove')}}",
-                data: {
-                    _token:'{{csrf_token()}}',
-                    _sku:id,
-                },
-                success: function (response) {
-                    $('#cartPage').empty().html(response.cart);
-                    $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br> Cart(${response.cartQuantity})`);
-                    toastr.success('Item delete from cart')
-                }
-            });
-        }
 
 </script>
 

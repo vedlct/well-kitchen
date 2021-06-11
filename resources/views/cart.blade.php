@@ -6,12 +6,13 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                 <form action="#">
-                    <div class="table-content table-responsive cart-table-content">
+                    <div class="table-content table-responsive cart-table-content updatereload">
                         <table>
                             <thead>
                                 <tr>
                                     <th>Image</th>
                                     <th>Product Name</th>
+                                    <th>Variation</th>
                                     <th>Until Price</th>
                                     <th>Qty</th>
                                     <th>Subtotal</th>
@@ -25,13 +26,44 @@
                                             <a href="#"><img src="{{('admin/public/featureImage/').$item->associatedModel->featureImage}}" alt=""></a>
                                         </td>
                                         <td class="product-name"><a href="#">{{$item->associatedModel->productName}}</a></td>
+                                        <td>
+                                            @if($item->attributes['variations'])
+                                            @foreach($item->attributes['variations'] as $variant)
+                                                @if($variant['variationType'] == 'Size')
+                                                    <div class="pro-details-size" style="display: inline-block" id="sizes">
+                                                        <div class="pro-details-size-content">
+                                                            <input type="radio" id="size-1" name="size">
+                                                            <label for="size-1" class="text-center">
+                                                                <div class="variant-select_wrapper">
+                                                                    <span class="variant-select__title">{{$variant['variationValue']}}</span>
+                                                                </div>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                @elseif($variant['variationType'] == 'Color')
+                                                    <div class="pro-details-color-wrap" style="display: inline-block" id="colors">
+                                                        <div class="pro-details-color-content">
+                                                                <input type="radio" name="color" id="red" />
+                                                                <label for="red"><span  style="background: {{$variant['variationValue']}}; margin-top: 10px" class=""></span></label>
+                                                        </div>
+                                                    </div>
+                                                @endif
+                                            @endforeach
+                                            @else
+                                                <p class="product-name">Single</p>
+                                            @endif
+                                        </td>
                                         <td class="product-price-cart"><span class="amount">${{$item->price}}</span></td>
                                         <td class="product-quantity" id="quantity">
-                                            <div class="cart-plus-minus"  onclick="quantityUpdate('{{$key}}','{{$item->id}}')">
-                                                <input class="cart-plus-minus-box" type="text" name="quantity"  id="qtyBtn{{$key}}" value="{{$item->quantity}}">
+                                            <div class="cart-plus-minus"  onclick="quantityUpdate({{$item->id}})">
+
+                                                <input class="cart-plus-minus-box" type="text" name="quantity"  id="qtyBtn{{$item->id}}" value="{{$item->quantity}}">
+
                                             </div>
                                         </td>
-                                        <td class="product-subtotal">{{$item->price * $item->quantity}} </td>
+                                        <span class="upd">
+                                        <td class="product-subtotal " >{{$item->price * $item->quantity}} </td>
+                                            </span>
                                         <td class="product-remove" onclick="removeItem('{{$item->id}}')">
                                             <a href="#"><i class="fa fa-times"></i></a>
                                         </td>
@@ -73,7 +105,7 @@
                             <div class="title-wrap">
                                 <h4 class="cart-bottom-title section-bg-gary-cart">Cart Total</h4>
                             </div>
-                            <h5>Total products <span>${{\Cart::getSubTotal()}}</span></h5>
+                            <h5 class="cartTotal">Total products <span>${{\Cart::getSubTotal()}}</span></h5>
                             <div class="total-shipping">
                                 <h5>Total shipping</h5>
                                 <ul>
@@ -91,46 +123,10 @@
     </div>
 </div>
 
+
+
 @endsection
 
 @section('js')
- <script>
-       function removeItem(id) {
-            $.ajax({
-                type: "POST",
-                url: "{{route('product.cartRemove')}}",
-                data: {
-                    _token:'{{csrf_token()}}',
-                    _sku:id,
-                },
-                success: function (response) {
-                    // $('#cartBody').empty().html(response.cart);
-                    $('#cartPage').empty().html(response.cart);
-                    $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br> Cart(${response.cartQuantity})`);
-                    toastr.success('Item delete from cart')
-                }
-            });
-        }
 
-        function quantityUpdate(data,id){
-
-            var value = parseInt($(`#qtyBtn${data}`).val());
-            // console.log(value);
-            $.ajax({
-                type: "POST",
-                url: "{{route('product.cartUpdateQuantity')}}",
-                data: {
-                    _token:'{{csrf_token()}}',
-                    _sku:id,
-                    // value:value,
-                },
-                success: function (response) {
-                    // console.log('success',response);
-                    $('#cartMain').empty().html(response.cart);
-                    $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br> Cart(${response.cartQuantity})`);
-                    toastr.success('Item updated to cart')
-                }
-            });
-        }
- </script>
 @endsection
