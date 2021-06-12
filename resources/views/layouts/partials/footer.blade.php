@@ -168,6 +168,7 @@
 
 <!-- All JS is here
 ============================================ -->
+@yield('js')
 
 <script src="{{asset('public/assets/js/vendor/modernizr-3.6.0.min.js')}}"></script>
 <script src="{{asset('public/assets/js/vendor/jquery-3.5.1.min.js')}}"></script>
@@ -239,7 +240,7 @@
         });
     }
 </script>
-@yield('js')
+
 
 
 </body>

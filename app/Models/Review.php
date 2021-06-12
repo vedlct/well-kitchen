@@ -11,8 +11,8 @@ class Review extends Model
     protected $table='reviews';
     protected $primaryKey='idreviews';
 
-    public function user()
+    public function customer()
     {
-        return $this->hasOne(User::class,'userId','customerID');
+        return $this->hasOne('App\Models\Customer','customerId','idreviews');
     }
 }

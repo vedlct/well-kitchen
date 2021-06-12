@@ -56,11 +56,24 @@
                     </div>
                     <div class="pro-details-rating-wrap">
                         <div class="pro-details-rating">
-                            <i class="fa fa-star-o yellow"></i>
-                            <i class="fa fa-star-o yellow"></i>
-                            <i class="fa fa-star-o yellow"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
+                            {{-- @dd($product->review->count()); --}}
+                            @if($product->review->count()>0)
+                           
+                                    @for ($i = 0; $i < ceil($product->review->avg('rating')); $i++)
+                                        <i class="fa fa-star-o yellow"></i>
+                                    @endfor
+                                    @for ($i = 0; $i < $count=4-($product->review->avg('rating')); $i++)
+                                        <i class="fa fa-star-o red"></i>
+                                    @endfor
+                                @else
+                                
+                                <i class="fa fa-star-o yellow"></i>
+                                <i class="fa fa-star-o yellow"></i>
+                                <i class="fa fa-star-o yellow"></i>
+                                <i class="fa fa-star-o yellow"></i>
+                                <i class="fa fa-star-o yellow"></i>
+                                @endif
+                            
                         </div>
                         {{-- @dd($product); --}}
                         <span><a href="#">{{$product->review->count()}} Reviews</a></span>
@@ -178,8 +191,9 @@
                     <div class="row">
                         <div class="col-lg-7">
                             <div class="review-wrapper">
+                                {{-- @dd($product->review->where('fkproductId',$product->productId)) --}}
                                @foreach ($product->review as $item)
-                               {{-- @dd($item); --}}
+                                {{-- @dd($item->where('fkproduct',$product->productId)); --}}
                                     <div class="single-review">
                                         <div class="review-img">
                                         <img src="assets/img/testimonial/1.jpg" alt="">
@@ -188,7 +202,15 @@
                                             <div class="review-top-wrap">
                                                 <div class="review-left">
                                                     <div class="review-name">
-                                                        <h4>White Lewis</h4>
+                                                       
+                                                        {{-- @php
+                                                            $name = $item->customer->user->firstName;
+                                                           
+                                                        @endphp --}}
+                                                         {{-- @dd($name); --}}
+                                                         {{-- {{$name}} --}}
+                                                        <h4>jhon doe</h4>
+                                                        {{-- <h4>{{dd($item->customer)}}</h4> --}}
                                                     </div>
                                                     <div class="review-rating">
                                                         <i class="fa fa-star"></i>
@@ -225,7 +247,7 @@
                                                 <label for="3-stars" class="star">&#9733;</label>
                                                 <input type="radio" id="2-stars" name="rating" value="2" />
                                                 <label for="2-stars" class="star">&#9733;</label>
-                                                <input type="radio" id="1-star" name="rating" value="1" />
+                                                <input type="radio" id="1-star" name="rating" value="1" required/>
                                                 <label for="1-star" class="star">&#9733;</label>
                                             </div>
                                         </div>
@@ -242,7 +264,7 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="rating-form-style form-submit">
-                                                    <textarea name="review" placeholder="Message"></textarea>
+                                                    <textarea name="review" placeholder="Message" required></textarea>
                                                     <input type="submit" value="Submit">
                                                 </div>
                                             </div>

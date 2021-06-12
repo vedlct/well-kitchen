@@ -384,6 +384,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('shipping-list',[ShippingController::class,'list'])->name('list');
         Route::get('shipping-add', [ShippingController::class,'create'])->name('add');
         Route::post('shipping-add',[ShippingController::class,'store'])->name('store');
+        Route::post('/shipping-change-status',[ShippingController::class,'shippingChangeStatus'])->name('change.status');
     });
 });
 

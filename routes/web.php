@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\CheckoutController;
 use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
@@ -42,6 +43,12 @@ Route::post('/search-category-product' ,[CategoryController::class,'searchByProd
 
     Route::post('review-submit',[ReviewController::class,'ReviewSubmit'])->name('review.submit');
 
+    Route::get('/checkout' ,[CheckoutController::class,'index'])->name('checkout.index');
+    Route::post('checkout-submit',[CheckoutController::class,'checkoutSubmit'])->name('checkout.submit');
+    
+    Route::post('search-user',[CheckoutController::class,'searchUserByPhone'])->name('search.user');
+
+
 
 Route::get('/my-order', function () {
     return view('myOrder');
@@ -64,10 +71,5 @@ Route::get('/about', function () {
     return view('about');
 });
 
-Route::get('/cart', function () {
-    return view('cart');
-});
 
-Route::get('/checkout', function () {
-    return view('checkout');
-});
+

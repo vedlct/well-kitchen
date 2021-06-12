@@ -67,14 +67,14 @@
                     },
                 },
             columns: [
-                { title: 'ZoneId', data: 'shipment_zoneId', name:'shipment_zoneId', className: "text-center", orderable: true, searchable:true},
+                // { title: 'ZoneId', data: 'shipment_zoneId', name:'shipment_zoneId', className: "text-center", orderable: true, searchable:true},
                 { title: 'Shipping Name', data: 'shipment_zoneName', name:'shipment_zoneName', className: "text-center", orderable: true, searchable:true},
                 { title: 'Charge', data: 'ChargesDeliveryFee', name:'ChargesDeliveryFee', className: "text-center", orderable: true, searchable:true},
                 // { title: 'Custom Shipping Charge', data: 'CustomShippingDeliveryFee', name:'CustomShippingDeliveryFee', className: "text-center", orderable: true, searchable:true},
                 { title: 'Status', data: 'statusField', className: "text-center", orderable: true, searchable:true},
                 { title: 'Action', className: "text-center","data": function(data){
-                        return '<a class="btn btn-info btn-sm" data-panel-id="'+data.shipment_zoneId+'" onclick="editShipping(this)" title="Edit"><span class="icofont icofont-ui-edit"></span></a>'+
-                            '<a class="btn btn-warning btn-sm" data-panel-id="'+data.shipment_zoneId+'" onclick="changeStatus(this)" title="Change status"><span class="icofont icofont-refresh"></span></a>'
+                        return '<a class="btn btn-info btn-sm" data-panel-id="'+data.shipment_zoneId+'" onclick="editShipping(this)" title="Edit"><i class="ft-edit"></i></a>'+
+                            '<a class="btn btn-warning btn-sm" data-panel-id="'+data.shipment_zoneId+'" onclick="changeStatus(this)" title="Change status"><i class="ft-trash-2"></i></a>'
                             ;},
                     orderable: false, searchable:false}
             ]
@@ -88,6 +88,22 @@
         window.location.href = newUrl;
     }
 
-    // 
+    function changeStatus(x) {
+            shippingId = $(x).data('panel-id');
+            var confirmCheck = confirm("Are you sure to change status..!!");
+            if (confirmCheck != false) {
+                $.ajax({
+                    type: 'post',
+                    url: "{!! route('shipping.change.status') !!}",
+                    cache: false,
+                    data: {_token: "{{csrf_token()}}",'shippingId': shippingId},
+                    success: function (data) {
+                        $('.shipping').DataTable().clear().draw();
+                    }
+                });
+            }
+        }
+
+    
 </script>
 @endsection
