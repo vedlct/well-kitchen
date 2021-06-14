@@ -168,7 +168,6 @@
 
 <!-- All JS is here
 ============================================ -->
-@yield('js')
 
 <script src="{{asset('public/assets/js/vendor/modernizr-3.6.0.min.js')}}"></script>
 <script src="{{asset('public/assets/js/vendor/jquery-3.5.1.min.js')}}"></script>
@@ -178,6 +177,7 @@
 <!-- Main JS -->
 <script src="{{asset('public/assets/js/main.js')}}"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
 {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>--}}
 
   <script>
@@ -276,6 +276,7 @@
       }
 </script>
 
+@yield('js')
 
 </body>
 

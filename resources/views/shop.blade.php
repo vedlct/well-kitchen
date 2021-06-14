@@ -5,12 +5,14 @@
         <div class="breadcrumb-content">
             <ul>
                 <li>
-                    <a href="{{url('/')}}">Home</a>
+                    <a href="{{route('home')}}">Home</a>
                 </li>
                 <li>
-                    <a href="{{url('/shop')}}">Shop</a>
+                    <a href="{{route('category.products')}}">Shop</a>
                 </li>
-                <li class="active">Men dresses </li>
+                @if($categoryId != null)
+                    <li class="active">{{$category->categoryName}}</li>
+                @endif
             </ul>
         </div>
     </div>
@@ -24,11 +26,11 @@
                 <div class="shop-top-bar">
                     <div class="select-shoing-wrap">
                         <div class="shop-select">
-                            <select>
+                            <select class="alphaCheck">
                                 <option value="">Sort by newness</option>
-                                <option value="">A to Z</option>
-                                <option value=""> Z to A</option>
-                                <option value="">In stock</option>
+                                <option value="A">A to Z</option>
+                                <option value="Z"> Z to A</option>
+                                <option value="instock">In stock</option>
                             </select>
                         </div>
                         <p>Showing 1–12 of 20 result</p>
@@ -64,6 +66,12 @@
                                             <a href="{{route('product.details',$sku->skuId)}}">
                                                 <img class="default-img" src="{{asset('admin/public/featureImage/'.$sku->product()->first()->featureImage)}}" alt="">
                                             </a>
+                                            @if($sku->product->newarrived == 1)
+                                                <span class="purple">New</span>
+                                            @endif
+                                            @if($sku->product->isrecommended == 1)
+                                                <span class="purple">Feature</span>
+                                            @endif
                                             <div class="product-action">
                                                 <div class="pro-same-action pro-wishlist">
                                                     <a title="Wishlist" href="#"><i class="pe-7s-like"></i></a>
@@ -108,36 +116,36 @@
             </div>
             <div class="col-lg-3">
                 <div class="sidebar-style mr-30">
-                    <div class="sidebar-widget">
-                        <h4 class="pro-sidebar-title">Search </h4>
-                        <div class="pro-sidebar-search mb-50 mt-25">
-                            <form class="pro-sidebar-search-form" action="#">
-                                <input type="text" placeholder="Search here...">
-                                <button>
-                                    <i class="pe-7s-search"></i>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
+{{--                    <div class="sidebar-widget">--}}
+{{--                        <h4 class="pro-sidebar-title">Search </h4>--}}
+{{--                        <div class="pro-sidebar-search mb-50 mt-25">--}}
+{{--                            <form class="pro-sidebar-search-form" action="#">--}}
+{{--                                <input type="text" placeholder="Search here...">--}}
+{{--                                <button>--}}
+{{--                                    <i class="pe-7s-search"></i>--}}
+{{--                                </button>--}}
+{{--                            </form>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
                     <div class="sidebar-widget">
                         <h4 class="pro-sidebar-title">Refine By </h4>
                         <div class="sidebar-widget-list mt-30">
                             <ul>
                                 <li>
                                     <div class="sidebar-widget-list-left">
-                                        <input type="checkbox"> <a href="#">On Sale <span>4</span> </a>
+                                        <input type="checkbox" class="saleCheck" value="discount"> <a href="#">On Sale <span>4</span> </a>
                                         <span class="checkmark"></span>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="sidebar-widget-list-left">
-                                        <input type="checkbox" value=""> <a href="#">New <span>4</span></a>
+                                        <input type="checkbox" class="newCheck" value="new"> <a href="#">New <span>{{$newArrived}}</span></a>
                                         <span class="checkmark"></span>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="sidebar-widget-list-left">
-                                        <input type="checkbox" value=""> <a href="#">In Stock <span>4</span> </a>
+                                        <input type="checkbox" class="instockCheck" value="instock"> <a href="#">In Stock <span>{{$totalAvailable}}</span> </a>
                                         <span class="checkmark"></span>
                                     </div>
                                 </li>
@@ -148,7 +156,7 @@
                         <h4 class="pro-sidebar-title">Filter By Price </h4>
                         <div class="price-filter mt-10">
                             <div class="price-slider-amount">
-                                <input type="text" id="amount" name="price"  placeholder="Add Your Price" />
+                                <input type="text" id="amount" readonly class="priceCheck" name="price"  placeholder="Add Your Price" />
                             </div>
                             <div id="slider-range"></div>
                         </div>
@@ -163,11 +171,9 @@
                                         @if($variationRelation->variationDetailsdata->variationType == "Color")
                                             <li>
                                                 <div class="sidebar-widget-list-left">
-{{--                                                    <a  href="#" onclick="filterSize({{$variationRelation->variationDetailsdata->variationId}})">--}}
                                                     <input type="checkbox" class="colorCheck" value="{{$variationRelation->variationDetailsdata->variationId}}"><a
                                                         href=""> {{ array_key_exists($variationRelation->variationDetailsdata->variationValue, unserialize(COLOR_CODE)) ? unserialize(COLOR_CODE)[$variationRelation->variationDetailsdata->variationValue] : unserialize(COLOR_CODE)["NOT"]  }}</a>
                                                     <span style="background: {{$variationRelation->variationDetailsdata->variationValue}}" class="checkmark"></span>
-{{--                                                    </a>--}}
                                                 </div>
                                             </li>
                                         @endif
@@ -185,11 +191,9 @@
                                         @if($variationRelation->variationDetailsdata->variationType == "Size")
                                             <li>
                                                 <div class="sidebar-widget-list-left">
-{{--                                                    <a  href="#" onclick="filterSize({{$variationRelation->variationDetailsdata->variationId}})">--}}
                                                     <input type="checkbox" class="sizeCheck" value="{{$variationRelation->variationDetailsdata->variationId}}" ><a
                                                         href=""> {{ $variationRelation->variationDetailsdata->variationValue }}</a>
                                                     <span class="checkmark" ></span>
-{{--                                                    </a>--}}
                                                 </div>
                                             </li>
                                         @endif
@@ -202,11 +206,10 @@
                         <h4 class="pro-sidebar-title">Tag </h4>
                         <div class="sidebar-widget-tag mt-25">
                             <ul>
-                                <li><a href="#">Clothing</a></li>
-                                <li><a href="#">Accessories</a></li>
-                                <li><a href="#">For Men</a></li>
-                                <li><a href="#">Women</a></li>
-                                <li><a href="#">Fashion</a></li>
+                                @foreach($skus->unique('fkproductId') as $key=>$sku)
+                                        <li><a href="#" class="tagCheck">{{$sku->product->tag}}</a></li>
+                                @endforeach
+
                             </ul>
                         </div>
                     </div>
@@ -220,75 +223,46 @@
 @endsection
 
 @section('js')
+
     <script>
-        // let allc = [];
-        {{--function filterSize(id)--}}
-        {{--{--}}
 
-        {{--    console.log(id);--}}
-        {{--    // console.log(allc);--}}
-        {{--    if(this.checked) {--}}
-        {{--        allc.push(id);--}}
-        {{--    }--}}
-        {{--    console.log(allc);--}}
-        {{--    variationId = id;--}}
-        {{--    $.ajax({--}}
-        {{--        url: "{{route('variation.choose')}}",--}}
-        {{--        method: 'POST',--}}
-        {{--        data: {--}}
-        {{--            _token: "{{csrf_token()}}",--}}
-        {{--            // variationRelationId: variationRelationId,--}}
-        {{--        },--}}
-        {{--        success: function(data){--}}
-        {{--            console.log(data);--}}
-        {{--            // var data = data;--}}
-        {{--            // $('.salePrice').empty().append("<span>"+"৳ "+data.sku.salePrice+"</span>")--}}
-        {{--            // $('.addtocartsku').empty().append("<a href='#' onclick='addTocart("+data.sku.skuId+")'>Add To Cart</a>");--}}
-        {{--            // $.each(data.variationDatas, function (key, val)--}}
-        {{--            // {--}}
-        {{--            //     if(val.variation_detailsdata.variationType == "Color"){--}}
-        {{--            //         $('#colors').empty().append("<span>Color</span><div class='pro-details-color-content'><input type='radio' id=`red"+val.variation_detailsdata.variationId+"` name='color'> <label for=`red"+val.variation_detailsdata.variationId+"` class='text-center'><span class='' onclick='changeVariation("+val.variationRelationId+")' style='background:"+ val.variation_detailsdata.variationValue+"'></span></label></div>")--}}
-        {{--            //     }--}}
-        {{--            //     if(val.variation_detailsdata.variationType == "Size"){--}}
-        {{--            //         $('#sizes').empty().append("<span>Size</span><div class='pro-details-size-content'><input type='radio' id=`size-1"+val.variation_detailsdata.variationId+"` name='size'> <label for=`size-1"+val.variation_detailsdata.variationId+"` class='text-center'><div class='variant-select_wrapper'><span class='variant-select__title' onclick='changeVariation("+val.variationRelationId+")'>"+val.variation_detailsdata.variationValue+"</span></div></label></div>")--}}
-        {{--            //     }--}}
-        {{--            // });--}}
-        {{--        }--}}
-        {{--    });--}}
-        {{--}--}}
+        var alphaOrderSS;
 
-        {{--function readyFn() {--}}
-        {{--    var category_id = {{$categoriesid}} ;--}}
-        {{--    $.ajax({--}}
-        {{--        url: "{{route('all-products')}}",--}}
-        {{--        method: 'POST',--}}
-        {{--        data: {--}}
-        {{--            _token: "{{csrf_token()}}",--}}
-        {{--            categoryId: category_id--}}
-        {{--        },--}}
-        {{--        success: function (data) {--}}
-        {{--            $("#productdetails").html(data);--}}
-        {{--        }--}}
-        {{--    });--}}
-        {{--};--}}
-        {{--$(document).ready(readyFn);--}}
-
-        var catSS = [];
-        $(".catCheck").change(function() {
-            if(this.checked) {
-                catSS.push(this.value);
-            }else{
-                if(jQuery.inArray(this.value, catSS) !== -1){
-                    if (catSS.indexOf(this.value) !== -1) catSS.splice(catSS.indexOf(this.value), 1);
-                }
-            }
+        $(".alphaCheck").change(function() {
+            alphaOrderSS = $(".alphaCheck").val();
             filter();
         });
 
+        var priceMin;
+        var priceMax;
+        $( "#slider-range" ).slider({
+            change: function( event, ui ) {
+                priceMin=(ui.values[0]);
+                priceMax=(ui.values[1]);
+                filter();
+            }
+        });
+        // $("#slider-range").click(function(){
+        //     // alert(ui.values[0]);
+        //     var res = $("#amount").val();
+        //     console.log(res);
+        //     console.log($("#amount").val().replace(/[^0-9]/g, ''));
+        //     // var res = str.replace(/\D/g, "");
+        //     if(this.checked){
+        //         priceSS.push(this.value);
+        //     }else{
+        //         if(jQuery.inArray(this.value, priceSS) !== -1){
+        //             if(priceSS.indexOf(this.value) !== -1) priceSS.splice(priceSS.indexOf(this.value), 1);
+        //         }
+        //     }
+        //     filter()
+        // });
         var colorSS = [];
+
         $(".colorCheck").change(function() {
             if(this.checked) {
                 colorSS.push(this.value);
+
             }else{
                 if(jQuery.inArray(this.value, colorSS) !== -1){
                     if (colorSS.indexOf(this.value) !== -1) colorSS.splice(colorSS.indexOf(this.value), 1);
@@ -307,15 +281,62 @@
             }
             filter()
         });
+        var saleSS = [];
+
+        $(".saleCheck").change(function() {
+            if(this.checked) {
+                saleSS.push(this.value);
+
+            }else{
+                if(jQuery.inArray(this.value, saleSS) !== -1){
+                    if (saleSS.indexOf(this.value) !== -1) saleSS.splice(saleSS.indexOf(this.value), 1);
+                }
+            }
+            filter();
+        });
+
+        var newSS = [];
+
+        $(".newCheck").change(function() {
+            if(this.checked) {
+                newSS.push(this.value);
+
+            }else{
+                if(jQuery.inArray(this.value, newSS) !== -1){
+                    if (newSS.indexOf(this.value) !== -1) newSS.splice(newSS.indexOf(this.value), 1);
+                }
+            }
+            filter();
+        });
+
+        var instockSS = [];
+
+        $(".instockCheck").change(function() {
+            if(this.checked) {
+                instockSS.push(this.value);
+
+            }else{
+                if(jQuery.inArray(this.value, instockSS) !== -1){
+                    if (instockSS.indexOf(this.value) !== -1) instockSS.splice(instockSS.indexOf(this.value), 1);
+                }
+            }
+            filter();
+        });
         function  filter(){
             $.ajax({
                 url: "{{route('filter.products')}}",
                 method: 'POST',
                 data: {
                     _token: '{{csrf_token()}}',
-                    catSS: catSS,
+                    // catSS: catSS,
                     colorSS: colorSS,
-                    sizeSS: sizeSS
+                    sizeSS: sizeSS,
+                    saleSS: saleSS,
+                    newSS: newSS,
+                    instockSS: instockSS,
+                    priceMin: priceMin,
+                    priceMax: priceMax,
+                    alphaOrderSS: alphaOrderSS,
                 },
                 success: function(data) {
                     console.log(data);

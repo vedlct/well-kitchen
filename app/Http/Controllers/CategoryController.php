@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Product;
 use App\Models\Sku;
-use App\Models\ProductImages;
-use App\Models\Category;
-use App\Models\Brand;
-use App\Models\Variation;
+use App\Models\Stock;
 use App\Models\VariationDetails;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Session;
 
 class CategoryController extends Controller
 {
@@ -18,17 +15,35 @@ class CategoryController extends Controller
 
         if(empty($categoryId)){
             $skus = Sku::with('product')->where('status', 'active')->get();
+            $totalAvailable = 0;
+            foreach($skus->unique('fkproductId') as $sku){
+                $stockIn=Stock::where('fkskuId',$sku->skuId)->where('type', 'in')->sum('stock');
+                $stockOut=Stock::where('fkskuId',$sku->skuId)->where('type', 'out')->sum('stock');
+                $stockAvailable = $stockIn-$stockOut;
+                if($stockAvailable > 0){
+                    $totalAvailable += 1;
+                }
+            }
         }
 
         if(!empty($categoryId)){
+            $totalAvailable = 0;
             // $skus = Sku::with('product')->where('status', 'active')->get();
             $products = Product::with('sku', 'images')->where('status', 'active')->where('categoryId', $categoryId)->pluck('productId');
             $skus = Sku::whereIn('fkproductId', $products)->get();
-
-
+            foreach($skus->unique('fkproductId') as $sku){
+                $stockIn=Stock::where('fkskuId',$sku->skuId)->where('type', 'in')->sum('stock');
+                $stockOut=Stock::where('fkskuId',$sku->skuId)->where('type', 'out')->sum('stock');
+                $stockAvailable = $stockIn-$stockOut;
+                if($stockAvailable > 0){
+                    $totalAvailable += 1;
+                }
+            }
         }
+        $newArrived = Product::where('newarrived', 1)->count();
+        $category = Category::where('categoryId', $categoryId)->first();
 
-        return view('shop', compact('skus'));
+        return view('shop', compact('skus', 'newArrived', 'totalAvailable', 'categoryId', 'category'));
     }
 
     public function searchByProducts(Request $request){
@@ -43,15 +58,8 @@ class CategoryController extends Controller
     }
 
     public function filterProducts(Request $request){
-        dd('dfsa');
-
-//        $skus = Sku::with('product', 'proimage')->whereHas('proimage', function ($query) {
-//            $query->groupBy('fkskuId');
-//        })->whereHas('product', function ($query) use ($request) {
-//            $query->where('status', 'active');
-//        });
-
-        $skus = Sku::with('product')->where('status', 'active')->get();
+//dd($request->all());
+        $skus = Sku::with('product')->where('salePrice', '>=', $request->priceMin)->where('salePrice', '<=', $request->priceMax)->where('status', 'active');
 
         if (!empty($request->categoryId)) {
             $skus = $skus->whereHas('product', function ($query) use ($request) {
@@ -80,36 +88,37 @@ class CategoryController extends Controller
             $variation = VariationDetails::whereIn('variationData', $request->sizeSS)->pluck('skuId');
             $skus = $skus->whereIn('skuId', $variation);
         }
+        if (!empty($request->saleSS)) {
+//            $skus = $skus->whereHas('product', function ($query) use ($request) {
+//                $query->whereIn('productId', $request->saleSS);
+//            });
+        }
+        if (!empty($request->newSS)) {
+            $skus = $skus->whereHas('product', function ($query) use ($request) {
+                $query->where('newarrived', '1');
+            });
+        }
+        if (!empty($request->instockSS) || (!empty($request->alphaOrderSS) && ($request->alphaOrderSS=="instock"))) {
+            $availableSku = [];
+            foreach($skus->get() as $sku){
+                $stockIn=Stock::where('fkskuId',$sku->skuId)->where('type', 'in')->sum('stock');
+                $stockOut=Stock::where('fkskuId',$sku->skuId)->where('type', 'out')->sum('stock');
+                $stockAvailable = $stockIn-$stockOut;
+                if($stockAvailable > 0){
+                    $availableSku[] = $sku->skuId;
+                }
+            }
+            $skus = $skus->whereIn('skuId', $availableSku);
+        }
         $skus = $skus->get();
-        $productSkus = [];
-        foreach ($skus as $sku) {
-            $productSkus[] = $sku->skuId;
+        if (!empty($request->alphaOrderSS) && $request->alphaOrderSS == "A") {
+                $skus = $skus->sortBy('product.productName');
         }
 
-//        price for max stock available batch
+        if (!empty($request->alphaOrderSS) && $request->alphaOrderSS == "Z") {
+                $skus = $skus->sortByDesc('product.productName');
+        }
 
-        $batch = [];
-
-//        foreach ($productSkus as $productSku) {
-//            $batches = StockRecord::where('fkskuId', $productSku)->pluck('batchId')->unique();
-//
-//            $stockAvailable = [];
-//
-//            foreach ($batches as $batchId) {
-//                $inStock = StockRecord::where('batchId', $batchId)->where('type', 'in')->sum('stock');
-//                $outStock = StockRecord::where('batchId', $batchId)->where('type', 'out')->sum('stock');
-//                $stockAvailable[$batchId] = $inStock - $outStock;
-//            }
-//
-//            if (!empty($stockAvailable)) {
-//                $maxStock = max($stockAvailable);
-//                $batchId = array_keys($stockAvailable, $maxStock);
-//                $bid = $batchId[0];
-//                $batchSku = Batch::where('batchId', $bid)->pluck('skuId')->first();
-//                $batch[$batchSku] = Batch::where('batchId', $batchId)->pluck('salePrice')->first();
-//            }
-//        }
-
-//        return view('frontend.pages.product-details-ajax', compact('skus'));
+        return view('shopAjax', compact('skus'));
     }
 }

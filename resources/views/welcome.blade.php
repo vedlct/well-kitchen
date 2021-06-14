@@ -230,7 +230,9 @@
                                         <a href="{{route('product.details',$sku->skuId)}}">
                                             <img src="{{asset('admin/public/featureImage/'.$sku->product()->first()->featureImage)}}" alt="">
                                         </a>
+                                        @if($sku->product->newarrived == 1)
                                         <span class="purple">New</span>
+                                        @endif
                                         <div class="product-action-4">
                                             <div class="pro-same-action pro-wishlist">
                                                 <a title="Wishlist" href="{{route('wishlistAdd', $sku->skuId)}}"><i class="pe-7s-like"></i></a>

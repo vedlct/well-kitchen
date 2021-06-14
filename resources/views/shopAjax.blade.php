@@ -8,6 +8,12 @@
                             <a href="{{route('product.details',$sku->skuId)}}">
                                 <img class="default-img" src="{{asset('admin/public/featureImage/'.$sku->product()->first()->featureImage)}}" alt="">
                             </a>
+                            @if($sku->product->newarrived == 1)
+                            <span class="purple">New</span>
+                            @endif
+                            @if($sku->product->isrecommended == 1)
+                            <span class="purple">Feature</span>
+                            @endif
                             <div class="product-action">
                                 <div class="pro-same-action pro-wishlist">
                                     <a title="Wishlist" href="#"><i class="pe-7s-like"></i></a>
