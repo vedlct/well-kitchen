@@ -93,9 +93,13 @@
                             </div>
                             <div class="discount-code">
                                 <p>Enter your coupon code if you have one.</p>
-                                <form>
-                                    <input type="text" required="" name="name">
+                                <form action="{{route('coupon.submit')}}" method="post">
+                                    @csrf
+                                    <input type="text" required="" name="couponCode">
                                     <button class="cart-btn-2" type="submit">Apply Coupon</button>
+                                    @if($errors->has('couponCode'))
+                                    <div class="error text-danger"><strong>{{ $errors->first('couponCode') }}</strong></div>
+                                    @endif
                                 </form>
                             </div>
                         </div>
@@ -114,7 +118,12 @@
                                 </ul>
                             </div>
                             <h4 class="grand-totall-title">Grand Total  <span>$260.00</span></h4>
+                            {{-- @if(empty($customer)) --}}
+                            {{-- <a href="{{route('login')}}">Goto Login</a> --}}
+                            
+                            {{-- @else --}}
                             <a href="{{route('checkout.index')}}">Proceed to Checkout</a>
+                            {{-- @endif --}}
                         </div>
                     </div>
                 </div>

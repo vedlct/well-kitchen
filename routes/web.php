@@ -8,6 +8,7 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\CuponController;
 use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
@@ -49,8 +50,19 @@ Route::post('/search-category-product' ,[CategoryController::class,'searchByProd
 
     Route::get('/checkout' ,[CheckoutController::class,'index'])->name('checkout.index');
     Route::post('checkout-submit',[CheckoutController::class,'checkoutSubmit'])->name('checkout.submit');
+
+    Route::post('order/shippingZone',[CheckoutController::class,'shippingZone'])->name('shippingZone.change');
+
+
     
+
+    //coupon
+    Route::post('coupon-submit',[CuponController::class,'couponSubmit'])->name('coupon.submit');
+    
+    
+    Route::get('autocomplete',[CheckoutController::class,'autocomplete']);
     Route::post('search-user',[CheckoutController::class,'searchUserByPhone'])->name('search.user');
+    
 
 
 

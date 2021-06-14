@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\Customer;
 use App\Models\Slider;
 use App\Models\Product;
 use App\Models\Sku;
@@ -12,6 +13,7 @@ use App\Models\Stock;
 use App\Models\ShipmentZone;
 use Illuminate\Support\Facades\DB;
 use Darryldecode\Cart\Cart;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -117,7 +119,15 @@ class HomeController extends Controller
     public function cartIndex()
     {
         $shipmentZone=ShipmentZone::all();
-        return view('cart',compact('shipmentZone'));
+
+        if(Auth::check()){
+            $userId = Auth::user()->userId;
+            $customer = Customer::where('fkuserId',$userId)->first();
+
+            return view('cart',compact('shipmentZone','customer'));
+        }
+
+       return view('cart',compact('shipmentZone'));
     }
 
 }
