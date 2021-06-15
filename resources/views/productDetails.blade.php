@@ -58,7 +58,7 @@
                         <div class="pro-details-rating">
                             {{-- @dd($product->review->count()); --}}
                             @if($product->review->count()>0)
-                           
+
                                     @for ($i = 0; $i < ceil($product->review->avg('rating')); $i++)
                                         <i class="fa fa-star-o yellow"></i>
                                     @endfor
@@ -66,14 +66,14 @@
                                         <i class="fa fa-star-o red"></i>
                                     @endfor
                                 @else
-                                
+
                                 <i class="fa fa-star-o yellow"></i>
                                 <i class="fa fa-star-o yellow"></i>
                                 <i class="fa fa-star-o yellow"></i>
                                 <i class="fa fa-star-o yellow"></i>
                                 <i class="fa fa-star-o yellow"></i>
                                 @endif
-                            
+
                         </div>
                         {{-- @dd($product); --}}
                         <span><a href="#">{{$product->review->count()}} Reviews</a></span>
@@ -202,10 +202,10 @@
                                             <div class="review-top-wrap">
                                                 <div class="review-left">
                                                     <div class="review-name">
-                                                       
+
                                                         {{-- @php
                                                             $name = $item->customer->user->firstName;
-                                                           
+
                                                         @endphp --}}
                                                          {{-- @dd($name); --}}
                                                          {{-- {{$name}} --}}
@@ -226,7 +226,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                @endforeach 
+                                @endforeach
                             </div>
                         </div>
                         <div class="col-lg-5">
@@ -291,7 +291,7 @@
             {{-- @dd($skus); --}}
             @foreach ($skus as $sku)
                 {{-- @dd($sku->product);                 --}}
-            
+
                 <div class="product-wrap mb-25">
                     <div class="product-img">
                         <a href="{{route('product.details',$sku->skuId)}}">
@@ -356,35 +356,35 @@
         });
     }
 
-    function changeSize(id)
-    {
-        var variationRelationId = id;
-        $.ajax({
-            url: "{{route('size.choose')}}",
-            method: 'POST',
-            data: {
-                _token: "{{csrf_token()}}",
-                variationRelationId: variationRelationId,
-            },
-            success: function (data) {
-                console.log(data);
-                var data = data;
-                $('.salePrice').empty().append("<span>"+"Price: ৳ "+data.salePrice+"</span>")
-                if(data.variations.length < 1){
-                    $('.sizeColors').hide();
-                    $('#colors').empty();
-                }else{
-                    $('#colors').empty();
-                    $('.sizeColors').show();
-                    $.each(data.variations, function (key, val)
-                    {
-                        $('#colors').append("<div style='display: inline-block;'>"+"<div class='select-color'>"+"<ul class='colorBlock' style='margin-right: 5px'>"+
-                            "<li value="+val.skuID+" class='colorsize"+val.skuID+"' onclick='colorSize("+val.skuID+")'>"+"<span onclick='colorSize("+val.skuID+")' class='colorsize"+val.skuID+" color-option' style='background-color: "+val.variation_details.variationValue+"'>"+"</span>"+"</li>"+"</ul>"+"</div>"+"</div>")
-                    });
-                }
-            }
-        });
-    }
+    {{--function changeSize(id)--}}
+    {{--{--}}
+    {{--    var variationRelationId = id;--}}
+    {{--    $.ajax({--}}
+    {{--        --}}{{--url: "{{route('size.choose')}}",--}}
+    {{--        method: 'POST',--}}
+    {{--        data: {--}}
+    {{--            _token: "{{csrf_token()}}",--}}
+    {{--            variationRelationId: variationRelationId,--}}
+    {{--        },--}}
+    {{--        success: function (data) {--}}
+    {{--            console.log(data);--}}
+    {{--            var data = data;--}}
+    {{--            $('.salePrice').empty().append("<span>"+"Price: ৳ "+data.salePrice+"</span>")--}}
+    {{--            if(data.variations.length < 1){--}}
+    {{--                $('.sizeColors').hide();--}}
+    {{--                $('#colors').empty();--}}
+    {{--            }else{--}}
+    {{--                $('#colors').empty();--}}
+    {{--                $('.sizeColors').show();--}}
+    {{--                $.each(data.variations, function (key, val)--}}
+    {{--                {--}}
+    {{--                    $('#colors').append("<div style='display: inline-block;'>"+"<div class='select-color'>"+"<ul class='colorBlock' style='margin-right: 5px'>"+--}}
+    {{--                        "<li value="+val.skuID+" class='colorsize"+val.skuID+"' onclick='colorSize("+val.skuID+")'>"+"<span onclick='colorSize("+val.skuID+")' class='colorsize"+val.skuID+" color-option' style='background-color: "+val.variation_details.variationValue+"'>"+"</span>"+"</li>"+"</ul>"+"</div>"+"</div>")--}}
+    {{--                });--}}
+    {{--            }--}}
+    {{--        }--}}
+    {{--    });--}}
+    {{--}--}}
 
 </script>
 

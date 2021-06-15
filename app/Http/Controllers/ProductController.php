@@ -26,7 +26,6 @@ class ProductController extends Controller
 
     public function colorChoose(Request $request)
     {
-//        dd($request->all());
         $variationRelation= VariationDetails::where('variationRelationId', $request->variationRelationId)->first();
         $sku = Sku::where('skuId', $variationRelation->skuId)->first();
         $otherVariationSameSku = VariationDetails::where('skuId', $variationRelation->skuId)->get()->except($variationRelation->variationRelationId);
@@ -40,39 +39,10 @@ class ProductController extends Controller
         return response()->json(['otherVariationSameSku'=>$otherVariationSameSku, 'sku'=> $sku, 'variationDatas'=>$variationDatas ]);
     }
 
-    public function sizeChoose(Request $request)
-    {
-        dd($request->all());
-        return 'fsadfa';
-    }
-
-//    public function changeColor(Request $request)
+//    public function sizeChoose(Request $request)
 //    {
-//        $allvariation = [];
-//        $variationSkus = VariationRelationData::where('producID', $request->productId)->where('variationData', $request->variationData)->pluck('skuID');
-//        $variations = VariationRelationData::whereIn('skuID', $variationSkus)->get();
-//        $productSkus = Sku::where('fkproductId', $request->productId)->where('status', 'active')->pluck('skuId');
-//        $productImages = ProductImage::whereIn('fkskuId', $productSkus)->get();
-//        $imageSku = ProductImage::whereIn('fkskuId', $variationSkus)->pluck('fkskuId')->first();
-//
-//        foreach ($variations->unique('variationData') as $variation) {
-//            if ($variation->variationDetails->variationType != "Color" && $variation->variationDetails->selectionType == "checkbox") {
-//                $allvariation[] = $variation;
-//            }
-//        }
-//
-//        //price for max stock available batch
-////        $variationSkus = VariationRelationData::where('producID', $request->productId)->where('variationData', $request->variationData)->pluck('skuID');
-//
-//        $batches = StockRecord::whereIn('fkskuId', $variationSkus)->pluck('batchId')->unique();
-//        $salePrice = productHelper::salePrice($batches);
-//
-////        Stock
-//        $totalstock = StockRecord::whereIn('fkskuId', $variationSkus)->where('type', 'in')->sum('stock');
-//        $outstock = StockRecord::whereIn('fkskuId', $variationSkus)->where('type', 'out')->sum('stock');
-//        $availableStock = $totalstock - $outstock;
-//
-//        return response()->json(['variations' => $allvariation, 'productImages' => $productImages, 'availableStock' => $availableStock, 'imageSku' => $imageSku, 'salePrice' => $salePrice, 'Skus' => $variationSkus]);
+//        dd($request->all());
+//        return 'fsadfa';
 //    }
 
 }
