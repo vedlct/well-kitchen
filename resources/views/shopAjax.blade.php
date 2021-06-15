@@ -1,6 +1,9 @@
 <div id="" class="tab-pane active">
     <div class="row">
+
         @foreach ($skus->unique('fkproductId') as $sku)
+{{--            {{ dd($sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))) }}--}}
+           @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
             @if(!empty($sku->product()))
                 <div class="col-6 col-md-4 shop-col-item">
                     <div class="product-wrap mb-25 scroll-zoom">
@@ -9,11 +12,17 @@
                                 <img class="default-img" src="{{asset('admin/public/featureImage/'.$sku->product()->first()->featureImage)}}" alt="">
                             </a>
                             @if($sku->product->newarrived == 1)
-                            <span class="purple">New</span>
+                                <span class="purple">New</span>
                             @endif
-                            @if($sku->product->isrecommended == 1)
-                            <span class="purple">Feature</span>
+
+                            @if(!empty($hotDeal))
+                                <span class="blue discount">-{{$hotDeal->hotdeals? $hotDeal->hotdeals->percentage : ''}}%</span>
                             @endif
+
+                        @if($sku->product->isrecommended == 1)
+                            <span class="pink">Feature</span>
+                            @endif
+
                             <div class="product-action">
                                 <div class="pro-same-action pro-wishlist">
                                     <a title="Wishlist" href="#"><i class="pe-7s-like"></i></a>

@@ -33,7 +33,7 @@
                                 <option value="instock">In stock</option>
                             </select>
                         </div>
-                        <p>Showing 1–12 of 20 result</p>
+{{--                        <p>Showing 1–12 of 20 result</p>--}}
                     </div>
                     <div class="column-select-area d-none d-md-block">
                         <a href="#" class="line-item" onclick="showTwoCol()">
@@ -59,28 +59,34 @@
                         <div id="shop-1" class="tab-pane active">
                             <div class="row">
                                 @foreach ($skus->unique('fkproductId') as $sku)
-                                    @if(!empty($sku->product()))
+                                    @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
+                                @if(!empty($sku->product()))
                                 <div class="col-6 col-md-4 shop-col-item">
                                     <div class="product-wrap mb-25 scroll-zoom">
                                         <div class="product-img">
                                             <a href="{{route('product.details',$sku->skuId)}}">
-                                                <img class="default-img" src="{{asset('admin/public/featureImage/'.$sku->product()->first()->featureImage)}}" alt="">
+                                                <img class="default-img" src="{{asset('admin/public/featureImage/'.$sku->product->featureImage)}}" alt="">
                                             </a>
                                             @if($sku->product->newarrived == 1)
                                                 <span class="purple">New</span>
                                             @endif
+
+                                            @if(!empty($hotDeal))
+                                                <span class="blue discount">-{{$hotDeal->hotdeals? $hotDeal->hotdeals->percentage : ''}}%</span>
+                                            @endif
+
                                             @if($sku->product->isrecommended == 1)
-                                                <span class="purple">Feature</span>
+                                                <span class="pink">Feature</span>
                                             @endif
                                             <div class="product-action">
                                                 <div class="pro-same-action pro-wishlist">
                                                     <a title="Wishlist" href="#"><i class="pe-7s-like"></i></a>
                                                 </div>
                                                 <div class="pro-same-action pro-cart">
-                                                    @if($sku->product()->first()->type == "single")
+                                                    @if($sku->product->type == "single")
                                                         <a title="Add To Cart" href="#" onclick="addTocart({{$sku->skuId}})"><i class="pe-7s-cart"></i> Add to cart</a>
                                                     @endif
-                                                    @if($sku->product()->first()->type == "variation")
+                                                    @if($sku->product->type == "variation")
                                                         <a title="Add To Cart" href="{{route('product.details',$sku->skuId)}}"><i class="pe-7s-cart"></i> Add to cart</a>
                                                     @endif
 {{--                                                    <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a>--}}
@@ -91,7 +97,7 @@
                                             </div>
                                         </div>
                                         <div class="product-content text-center">
-                                            <h3><a href="{{route('product.details',$sku->skuId)}}">{{$sku->product()->first()->productName}}</a></h3>
+                                            <h3><a href="{{route('product.details',$sku->skuId)}}">{{$sku->product->productName}}</a></h3>
                                             <div class="product-price">
                                                 <span>৳  {{$sku->salePrice}}</span>
                                             </div>
@@ -133,19 +139,19 @@
                             <ul>
                                 <li>
                                     <div class="sidebar-widget-list-left">
-                                        <input type="checkbox" class="saleCheck" value="discount"> <a href="#">On Sale <span>4</span> </a>
+                                        <input type="checkbox" class="saleCheck" value="discount"> <a href="#">On Sale </a>
                                         <span class="checkmark"></span>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="sidebar-widget-list-left">
-                                        <input type="checkbox" class="newCheck" value="new"> <a href="#">New <span>{{$newArrived}}</span></a>
+                                        <input type="checkbox" class="newCheck" value="new"> <a href="#">New </a>
                                         <span class="checkmark"></span>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="sidebar-widget-list-left">
-                                        <input type="checkbox" class="instockCheck" value="instock"> <a href="#">In Stock <span>{{$totalAvailable}}</span> </a>
+                                        <input type="checkbox" class="instockCheck" value="instock"> <a href="#">In Stock </a>
                                         <span class="checkmark"></span>
                                     </div>
                                 </li>
@@ -227,38 +233,12 @@
     <script>
 
         var alphaOrderSS;
-
         $(".alphaCheck").change(function() {
             alphaOrderSS = $(".alphaCheck").val();
             filter();
         });
 
-        var priceMin;
-        var priceMax;
-        $( "#slider-range" ).slider({
-            change: function( event, ui ) {
-                priceMin=(ui.values[0]);
-                priceMax=(ui.values[1]);
-                filter();
-            }
-        });
-        // $("#slider-range").click(function(){
-        //     // alert(ui.values[0]);
-        //     var res = $("#amount").val();
-        //     console.log(res);
-        //     console.log($("#amount").val().replace(/[^0-9]/g, ''));
-        //     // var res = str.replace(/\D/g, "");
-        //     if(this.checked){
-        //         priceSS.push(this.value);
-        //     }else{
-        //         if(jQuery.inArray(this.value, priceSS) !== -1){
-        //             if(priceSS.indexOf(this.value) !== -1) priceSS.splice(priceSS.indexOf(this.value), 1);
-        //         }
-        //     }
-        //     filter()
-        // });
         var colorSS = [];
-
         $(".colorCheck").change(function() {
             if(this.checked) {
                 colorSS.push(this.value);
@@ -270,6 +250,7 @@
             }
             filter();
         });
+
         var sizeSS = [];
         $(".sizeCheck").change(function(){
             if(this.checked){
@@ -281,8 +262,8 @@
             }
             filter()
         });
-        var saleSS = [];
 
+        var saleSS = [];
         $(".saleCheck").change(function() {
             if(this.checked) {
                 saleSS.push(this.value);
@@ -296,7 +277,6 @@
         });
 
         var newSS = [];
-
         $(".newCheck").change(function() {
             if(this.checked) {
                 newSS.push(this.value);
@@ -310,7 +290,6 @@
         });
 
         var instockSS = [];
-
         $(".instockCheck").change(function() {
             if(this.checked) {
                 instockSS.push(this.value);
@@ -322,6 +301,21 @@
             }
             filter();
         });
+
+        var priceMin;
+        var priceMax;
+        $("#slider-range").click(function (){
+
+            $( "#slider-range" ).slider({
+                change: function( event, ui ) {
+                    priceMin=(ui.values[0]);
+                    priceMax=(ui.values[1]);
+                    filter();
+                }
+            });
+
+        });
+
         function  filter(){
             $.ajax({
                 url: "{{route('filter.products')}}",

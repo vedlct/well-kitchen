@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\HotDealsProduct;
 use App\Models\Product;
 use App\Models\Sku;
 use App\Models\Stock;
@@ -28,7 +29,6 @@ class CategoryController extends Controller
 
         if(!empty($categoryId)){
             $totalAvailable = 0;
-            // $skus = Sku::with('product')->where('status', 'active')->get();
             $products = Product::with('sku', 'images')->where('status', 'active')->where('categoryId', $categoryId)->pluck('productId');
             $skus = Sku::whereIn('fkproductId', $products)->get();
             foreach($skus->unique('fkproductId') as $sku){
@@ -58,8 +58,12 @@ class CategoryController extends Controller
     }
 
     public function filterProducts(Request $request){
-//dd($request->all());
-        $skus = Sku::with('product')->where('salePrice', '>=', $request->priceMin)->where('salePrice', '<=', $request->priceMax)->where('status', 'active');
+
+        if($request->priceMin && $request->priceMax) {
+            $skus = Sku::with('product')->where('salePrice', '>=', $request->priceMin)->where('salePrice', '<=', $request->priceMax)->where('status', 'active');
+        }else {
+            $skus = Sku::with('product')->where('status', 'active');
+        }
 
         if (!empty($request->categoryId)) {
             $skus = $skus->whereHas('product', function ($query) use ($request) {
@@ -88,16 +92,20 @@ class CategoryController extends Controller
             $variation = VariationDetails::whereIn('variationData', $request->sizeSS)->pluck('skuId');
             $skus = $skus->whereIn('skuId', $variation);
         }
+
         if (!empty($request->saleSS)) {
-//            $skus = $skus->whereHas('product', function ($query) use ($request) {
-//                $query->whereIn('productId', $request->saleSS);
-//            });
+            $hotDealProdcuts = HotDealsProduct::with('hotdeals')->get();
+            $hotDealProdcuts = $hotDealProdcuts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'));
+            $hotDealProdcutIds = $hotDealProdcuts->pluck('fkproductId');
+            $skus = $skus->whereIn('fkproductId', $hotDealProdcutIds);
         }
+
         if (!empty($request->newSS)) {
             $skus = $skus->whereHas('product', function ($query) use ($request) {
                 $query->where('newarrived', '1');
             });
         }
+
         if (!empty($request->instockSS) || (!empty($request->alphaOrderSS) && ($request->alphaOrderSS=="instock"))) {
             $availableSku = [];
             foreach($skus->get() as $sku){
@@ -111,6 +119,7 @@ class CategoryController extends Controller
             $skus = $skus->whereIn('skuId', $availableSku);
         }
         $skus = $skus->get();
+
         if (!empty($request->alphaOrderSS) && $request->alphaOrderSS == "A") {
                 $skus = $skus->sortBy('product.productName');
         }
@@ -118,6 +127,7 @@ class CategoryController extends Controller
         if (!empty($request->alphaOrderSS) && $request->alphaOrderSS == "Z") {
                 $skus = $skus->sortByDesc('product.productName');
         }
+
 
         return view('shopAjax', compact('skus'));
     }

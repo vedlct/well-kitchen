@@ -5588,6 +5588,12 @@ margin-bottom: 5px; }
         background-color: #5d5d5d; }
       .product-wrap .product-img span.purple {
         background-color: #ed1c24; }
+        .product-wrap .product-img span.blue {
+            background-color: #8A2BE2; }
+        .product-wrap .product-img span.discount {
+            right: unset;
+            left: 12px;
+        }
     .product-wrap .product-img .hover-img {
       position: absolute;
       top: 0;
@@ -6859,6 +6865,12 @@ margin-bottom: 5px; }
         background-color: #ed1c24; }
       .product-wrap-5 .product-img span.pink {
         background-color: #5d5d5d; }
+.product-wrap-5 .product-img span.blue {
+    background-color: #8A2BE2; }
+.product-wrap-5 .product-img span.discount {
+    right: unset;
+    left: 12px;
+}
   .product-wrap-5 .product-action-4 {
     background: none repeat scroll 0 0 #ed1c24;
     bottom: 0;
