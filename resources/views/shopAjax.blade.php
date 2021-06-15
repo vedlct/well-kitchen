@@ -44,12 +44,30 @@
                         <div class="product-content text-center">
                             <h3><a href="{{route('product.details',$sku->skuId)}}">{{$sku->product()->first()->productName}}</a></h3>
                             <div class="product-price">
-                                <span>৳  {{$sku->salePrice}}</span>
+{{--                                <span>৳  {{$sku->salePrice}}</span>--}}
+                                @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
+
+                                @if(empty($hotDeal))
+                                    <span>৳ {{$sku->salePrice}} </span>
+                                @endif
+
+                                @if(!empty($hotDeal))
+                                    @php
+                                        $percentage = $hotDeal->hotdeals->percentage;
+                                        $afterDiscountPrice = ($sku->salePrice) - (($sku->salePrice)*$percentage)/100;
+                                    @endphp
+
+                                    <span>৳  {{$afterDiscountPrice}}</span>
+                                    <span class="old">৳  {{$sku->salePrice}}</span>
+                                @endif
+
                             </div>
                         </div>
                     </div>
                 </div>
             @endif
         @endforeach
+            {{ $skus->links() }}
+
     </div>
 </div>

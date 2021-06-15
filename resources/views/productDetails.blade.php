@@ -65,6 +65,8 @@
                             @endphp
                             <span class="salePrice">৳ {{$afterDiscountPrice}} </span>
                             <span class="old">৳ {{$sku->salePrice}}</span>
+{{--                            &nbsp;--}}
+                            <p class="ml-3"> -{{$percentage}}% <small style="color: #0ac282; font-weight: bold">Free</small></p>
                         @endif
 
                     </div>
@@ -337,7 +339,22 @@
                     <div class="product-content text-center">
                         <h3><a href="{{route('product.details',$sku->skuId)}}">{{$sku->product->productName}}</a></h3>
                         <div class="product-price">
-                            <span>৳ {{$sku->salePrice}}</span>
+{{--                            <span>৳ {{$sku->salePrice}}</span>--}}
+                            @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
+
+                            @if(empty($hotDeal))
+                                <span>৳ {{$sku->salePrice}} </span>
+                            @endif
+
+                            @if(!empty($hotDeal))
+                                @php
+                                    $percentage = $hotDeal->hotdeals->percentage;
+                                    $afterDiscountPrice = ($sku->salePrice) - (($sku->salePrice)*$percentage)/100;
+                                @endphp
+
+                                <span>৳  {{$afterDiscountPrice}}</span>
+                                <span class="old">৳  {{$sku->salePrice}}</span>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -366,7 +383,13 @@
             success: function(data){
                 console.log(data);
                 var data = data;
-                $('.salePrice').empty().append("<span>"+"৳ "+data.sku.salePrice+"</span>")
+                if(data.afterDiscountPrice != null){
+                    $('.salePrice').empty().append("<span>"+"৳ "+data.afterDiscountPrice+"</span>")
+                    $('.old').empty().append("<span class='old'>"+"৳ "+data.sku.salePrice+"</span>")
+                }
+                if(data.afterDiscountPrice == null) {
+                    $('.salePrice').empty().append("<span>" + "৳ " + data.sku.salePrice + "</span>")
+                }
                 $('.addtocartsku').empty().append("<a href='#' onclick='addTocart("+data.sku.skuId+")'>Add To Cart</a>");
                 $.each(data.variationDatas, function (key, val)
                 {

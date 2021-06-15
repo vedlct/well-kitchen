@@ -15,7 +15,7 @@ class CategoryController extends Controller
     public function categoryProducts($categoryId=null){
 
         if(empty($categoryId)){
-            $skus = Sku::with('product')->where('status', 'active')->get();
+            $skus = Sku::with('product')->where('status', 'active')->paginate(2);
             $totalAvailable = 0;
             foreach($skus->unique('fkproductId') as $sku){
                 $stockIn=Stock::where('fkskuId',$sku->skuId)->where('type', 'in')->sum('stock');
@@ -30,7 +30,7 @@ class CategoryController extends Controller
         if(!empty($categoryId)){
             $totalAvailable = 0;
             $products = Product::with('sku', 'images')->where('status', 'active')->where('categoryId', $categoryId)->pluck('productId');
-            $skus = Sku::whereIn('fkproductId', $products)->get();
+            $skus = Sku::whereIn('fkproductId', $products)->paginate(2);
             foreach($skus->unique('fkproductId') as $sku){
                 $stockIn=Stock::where('fkskuId',$sku->skuId)->where('type', 'in')->sum('stock');
                 $stockOut=Stock::where('fkskuId',$sku->skuId)->where('type', 'out')->sum('stock');
@@ -118,7 +118,7 @@ class CategoryController extends Controller
             }
             $skus = $skus->whereIn('skuId', $availableSku);
         }
-        $skus = $skus->get();
+        $skus = $skus->paginate(2);
 
         if (!empty($request->alphaOrderSS) && $request->alphaOrderSS == "A") {
                 $skus = $skus->sortBy('product.productName');
