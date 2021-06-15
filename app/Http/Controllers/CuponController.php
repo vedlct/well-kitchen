@@ -25,6 +25,52 @@ class CuponController extends Controller
                     // limit
                   $customerID = Customer::where('fkuserId',Auth::user()->userId)->first()->customerId;
                     $usedBefore = Order::where('fkcustomerId',$customerID)->where('discount',$couponCode)->count();
+
+                    if ($promotion->useLimit > $usedBefore){
+                        $cartProduct = \Cart::getContent();
+                        $common = array_intersect($promoProduct = $promotion->promoProduct->pluck('fkproductId')->toArray(), $cartProduct->pluck('attributes.productID')->toArray());
+                        if(count($common)>0){
+                            $previousCoupon = $cartProduct->pluck('attributes.couponCode')->toArray();
+                            if (!count(array_filter($previousCoupon))>0){
+                                foreach ($promoProduct as $promoProductId){
+                                    foreach ($cartProduct as $cartProductData){
+                                        if($cartProductData['attributes']['productID'] == $promoProductId){
+                                            if(!is_null($promotion->percentage)){
+                                                $discount = $cartProductData['price'] * ($promotion->percentage/100);
+                                            }elseif (is_null($promotion->percentage)){
+                                                if($cartProductData['price'] < $promotion->amount){
+                                                    session()->flash('message','This coupon amount is bigger than product price.');
+                                                    session()->flash('alert-class','alert-warning');
+                                                    break;
+                                                }else{
+                                                    $discount = $promotion->amount;
+                                                }
+                                            }
+                                            $newprice = $cartProductData['price'] - $discount;
+                                            data_set($cartProductData->attributes, 'oldPrice', $cartProductData->price);
+                                            data_set($cartProductData->attributes, 'discount', $discount);
+                                            data_set($cartProductData->attributes, 'couponCode', $couponCode);
+                                            \Cart::update($cartProductData->id,[
+                                                'price' => $newprice
+                                            ]);
+                                        }
+                                    }
+                                }
+                                session()->flash('message','Coupon applied successful.');
+                                session()->flash('alert-class','alert-success');
+                            }else{
+                                session()->flash('message','You can not use more than one coupon at a time.');
+                                session()->flash('alert-class','alert-danger');
+                            }
+                        }else{
+                            session()->flash('message','This coupon is not applicable for your shopping cart.');
+                            session()->flash('alert-class','alert-warning');
+                        }
+
+                    }else{
+                            session()->flash('message','You have reached the this coupon usage limit.');
+                            session()->flash('alert-class','alert-danger');
+                        }
                 }elseif($promotion->status == 'Inactive'){
                     session()->flash('message','This coupon is not active now.');
                     session()->flash('alert-class','alert-danger');
