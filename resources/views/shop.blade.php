@@ -58,7 +58,7 @@
                         <div id="productdetails"></div>
                         <div id="shop-1" class="tab-pane active">
                             <div class="row">
-                                @foreach ($skus->unique('fkproductId') as $sku)
+                                @foreach ($skus as $sku)
                                     @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
                                 @if(!empty($sku->product()))
                                 <div class="col-6 col-md-4 shop-col-item">
@@ -121,34 +121,28 @@
                                 </div>
                                     @endif
                                 @endforeach
-                                    {{ $skus->links() }}
                             </div>
+                            <div class="pro-pagination-style text-center mt-30">
+                                {{ $skus->links('vendor.pagination.custom') }}
+                                </div>
                         </div>
                     </div>
-{{--                    {{ $products->links() }}--}}
-                    <div class="pro-pagination-style text-center mt-30">
-                        <ul>
-                            <li><a class="prev" href="#"><i class="fa fa-angle-double-left"></i></a></li>
-                            <li><a class="active" href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a class="next" href="#"><i class="fa fa-angle-double-right"></i></a></li>
-                        </ul>
-                    </div>
+
+
+
+{{--  <div class="pro-pagination-style text-center mt-30">
+    <ul>
+        <li><a class="prev" href="#"><i class="fa fa-angle-double-left"></i></a></li>
+        <li><a class="active" href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a class="next" href="#"><i class="fa fa-angle-double-right"></i></a></li>
+    </ul>
+</div>  --}}
+                   
                 </div>
             </div>
             <div class="col-lg-3">
                 <div class="sidebar-style mr-30">
-{{--                    <div class="sidebar-widget">--}}
-{{--                        <h4 class="pro-sidebar-title">Search </h4>--}}
-{{--                        <div class="pro-sidebar-search mb-50 mt-25">--}}
-{{--                            <form class="pro-sidebar-search-form" action="#">--}}
-{{--                                <input type="text" placeholder="Search here...">--}}
-{{--                                <button>--}}
-{{--                                    <i class="pe-7s-search"></i>--}}
-{{--                                </button>--}}
-{{--                            </form>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
                     <div class="sidebar-widget">
                         <h4 class="pro-sidebar-title">Refine By </h4>
                         <div class="sidebar-widget-list mt-30">
