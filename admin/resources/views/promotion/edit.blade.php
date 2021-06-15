@@ -117,8 +117,8 @@
                                                         <br>
                                                         <select class="form-control" name="status" id="status">
                                                             <option value="">Select</option>
-                                                        <option value="Active" {{ old('status', $promotion->status ?? null) == "Active" ? 'selected' : '' }}>Active</option>
-                                                        <option value="Inactive" {{ old('status', $promotion->status ?? null) == "Inactive" ? 'selected' : '' }}>Inactive</option>
+                                                        <option value="active" {{ old('status', $promotion->status ?? null) == "active" ? 'selected' : '' }}>Active</option>
+                                                        <option value="inactive" {{ old('status', $promotion->status ?? null) == "inactive" ? 'selected' : '' }}>Inactive</option>
                                                         </select>
                                                         <span class="text-danger status"> <b>{{  $errors->first('status') }}</b></span>
                                                     </div>

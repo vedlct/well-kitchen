@@ -9,7 +9,6 @@
             @endisset
             
         <div class="row">
-       {{-- @dd($customer); --}}
             <div class="col-lg-7">
                 <div class="billing-info-wrap">
                     <h3>Billing Details</h3>
@@ -59,6 +58,14 @@
                         </div>
                        
                         
+                    </div>
+
+                    <div class="additional-info-wrap">
+                        <h4>Additional information</h4>
+                        <div class="additional-info">
+                            <label>Order notes</label>
+                            <textarea placeholder="Notes about your order, e.g. special notes for delivery. " name="message"></textarea>
+                        </div>
                     </div>
                    
                     <div class="checkout-account mt-25">
@@ -119,6 +126,7 @@
                                         <div class="panel-heading" id="method-one">
                                             <h4 class="panel-title">
                                                 <a data-toggle="collapse" data-parent="#accordion" href="#method1">
+                                                    <input id="cod" type="hidden" name="payment" value="dbt" {{ old('payment') == 'dbt' ? 'checked' : '' }} />
                                                     Direct bank transfer
                                                 </a>
                                             </h4>
@@ -133,6 +141,7 @@
                                         <div class="panel-heading" id="method-three">
                                             <h4 class="panel-title">
                                                 <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#method3">
+                                                    <input id="cod" type="hidden" name="payment" value="cod" {{ old('payment') == 'cod' ? 'checked' : '' }} />
                                                     Cash on delivery
                                                 </a>
                                             </h4>
@@ -156,6 +165,7 @@
             </div>
             
         </div>
+        
     </form>
     </div>
 </div>
