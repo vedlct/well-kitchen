@@ -140,4 +140,5 @@ define ("COLOR_CODE", serialize (array (
     "#9ACD32"=>"YellowGreen",
     "#FC0000"=>"DarkRed",
     "#0084FF"=>"LightBlue",
+    "NOT" =>"Not Eist",
 )));

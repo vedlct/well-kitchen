@@ -54,15 +54,15 @@ img {
   display: none;
 }
 
-.pro-details-color-content input[type=radio]:checked+label .red {
-  border: 2px solid #711313;
-}
+/*.pro-details-color-content input[type=radio]:checked+label .red {*/
+/*  border: 2px solid #711313;*/
+/*}*/
 
-.pro-details-color-content input[type=radio]:checked+label .orange {
-  border: 2px solid #a34200;
-}
+/*.pro-details-color-content input[type=radio]:checked+label .orange {*/
+/*  border: 2px solid #a34200;*/
+/*}*/
 
-.pro-details-color-content input[type=radio]:checked+label .yellow {
+.pro-details-color-content input[type=radio]:checked+label span {
   border: 2px solid #816102;
 }
 
@@ -430,7 +430,7 @@ ul.menuH ul {
   right: -500px;
   background: #fff;
   overflow-y: auto;
-  z-index: 10000; 
+  z-index: 10000;
   transition: 0.4s;
 }
 .side-nav .close-icon {

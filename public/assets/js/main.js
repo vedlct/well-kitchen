@@ -435,7 +435,7 @@
       var newVal = parseFloat(oldValue) + 1;
     } else {
       // Don't allow decrementing below zero
-      if (oldValue > 0) {
+      if (oldValue > 1) {
         var newVal = parseFloat(oldValue) - 1;
       } else {
         newVal = 1;
@@ -453,10 +453,10 @@
     var scroll = win.scrollTop();
     if (scroll < 200) {
       header.removeClass("stick");
-      
+
     } else {
       header.addClass("stick");
-      
+
     }
   });
 
@@ -468,7 +468,7 @@
       if (scroll < 200) {
         headerMob.removeClass("stick");
         headerMob.removeClass("sticky-bar");
-        
+
       } else {
         headerMob.addClass("stick");
         headerMob.addClass("sticky-bar");
@@ -492,7 +492,7 @@
   sr.reveal(".scroll-zoom");
 
   /*-----------------------
-        Shop filter active 
+        Shop filter active
     ------------------------- */
   $(".filter-active a").on("click", function (e) {
     e.preventDefault();

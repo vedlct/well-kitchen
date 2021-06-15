@@ -30,15 +30,16 @@ class HomeController extends Controller
     }
 
     public function addToCart(Request $request){
-        // dd($request->all());
-        $stock=Stock::where('fkskuId',$request->_sku)->sum('stock');
+        $stockIn=Stock::where('fkskuId',$request->_sku)->where('type', 'in')->sum('stock');
+        $stockOut=Stock::where('fkskuId',$request->_sku)->where('type', 'out')->sum('stock');
+        $stockAvailable = $stockIn-$stockOut;
         $quantity=$request->_quantity;
 
-        if ($stock>=$quantity) {
-            $productId =Sku::findOrfail($request->_sku,['fkproductId']);
-            // dd($productId);
-            $product=Product::with(['sku','images'])->where('status','active')->findOrFail($productId)->first();
-
+        if ($stockAvailable >= $quantity) {
+            $sku =Sku::findOrfail($request->_sku);
+//            $product=Product::with(['sku','images'])->where('status','active')->findOrFail($productId)->first();
+            $product=$sku->product()->first();
+            $productImage=$sku->variationImages()->first();
             $batchToOrder = collect(DB::select(DB::raw("SELECT batchId, COALESCE(SUM(CASE WHEN stock_record.type = 'in' THEN stock END), 0) - COALESCE(SUM(CASE WHEN stock_record.type = 'out' THEN stock END), 0) as available
                             FROM stock_record
                             LEFT JOIN sku ON sku.skuId = stock_record.fkskuId
@@ -47,26 +48,53 @@ class HomeController extends Controller
                             GROUP BY batchId ORDER BY available DESC")));
 
             $batch = $batchToOrder->pluck('batchId')->first();
-            \Cart::add(array(
-                'id' => $request->_sku,
-                'name' => $product->productName,
-                'price' => $product->sku()->where('skuId',$request->_sku)->first()->salePrice ?? '100',
-                'quantity' =>$quantity ?? '1' ,
-                'attributes' => array(
-                    'batchId'=>$batch
-                ),
-                'associatedModel' => $product
-            ));
+            $variations=[];
+            foreach($sku->variationRelation as $variation){
+                array_push($variations,$variation->variationDetailsdata);
+            }
 
+            \Cart::add(array(
+                'id' => $sku->skuId,
+                'name' => $sku->product->productName,
+                'price' => $sku->salePrice ?? '0',
+                'quantity' =>$quantity,
+                'attributes' => array(
+                    'batchId'=>$batch,
+                    'variations' => $variations
+                ),
+                'associatedModel' => $product, $productImage
+            ));
+//            dd(\Cart::getContent());
             $cartPage= view('layouts.partials.cartNav')->render();
             $cartQuantity=\Cart::getContent()->count();
-            // dd($cartQuantity);
             return response()->json(['cart'=>$cartPage,'cartQuantity'=>$cartQuantity],200);
         } else {
-            return response()->json(['Quantity'=>'Out of Stock'],400);
+            return response()->json(['Quantity'=>'Stock not available'],400);
         }
 
     }
+
+    public function updateQuantity(Request $request){
+        $stockIn=Stock::where('fkskuId',$request->_sku)->where('type', 'in')->sum('stock');
+        $stockOut=Stock::where('fkskuId',$request->_sku)->where('type', 'out')->sum('stock');
+        $stockAvailable = $stockIn-$stockOut;
+        $quantity=$request->_quantity;
+
+        if ($stockAvailable >= $quantity) {
+            \Cart::update($request->_sku,[
+                'quantity' => array(
+                    'relative' => false,
+                    'value' => $request->_quantity,
+                )
+            ]);
+            $cartPage= view('layouts.partials.cartNav')->render();
+            $cartQuantity=\Cart::getContent()->count();
+            return response()->json(['cart'=>$cartPage,'cartQuantity'=>$cartQuantity],200);
+        } else {
+            return response()->json(['Quantity'=>'Stock not available'],400);
+        }
+    }
+
 
     public function removeItem(Request $request){
 
@@ -82,8 +110,7 @@ class HomeController extends Controller
             \Cart::clear();
             \Cart::clearCartConditions();
         }
-        $shipmentZone=ShipmentZone::all();
-        $cart=view('layouts.partials.cartNav',compact('shipmentZone'))->render();
+        $cart=view('layouts.partials.cartNav')->render();
         $cartQuantity=\Cart::getContent()->count();
 
         return response()->json(['cart'=>$cart,'cartQuantity'=>$cartQuantity],200);
@@ -103,16 +130,4 @@ class HomeController extends Controller
        return view('cart',compact('shipmentZone'));
     }
 
-    public function updateQuantity(Request $request){
-        // dd($request->all());
-        $cart= \Cart::update($request->_sku, array(
-            'quantity' => $request->value,
-        ));
-        // dd($cart->quantity);
-        $shipmentZone=ShipmentZone::all();
-        $cart=view('cart',compact('shipmentZone'))->render();
-        $cartQuantity=\Cart::getContent()->count();
-        // dd($cart);
-        return response()->json(['cart'=>$cart,'cartQuantity'=>$cartQuantity],200);
-    }
 }

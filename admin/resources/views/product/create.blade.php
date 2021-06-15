@@ -112,6 +112,7 @@
                                         </ul>
                                     </div>
                                 </div>
+                                {{dd(unserialize(COLOR_CODE))}}
                                 <div class="card-content collapse show">
                                     <div class="card-body">
                                         <form class="form form-horizontal" action="{{ route('product.store') }}" method="post" enctype="multipart/form-data">

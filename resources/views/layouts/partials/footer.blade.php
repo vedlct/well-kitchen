@@ -193,29 +193,10 @@
     toastr.warning('{{session('warning')}}');
     @endif
 
-    function addTocart() {
-        // $.ajax({
-        //     type: "post",
-        //     url: "",
-        //     data:{
-        //         _token:'',
-        //         _sku:sku,
-        //         _quantity:quantity
-        //     },
-        //     success: function (response) {
-        //         console.log('res',response);
-        //         $('#cartPage').empty().html(response.cart)
-        //         $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
-        //         toastr.success('Item added to cart')
-        //     },
-        //     error:(response)=>{
-        //     toastr.error('Out of quantity')
-        //     }
-        // });
-
-
+    function addTocart(skuId = null) {
         let quantity=$('#quantity').val() ;
         if(quantity && quantity >= 1){
+            quantity;
         }
         if(!quantity || quantity<1){
             quantity = 1;
@@ -225,8 +206,8 @@
             url: "{{route('product.addTocart')}}",
             data:{
                 _token:'{{csrf_token()}}',
-                _sku:sku,
-                _quantity:quantity
+                _quantity:quantity,
+                _sku:skuId
             },
             success: function (response) {
                 console.log('res',response);
@@ -234,13 +215,66 @@
                 $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
                 toastr.success('Item added to cart')
             },
-            error:(response)=>{
-            toastr.error('Out of quantity')
+            error:function (response){
+            toastr.error('Stock not available')
             }
         });
     }
-</script>
 
+      function quantityUpdate(data){
+        console.log(data);
+        let qtyvalue = $("#qtyBtn"+data).val();
+          if(qtyvalue && qtyvalue >= 1){
+              qtyvalue
+          }
+          if(!qtyvalue || qtyvalue<1){
+              qtyvalue = 1;
+          }
+          console.log(qtyvalue);
+          // var value = parseInt($(`#qtyBtn${data}`).val());
+          $.ajax({
+              type: "POST",
+              url: "{{route('product.cartUpdateQuantity')}}",
+              data: {
+                  _token:'{{csrf_token()}}',
+                  _sku:data,
+                  _quantity:qtyvalue,
+              },
+              success: function (response) {
+                  console.log('res',response);
+                  $('#cartPage').empty().html(response.cart)
+                  $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
+                  toastr.success('Item update successfully')
+                  // $(".updatereload").load(" .updatereload");
+                  // $(".cartTotal").load(" .cartTotal");
+                  $(".updatereload").load(location.href + " .updatereload");
+                  $(".cartTotal").load(location.href + " .cartTotal");
+              },
+              error:function (response){
+                  toastr.error('Stock not available')
+              }
+          });
+      }
+
+      function removeItem(id) {
+          $.ajax({
+              type: "POST",
+              url: "{{route('product.cartRemove')}}",
+              data: {
+                  _token:'{{csrf_token()}}',
+                  _sku:id,
+              },
+              success: function (response) {
+                  $('#cartPage').empty().html(response.cart);
+                  $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br> Cart(${response.cartQuantity})`);
+                  toastr.success('Item delete from cart')
+                  $(".deletereload").load(" .deletereload");
+                  $(".cartTotal").load(" .cartTotal");
+
+              }
+          });
+      }
+</script>
 
 
 </body>

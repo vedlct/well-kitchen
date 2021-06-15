@@ -18,21 +18,20 @@
   </div>
   <div class="product-area my-md-5 my-4">
     @foreach (\Cart::getContent() as $item)
-    {{-- @dd($item); --}}
     <div class="d-flex justify-content-between align-items-center border-bottom py-2">
         <div>
             <img src="{{asset('admin/public/featureImage/'.$item->associatedModel->featureImage)}}" alt="" class="product-img">
         </div>
         <div class="name-area px-2">
-          <h5 class="product-name"><a href="{{url('/product-details/'.$item->associatedModel->productId)}}">{{$item->associatedModel->productName}}</a></h5>
+          <h5 class="product-name"><a href="{{route('product.details',$item->id)}}">{{$item->associatedModel->productName}}</a></h5>
           <h6 class="quantity"> {{$item->quantity}} x ${{$item->price}}</h6>
         </div>
         <div class="" onclick="removeItem('{{$item->id}}')">
             <i class="fa fa-trash"></i>
           </div>
     </div>
-   @endforeach 
-   
+   @endforeach
+
   </div>
   <div class="d-flex justify-content-between">
         <div>
