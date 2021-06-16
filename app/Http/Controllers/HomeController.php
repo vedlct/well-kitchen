@@ -35,6 +35,8 @@ class HomeController extends Controller
         $stockAvailable = $stockIn-$stockOut;
         $quantity=$request->_quantity;
 
+
+
         if ($stockAvailable >= $quantity) {
             $sku =Sku::findOrfail($request->_sku);
 //            $product=Product::with(['sku','images'])->where('status','active')->findOrFail($productId)->first();
@@ -53,10 +55,18 @@ class HomeController extends Controller
                 array_push($variations,$variation->variationDetailsdata);
             }
 
+            $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first();
+
+            $afterDiscountPrice = null;
+            if(!empty($hotDeal)){
+                $percentage = $hotDeal->hotdeals->percentage;
+                $afterDiscountPrice = ($sku->salePrice) - (($sku->salePrice)*$percentage)/100;
+            }
+
             \Cart::add(array(
                 'id' => $sku->skuId,
                 'name' => $sku->product->productName,
-                'price' => $sku->salePrice ?? '0',
+                'price' => $afterDiscountPrice ? $afterDiscountPrice : $sku->salePrice ?? '0',
                 'quantity' =>$quantity,
                 'attributes' => array(
                     'batchId'=>$batch,

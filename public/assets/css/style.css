@@ -5691,6 +5691,12 @@ margin-bottom: 5px; }
       font-weight: 500;
       margin: 0 9px;
       position: relative; }
+.product-wrap .product-content .product-price small {
+    font-size: 15px;
+    color: #000;
+    font-weight: 500;
+    margin: 0 9px;
+    position: relative; }
       .product-wrap .product-content .product-price span::before {
         position: absolute;
         content: "";
@@ -5704,6 +5710,9 @@ margin-bottom: 5px; }
       .product-wrap .product-content .product-price span.old {
         color: #8e8e8e;
         text-decoration: line-through; }
+.product-wrap .product-content .product-price small.old {
+    color: #8e8e8e;
+    text-decoration: line-through; }
   .product-wrap:hover .hover-img {
     opacity: 1;
     visibility: visible;

@@ -55,9 +55,9 @@
                 </div>
                 <div class="shop-bottom-area mt-35">
                     <div class="tab-content jump">
-                        <div id="productdetails"></div>
                         <div id="shop-1" class="tab-pane active">
-                            <div class="row">
+                        <div id="productdetails"></div>
+                            <div class="row productRow">
                                 @foreach ($skus->unique('fkproductId') as $sku)
                                     @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
                                 @if(!empty($sku->product()))
@@ -99,7 +99,22 @@
                                         <div class="product-content text-center">
                                             <h3><a href="{{route('product.details',$sku->skuId)}}">{{$sku->product->productName}}</a></h3>
                                             <div class="product-price">
-                                                <span>৳  {{$sku->salePrice}}</span>
+{{--                                                <span>৳  {{$sku->salePrice}}</span>--}}
+                                                @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
+
+                                                @if(empty($hotDeal))
+                                                    <span>৳ {{$sku->salePrice}} </span>
+                                                @endif
+
+                                                @if(!empty($hotDeal))
+                                                    @php
+                                                        $percentage = $hotDeal->hotdeals->percentage;
+                                                        $afterDiscountPrice = ($sku->salePrice) - (($sku->salePrice)*$percentage)/100;
+                                                    @endphp
+
+                                                    <span>৳  {{$afterDiscountPrice}}</span>
+                                                    <span class="old">৳  {{$sku->salePrice}}</span>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
@@ -107,51 +122,47 @@
                                     @endif
                                 @endforeach
                             </div>
+                                    <div class="pro-pagination-style text-center mt-30 pageinateLink">
+                                        {{ $skus->links('vendor.pagination.custom') }}
+                                    </div>
+
                         </div>
                     </div>
-{{--                    {{ $products->links() }}--}}
-                    <div class="pro-pagination-style text-center mt-30">
-                        <ul>
-                            <li><a class="prev" href="#"><i class="fa fa-angle-double-left"></i></a></li>
-                            <li><a class="active" href="#">1</a></li>
-                            <li><a href="#">2</a></li>
-                            <li><a class="next" href="#"><i class="fa fa-angle-double-right"></i></a></li>
-                        </ul>
-                    </div>
+
+
+
+{{--  <div class="pro-pagination-style text-center mt-30">
+    <ul>
+        <li><a class="prev" href="#"><i class="fa fa-angle-double-left"></i></a></li>
+        <li><a class="active" href="#">1</a></li>
+        <li><a href="#">2</a></li>
+        <li><a class="next" href="#"><i class="fa fa-angle-double-right"></i></a></li>
+    </ul>
+</div>  --}}
+
                 </div>
             </div>
             <div class="col-lg-3">
                 <div class="sidebar-style mr-30">
-{{--                    <div class="sidebar-widget">--}}
-{{--                        <h4 class="pro-sidebar-title">Search </h4>--}}
-{{--                        <div class="pro-sidebar-search mb-50 mt-25">--}}
-{{--                            <form class="pro-sidebar-search-form" action="#">--}}
-{{--                                <input type="text" placeholder="Search here...">--}}
-{{--                                <button>--}}
-{{--                                    <i class="pe-7s-search"></i>--}}
-{{--                                </button>--}}
-{{--                            </form>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
                     <div class="sidebar-widget">
                         <h4 class="pro-sidebar-title">Refine By </h4>
                         <div class="sidebar-widget-list mt-30">
                             <ul>
                                 <li>
                                     <div class="sidebar-widget-list-left">
-                                        <input type="checkbox" class="saleCheck" value="discount"> <a href="#">On Sale </a>
+                                        <input type="checkbox" class="saleCheck" value="discount"> <a href="javascript:void(0)">On Sale </a>
                                         <span class="checkmark"></span>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="sidebar-widget-list-left">
-                                        <input type="checkbox" class="newCheck" value="new"> <a href="#">New </a>
+                                        <input type="checkbox" class="newCheck" value="new"> <a href="javascript:void(0)">New </a>
                                         <span class="checkmark"></span>
                                     </div>
                                 </li>
                                 <li>
                                     <div class="sidebar-widget-list-left">
-                                        <input type="checkbox" class="instockCheck" value="instock"> <a href="#">In Stock </a>
+                                        <input type="checkbox" class="instockCheck" value="instock"> <a href="javascript:void(0)">In Stock </a>
                                         <span class="checkmark"></span>
                                     </div>
                                 </li>
@@ -334,8 +345,11 @@
                 },
                 success: function(data) {
                     console.log(data);
-                    $("#shop-1").hide();
-                    $("#productdetails").html(data);
+                    $(".productRow").empty();
+                    $(".pageinateLink").empty();
+                    $("#productdetails").html(data.html);
+                    // $("#shop-1").append("<div class='pro-pagination-style text-center mt-30 pageinateLink'>"+data.skus+"</div>");
+{{--                        {{ $skus->links('vendor.pagination.custom') }}--}}
                 }
             });
         }
