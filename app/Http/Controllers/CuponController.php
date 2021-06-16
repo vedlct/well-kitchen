@@ -7,6 +7,7 @@ use App\Models\Promotion;
 use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
+use Darryldecode\Cart\Cart;
 
 
 class CuponController extends Controller
@@ -16,25 +17,25 @@ class CuponController extends Controller
             'couponCode' => 'required'
         ]);
         $couponCode = preg_replace('/\s/', '', $data->couponCode);
-        // dd($couponCode);
         $promotion = Promotion::with('promoProduct')->where('promotionCode',$couponCode)->first();
-        dd($promotion);
         if(!empty($promotion)){
             if ((date('Y-m-d h:i:s') >= $promotion->startDate) && (date('Y-m-d h:i:s') <= $promotion->endDate)){
-                if($promotion->status == 'Active'){
+               
+                if($promotion->status == 'active'){
+                  
                     // limit
                   $customerID = Customer::where('fkuserId',Auth::user()->userId)->first()->customerId;
                     $usedBefore = Order::where('fkcustomerId',$customerID)->where('discount',$couponCode)->count();
-
+                    // dd($usedBefore);
                     if ($promotion->useLimit > $usedBefore){
                         $cartProduct = \Cart::getContent();
-                        $common = array_intersect($promoProduct = $promotion->promoProduct->pluck('fkproductId')->toArray(), $cartProduct->pluck('attributes.productID')->toArray());
+                        $common = array_intersect($promoProduct = $promotion->promoProduct->pluck('fkproductId')->toArray(), $cartProduct->pluck('associatedModel.productId')->toArray());
                         if(count($common)>0){
                             $previousCoupon = $cartProduct->pluck('attributes.couponCode')->toArray();
                             if (!count(array_filter($previousCoupon))>0){
                                 foreach ($promoProduct as $promoProductId){
                                     foreach ($cartProduct as $cartProductData){
-                                        if($cartProductData['attributes']['productID'] == $promoProductId){
+                                        if($cartProductData['associatedModel']['productId'] == $promoProductId){
                                             if(!is_null($promotion->percentage)){
                                                 $discount = $cartProductData['price'] * ($promotion->percentage/100);
                                             }elseif (is_null($promotion->percentage)){
@@ -83,5 +84,7 @@ class CuponController extends Controller
             session()->flash('message','Invalid coupon code.');
             session()->flash('alert-class','alert-danger');
         }
+        // return 'ok';
+        return back();
     }
 }

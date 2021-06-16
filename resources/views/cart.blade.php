@@ -21,6 +21,7 @@
                             </thead>
                             <tbody id="cartBody">
                                 @foreach (\Cart::getContent()->sort() as $key=>$item)
+                                {{-- @dd($item); --}}
                                     <tr>
                                         <td class="product-thumbnail">
                                             <a href="#"><img src="{{('admin/public/featureImage/').$item->associatedModel->featureImage}}" alt=""></a>
@@ -53,7 +54,7 @@
                                                 <p class="product-name">Single</p>
                                             @endif
                                         </td>
-                                        <td class="product-price-cart"><span class="amount">${{$item->price}}</span></td>
+                                        <td class="product-price-cart"><span class="amount">${{$item->price}}</span> </td>
                                         <td class="product-quantity" id="quantity">
                                             <div class="cart-plus-minus"  onclick="quantityUpdate({{$item->id}})">
 

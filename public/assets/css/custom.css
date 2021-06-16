@@ -492,4 +492,9 @@ ul.menuH ul {
   text-transform: uppercase;
   border-radius: 50px;
   z-index: 9;
+  width: 100%;
+  border: 0;
+}
+.your-order-area .Place-order > button:hover {
+  background-color: #333;
 }
