@@ -52,7 +52,21 @@
                 <div class="product-details-content ml-70">
                     <h2>{{$product->productName}}</h2>
                     <div class="product-details-price">
+                        @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
+
+                        @if(empty($hotDeal))
                             <span class="salePrice">৳ {{$sku->salePrice}} </span>
+                        @endif
+
+                        @if(!empty($hotDeal))
+                            @php
+                              $percentage = $hotDeal->hotdeals->percentage;
+                              $afterDiscountPrice = ($sku->salePrice) - (($sku->salePrice)*$percentage)/100;
+                            @endphp
+                            <span class="salePrice">৳ {{$afterDiscountPrice}} </span>
+                            <span class="old">৳ {{$sku->salePrice}}</span>
+                        @endif
+
                     </div>
                     <div class="pro-details-rating-wrap">
                         <div class="pro-details-rating">
@@ -290,14 +304,24 @@
         <div class="product-slider-active-2 owl-carousel owl-dot-none">
             {{-- @dd($skus); --}}
             @foreach ($skus as $sku)
-                {{-- @dd($sku->product);                 --}}
-
+                @if(!empty($sku->product()))
+                @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
                 <div class="product-wrap mb-25">
                     <div class="product-img">
                         <a href="{{route('product.details',$sku->skuId)}}">
                            <img class="default-img" src="{{asset('admin/public/featureImage/'.$sku->product->featureImage)}}" alt="">
                         </a>
-                        <span class="purple">New</span>
+                        @if($sku->product->newarrived == 1)
+                            <span class="purple">New</span>
+                        @endif
+
+                        @if(!empty($hotDeal))
+                            <span class="blue discount">-{{$hotDeal->hotdeals? $hotDeal->hotdeals->percentage : ''}}%</span>
+                        @endif
+
+                        @if($sku->product->isrecommended == 1)
+                            <span class="pink">Feature</span>
+                        @endif
                         <div class="product-action">
                             <div class="pro-same-action pro-wishlist">
                                 <a title="Wishlist" href="{{route('wishlistAdd', $sku->skuId)}}"><i class="pe-7s-like"></i></a>
@@ -317,6 +341,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
             @endforeach
         </div>
     </div>

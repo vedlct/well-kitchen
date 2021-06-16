@@ -39,5 +39,9 @@ class Product extends Model
      {
         return $this->hasMany(Review::class,'fkproductId','productId');
      }
+     public function hotdealProducts()
+     {
+        return $this->hasMany(HotDealsProduct::class,'fkproductId','productId');
+     }
 
 }

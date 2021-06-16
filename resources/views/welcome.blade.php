@@ -143,22 +143,36 @@
                     <div class="product-slider-active-2 owl-carousel owl-dot-none">
 
                     @foreach ($skus->unique('fkproductId') as $sku)
-                        @if(!empty($sku->product()) && $sku->product()->first()->categoryId == $category->categoryId)
+                            @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
+
+                        @if(!empty($sku->product()) && $sku->product->categoryId == $category->categoryId)
                         <div class="product-wrap mb-25">
                             <div class="product-img">
                                 {{-- <a href="product-details.html"> --}}
                                     <a href="{{route('product.details',$sku->skuId)}}">
-                                    <img class="default-img" src="{{asset('admin/public/featureImage/'.$sku->product()->first()->featureImage)}}" alt="">
+                                    <img class="default-img" src="{{asset('admin/public/featureImage/'.$sku->product->featureImage)}}" alt="">
                                 </a>
+                                @if($sku->product->newarrived == 1)
+                                    <span class="purple">New</span>
+                                @endif
+
+                                @if(!empty($hotDeal))
+                                    <span class="blue discount">-{{$hotDeal->hotdeals? $hotDeal->hotdeals->percentage : ''}}%</span>
+                                @endif
+
+                                @if($sku->product->isrecommended == 1)
+                                    <span class="pink">Feature</span>
+                                @endif
+
                                 <div class="product-action">
                                     <div class="pro-same-action pro-wishlist">
                                         <a title="Wishlist" href="{{route('wishlistAdd', $sku->skuId)}}"><i class="pe-7s-like"></i></a>
                                     </div>
                                     <div class="pro-same-action pro-cart">
-                                        @if($sku->product()->first()->type == "single")
+                                        @if($sku->product->type == "single")
                                         <a title="Add To Cart" href="#" onclick="addTocart({{$sku->skuId}})"><i class="pe-7s-cart"></i> Add to cart</a>
                                         @endif
-                                        @if($sku->product()->first()->type == "variation")
+                                        @if($sku->product->type == "variation")
                                         <a title="Add To Cart" href="{{route('product.details',$sku->skuId)}}"><i class="pe-7s-cart"></i> Add to cart</a>
                                         @endif
                                     </div>
@@ -168,7 +182,7 @@
                                 </div>
                             </div>
                             <div class="product-content text-center">
-                                <h3><a href="{{route('product.details',$sku->skuId)}}">{{$sku->product()->first()->productName}}</a></h3>
+                                <h3><a href="{{route('product.details',$sku->skuId)}}">{{$sku->product->productName}}</a></h3>
                                 <div class="product-price">
                                         <span>৳  {{$sku->salePrice}}</span>
                                 </div>
@@ -223,25 +237,32 @@
                 <div class="tab-pane active" id="product-1">
                     <div class="row">
                             @foreach ($skus->unique('fkproductId') as $sku)
-                                @if(!empty($sku->product()) && $sku->product()->first()->newarrived == 1)
+                                @if(!empty($sku->product()) && $sku->product->newarrived == 1)
+                            @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
                             <div class="col-6 col-xl-3 col-md-6 col-lg-4 col-sm-6">
                                 <div class="product-wrap-5 mb-25">
                                     <div class="product-img">
                                         <a href="{{route('product.details',$sku->skuId)}}">
-                                            <img src="{{asset('admin/public/featureImage/'.$sku->product()->first()->featureImage)}}" alt="">
+                                            <img src="{{asset('admin/public/featureImage/'.$sku->product->featureImage)}}" alt="">
                                         </a>
-                                        @if($sku->product->newarrived == 1)
-                                        <span class="purple">New</span>
+
+                                        @if(!empty($hotDeal))
+                                            <span class="blue discount">-{{$hotDeal->hotdeals? $hotDeal->hotdeals->percentage : ''}}%</span>
                                         @endif
+
+                                        @if($sku->product->newarrived == 1)
+                                            <span class="purple">New</span>
+                                        @endif
+
                                         <div class="product-action-4">
                                             <div class="pro-same-action pro-wishlist">
                                                 <a title="Wishlist" href="{{route('wishlistAdd', $sku->skuId)}}"><i class="pe-7s-like"></i></a>
                                             </div>
                                             <div class="pro-same-action pro-cart">
-                                                @if($sku->product()->first()->type == "single")
+                                                @if($sku->product->type == "single")
                                                     <a title="Add To Cart" href="#" onclick="addTocart({{$sku->skuId}})"><i class="pe-7s-cart"></i></a>
                                                 @endif
-                                                @if($sku->product()->first()->type == "variation")
+                                                @if($sku->product->type == "variation")
                                                         <a title="Add To Cart" href="{{route('product.details',$sku->skuId)}}" ><i class="pe-7s-cart"></i></a>
                                                 @endif
                                             </div>
@@ -251,7 +272,7 @@
                                         </div>
                                     </div>
                                     <div class="product-content-5 text-center">
-                                        <h3><a href="product-details.html">{{$sku->product()->first()->productName}}</a></h3>
+                                        <h3><a href="{{route('product.details',$sku->skuId)}}">{{$sku->product->productName}}</a></h3>
                                         <div class="price-5">
                                                 <span>৳  {{$sku->salePrice}}</span>
                                         </div>
@@ -491,23 +512,31 @@
                 <div class="tab-pane" id="product-3">
                     <div class="row">
                         @foreach ($skus->unique('fkproductId') as $sku)
-                            @if(!empty($sku->product()) && $sku->product()->first()->isrecommended == 1)
+                            @if(!empty($sku->product()) && $sku->product->isrecommended == 1)
+                            @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
                         <div class="col-6 col-xl-3 col-md-6 col-lg-4 col-sm-6">
                             <div class="product-wrap-5 mb-25">
                                 <div class="product-img">
                                     <a href="{{route('product.details',$sku->skuId)}}">
-                                        <img src="{{asset('admin/public/featureImage/'.$sku->product()->first()->featureImage)}}" alt="">
+                                        <img src="{{asset('admin/public/featureImage/'.$sku->product->featureImage)}}" alt="">
                                     </a>
-                                    <span class="purple">Feature</span>
+                                    @if(!empty($hotDeal))
+                                        <span class="blue discount">-{{$hotDeal->hotdeals? $hotDeal->hotdeals->percentage : ''}}%</span>
+                                    @endif
+
+                                    @if($sku->product->isrecommended == 1)
+                                        <span class="pink">Feature</span>
+                                    @endif
+
                                     <div class="product-action-4">
                                         <div class="pro-same-action pro-wishlist">
                                             <a title="Wishlist" href="{{route('wishlistAdd', $sku->skuId)}}"><i class="pe-7s-like"></i></a>
                                         </div>
                                         <div class="pro-same-action pro-cart">
-                                            @if($sku->product()->first()->type == "single")
+                                            @if($sku->product->type == "single")
                                                 <a title="Add To Cart" href="#" onclick="addTocart({{$sku->skuId}})"><i class="pe-7s-cart"></i></a>
                                             @endif
-                                            @if($sku->product()->first()->type == "variation")
+                                            @if($sku->product->type == "variation")
                                                     <a title="Add To Cart" href="{{route('product.details',$sku->skuId)}}"><i class="pe-7s-cart"></i></a>
                                             @endif
 
@@ -518,7 +547,7 @@
                                     </div>
                                 </div>
                                 <div class="product-content-5 text-center">
-                                    <h3><a href="product-details.html">{{$sku->product()->first()->productName}}</a></h3>
+                                    <h3><a href="{{route('product.details',$sku->skuId)}}">{{$sku->product->productName}}</a></h3>
                                     <div class="price-5">
                                                 <span>৳  {{$sku->salePrice}}</span>
                                     </div>
