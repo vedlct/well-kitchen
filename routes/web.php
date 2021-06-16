@@ -40,7 +40,8 @@ Route::post('variation/color/choose',[ProductController::class,'colorChoose'])->
 Route::post('/search-category-product' ,[CategoryController::class,'searchByProducts'])->name('search.product');
 
     Route::get('wish-list',[WishlistController::class,'index'])->name('wishlist');
-    Route::get('add-to-wishlist/{id}',[WishlistController::class,'AddToWishlist'])->name('wishlistAdd');
+    // Route::get('add-to-wishlist/{id}',[WishlistController::class,'AddToWishlist'])->name('wishlistAdd');
+    Route::post('add-to-wishlist',[WishlistController::class,'AddToWishlist'])->name('wishlistAdd');
     Route::get('remove-wishlist/{id}',[WishlistController::class,'RemoveItem'])->name('wishlistRemove');
 
 

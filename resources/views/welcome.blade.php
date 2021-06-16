@@ -558,9 +558,20 @@
                                         <span class="pink">Feature</span>
                                     @endif
 
+                                    {{-- @php
+                                        $userId = Auth::user()->userId;
+                                        $customer = App\Models\Customer::where('fkuserId', $userId)->pluck('customerId')->first();
+                                        // @dd($customer);
+                                        $wishlist = App\Models\Wishlist::where('fkcustomerId', $customer)->first();
+                                        // @dd($wishlist);
+
+                                    @endphp --}}
+                                        {{-- @dd(Auth::user()->userId); --}}
+  
                                     <div class="product-action-4">
                                         <div class="pro-same-action pro-wishlist">
-                                            <a title="Wishlist" href="{{route('wishlistAdd', $sku->skuId)}}"><i class="pe-7s-like"></i></a>
+                                            {{-- <a title="Wishlist" href="{{route('wishlistAdd', $sku->skuId)}}"><i class="pe-7s-like"></i></a> --}}
+                                            <a title="Wishlist" href="#" onclick="addToWishList({{$sku->skuId}})"><i class="pe-7s-like"></i></a>
                                         </div>
                                         <div class="pro-same-action pro-cart">
                                             @if($sku->product->type == "single")

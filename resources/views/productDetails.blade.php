@@ -142,7 +142,7 @@
                             <a href="#" onclick="addTocart({{$sku->skuId}})">Add To Cart</a>
                         </div>
                         <div class="pro-details-wishlist">
-                            <a href="#"><i class="fa fa-heart-o"></i></a>
+                            <a href="{{route('wishlistAdd', $sku->skuId)}}"><i class="fa fa-heart-o"></i></a>
                         </div>
                         <div class="pro-details-compare">
                             <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-shuffle"></i></a>

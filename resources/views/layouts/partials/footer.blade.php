@@ -210,10 +210,39 @@
                 _sku:skuId
             },
             success: function (response) {
-                console.log('res',response);
+                // console.log('res',response);
                 $('#cartPage').empty().html(response.cart)
                 $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
                 toastr.success('Item added to cart')
+            },
+            error:function (response){
+            toastr.error('Stock not available')
+            }
+        });
+    }
+
+    function addToWishList(skuId){
+        // let quantity = 1;
+        // console.log(skuId);
+        $.ajax({
+            type: "POST",
+            url: "{{route('wishlistAdd')}}",
+            data:{
+                _token:'{{csrf_token()}}',
+                // _quantity:quantity,
+                _sku:skuId
+            },
+            success: function (response) {
+                // console.log('res',response.error);
+                if(response.error == "itemHas") {
+                        toastr.warning('You have already added this item');
+                    }
+                if(response.error == null) {
+                        toastr.warning('Item added to wishlist');
+                    }
+                if(response.error == 'login') {
+                        toastr.warning('You need to be logged in to add item to wishlist');
+                    }
             },
             error:function (response){
             toastr.error('Stock not available')
