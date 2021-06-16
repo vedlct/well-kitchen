@@ -72,8 +72,8 @@
 
 
     @if (is_array($element))
+{{--        {{dd($paginator->url())}}--}}
     @foreach ($element as $page => $url)
-{{--        {{dd($url)}}--}}
     @if ($page == $paginator->currentPage())
     <li><a class="active" href="javascript:void(0)">{{ $page }}</a></li>
     {{--  <li class="active my-active"><span>{{ $page }}</span></li>  --}}

@@ -16,7 +16,7 @@ Auth::routes();
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/product-details/{id}', [HomeController::class, 'productDetails'])->name('product.details');
 Route::get('/categories/{categoryId?}', [CategoryController::class, 'categoryProducts'])->name('category.products');
-Route::post('filter/products',[CategoryController::class,'filterProducts'])->name('filter.products');
+Route::get('filter/products',[CategoryController::class,'filterProducts'])->name('filter.products');
 
 Route::get('/cart',[HomeController::class,'cartIndex'])->name('cart');
 Route::get('/checkout' ,[HomeController::class,'index'])->name('checkout.index');
@@ -54,15 +54,15 @@ Route::post('/search-category-product' ,[CategoryController::class,'searchByProd
     Route::post('order/shippingZone',[CheckoutController::class,'shippingZone'])->name('shippingZone.change');
 
 
-    
+
 
     //coupon
     Route::post('coupon-submit',[CuponController::class,'couponSubmit'])->name('coupon.submit');
-    
-    
+
+
     Route::get('autocomplete',[CheckoutController::class,'autocomplete']);
     Route::post('search-user',[CheckoutController::class,'searchUserByPhone'])->name('search.user');
-    
+
 
 
 

@@ -1,6 +1,6 @@
 {{--<div id="" class="tab-pane active">--}}
     <div class="row">
-        @foreach ($skusa->unique('fkproductId') as $sku)
+        @foreach ($skus->unique('fkproductId') as $sku)
 {{--            {{ dd($sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))) }}--}}
            @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
             @if(!empty($sku->product()))
@@ -68,9 +68,33 @@
         @endforeach
     </div>
             <div class="pro-pagination-style text-center mt-30">
-                {{ $skusa->links('vendor.pagination.custom') }}
-
+                {{ $skus->links('vendor.pagination.custom') }}
             </div>
 
 {{--</div>--}}
+
+@section('js')
+    <script>
+        $(function() {
+            $('body').on('click', '.pagination a', function(e) {
+                e.preventDefault();
+                alert('dfa');
+                console.log('fads');
+                var url = $(this).attr('href');
+                getProducts(url);
+                window.history.pushState("", "", url);
+            });
+            function getProducts(url) {
+                $.ajax({
+                    url : url
+                }).done(function (data) {
+                    $('.devices-holder').html(data);
+                }).fail(function () {
+                    alert('Data could not be loaded.');
+                });
+            }
+        });
+        alert('f');
+    </script>
+@endsection
 

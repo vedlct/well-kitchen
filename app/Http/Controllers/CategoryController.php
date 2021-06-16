@@ -14,36 +14,36 @@ class CategoryController extends Controller
 {
     public function categoryProducts($categoryId=null){
 
-        if(empty($categoryId)){
-            $skus = Sku::with('product')->where('status', 'active')->paginate(1);
-            $totalAvailable = 0;
-            foreach($skus->unique('fkproductId') as $sku){
-                $stockIn=Stock::where('fkskuId',$sku->skuId)->where('type', 'in')->sum('stock');
-                $stockOut=Stock::where('fkskuId',$sku->skuId)->where('type', 'out')->sum('stock');
-                $stockAvailable = $stockIn-$stockOut;
-                if($stockAvailable > 0){
-                    $totalAvailable += 1;
-                }
-            }
-        }
-
-        if(!empty($categoryId)){
-            $totalAvailable = 0;
-            $products = Product::with('sku', 'images')->where('status', 'active')->where('categoryId', $categoryId)->pluck('productId');
-            $skus = Sku::whereIn('fkproductId', $products)->paginate(1);
-            foreach($skus->unique('fkproductId') as $sku){
-                $stockIn=Stock::where('fkskuId',$sku->skuId)->where('type', 'in')->sum('stock');
-                $stockOut=Stock::where('fkskuId',$sku->skuId)->where('type', 'out')->sum('stock');
-                $stockAvailable = $stockIn-$stockOut;
-                if($stockAvailable > 0){
-                    $totalAvailable += 1;
-                }
-            }
-        }
+//        if(empty($categoryId)){
+            $skus = Sku::with('product')->where('status', 'active')->get();
+//            $totalAvailable = 0;
+//            foreach($skus->unique('fkproductId') as $sku){
+//                $stockIn=Stock::where('fkskuId',$sku->skuId)->where('type', 'in')->sum('stock');
+//                $stockOut=Stock::where('fkskuId',$sku->skuId)->where('type', 'out')->sum('stock');
+//                $stockAvailable = $stockIn-$stockOut;
+//                if($stockAvailable > 0){
+//                    $totalAvailable += 1;
+//                }
+//            }
+//        }
+//
+//        if(!empty($categoryId)){
+//            $totalAvailable = 0;
+//            $products = Product::with('sku', 'images')->where('status', 'active')->where('categoryId', $categoryId)->pluck('productId');
+//            $skus = Sku::whereIn('fkproductId', $products)->paginate(1);
+//            foreach($skus->unique('fkproductId') as $sku){
+//                $stockIn=Stock::where('fkskuId',$sku->skuId)->where('type', 'in')->sum('stock');
+//                $stockOut=Stock::where('fkskuId',$sku->skuId)->where('type', 'out')->sum('stock');
+//                $stockAvailable = $stockIn-$stockOut;
+//                if($stockAvailable > 0){
+//                    $totalAvailable += 1;
+//                }
+//            }
+//        }
         $newArrived = Product::where('newarrived', 1)->count();
         $category = Category::where('categoryId', $categoryId)->first();
 
-        return view('shop', compact('skus', 'newArrived', 'totalAvailable', 'categoryId', 'category'));
+        return view('shop', compact('newArrived', 'categoryId', 'category', 'skus'));
     }
 
     public function searchByProducts(Request $request){
@@ -58,7 +58,6 @@ class CategoryController extends Controller
     }
 
     public function filterProducts(Request $request){
-
         if($request->priceMin && $request->priceMax) {
             $skus = Sku::with('product')->where('salePrice', '>=', $request->priceMin)->where('salePrice', '<=', $request->priceMax)->where('status', 'active');
         }else {
@@ -119,7 +118,7 @@ class CategoryController extends Controller
             $skus = $skus->whereIn('skuId', $availableSku);
         }
 
-        $skusa = $skus->paginate(1);
+        $skus = $skus->paginate(1)->appends($request->newSS);
 
         if (!empty($request->alphaOrderSS) && $request->alphaOrderSS == "A") {
                 $skus = $skus->sortBy('product.productName');
@@ -128,7 +127,10 @@ class CategoryController extends Controller
         if (!empty($request->alphaOrderSS) && $request->alphaOrderSS == "Z") {
                 $skus = $skus->sortByDesc('product.productName');
         }
-        $view = view('shopAjax', compact('skusa'))->render();
-        return response()->json(['html'=>$view, 'skusa'=>$skusa]);
+//        return view('shopAjax', compact('skus'));
+        $view= view('shopAjax', compact('skus'))->render();
+        return $view;
+//        $lk = $skus->links('vendor.pagination.custom')->render();
+//        return response()->json(['tt'=>$view, 'html'=>$lk]);
     }
 }
