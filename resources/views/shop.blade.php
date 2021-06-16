@@ -55,10 +55,10 @@
                 </div>
                 <div class="shop-bottom-area mt-35">
                     <div class="tab-content jump">
-                        <div id="productdetails"></div>
                         <div id="shop-1" class="tab-pane active">
-                            <div class="row">
-                                @foreach ($skus as $sku)
+                        <div id="productdetails"></div>
+                            <div class="row productRow">
+                                @foreach ($skus->unique('fkproductId') as $sku)
                                     @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
                                 @if(!empty($sku->product()))
                                 <div class="col-6 col-md-4 shop-col-item">
@@ -122,9 +122,10 @@
                                     @endif
                                 @endforeach
                             </div>
-                            <div class="pro-pagination-style text-center mt-30">
-                                {{ $skus->links('vendor.pagination.custom') }}
-                                </div>
+                                    <div class="pro-pagination-style text-center mt-30 pageinateLink">
+                                        {{ $skus->links('vendor.pagination.custom') }}
+                                    </div>
+
                         </div>
                     </div>
 
@@ -138,7 +139,7 @@
         <li><a class="next" href="#"><i class="fa fa-angle-double-right"></i></a></li>
     </ul>
 </div>  --}}
-                   
+
                 </div>
             </div>
             <div class="col-lg-3">
@@ -344,8 +345,11 @@
                 },
                 success: function(data) {
                     console.log(data);
-                    $("#shop-1").hide();
-                    $("#productdetails").html(data);
+                    $(".productRow").empty();
+                    $(".pageinateLink").empty();
+                    $("#productdetails").html(data.html);
+                    // $("#shop-1").append("<div class='pro-pagination-style text-center mt-30 pageinateLink'>"+data.skus+"</div>");
+{{--                        {{ $skus->links('vendor.pagination.custom') }}--}}
                 }
             });
         }

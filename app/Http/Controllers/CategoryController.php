@@ -15,7 +15,7 @@ class CategoryController extends Controller
     public function categoryProducts($categoryId=null){
 
         if(empty($categoryId)){
-            $skus = Sku::with('product')->where('status', 'active')->groupBy('fkproductId')->paginate(2);
+            $skus = Sku::with('product')->where('status', 'active')->paginate(1);
             $totalAvailable = 0;
             foreach($skus->unique('fkproductId') as $sku){
                 $stockIn=Stock::where('fkskuId',$sku->skuId)->where('type', 'in')->sum('stock');
@@ -30,7 +30,7 @@ class CategoryController extends Controller
         if(!empty($categoryId)){
             $totalAvailable = 0;
             $products = Product::with('sku', 'images')->where('status', 'active')->where('categoryId', $categoryId)->pluck('productId');
-            $skus = Sku::whereIn('fkproductId', $products)->groupBy('fkproductId')->paginate(2);
+            $skus = Sku::whereIn('fkproductId', $products)->paginate(1);
             foreach($skus->unique('fkproductId') as $sku){
                 $stockIn=Stock::where('fkskuId',$sku->skuId)->where('type', 'in')->sum('stock');
                 $stockOut=Stock::where('fkskuId',$sku->skuId)->where('type', 'out')->sum('stock');
@@ -118,7 +118,8 @@ class CategoryController extends Controller
             }
             $skus = $skus->whereIn('skuId', $availableSku);
         }
-        
+
+        $skusa = $skus->paginate(1);
 
         if (!empty($request->alphaOrderSS) && $request->alphaOrderSS == "A") {
                 $skus = $skus->sortBy('product.productName');
@@ -127,8 +128,7 @@ class CategoryController extends Controller
         if (!empty($request->alphaOrderSS) && $request->alphaOrderSS == "Z") {
                 $skus = $skus->sortByDesc('product.productName');
         }
-
-        $skus = $skus->groupBy('fkproductId')->paginate(2);
-        return view('shopAjax', compact('skus'));
+        $view = view('shopAjax', compact('skusa'))->render();
+        return response()->json(['html'=>$view, 'skusa'=>$skusa]);
     }
 }

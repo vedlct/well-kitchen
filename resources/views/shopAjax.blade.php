@@ -1,7 +1,6 @@
-<div id="" class="tab-pane active">
+{{--<div id="" class="tab-pane active">--}}
     <div class="row">
-
-        @foreach ($skus as $sku)
+        @foreach ($skusa->unique('fkproductId') as $sku)
 {{--            {{ dd($sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))) }}--}}
            @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
             @if(!empty($sku->product()))
@@ -67,10 +66,11 @@
                 </div>
             @endif
         @endforeach
-
     </div>
-    <div class="pro-pagination-style text-center mt-30">
-        {{ $skus->links('vendor.pagination.custom') }}
-        </div>
-</div>
+            <div class="pro-pagination-style text-center mt-30">
+                {{ $skusa->links('vendor.pagination.custom') }}
+
+            </div>
+
+{{--</div>--}}
 

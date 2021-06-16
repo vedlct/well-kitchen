@@ -65,7 +65,6 @@
 
 
     @foreach ($elements as $element)
-
     @if (is_string($element))
     <li class="disabled"><span>{{ $element }}</span></li>
     @endif
@@ -74,6 +73,7 @@
 
     @if (is_array($element))
     @foreach ($element as $page => $url)
+{{--        {{dd($url)}}--}}
     @if ($page == $paginator->currentPage())
     <li><a class="active" href="javascript:void(0)">{{ $page }}</a></li>
     {{--  <li class="active my-active"><span>{{ $page }}</span></li>  --}}
