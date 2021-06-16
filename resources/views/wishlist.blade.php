@@ -21,6 +21,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($wishList as $item)
+                                {{-- @dd($item->sku->product->type); --}}
                                     <tr>
                                         <td class="product-thumbnail">
                                             <a href="#"><img src="{{url('admin/public/featureImage/'.$item->sku->product->featureImage)}}" alt=""></a>
@@ -34,7 +35,12 @@
                                         </td>
                                         <td class="product-subtotal">$110.00</td>
                                         <td class="product-wishlist-cart">
+                                            @if($item->sku->product->type == 'single')
+                                            <a href="#" onclick="addTocart({{$item->sku->skuId}})">add to cart</a>
+                                            @endif
+                                            @if($item->sku->product->type == 'variation')
                                             <a href="{{route('product.details',$item->sku->skuId)}}">add to cart</a>
+                                            @endif
                                         </td>
                                         <td class="product-wishlist-cart">
                                             <a  href="{{route('wishlistRemove',$item->wishlistId)}}"> <i class="fa fa-trash"></i>  </a>
