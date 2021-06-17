@@ -20,14 +20,17 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($wishList as $item)
-                                {{-- @dd($item->sku->product->type); --}}
+                                {{-- @dd($lists->count()) --}}
+                                @if($lists->count() == 0)
+                                <span> Not item added to wishlist yet</span>
+                            @endif
+                                @foreach ($lists as $item)
                                     <tr>
                                         <td class="product-thumbnail">
-                                            <a href="#"><img src="{{url('admin/public/featureImage/'.$item->sku->product->featureImage)}}" alt=""></a>
+                                            <a href=" {{route('product.details',$item->product->productId)}} "><img src="{{asset('admin/public/featureImage/'.$item->product->featureImage)}}" alt=""></a>
                                         </td>
-                                        <td class="product-name"><a href="#">{{$item->sku->product->productName}}</a></td>
-                                        <td class="product-price-cart"><span class="amount">${{$item->sku->salePrice}}</span></td>
+                                        <td class="product-name"><a href="#">{{$item->product->productName}}</a></td>
+                                        <td class="product-price-cart"><span class="amount">${{$item->product->sku->first()->salePrice}}</span></td>
                                         {{-- <td class="product-quantity">
                                             <div class="cart-plus-minus" onclick="quantityUpdate({{$item->id}})">
                                                 <input class="cart-plus-minus-box" type="text" name="qtybutton" value="1">
@@ -36,10 +39,10 @@
                                         <td class="product-subtotal">$110.00</td> --}}
                                         <td class="product-wishlist-cart">
                                             @if($item->sku->product->type == 'single')
-                                            <a href="#" onclick="addTocart({{$item->sku->skuId}})">add to cart</a>
+                                            <a href="#" onclick="addTocart({{$item->product->sku->first()->skuId}})">add to cart</a>
                                             @endif
                                             @if($item->sku->product->type == 'variation')
-                                            <a href="{{route('product.details',$item->sku->skuId)}}">add to cart</a>
+                                            <a href="{{route('product.details',$item->product->sku->first()->skuId)}}">add to cart</a>
                                             @endif
                                         </td>
                                         <td class="product-wishlist-cart">
@@ -47,6 +50,7 @@
                                         </td>
                                     </tr>
                                 @endforeach
+                                
                             </tbody>
                         </table>
                     </div>

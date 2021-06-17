@@ -238,7 +238,7 @@
                         toastr.warning('You have already added this item');
                     }
                 if(response.error == null) {
-                        toastr.warning('Item added to wishlist');
+                        toastr.success('Item added to wishlist');
                     }
                 if(response.error == 'login') {
                         toastr.warning('You need to be logged in to add item to wishlist');

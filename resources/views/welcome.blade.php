@@ -143,8 +143,10 @@
                     <div class="product-slider-active-2 owl-carousel owl-dot-none">
 
                     @foreach ($skus->unique('fkproductId') as $sku)
+                          {{-- @dd($sku->product->hotdealProducts) --}}
+                          @if($sku->product->hotdealProducts)
                             @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
-
+                          @endif
                         @if(!empty($sku->product()) && $sku->product->categoryId == $category->categoryId)
                         <div class="product-wrap mb-25">
                             <div class="product-img">
@@ -166,7 +168,7 @@
 
                                 <div class="product-action">
                                     <div class="pro-same-action pro-wishlist">
-                                        <a title="Wishlist" href="{{route('wishlistAdd', $sku->skuId)}}"><i class="pe-7s-like"></i></a>
+                                        <a title="Wishlist" href="#" onclick="addToWishList({{$sku->skuId}})"><i class="pe-7s-like"></i></a>
                                     </div>
                                     <div class="pro-same-action pro-cart">
                                         @if($sku->product->type == "single")
@@ -271,7 +273,7 @@
 
                                         <div class="product-action-4">
                                             <div class="pro-same-action pro-wishlist">
-                                                <a title="Wishlist" href="{{route('wishlistAdd', $sku->skuId)}}"><i class="pe-7s-like"></i></a>
+                                                <a title="Wishlist" href="#" onclick="addToWishList({{$sku->skuId}})"><i class="pe-7s-like"></i></a>
                                             </div>
                                             <div class="pro-same-action pro-cart">
                                                 @if($sku->product->type == "single")
