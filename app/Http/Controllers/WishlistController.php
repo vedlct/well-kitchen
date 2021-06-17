@@ -13,9 +13,15 @@ class WishlistController extends Controller
 {
     public function index()
     {
+
         if(Auth::check()){
-            $wishList=Wishlist::where('fkcustomerId',Auth::user()->userId)->with('sku', 'sku.product')->get();
-            return view('wishlist',compact('wishList'));
+            $user = Auth::user()->userId;
+            // dd($user);
+            $customer = Customer::where('fkuserId', $user)->pluck('customerId')->first();
+
+            $lists=Wishlist::where('fkcustomerId',$customer)->with('sku', 'sku.product')->get();
+            // dd($lists);
+            return view('wishlist',compact('lists'));
         }else{
             return redirect('login');
         }

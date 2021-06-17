@@ -142,7 +142,7 @@
                             <a href="#" onclick="addTocart({{$sku->skuId}})">Add To Cart</a>
                         </div>
                         <div class="pro-details-wishlist">
-                            <a href="{{route('wishlistAdd', $sku->skuId)}}"><i class="fa fa-heart-o"></i></a>
+                            <a href="#" onclick="addToWishList({{$sku->skuId}})"><i class="fa fa-heart-o"></i></a>
                         </div>
                         <div class="pro-details-compare">
                             <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-shuffle"></i></a>
@@ -275,13 +275,17 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="rating-form-style mb-10">
-                                                    <input placeholder="Email" type="email">
+                                                    <input placeholder="Email" type="email" required>
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="rating-form-style form-submit">
                                                     <textarea name="review" placeholder="Message" required></textarea>
+                                                    @if(Auth::check())
                                                     <input type="submit" value="Submit">
+                                                    @else
+                                                    <a href="{{route('login')}}" class="btn btn-warning"> Login<p>to add Review</p> </a> 
+                                                    @endif
                                                 </div>
                                             </div>
                                         </div>
@@ -326,7 +330,7 @@
                         @endif
                         <div class="product-action">
                             <div class="pro-same-action pro-wishlist">
-                                <a title="Wishlist" href="{{route('wishlistAdd', $sku->skuId)}}"><i class="pe-7s-like"></i></a>
+                                <a title="Wishlist" href="#" onclick="addToWishList({{$sku->skuId}})"><i class="pe-7s-like"></i></a>
                             </div>
                             <div class="pro-same-action pro-cart">
                                 <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a>
