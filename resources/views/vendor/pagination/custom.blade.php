@@ -55,7 +55,7 @@
 <ul class="pager">
 
     @if ($paginator->onFirstPage())
-    <li><a class="prev" href="javascript:void(0)"><i class="fa fa-angle-double-left"></i></a></li>
+    <li><a class=" disabled" href="javascript:void(0)"><i class="fa fa-angle-double-left"></i></a></li>
     {{--  <li class="disabled"><span>← Previous</span></li>  --}}
     @else
     <li><a class="prev" href="javascript:void(0)"><i class="fa fa-angle-double-left"></i></a></li>
@@ -68,7 +68,6 @@
     @if (is_string($element))
     <li class="disabled"><span>{{ $element }}</span></li>
     @endif
-
 
 
     @if (is_array($element))
@@ -89,7 +88,7 @@
     <li><a class="next" href="javascript:void(0)"><i class="fa fa-angle-double-right"></i></a></li>
     {{--  <li><a href="{{ $paginator->nextPageUrl() }}" rel="next">Next →</a></li>  --}}
     @else
-    <li><a class="next" href="javascript:void(0)"><i class="fa fa-angle-double-right"></i></a></li>
+    <li><a class=" disabled" href="javascript:void(0)"><i class="fa fa-angle-double-right"></i></a></li>
     {{--  <li class="disabled"><span>Next →</span></li>  --}}
     @endif
 </ul>

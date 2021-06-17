@@ -169,22 +169,77 @@
     <script>
 
 
-
-
+        let sks;
+        let  categoryId = {{$categoryId}};
         function readyFn() {
-            var categoryId = {{$categoryId}} ;
-            $.ajax({
-                url: "{{route('filter.products')}}",
-                method: 'GET',
-                data: {
-                    _token: "{{csrf_token()}}",
-                    categoryId: categoryId
-                },
-                success: function (data) {
-                    console.log(data);
-                    $("#productdetails").html(data);
-                }
-            });
+{{--            var categoryId = {{$categoryId}} ;--}}
+            filter();
+            {{--$.ajax({--}}
+            {{--    url: "{{route('filter.products')}}",--}}
+            {{--    method: 'POST',--}}
+            {{--    data: {--}}
+            {{--        _token: "{{csrf_token()}}",--}}
+            {{--        categoryId: categoryId--}}
+            {{--    },--}}
+            {{--    success: function (data) {--}}
+            {{--        console.log(data);--}}
+            {{--        sks = data.skuss;--}}
+            {{--        console.log(sks);--}}
+            {{--        $("#productdetails").html(data.html);--}}
+            {{--        $(document).on('click', '.page', function(event){--}}
+            {{--            event.preventDefault();--}}
+            {{--            let page = $(this).data('page_id');--}}
+            {{--            // alert(page);--}}
+            {{--            // console.log(page);--}}
+            {{--            console.log(sks);--}}
+            {{--            $.ajax({--}}
+            {{--                url: "{{route('filter.products')}}",--}}
+            {{--                method: 'POST',--}}
+            {{--                data: {--}}
+            {{--                    _token: "{{csrf_token()}}",--}}
+            {{--                    page : page,--}}
+            {{--                    categoryId: categoryId--}}
+            {{--                    // sks: sks--}}
+            {{--                },--}}
+            {{--                success: function(data) {--}}
+            {{--                    console.log('ffff');--}}
+            {{--                    console.log(data);--}}
+            {{--                    $("#productdetails").html(data.html);--}}
+            {{--                }--}}
+            {{--            });--}}
+            {{--        });--}}
+
+            {{--        $(document).on('click', '.prev,.next', function(event){--}}
+            {{--            event.preventDefault();--}}
+
+            {{--            let container = $(this).closest('.pager');--}}
+            {{--            let page =parseInt(container.find('.active').text());--}}
+            {{--            let clicked_class = $(this).hasClass('prev');--}}
+            {{--            if(clicked_class)--}}
+            {{--            {--}}
+            {{--                --page;--}}
+            {{--            }--}}
+            {{--            else{--}}
+            {{--                page++;--}}
+            {{--            }--}}
+            {{--            $.ajax({--}}
+            {{--                url: "{{route('filter.products')}}",--}}
+            {{--                method: 'POST',--}}
+            {{--                data: {--}}
+            {{--                    _token: "{{csrf_token()}}",--}}
+            {{--                    page : page,--}}
+            {{--                    categoryId: categoryId--}}
+            {{--                },--}}
+            {{--                success: function(data) {--}}
+            {{--                    console.log(data);--}}
+            {{--                    $("#productdetails").html(data.html);--}}
+            {{--                }--}}
+            {{--            });--}}
+            {{--        });--}}
+
+
+            {{--    }--}}
+            {{--});--}}
         };
 
         $(document).ready(readyFn);
@@ -238,6 +293,7 @@
 
         var newSS = [];
         $(".newCheck").change(function() {
+
             if(this.checked) {
                 newSS.push(this.value);
 
@@ -279,7 +335,7 @@
         function  filter(){
             $.ajax({
                 url: "{{route('filter.products')}}",
-                method: 'GET',
+                method: 'POST',
                 data: {
                     _token: '{{csrf_token()}}',
                     // catSS: catSS,
@@ -291,57 +347,137 @@
                     priceMin: priceMin,
                     priceMax: priceMax,
                     alphaOrderSS: alphaOrderSS,
+                    categoryId: categoryId
                 },
                 success: function(data) {
                     console.log(data);
-                    $("#productdetails").html(data);
-                    // $(".yy").html(data.html);
-                    // $("#shop-1").append("<div class='pro-pagination-style text-center mt-30 pageinateLink'>"+data.skus+"</div>");
-{{--                        {{ $skus->links('vendor.pagination.custom') }}--}}
+                    $(document).on('click', '.page', function(event){
+                        event.preventDefault();
+                        let page = $(this).data('page_id');
+                        console.log(sks);
+                        $.ajax({
+                            url: "{{route('filter.products')}}",
+                            method: 'POST',
+                            data: {
+                                _token: "{{csrf_token()}}",
+                                page : page,
+                                colorSS: colorSS,
+                                sizeSS: sizeSS,
+                                saleSS: saleSS,
+                                newSS: newSS,
+                                instockSS: instockSS,
+                                priceMin: priceMin,
+                                priceMax: priceMax,
+                                alphaOrderSS: alphaOrderSS,
+                                categoryId: categoryId
+                                // sks: sks
+                            },
+                            success: function(data) {
+                                console.log(data);
+                                $("#productdetails").html(data.html);
+                            }
+                        });
+                    });
+
+
+                    $(document).on('click', '.prev,.next', function(event){
+                        event.preventDefault();
+
+                        let container = $(this).closest('.pager');
+                        let page =parseInt(container.find('.active').text());
+                        let clicked_class = $(this).hasClass('prev');
+                        if(clicked_class)
+                        {
+                            --page;
+                        }
+                        else{
+                            page++;
+                        }
+                        $.ajax({
+                            url: "{{route('filter.products')}}",
+                            method: 'POST',
+                            data: {
+                                _token: "{{csrf_token()}}",
+                                page : page,
+                                colorSS: colorSS,
+                                sizeSS: sizeSS,
+                                saleSS: saleSS,
+                                newSS: newSS,
+                                instockSS: instockSS,
+                                priceMin: priceMin,
+                                priceMax: priceMax,
+                                alphaOrderSS: alphaOrderSS,
+                                categoryId: categoryId
+                            },
+                            success: function(data) {
+                                console.log(data);
+                                $("#productdetails").html(data.html);
+                            }
+                        });
+                    });
+                    $("#productdetails").html(data.html);
+
                 }
             });
         }
 
-        $(document).on('click', '.page', function(event){
-            event.preventDefault();
-            let page = $(this).data('page_id');
-            {{--  alert(page);  --}}
-            $.ajax({
-                url: "{{route('filter.products')}}",
-                method: 'GET',
-                data: {
-                    page : page
-                },
-                success: function(data) {
-                    console.log(data);
-                    $("#productdetails").html(data);
-                }
-            });
-        });
-        $(document).on('click', '.prev,.next', function(event){
-            event.preventDefault();
-            
-            let container = $(this).closest('.pager');
-            let page =parseInt(container.find('.active').text());
-            let clicked_class = $(this).hasClass('prev');
-            if(clicked_class)
-            {
-                --page;
-            }
-            else{
-                    page++;
-            }
-            $.ajax({
-                url: "{{route('filter.products')}}",
-                method: 'GET',
-                data: {
-                    page : page
-                },
-                success: function(data) {
-                    console.log(data);
-                    $("#productdetails").html(data);
-                }
-            });
-        });
+
+
+
+
+
+
+
+
+        {{--$(document).on('click', '.page', function(event){--}}
+        {{--    event.preventDefault();--}}
+        {{--    let page = $(this).data('page_id');--}}
+        {{--    // alert(page);--}}
+        {{--    // console.log(page);--}}
+        {{--    console.log(sks);--}}
+        {{--    $.ajax({--}}
+        {{--        url: "{{route('filter.products')}}",--}}
+        {{--        method: 'POST',--}}
+        {{--        data: {--}}
+        {{--            _token: "{{csrf_token()}}",--}}
+        {{--            page : page,--}}
+        {{--           --}}
+        {{--            // sks: sks--}}
+        {{--        },--}}
+        {{--        success: function(data) {--}}
+        {{--            console.log('ffff');--}}
+        {{--            console.log(data);--}}
+        {{--            $("#productdetails").html(data.html);--}}
+        {{--        }--}}
+        {{--    });--}}
+        {{--});--}}
+
+
+        {{--$(document).on('click', '.prev,.next', function(event){--}}
+        {{--    event.preventDefault();--}}
+
+        {{--    let container = $(this).closest('.pager');--}}
+        {{--    let page =parseInt(container.find('.active').text());--}}
+        {{--    let clicked_class = $(this).hasClass('prev');--}}
+        {{--    if(clicked_class)--}}
+        {{--    {--}}
+        {{--        --page;--}}
+        {{--    }--}}
+        {{--    else{--}}
+        {{--            page++;--}}
+        {{--    }--}}
+        {{--    $.ajax({--}}
+        {{--        url: "{{route('filter.products')}}",--}}
+        {{--        method: 'POST',--}}
+        {{--        data: {--}}
+        {{--            _token: "{{csrf_token()}}",--}}
+        {{--            page : page--}}
+        {{--        },--}}
+        {{--        success: function(data) {--}}
+        {{--            console.log(data);--}}
+        {{--            $("#productdetails").html(data.html);--}}
+        {{--        }--}}
+        {{--    });--}}
+        {{--});--}}
     </script>
 @endsection
