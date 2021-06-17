@@ -35,7 +35,6 @@ class CategoryController extends Controller
     }
 
     public function filterProducts(Request $request){
-//dd($request->all());
         if($request->priceMin && $request->priceMax) {
             $skuss = Sku::with('product')->where('salePrice', '>=', $request->priceMin)->where('salePrice', '<=', $request->priceMax)->where('status', 'active');
         }else {
@@ -46,12 +45,6 @@ class CategoryController extends Controller
             $skuss = $skuss->whereHas('product', function ($query) use ($request) {
                 $query->where('categoryId', $request->categoryId);
             });
-
-                $per_paginate = 1;
-                $skip = ($request->page - 1) * $per_paginate;
-                if ($skip < 0) {
-                    $skip = 0;
-                }
         }
 
         if(!empty($request->products)){
@@ -92,13 +85,6 @@ class CategoryController extends Controller
             $skuss = $skuss->whereHas('product', function ($query) use ($request) {
                 $query->where('newarrived', '1');
             });
-            if(!empty($request->page)) {
-                $per_paginate = 1;
-                $skip = ($request->page - 1) * $per_paginate;
-                if ($skip < 0) {
-                    $skip = 0;
-                }
-            }
         }
 
         if (!empty($request->instockSS) || (!empty($request->alphaOrderSS) && ($request->alphaOrderSS=="instock"))) {
@@ -114,34 +100,16 @@ class CategoryController extends Controller
             $skuss = $skuss->whereIn('skuId', $availableSku);
         }
 
-       if(empty($request->page)){
            $per_paginate = 1;
            $skip = ($request->page - 1) * $per_paginate;
            if ($skip < 0) {
                $skip = 0;
            }
-       }
 
         $skuss = $skuss->skip($skip)->paginate($per_paginate);
 
         $view = view('shopAjax', compact('skuss'))->render();
         return response()->json(['html'=>$view, 'skuss'=>$skuss]);
-
-
-//dd($skus);
-        // if (!empty($request->alphaOrderSS) && $request->alphaOrderSS == "A") {
-        //         $skus = $skus->sortBy('product.productName');
-        // }
-
-        // if (!empty($request->alphaOrderSS) && $request->alphaOrderSS == "Z") {
-        //         $skus = $skus->sortByDesc('product.productName');
-        // }
-    //    return view('shopAjax', compact('skus'));
-        // $view= view('shopAjax', compact('skus'))->render();
-        // return $view;
-    //    $lk = $skus->links('vendor.pagination.custom')->render();
-//        return response()->json(['tt'=>$view, 'html'=>$lk]);
-    //    return response()->json(['html'=>$view]);
 
     }
 }
