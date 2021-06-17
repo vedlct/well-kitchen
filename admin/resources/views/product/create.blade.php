@@ -258,7 +258,7 @@
                                                                 <div data-repeater-list="repeater-group">
                                                                     <label>Barcode</label>
                                                                     <div class="input-group mb-1" data-repeater-item>
-                                                                        <input type="number" placeholder="barcode" name="barcode" id="barcode" class="form-control" id="example-ql-input">
+                                                                        <input type="text" placeholder="barcode" name="barcode" id="barcode" class="form-control" id="example-ql-input">
                                                                         <span class="input-group-append" id="button-addon2">
                                                                             <a onclick="barcodeGenerate()" style="color: white; font-weight: bold; padding: 14px 4px 10px;" class="btn btn-sm btn-danger" data-repeater-delete>
                                                                             generate
