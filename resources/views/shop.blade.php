@@ -56,7 +56,9 @@
                 <div class="shop-bottom-area mt-35">
                     <div class="tab-content jump">
                         <div id="shop-1" class="tab-pane active">
+
                         <div id="productdetails"></div>
+
                             <div class="pro-pagination-style text-center mt-30 yy">
 
 {{--                                {{ $skus->links('vendor.pagination.custom') }}--}}
@@ -300,5 +302,46 @@
             });
         }
 
+        $(document).on('click', '.page', function(event){
+            event.preventDefault();
+            let page = $(this).data('page_id');
+            {{--  alert(page);  --}}
+            $.ajax({
+                url: "{{route('filter.products')}}",
+                method: 'GET',
+                data: {
+                    page : page
+                },
+                success: function(data) {
+                    console.log(data);
+                    $("#productdetails").html(data);
+                }
+            });
+        });
+        $(document).on('click', '.prev,.next', function(event){
+            event.preventDefault();
+            
+            let container = $(this).closest('.pager');
+            let page =parseInt(container.find('.active').text());
+            let clicked_class = $(this).hasClass('prev');
+            if(clicked_class)
+            {
+                --page;
+            }
+            else{
+                    page++;
+            }
+            $.ajax({
+                url: "{{route('filter.products')}}",
+                method: 'GET',
+                data: {
+                    page : page
+                },
+                success: function(data) {
+                    console.log(data);
+                    $("#productdetails").html(data);
+                }
+            });
+        });
     </script>
 @endsection

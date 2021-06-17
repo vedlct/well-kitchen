@@ -16,30 +16,7 @@ class CategoryController extends Controller
 
 //        if(empty($categoryId)){
             $skus = Sku::with('product')->where('status', 'active')->get();
-//            $totalAvailable = 0;
-//            foreach($skus->unique('fkproductId') as $sku){
-//                $stockIn=Stock::where('fkskuId',$sku->skuId)->where('type', 'in')->sum('stock');
-//                $stockOut=Stock::where('fkskuId',$sku->skuId)->where('type', 'out')->sum('stock');
-//                $stockAvailable = $stockIn-$stockOut;
-//                if($stockAvailable > 0){
-//                    $totalAvailable += 1;
-//                }
-//            }
-//        }
-//
-//        if(!empty($categoryId)){
-//            $totalAvailable = 0;
-//            $products = Product::with('sku', 'images')->where('status', 'active')->where('categoryId', $categoryId)->pluck('productId');
-//            $skus = Sku::whereIn('fkproductId', $products)->paginate(1);
-//            foreach($skus->unique('fkproductId') as $sku){
-//                $stockIn=Stock::where('fkskuId',$sku->skuId)->where('type', 'in')->sum('stock');
-//                $stockOut=Stock::where('fkskuId',$sku->skuId)->where('type', 'out')->sum('stock');
-//                $stockAvailable = $stockIn-$stockOut;
-//                if($stockAvailable > 0){
-//                    $totalAvailable += 1;
-//                }
-//            }
-//        }
+
         $newArrived = Product::where('newarrived', 1)->count();
         $category = Category::where('categoryId', $categoryId)->first();
 
@@ -58,6 +35,7 @@ class CategoryController extends Controller
     }
 
     public function filterProducts(Request $request){
+
         if($request->priceMin && $request->priceMax) {
             $skus = Sku::with('product')->where('salePrice', '>=', $request->priceMin)->where('salePrice', '<=', $request->priceMax)->where('status', 'active');
         }else {
@@ -117,20 +95,26 @@ class CategoryController extends Controller
             }
             $skus = $skus->whereIn('skuId', $availableSku);
         }
-
-        $skus = $skus->paginate(1)->appends($request->newSS);
-
-        if (!empty($request->alphaOrderSS) && $request->alphaOrderSS == "A") {
-                $skus = $skus->sortBy('product.productName');
+        $per_paginate = 1;
+        $skip = ($request->page - 1) * $per_paginate;
+        if ($skip < 0) {
+            $skip = 0;
         }
+        $skus = $skus->skip($skip)->paginate($per_paginate);
 
-        if (!empty($request->alphaOrderSS) && $request->alphaOrderSS == "Z") {
-                $skus = $skus->sortByDesc('product.productName');
-        }
-//        return view('shopAjax', compact('skus'));
-        $view= view('shopAjax', compact('skus'))->render();
-        return $view;
-//        $lk = $skus->links('vendor.pagination.custom')->render();
+        // if (!empty($request->alphaOrderSS) && $request->alphaOrderSS == "A") {
+        //         $skus = $skus->sortBy('product.productName');
+        // }
+
+        // if (!empty($request->alphaOrderSS) && $request->alphaOrderSS == "Z") {
+        //         $skus = $skus->sortByDesc('product.productName');
+        // }
+    //    return view('shopAjax', compact('skus'));
+        // $view= view('shopAjax', compact('skus'))->render();
+        // return $view;
+    //    $lk = $skus->links('vendor.pagination.custom')->render();
 //        return response()->json(['tt'=>$view, 'html'=>$lk]);
+    //    return response()->json(['html'=>$view]);
+       return view('shopAjax', compact('skus'));
     }
 }

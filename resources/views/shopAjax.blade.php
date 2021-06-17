@@ -73,28 +73,5 @@
 
 {{--</div>--}}
 
-@section('js')
-    <script>
-        $(function() {
-            $('body').on('click', '.pagination a', function(e) {
-                e.preventDefault();
-                alert('dfa');
-                console.log('fads');
-                var url = $(this).attr('href');
-                getProducts(url);
-                window.history.pushState("", "", url);
-            });
-            function getProducts(url) {
-                $.ajax({
-                    url : url
-                }).done(function (data) {
-                    $('.devices-holder').html(data);
-                }).fail(function () {
-                    alert('Data could not be loaded.');
-                });
-            }
-        });
-        alert('f');
-    </script>
-@endsection
+
 

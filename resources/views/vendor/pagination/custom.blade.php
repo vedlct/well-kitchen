@@ -58,7 +58,7 @@
     <li><a class="prev" href="javascript:void(0)"><i class="fa fa-angle-double-left"></i></a></li>
     {{--  <li class="disabled"><span>← Previous</span></li>  --}}
     @else
-    <li><a class="prev" href="{{ $paginator->previousPageUrl() }}"><i class="fa fa-angle-double-left"></i></a></li>
+    <li><a class="prev" href="javascript:void(0)"><i class="fa fa-angle-double-left"></i></a></li>
     {{--  <li><a href="{{ $paginator->previousPageUrl() }}" rel="prev">← Previous</a></li> --}}
     @endif
 
@@ -78,7 +78,7 @@
     <li><a class="active" href="javascript:void(0)">{{ $page }}</a></li>
     {{--  <li class="active my-active"><span>{{ $page }}</span></li>  --}}
     @else
-    <li><a href="{{ $url }}">{{ $page }}</a></li>
+    <li><a href="{{ $url }}" class="page" data-page_id="{{$page}}">{{ $page }}</a></li>
     {{--  <li><a href="{{ $url }}">{{ $page }}</a></li>  --}}
     @endif
     @endforeach
@@ -86,7 +86,7 @@
     @endforeach
 
     @if ($paginator->hasMorePages())
-    <li><a class="next" href="{{ $paginator->nextPageUrl() }}"><i class="fa fa-angle-double-right"></i></a></li>
+    <li><a class="next" href="javascript:void(0)"><i class="fa fa-angle-double-right"></i></a></li>
     {{--  <li><a href="{{ $paginator->nextPageUrl() }}" rel="next">Next →</a></li>  --}}
     @else
     <li><a class="next" href="javascript:void(0)"><i class="fa fa-angle-double-right"></i></a></li>
