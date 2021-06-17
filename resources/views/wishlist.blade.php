@@ -13,8 +13,8 @@
                                     <th>Image</th>
                                     <th>Product Name</th>
                                     <th>Until Price</th>
-                                    <th>Qty</th>
-                                    <th>Subtotal</th>
+                                    {{-- <th>Qty</th>
+                                    <th>Subtotal</th> --}}
                                     <th>Add To Cart</th>
                                     <th>Remove</th>
                                 </tr>
@@ -28,12 +28,12 @@
                                         </td>
                                         <td class="product-name"><a href="#">{{$item->sku->product->productName}}</a></td>
                                         <td class="product-price-cart"><span class="amount">${{$item->sku->salePrice}}</span></td>
-                                        <td class="product-quantity">
-                                            <div class="cart-plus-minus">
-                                                <input class="cart-plus-minus-box" type="text" name="qtybutton" value="2">
+                                        {{-- <td class="product-quantity">
+                                            <div class="cart-plus-minus" onclick="quantityUpdate({{$item->id}})">
+                                                <input class="cart-plus-minus-box" type="text" name="qtybutton" value="1">
                                             </div>
                                         </td>
-                                        <td class="product-subtotal">$110.00</td>
+                                        <td class="product-subtotal">$110.00</td> --}}
                                         <td class="product-wishlist-cart">
                                             @if($item->sku->product->type == 'single')
                                             <a href="#" onclick="addTocart({{$item->sku->skuId}})">add to cart</a>

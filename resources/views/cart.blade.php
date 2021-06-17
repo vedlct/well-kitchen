@@ -64,7 +64,7 @@
                                         </td>
                                         <span class="upd">
                                         <td class="product-subtotal " >{{$item->price * $item->quantity}} </td>
-                                            </span>
+                                        </span>
                                         <td class="product-remove" onclick="removeItem('{{$item->id}}')">
                                             <a href="#"><i class="fa fa-times"></i></a>
                                         </td>
