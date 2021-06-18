@@ -32,11 +32,6 @@ Route::get('product-details/{id}', [ProductController::class, 'productDetails'])
 Route::post('variation/color/choose',[ProductController::class,'colorChoose'])->name('color.choose');
 
 
-
-
-
-
-
 //Search
 Route::post('/search-category-product' ,[CategoryController::class,'searchByProducts'])->name('search.product');
 

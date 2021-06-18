@@ -120,7 +120,7 @@
                                 <i class="fa fa-bars"></i>
                             </span>
                             <!-- logo -->
-                            <a href="{{url('/')}}">
+                            <a href="{{route('home')}}">
                                 <img alt="" src="{{asset('admin/public/settingImage/'.$setting->imageLink)}}">
                             </a>
                         </div>

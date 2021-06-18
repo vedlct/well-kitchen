@@ -56,7 +56,7 @@
                         <div class="card border-grey border-lighten-3 px-1 py-1 m-0">
                             <div class="card-header border-0">
                                 <div class="text-center mb-1">
-                                    <img src="{{url('public/app-assets/images/logo/logo.png')}}" alt="branding logo">
+                                    <img src="{{url('public/settingImage/',$setting->imageLink)}}" alt="branding logo">
                                 </div>
                                 {{-- <div class="font-large-1  text-center">
                                     Member Login

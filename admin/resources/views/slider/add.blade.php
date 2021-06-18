@@ -33,6 +33,11 @@
                                             @csrf
                                             <div class="form-body">
                                                 <div class="form-group">
+                                                    <label>Title Text</label>
+                                                    <input type="text" class="form-control" placeholder="Title Text" value="{{ old('titletext') }}" name="titletext">
+                                                    <span class="text-danger"> <b>{{  $errors->first('titletext') }}</b></span>
+                                                </div>
+                                                <div class="form-group">
                                                     <label>Main Text</label>
                                                     <input type="text" class="form-control" placeholder="Main Text" value="{{ old('mainText') }}" name="mainText">
                                                     <span class="text-danger"> <b>{{  $errors->first('mainText') }}</b></span>

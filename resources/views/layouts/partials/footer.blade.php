@@ -10,7 +10,7 @@
                                 <img alt="" class="img-fluid" src="{{asset('admin/public/settingImage/'.$setting->imageLink)}}">
                             </a>
                         </div>
-                        <p>© 2021 <a href="#">{{$setting->companyName}}</a><br> All Rights Reserved</p>
+                        <p>© 2021 <a href="{{route('home')}}">{{$setting->companyName}}</a><br> All Rights Reserved</p>
                     </div>
                 </div>
                 <div class="col-lg-2 col-md-4 col-sm-4">

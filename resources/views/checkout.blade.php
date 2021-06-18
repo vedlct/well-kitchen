@@ -16,7 +16,7 @@
                        <div class="col-lg-12">
                             <div class="billing-select mb-20">
                                 <label>Delivery zone</label>
-                                <select name="fkshipment_zoneId" id="zone" class="zone" onchange="shippingZone()">
+                                <select name="fkshipment_zoneId" id="zone" class="zone" onchange="shippingZone()" required>
                                     <option value="" selected>Select</option>
                                     @foreach ($shipmentZone as $item)
                                     <option value=" {{$item->shipment_zoneId}} "> {{$item->shipment_zoneName}} </option>
@@ -27,7 +27,7 @@
                         <div class="col-lg-12">
                             <div class="billing-info mb-20">
                                 <label>Phone</label>
-                                <input type="text" name="phone" id="phone" class="searchPhone">
+                                <input type="text" name="phone" id="phone" class="searchPhone" required>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6">
