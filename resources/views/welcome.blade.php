@@ -10,7 +10,7 @@
                         <div class="row">
                             <div class="col-12">
                                 <div class="slider-content-20 slider-animated-1">
-                                    <h3 class="animated">Hurry Up</h3>
+                                    <h3 class="animated">{{$slider->titletext}}</h3>
                                     <h1 class="animated">{{$slider->subText}}</h1>
                                     <p class="animated">{{$slider->mainText}}</p>
                                     <div class="slider-btn slider-btn-round btn-hover">
@@ -143,10 +143,11 @@
                     <div class="product-slider-active-2 owl-carousel owl-dot-none">
 
                     @foreach ($skus->unique('fkproductId') as $sku)
-                          {{-- @dd($sku->product->hotdealProducts) --}}
-                          @if($sku->product->hotdealProducts)
+                          {{-- @dd($sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()); --}}
+                          @if(!empty($sku->product->hotdealProducts))
                             @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
                           @endif
+                          {{-- @dd($sku->product->categoryId); --}}
                         @if(!empty($sku->product()) && $sku->product->categoryId == $category->categoryId)
                         <div class="product-wrap mb-25">
                             <div class="product-img">
@@ -219,16 +220,13 @@
     <div class="banner-area pb-50">
         <div class="container">
             <div class="row">
+              @foreach ($banners as $item )
                 <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                     <div class="single-banner mb-30">
-                        <a href="product-details.html"><img src="{{asset('public/assets/img/banner/banner-70.png')}}" alt=""></a>
+                        <a href="#"><img src="{{asset('admin/public/bannerImage/'.$item->imageLink)}}" alt=""></a>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-12">
-                    <div class="single-banner mb-30">
-                        <a href="product-details.html"><img src="{{asset('public/assets/img/banner/banner-71.png')}}" alt=""></a>
-                    </div>
-                </div>
+              @endforeach
             </div>
         </div>
     </div>

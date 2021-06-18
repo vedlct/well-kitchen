@@ -38,10 +38,11 @@
                                         </td>
                                         <td class="product-subtotal">$110.00</td> --}}
                                         <td class="product-wishlist-cart">
-                                            @if($item->sku->product->type == 'single')
+                                            {{-- @dd($item); --}}
+                                            @if($item->product->type == 'single')
                                             <a href="#" onclick="addTocart({{$item->product->sku->first()->skuId}})">add to cart</a>
                                             @endif
-                                            @if($item->sku->product->type == 'variation')
+                                            @if($item->product->type == 'variation')
                                             <a href="{{route('product.details',$item->product->sku->first()->skuId)}}">add to cart</a>
                                             @endif
                                         </td>

@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Slider;
 use App\Models\Product;
+use App\Models\Banner;
 use App\Models\Sku;
 use App\Models\Testimonial;
 use App\Models\Stock;
@@ -19,6 +20,7 @@ class HomeController extends Controller
 {
     public function index(){
         $sliders = Slider::where('status', 'active')->get();
+        $banners = Banner::where('status', 'active')->take(2)->get();
         $categories = Category::where('homeShow', 1)->take(4)->get();
         $products = Product::with('category','sku')->where('status', 'active')->get();
         $skus = Sku::with('product')->where('status', 'active')->get();
@@ -26,7 +28,7 @@ class HomeController extends Controller
         $newArrival =  Product::with('sku')->where('status', 'active')->where('newarrived', 1)->get();
         $recommendedProduct = Product::with('sku')->where('status', 'active')->where('isrecommended', 1)->get();
         $testimonials = Testimonial::where('status', 'active')->where('home',1)->get();
-        return view('welcome',compact('categories','products','skus','newArrival','recommendedProduct','testimonials','sliders'));
+        return view('welcome',compact('categories','products','skus','newArrival','recommendedProduct','testimonials','sliders','banners'));
     }
 
     public function addToCart(Request $request){

@@ -21,12 +21,12 @@
                             </thead>
                             <tbody id="cartBody">
                                 @foreach (\Cart::getContent()->sort() as $key=>$item)
-                                {{-- @dd($item); --}}
+                                {{-- @dd($item->associatedModel->sku->skuId); --}}
                                     <tr>
                                         <td class="product-thumbnail">
-                                            <a href="#"><img src="{{('admin/public/featureImage/').$item->associatedModel->featureImage}}" alt=""></a>
+                                            <a href="{{route('product.details',$item->associatedModel->sku->first()->skuId)}}"><img src="{{('admin/public/featureImage/').$item->associatedModel->featureImage}}" alt=""></a>
                                         </td>
-                                        <td class="product-name"><a href="#">{{$item->associatedModel->productName}}</a></td>
+                                        <td class="product-name"><a href="{{route('product.details',$item->associatedModel->sku->first()->skuId)}}">{{$item->associatedModel->productName}}</a></td>
                                         <td>
                                             @if($item->attributes['variations'])
                                             @foreach($item->attributes['variations'] as $variant)

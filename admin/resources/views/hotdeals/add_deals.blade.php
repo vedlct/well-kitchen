@@ -111,7 +111,7 @@
                                             </div>
 
                                             <div class="form-actions">
-                                                <a href="{{ route('hotdeals.show') }}"><button type="button" class="btn btn-danger mr-1"><i class="ft-x"></i> Cancel</button></a>
+                                                <a href="{{ route('hotdeals') }}"><button type="button" class="btn btn-danger mr-1"><i class="ft-x"></i> Cancel</button></a>
                                                 <button id="submit" type="button" class="btn btn-primary"><i class="la la-check-square-o"></i> Save</button>
                                                 {{-- <button id="submit" type="button" class="btn btn-success mb-3">Save Offer</button> --}}
                                             </div>

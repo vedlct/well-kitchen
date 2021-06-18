@@ -53,6 +53,7 @@ class SLiderController extends Controller
         } else {
             $slider = new Slider();
         }
+        $slider->titletext = $request->titletext;
         $slider->mainText = $request->mainText;
         $slider->subText = $request->subText;
         $slider->status = $request->status;

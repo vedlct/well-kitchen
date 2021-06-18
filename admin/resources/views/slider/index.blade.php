@@ -71,6 +71,7 @@
 
                 columns: [
                     // {title:'ID', data: 'sliderId', name: 'sliderId', class: 'text-center'},
+                    {title:'Title Text', data: 'titletext', name: 'titletext', class: 'text-center'},
                     {title:'Main Text', data: 'mainText', name: 'mainText', class: 'text-center'},
                     {title:'Sub Text', data: 'subText', name: 'subText', class: 'text-center'},
                     {title:'Image', data: 'image', name: 'image', class: 'text-center'},

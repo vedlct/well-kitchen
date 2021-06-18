@@ -10,6 +10,7 @@
                 <li>
                     <a href="{{route('category.products')}}">Shop</a>
                 </li>
+                
                 @if($categoryId != null)
                     <li class="active">{{$category->categoryName}}</li>
                 @endif
@@ -25,14 +26,14 @@
             <div class="col-lg-9">
                 <div class="shop-top-bar">
                     <div class="select-shoing-wrap">
-{{--                        <div class="shop-select">--}}
-{{--                            <select class="alphaCheck">--}}
-{{--                                <option value="">Sort by newness</option>--}}
-{{--                                <option value="A">A to Z</option>--}}
-{{--                                <option value="Z"> Z to A</option>--}}
-{{--                                <option value="instock">In stock</option>--}}
-{{--                            </select>--}}
-{{--                        </div>--}}
+                        <div class="shop-select">
+                            <select class="alphaCheck">
+                                <option value="">Sort by newness</option>
+                                <option value="A">A to Z</option>
+                                <option value="Z"> Z to A</option>
+                                <option value="instock">In stock</option>
+                            </select>
+                        </div>
 {{--                        <p>Showing 1–12 of 20 result</p>--}}
                     </div>
                     <div class="column-select-area d-none d-md-block">
@@ -109,6 +110,7 @@
                         <div class="sidebar-widget-list mt-20">
                             <ul>
                                 @foreach($skus as $productsku)
+                                {{-- @dd($productsku->variationRelation); --}}
                                     @foreach($productsku->variationRelation as $variationRelation)
                                         @if($variationRelation->variationDetailsdata->variationType == "Color")
                                             <li>
@@ -168,13 +170,84 @@
 
     <script>
 
-        let  categoryId = {{$categoryId}};
 
+        let sks;
+        let  categoryId = {{$categoryId}};
         function readyFn() {
+{{--            var categoryId = {{$categoryId}} ;--}}
             filter();
+            {{--$.ajax({--}}
+            {{--    url: "{{route('filter.products')}}",--}}
+            {{--    method: 'POST',--}}
+            {{--    data: {--}}
+            {{--        _token: "{{csrf_token()}}",--}}
+            {{--        categoryId: categoryId--}}
+            {{--    },--}}
+            {{--    success: function (data) {--}}
+            {{--        console.log(data);--}}
+            {{--        sks = data.skuss;--}}
+            {{--        console.log(sks);--}}
+            {{--        $("#productdetails").html(data.html);--}}
+            {{--        $(document).on('click', '.page', function(event){--}}
+            {{--            event.preventDefault();--}}
+            {{--            let page = $(this).data('page_id');--}}
+            {{--            // alert(page);--}}
+            {{--            // console.log(page);--}}
+            {{--            console.log(sks);--}}
+            {{--            $.ajax({--}}
+            {{--                url: "{{route('filter.products')}}",--}}
+            {{--                method: 'POST',--}}
+            {{--                data: {--}}
+            {{--                    _token: "{{csrf_token()}}",--}}
+            {{--                    page : page,--}}
+            {{--                    categoryId: categoryId--}}
+            {{--                    // sks: sks--}}
+            {{--                },--}}
+            {{--                success: function(data) {--}}
+            {{--                    console.log('ffff');--}}
+            {{--                    console.log(data);--}}
+            {{--                    $("#productdetails").html(data.html);--}}
+            {{--                }--}}
+            {{--            });--}}
+            {{--        });--}}
+
+            {{--        $(document).on('click', '.prev,.next', function(event){--}}
+            {{--            event.preventDefault();--}}
+
+            {{--            let container = $(this).closest('.pager');--}}
+            {{--            let page =parseInt(container.find('.active').text());--}}
+            {{--            let clicked_class = $(this).hasClass('prev');--}}
+            {{--            if(clicked_class)--}}
+            {{--            {--}}
+            {{--                --page;--}}
+            {{--            }--}}
+            {{--            else{--}}
+            {{--                page++;--}}
+            {{--            }--}}
+            {{--            $.ajax({--}}
+            {{--                url: "{{route('filter.products')}}",--}}
+            {{--                method: 'POST',--}}
+            {{--                data: {--}}
+            {{--                    _token: "{{csrf_token()}}",--}}
+            {{--                    page : page,--}}
+            {{--                    categoryId: categoryId--}}
+            {{--                },--}}
+            {{--                success: function(data) {--}}
+            {{--                    console.log(data);--}}
+            {{--                    $("#productdetails").html(data.html);--}}
+            {{--                }--}}
+            {{--            });--}}
+            {{--        });--}}
+
+
+            {{--    }--}}
+            {{--});--}}
         };
 
         $(document).ready(readyFn);
+
+
+
 
         var alphaOrderSS;
         $(".alphaCheck").change(function() {
@@ -258,6 +331,7 @@
                     filter();
                 }
             });
+
         });
 
         function  filter(){
@@ -266,6 +340,7 @@
                 method: 'POST',
                 data: {
                     _token: '{{csrf_token()}}',
+                    // catSS: catSS,
                     colorSS: colorSS,
                     sizeSS: sizeSS,
                     saleSS: saleSS,
@@ -278,10 +353,10 @@
                 },
                 success: function(data) {
                     console.log(data);
-                    $("#productdetails").html(data.html);
                     $(document).on('click', '.page', function(event){
                         event.preventDefault();
                         let page = $(this).data('page_id');
+                        console.log(sks);
                         $.ajax({
                             url: "{{route('filter.products')}}",
                             method: 'POST',
@@ -297,6 +372,7 @@
                                 priceMax: priceMax,
                                 alphaOrderSS: alphaOrderSS,
                                 categoryId: categoryId
+                                // sks: sks
                             },
                             success: function(data) {
                                 console.log(data);
@@ -305,8 +381,10 @@
                         });
                     });
 
+
                     $(document).on('click', '.prev,.next', function(event){
                         event.preventDefault();
+
                         let container = $(this).closest('.pager');
                         let page =parseInt(container.find('.active').text());
                         let clicked_class = $(this).hasClass('prev');
@@ -339,9 +417,69 @@
                             }
                         });
                     });
+                    $("#productdetails").html(data.html);
+
                 }
             });
         }
 
+
+
+
+
+
+
+
+
+        {{--$(document).on('click', '.page', function(event){--}}
+        {{--    event.preventDefault();--}}
+        {{--    let page = $(this).data('page_id');--}}
+        {{--    // alert(page);--}}
+        {{--    // console.log(page);--}}
+        {{--    console.log(sks);--}}
+        {{--    $.ajax({--}}
+        {{--        url: "{{route('filter.products')}}",--}}
+        {{--        method: 'POST',--}}
+        {{--        data: {--}}
+        {{--            _token: "{{csrf_token()}}",--}}
+        {{--            page : page,--}}
+        {{--           --}}
+        {{--            // sks: sks--}}
+        {{--        },--}}
+        {{--        success: function(data) {--}}
+        {{--            console.log('ffff');--}}
+        {{--            console.log(data);--}}
+        {{--            $("#productdetails").html(data.html);--}}
+        {{--        }--}}
+        {{--    });--}}
+        {{--});--}}
+
+
+        {{--$(document).on('click', '.prev,.next', function(event){--}}
+        {{--    event.preventDefault();--}}
+
+        {{--    let container = $(this).closest('.pager');--}}
+        {{--    let page =parseInt(container.find('.active').text());--}}
+        {{--    let clicked_class = $(this).hasClass('prev');--}}
+        {{--    if(clicked_class)--}}
+        {{--    {--}}
+        {{--        --page;--}}
+        {{--    }--}}
+        {{--    else{--}}
+        {{--            page++;--}}
+        {{--    }--}}
+        {{--    $.ajax({--}}
+        {{--        url: "{{route('filter.products')}}",--}}
+        {{--        method: 'POST',--}}
+        {{--        data: {--}}
+        {{--            _token: "{{csrf_token()}}",--}}
+        {{--            page : page--}}
+        {{--        },--}}
+        {{--        success: function(data) {--}}
+        {{--            console.log(data);--}}
+        {{--            $("#productdetails").html(data.html);--}}
+        {{--        }--}}
+        {{--    });--}}
+        {{--});--}}
     </script>
 @endsection

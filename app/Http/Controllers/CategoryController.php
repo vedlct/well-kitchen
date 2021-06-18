@@ -29,9 +29,17 @@ class CategoryController extends Controller
         ->where('productName', 'LIKE', "%{$allSearch}%")
         ->orWhere('productCode', 'LIKE', "%{$allSearch}%")
         ->orWhere('tag', 'LIKE', "%{$allSearch}%")
-        ->paginate(5);
+        ->with('sku')
+        ->get();
 
-        return view('shop', compact('products'));
+    // dd($products[0]->sku->first());
+        foreach($products as $pro){
+            $skus = Sku::where('fkproductId',$pro->productId)->with('product.category','variationRelation')->first();
+            // dd($skus);
+            $categoryId = $skus->product->category->categoryId;
+            $category = $skus->product->category;
+        }
+        return view('shop', compact('products','skus','categoryId','category'));
     }
 
     public function filterProducts(Request $request){

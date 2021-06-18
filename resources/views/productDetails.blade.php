@@ -164,11 +164,12 @@
                             <li><a href="#">Electronic</a></li>
                         </ul>
                     </div>
+                    {{-- @dd($setting); --}}
                     <div class="pro-details-social">
                         <ul>
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+                            <li><a href=" {{($setting->facebook)}} "><i class="fa fa-facebook"></i></a></li>
+                            <li><a href=" {{($setting->twitter)}} "><i class="fa fa-twitter"></i></a></li>
+                            <li><a href=" {{$setting->instagram}} "><i class="fa fa-linkedin"></i></a></li>
                         </ul>
                     </div>
                 </div>
@@ -208,7 +209,9 @@
                         <div class="col-lg-7">
                             <div class="review-wrapper">
                                 {{-- @dd($product->review->where('fkproductId',$product->productId)) --}}
+                                {{-- @dd($product->review); --}}
                                @foreach ($product->review as $item)
+                               {{-- @dd($item->customer->customerId); --}}
                                 {{-- @dd($item->where('fkproduct',$product->productId)); --}}
                                     <div class="single-review">
                                         <div class="review-img">
@@ -225,8 +228,8 @@
                                                         @endphp --}}
                                                          {{-- @dd($name); --}}
                                                          {{-- {{$name}} --}}
-                                                        <h4>jhon doe</h4>
-                                                        {{-- <h4>{{dd($item->customer)}}</h4> --}}
+                                                        <h4>john doe</h4>
+                                                        <h4>{{$item->customerID}}</h4>
                                                     </div>
                                                     <div class="review-rating">
                                                         <i class="fa fa-star"></i>

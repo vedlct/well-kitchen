@@ -23,8 +23,13 @@ class CuponController extends Controller
                
                 if($promotion->status == 'active'){
                   
+                    if(Auth::check()){
+                        $customerID = Customer::where('fkuserId',Auth::user()->userId)->first()->customerId;
+                    }else{
+                        return redirect()->route('login');
+                    }
                     // limit
-                  $customerID = Customer::where('fkuserId',Auth::user()->userId)->first()->customerId;
+                
                     $usedBefore = Order::where('fkcustomerId',$customerID)->where('discount',$couponCode)->count();
                     // dd($usedBefore);
                     if ($promotion->useLimit > $usedBefore){
