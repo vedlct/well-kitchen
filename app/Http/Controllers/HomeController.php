@@ -29,6 +29,28 @@ class HomeController extends Controller
         return view('welcome',compact('categories','products','skus','newArrival','recommendedProduct','testimonials','sliders'));
     }
 
+    public function quickView(Request $request){
+        $sku_id = $request->sku_id;
+        $sku = Sku::with('product')->where('skuId', $sku_id)->first();
+        $images = $sku->variationImages()->get();
+
+        $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first();
+        $oldprice = null;
+        if(empty($hotDeal)){
+            $saleprice = $sku->salePrice ;
+        }
+
+        if(!empty($hotDeal)) {
+             $percentage = $hotDeal->hotdeals->percentage;
+             $afterDiscountPrice = ($sku->salePrice) - (($sku->salePrice) * $percentage) / 100;
+
+            $saleprice = $afterDiscountPrice;
+            $oldprice = $sku->salePrice;
+         }
+
+        return response()->json(['sku'=>$sku, 'hotdeal'=>$hotDeal, 'saleprice'=>$saleprice, 'oldprice'=>$oldprice, 'images'=>$images]);
+    }
+
     public function addToCart(Request $request){
         $stockIn=Stock::where('fkskuId',$request->_sku)->where('type', 'in')->sum('stock');
         $stockOut=Stock::where('fkskuId',$request->_sku)->where('type', 'out')->sum('stock');

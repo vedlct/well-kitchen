@@ -24,6 +24,7 @@ Route::get('/checkout' ,[HomeController::class,'index'])->name('checkout.index')
 Route::post('add-to-cart',[HomeController::class,'addToCart'])->name('product.addTocart');
 Route::post('cart-remove',[HomeController::class,'removeItem'])->name('product.cartRemove');
 Route::post('cart-update-quantity',[HomeController::class,'updateQuantity'])->name('product.cartUpdateQuantity');
+Route::post('quick-view',[HomeController::class,'quickView'])->name('product.quickView');
 
 
 //product

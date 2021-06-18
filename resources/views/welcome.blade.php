@@ -179,7 +179,7 @@
                                         @endif
                                     </div>
                                     <div class="pro-same-action pro-quickview">
-                                        <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a>
+                                        <a href="#" data-toggle="modal" data-target="#exampleModal" data-sku_id="{{$sku->skuId}}" class="ttt"><i class="pe-7s-look"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -569,7 +569,7 @@
 
                                     @endphp --}}
                                         {{-- @dd(Auth::user()->userId); --}}
-  
+
                                     <div class="product-action-4">
                                         <div class="pro-same-action pro-wishlist">
                                             {{-- <a title="Wishlist" href="{{route('wishlistAdd', $sku->skuId)}}"><i class="pe-7s-like"></i></a> --}}

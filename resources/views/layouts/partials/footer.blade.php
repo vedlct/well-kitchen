@@ -98,37 +98,40 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-5 col-sm-12 col-xs-12">
-                        <div class="tab-content quickview-big-img">
-                            <div id="pro-1" class="tab-pane fade show active">
-                                <img src="{{asset('public/assets/img/product/quickview-l1.jpg')}}" alt="">
-                            </div>
-                            <div id="pro-2" class="tab-pane fade">
-                                <img src="{{asset('public/assets/img/product/quickview-l2.jpg')}}" alt="">
-                            </div>
-                            <div id="pro-3" class="tab-pane fade">
-                                <img src="{{asset('public/assets/img/product/quickview-l3.jpg')}}" alt="">
-                            </div>
-                            <div id="pro-4" class="tab-pane fade">
-                                <img src="{{asset('public/assets/img/product/quickview-l2.jpg')}}" alt="">
-                            </div>
+                        <div class="tab-content quickview-big-img imgtab">
+{{--                            <div id="pro-1" class="tab-pane fade show active">--}}
+{{--                                <img src="{{asset('public/assets/img/product/quickview-l1.jpg')}}" alt="">--}}
+{{--                            </div>--}}
+{{--                            <div id="pro-2" class="tab-pane fade">--}}
+{{--                                <img src="{{asset('public/assets/img/product/quickview-l2.jpg')}}" alt="">--}}
+{{--                            </div>--}}
+{{--                            <div id="pro-3" class="tab-pane fade">--}}
+{{--                                <img src="{{asset('public/assets/img/product/quickview-l3.jpg')}}" alt="">--}}
+{{--                            </div>--}}
+{{--                            <div id="pro-4" class="tab-pane fade">--}}
+{{--                                <img src="{{asset('public/assets/img/product/quickview-l2.jpg')}}" alt="">--}}
+{{--                            </div>--}}
                         </div>
                         <!-- Thumbnail Large Image End -->
                         <!-- Thumbnail Image End -->
                         <div class="quickview-wrap mt-15">
                             <div class="quickview-slide-active owl-carousel nav nav-style-1" role="tablist">
-                                <a class="active" data-toggle="tab" href="#pro-1"><img src="{{asset('public/assets/img/product/quickview-s1.jpg')}}" alt=""></a>
-                                <a data-toggle="tab" href="#pro-2"><img src="{{asset('public/assets/img/product/quickview-s2.jpg')}}" alt=""></a>
-                                <a data-toggle="tab" href="#pro-3"><img src="{{asset('public/assets/img/product/quickview-s3.jpg')}}" alt=""></a>
-                                <a data-toggle="tab" href="#pro-4"><img src="{{asset('public/assets/img/product/quickview-s2.jpg')}}" alt=""></a>
+{{--                                <a class="active" data-toggle="tab" href="#pro-1"><img src="{{asset('public/assets/img/product/quickview-s1.jpg')}}" alt=""></a>--}}
+{{--                                <a data-toggle="tab" href="#pro-2"><img src="{{asset('public/assets/img/product/quickview-s2.jpg')}}" alt=""></a>--}}
+{{--                                <a data-toggle="tab" href="#pro-3"><img src="{{asset('public/assets/img/product/quickview-s3.jpg')}}" alt=""></a>--}}
+{{--                                <a data-toggle="tab" href="#pro-4"><img src="{{asset('public/assets/img/product/quickview-s2.jpg')}}" alt=""></a>--}}
                             </div>
                         </div>
                     </div>
+                    @php
+                        $url2 = 'admin/public/productImages/';
+                    @endphp
                     <div class="col-md-7 col-sm-12 col-xs-12">
                         <div class="product-details-content quickview-content">
-                            <h2>Products Name Here</h2>
+                            <h2 class="pname"></h2>
                             <div class="product-details-price">
-                                <span>$18.00 </span>
-                                <span class="old">$20.00 </span>
+                                <span class="salePrice"></span>
+                                <span class="old oldprice"></span>
                             </div>
                             <div class="pro-details-rating-wrap">
                                 <div class="pro-details-rating">
@@ -192,6 +195,49 @@
     @if(session()->has('warning'))
     toastr.warning('{{session('warning')}}');
     @endif
+
+
+    $(document).on('click', '.ttt', function(){
+       let sku_id = $(this).data('sku_id');
+        $.ajax({
+            type: "post",
+            url: "{{route('product.quickView')}}",
+            data:{
+                _token:'{{csrf_token()}}',
+                sku_id:sku_id,
+            },
+            success: function (data) {
+                // console.log(data);
+                $(".pname").html(data.sku.product['productName']);
+{{--                @foreach ($product->images as $key=>$itemImg)--}}
+{{--                <div id="shop-details-{{$key}}" class="zoom tab-pane {{$key == 0 ? 'active' : '' }} large-img-style" style="background-image: url({{asset('admin/public/productImages/'.$itemImg->image)}});">--}}
+{{--                <img src="{{asset('admin/public/productImages/'.$itemImg->image)}}" alt="">--}}
+{{--                </div>--}}
+{{--                @endforeach--}}
+
+                $.each(data.images, function(k,v) {
+                // $.each(data.sku.product.images, function(k1, v1) {
+                    // $.each(this, function(k, v) {
+    // alert('fasd');
+    console.log(v.image);
+    var test = v.image;
+dd({{$url2}});
+                        {{--$(".imgtab").append(`<div id='pro-1' class='tab-pane fade show active'><img src="{{asset(url2)}}"></div>`)--}}
+                    // });
+                // });
+                });
+
+                if(data.hotdeal == null){
+                    $(".salePrice").html('৳ '+data.saleprice);
+                    $(".oldprice").html('');
+                }
+                else{
+                    $(".salePrice").html('৳ '+data.saleprice);
+                    $(".oldprice").html('৳ '+data.oldprice);
+                }
+            },
+        });
+    });
 
     function addTocart(skuId = null) {
         let quantity=$('#quantity').val() ;
