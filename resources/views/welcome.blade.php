@@ -1057,7 +1057,7 @@
                     <div class="testimonial-active owl-carousel nav-style-1 nav-testi-style owl-dot-none">
                         @foreach ($testimonials as $testimonial)
                         <div class="single-testimonial text-center">
-                            <img src="{{asset('public/assets/img/testimonial/testi-1.png')}}" alt="">
+                            <img src="{{asset('admin/public/testimonialImage/'.$testimonial->imageLink)}}" alt="">
                             <p> {{$testimonial->details}}</p>
                             <div class="client-info">
                                 <i class="fa fa-map-signs"></i>
