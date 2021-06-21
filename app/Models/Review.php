@@ -13,6 +13,6 @@ class Review extends Model
 
     public function customer()
     {
-        return $this->hasOne('App\Models\Customer','customerId','idreviews');
+        return $this->hasOne('App\Models\Customer','customerId','customerID');
     }
 }

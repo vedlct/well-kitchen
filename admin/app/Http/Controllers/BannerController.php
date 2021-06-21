@@ -110,6 +110,7 @@ class BannerController extends Controller
     }
 
     public function update(Request $r){
+        dd($r->all);
         if(!$r->previousImage){
             $this->validate($r, [
                 'imageLink' => 'required|image|mimes:jpeg,png,jpg,gif,svg'
@@ -149,7 +150,7 @@ class BannerController extends Controller
             $banner->save();
         }
 
-        Session::flash('success', 'Brand Updated Successfully');
+        Session::flash('success', 'Banner Updated Successfully');
         return redirect()->route('banner.show');
         // return redirect('banner.show')->with('success', true);
     }
@@ -171,7 +172,7 @@ class BannerController extends Controller
         File::delete($file_path);
         $banner->delete();
 
-        Session::flash('success', 'Brand Deleted Successfully');
+        Session::flash('success', 'Banner Deleted Successfully');
         return response()->json();
 
     }

@@ -6,7 +6,10 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Sku;
 use App\Models\VariationDetails;
+use App\Models\Customer; 
+use App\Models\Review; 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -15,13 +18,17 @@ class ProductController extends Controller
         $sku = Sku::with('product', 'variationImages')->findOrfail($id);
         $relatedProducts = Product::where('categoryId', $sku->product->categoryId)->pluck('productId');
         $skus = Sku::whereIn('fkproductId', $relatedProducts)->with('product')->get()->unique('fkproductId');
-        $product = Product::where('productId', $sku->fkproductId)->with('review.customer.user')->first();
-        // @dd($product->review);
-        // foreach ($product->review as $k){
-        //       dd($k->customer->user->firstName);
-        // }
+        $product = Product::where('productId', $sku->fkproductId)->with('review.customer.user','category')->first();
+        // dd($product);
+        if(Auth::check()){
+            $customer = Customer::where('fkuserId',Auth::user()->userId)->with('user')->first();
+        }else{
+            $customer = null;
+        }
 
-        return view('productDetails', compact('sku', 'product','skus'));
+        $review = Review::with('customer.user')->where('fkproductId',$product->productId)->get();
+        // dd($review);
+        return view('productDetails', compact('sku', 'product','skus','customer','review'));
     }
 
     public function colorChoose(Request $request)

@@ -32,7 +32,7 @@
                                     <div class="card-body">
                                         <form class="form" action="{{ route('banner.update') }}" method="post" enctype="multipart/form-data">
                                             @csrf
-                                            <input type="hidden" name="id" value="{{$banner->bannerId}}">
+                                            <input type="hidden" name="bannerId" value="{{$banner->bannerId}}">
                                             <div class="form-body">
                                                 {{-- <div class="form-group">
                                                     <label for="companyName">Category Name</label>

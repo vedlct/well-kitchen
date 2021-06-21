@@ -151,17 +151,13 @@
                     <div class="pro-details-meta">
                         <span>Categories :</span>
                         <ul>
-                            <li><a href="#">Minimal,</a></li>
-                            <li><a href="#">Furniture,</a></li>
-                            <li><a href="#">Fashion</a></li>
+                            <li><a href="#">{{$product->category->categoryName}}</a></li>
                         </ul>
                     </div>
                     <div class="pro-details-meta">
                         <span>Tag :</span>
                         <ul>
-                            <li><a href="#">Fashion, </a></li>
-                            <li><a href="#">Furniture,</a></li>
-                            <li><a href="#">Electronic</a></li>
+                            <li><a href="#">{{$product->tag}} </a></li>
                         </ul>
                     </div>
                     {{-- @dd($setting); --}}
@@ -208,11 +204,9 @@
                     <div class="row">
                         <div class="col-lg-7">
                             <div class="review-wrapper">
-                                {{-- @dd($product->review->where('fkproductId',$product->productId)) --}}
-                                {{-- @dd($product->review); --}}
-                               @foreach ($product->review as $item)
-                               {{-- @dd($item->customer->customerId); --}}
-                                {{-- @dd($item->where('fkproduct',$product->productId)); --}}
+                               {{-- @foreach ($product->review as $item) --}}
+                               @foreach ($review as $item)
+                               {{-- @dd($item->customer->user->firstName) --}}
                                     <div class="single-review">
                                         <div class="review-img">
                                         <img src="assets/img/testimonial/1.jpg" alt="">
@@ -221,22 +215,21 @@
                                             <div class="review-top-wrap">
                                                 <div class="review-left">
                                                     <div class="review-name">
-
-                                                        {{-- @php
-                                                            $name = $item->customer->user->firstName;
-
-                                                        @endphp --}}
-                                                         {{-- @dd($name); --}}
-                                                         {{-- {{$name}} --}}
-                                                        <h4>john doe</h4>
-                                                        <h4>{{$item->customerID}}</h4>
+                                                        {{-- @dd($customer); --}}
+                                                         <h4>{{$item->customer->user->firstName}}</h4>
+                                                     
                                                     </div>
                                                     <div class="review-rating">
+                                                        @for ($i = 1; $i < 5; $i++)
+                                                        @if ($i < $item->rating)
+                                                            {{-- <span class="star star--gold"></span> --}}
+                                                            <i class="fa fa-star"></i>
+                                                        @else
+                                                            <span class="star"></span>
+                                                        @endif
+                                                        @endfor
                                                         <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
@@ -273,17 +266,26 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="rating-form-style mb-10">
-                                                    <input placeholder="Name" type="text">
+                                                    @if(Auth::check())
+                                                    <input placeholder="Name" type="hidden" name="customerId" value="{{$customer->customerId}}">
+                                                    <input placeholder="Name" type="text" value="{{Auth::user()->firstName}}" readonly>
+                                                    @else
+                                                    <input placeholder="Name" type="text" name="customerId" required>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="rating-form-style mb-10">
-                                                    <input placeholder="Email" type="email" required>
+                                                    @if(Auth::check())
+                                                    <input placeholder="Email" type="email" name="email" value="{{Auth::user()->email}}" readonly>
+                                                    @else
+                                                    <input placeholder="Email" type="email" name="email" required>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="rating-form-style form-submit">
-                                                    <textarea name="review" placeholder="Message" required></textarea>
+                                                    <textarea name="review" placeholder="Type Your Message here......" required></textarea>
                                                     @if(Auth::check())
                                                     <input type="submit" value="Submit">
                                                     @else
@@ -336,7 +338,12 @@
                                 <a title="Wishlist" href="#" onclick="addToWishList({{$sku->skuId}})"><i class="pe-7s-like"></i></a>
                             </div>
                             <div class="pro-same-action pro-cart">
-                                <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a>
+                                @if($sku->product->type == "single")
+                                    <a title="Add To Cart" href="#" onclick="addTocart({{$sku->skuId}})"><i class="pe-7s-cart">Add to cart</i></a>
+                                @endif
+                                @if($sku->product->type == "variation")
+                                    <a title="Add To Cart" href="{{route('product.details',$sku->skuId)}}" ><i class="pe-7s-cart">Add to cart</i></a>
+                                @endif
                             </div>
                             <div class="pro-same-action pro-quickview">
                                 <a href="#" data-toggle="modal" data-target="#quickView"><i class="pe-7s-look"></i></a>

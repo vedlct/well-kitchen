@@ -54,7 +54,7 @@
                                                 <p class="product-name">Single</p>
                                             @endif
                                         </td>
-                                        <td class="product-price-cart"><span class="amount">${{$item->price}}</span> </td>
+                                        <td class="product-price-cart"><span class="amount">&#2547;{{$item->price}}</span> </td>
                                         <td class="product-quantity" id="quantity">
                                             <div class="cart-plus-minus"  onclick="quantityUpdate({{$item->id}})">
 
@@ -63,7 +63,7 @@
                                             </div>
                                         </td>
                                         <span class="upd">
-                                        <td class="product-subtotal " >{{$item->price * $item->quantity}} </td>
+                                        <td class="product-subtotal">{{$item->price * $item->quantity}} </td>
                                         </span>
                                         <td class="product-remove" onclick="removeItem('{{$item->id}}')">
                                             <a href="#"><i class="fa fa-times"></i></a>
@@ -110,15 +110,15 @@
                             <div class="title-wrap">
                                 <h4 class="cart-bottom-title section-bg-gary-cart">Cart Total</h4>
                             </div>
-                            <h5 class="cartTotal">Total products <span>${{\Cart::getSubTotal()}}</span></h5>
-                            <div class="total-shipping">
+                            <h5 class="cartTotal">Total products <span>&#2547;{{\Cart::getSubTotal()}}</span></h5>
+                            {{-- <div class="total-shipping">
                                 <h5>Total shipping</h5>
                                 <ul>
                                     <li><input type="checkbox"> Standard <span>$20.00</span></li>
                                     <li><input type="checkbox"> Express <span>$30.00</span></li>
                                 </ul>
-                            </div>
-                            <h4 class="grand-totall-title">Grand Total  <span>$260.00</span></h4>
+                            </div> --}}
+                            <h4 class="grand-totall-title">Grand Total  <span>&#2547;{{\Cart::getSubTotal()}}</span></h4>
                             {{-- @if(empty($customer)) --}}
                             {{-- <a href="{{route('login')}}">Goto Login</a> --}}
                             

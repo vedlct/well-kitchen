@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/product-details/{id}', [HomeController::class, 'productDetails'])->name('product.details');
+// Route::get('/product-details/{id}', [HomeController::class, 'productDetails'])->name('product.details');
 Route::get('/categories/{categoryId?}', [CategoryController::class, 'categoryProducts'])->name('category.products');
 Route::post('filter/products',[CategoryController::class,'filterProducts'])->name('filter.products');
 
