@@ -123,9 +123,7 @@
                             </div>
                         </div>
                     </div>
-                    @php
-                        $url2 = 'admin/public/productImages/';
-                    @endphp
+
                     <div class="col-md-7 col-sm-12 col-xs-12">
                         <div class="product-details-content quickview-content">
                             <h2 class="pname"></h2>
@@ -221,7 +219,7 @@
     // alert('fasd');
     console.log(v.image);
     var test = v.image;
-dd({{$url2}});
+
                         {{--$(".imgtab").append(`<div id='pro-1' class='tab-pane fade show active'><img src="{{asset(url2)}}"></div>`)--}}
                     // });
                 // });

@@ -145,7 +145,8 @@
                             <a href="#" onclick="addToWishList({{$sku->skuId}})"><i class="fa fa-heart-o"></i></a>
                         </div>
                         <div class="pro-details-compare">
-                            <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-shuffle"></i></a>
+                            <a href="{{route('product.compare', $sku->skuId)}}"><i class="pe-7s-shuffle"></i></a>
+{{--                            <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-shuffle"></i></a>--}}
                         </div>
                     </div>
                     <div class="pro-details-meta">
@@ -287,7 +288,7 @@
                                                     @if(Auth::check())
                                                     <input type="submit" value="Submit">
                                                     @else
-                                                    <a href="{{route('login')}}" class="btn btn-warning"> Login<p>to add Review</p> </a> 
+                                                    <a href="{{route('login')}}" class="btn btn-warning"> Login<p>to add Review</p> </a>
                                                     @endif
                                                 </div>
                                             </div>
