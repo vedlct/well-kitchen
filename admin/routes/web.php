@@ -141,7 +141,7 @@ Route::group(['middleware' => 'auth'], function () {
         // Route::post('check/subCategory', [BannerController::class, 'checkSubCategory'])->name('check.subCategory');
         Route::post('store', [BannerController::class, 'store'])->name('store');
         Route::get('edit/{id}', [BannerController::class, 'edit'])->name('edit');
-        Route::post('update/', [BannerController::class, 'update'])->name('update');
+        Route::post('update/{id}', [BannerController::class, 'update'])->name('update');
         Route::post('delete', [BannerController::class, 'delete'])->name('delete');
     });
         

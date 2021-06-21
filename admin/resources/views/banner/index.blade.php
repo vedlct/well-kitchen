@@ -74,7 +74,7 @@
                     },
                 },
                 columns: [
-                    {title: 'Banner ID', data: 'bannerId', name: 'bannerId', className: "text-center", orderable: true, searchable: true},
+                    // {title: 'Banner ID', data: 'bannerId', name: 'bannerId', className: "text-center", orderable: true, searchable: true},
                     {title: 'Image', data: 'image', name: 'imageLink', className: "text-center", orderable: false, searchable: false},
                     // {title: 'Status', data: 'status', name: 'status', className: "text-center", orderable: true, searchable: true},
                     { data: 'status', name: 'status', orderable: true, searchable: true},

@@ -110,12 +110,12 @@ class BannerController extends Controller
     }
 
     public function update(Request $r){
-        dd($r->all);
-        if(!$r->previousImage){
-            $this->validate($r, [
-                'imageLink' => 'required|image|mimes:jpeg,png,jpg,gif,svg'
-            ]);
-        }
+        // dd($r->all());
+        // if(!$r->previousImage){
+        //     $this->validate($r, [
+        //         'imageLink' => 'required|image|mimes:jpeg,png,jpg,gif,svg'
+        //     ]);
+        // }
         $this->validate($r, [
             'imageLink' => 'image|mimes:jpeg,png,jpg,gif,svg',
             'status' => 'required'
@@ -123,32 +123,38 @@ class BannerController extends Controller
 
         $banner = Banner::find($r->id);
         $banner->status = $r->status;
-        if (isset($r->promotion)) {
-            $banner->fkPromotionId=$r->promotion;
-        }
-        if (isset($r->promotion)) {
-            $banner->fkPromotionId=$r->promotion;
-        }
+        $banner->type = $r->type;
+        $banner->fkPromotionId=$r->promotion;
         $banner->save();
-        if($r->hasFile('imageLink')){
-            if($r->previousImage && !empty($r->previousImage) && file_exists(public_path('bannerImage/'.$r->previousImage))){
-                unlink(public_path('bannerImage/'.$r->previousImage));
-            }
-            $img = $r->file('imageLink');
-            $filename= $banner->bannerId.'bannerImage'.'.'.$img->getClientOriginalExtension();
-            $location = public_path('bannerImage/'.$filename);
-            $uploadImage = Image::make($img);
-            if($r->type == "Header"){
-                $uploadImage = $uploadImage->resize(1920, 221);
-            }elseif($r->type == "Hot Deals"){
-                $uploadImage = $uploadImage->resize(1169, 60);
-            }elseif($r->type == "Footer_1" || $r->type == "Footer_2"){
-                $uploadImage = $uploadImage->resize(580, 189);
-            }
-            $uploadImage->save($location);
-            $banner->imageLink=$filename;
+
+        if ($r->hasFile('imageLink')) {
+            $originalName = $r->imageLink->getClientOriginalName();
+            $uniqueImageName = $r->type.$originalName;
+            $file_path = public_path().'/bannerImage/'.$banner->imageLink;
+            File::delete($file_path);
+            $image = Image::make($r->imageLink);
+            $image->save(public_path().'/bannerImage/'.$uniqueImageName);
+            $banner->imageLink = $uniqueImageName;
             $banner->save();
         }
+
+        // if($r->hasFile('imageLink')){
+        //     if($r->previousImage && !empty($r->previousImage) && file_exists(public_path('bannerImage/'.$r->previousImage))){
+        //         unlink(public_path('bannerImage/'.$r->previousImage));
+        //     }
+        //     $img = $r->file('imageLink');
+        //     $filename= $banner->bannerId.'bannerImage'.'.'.$img->getClientOriginalExtension();
+        //     // dd($filename);
+        //     $location = public_path('bannerImage/'.$filename);
+        //     $uploadImage = Image::make($img);
+        //     // dd($uploadImage);
+        //     if($r->type == "left" || $r->type == "right"){
+        //         $uploadImage = $uploadImage->resize(1920, 221);
+        //     }
+        //     $uploadImage->save($location);
+        //     $banner->imageLink=$filename;
+        //     $banner->save();
+        // }
 
         Session::flash('success', 'Banner Updated Successfully');
         return redirect()->route('banner.show');
