@@ -6,9 +6,9 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Sku;
 use App\Models\VariationDetails;
-use App\Models\Customer; 
-use App\Models\Review; 
-use App\Models\Rating; 
+use App\Models\Customer;
+use App\Models\Review;
+use App\Models\Rating;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,6 +31,8 @@ class ProductController extends Controller
         // dd($rating);
         
         
+        // $review = Review::with('customer.user','getRating')->where('fkproductId',$product->productId)->orderBy('created_at','desc')->limit(10)->get();;
+
         // dd($review);
         return view('productDetails', compact('sku', 'product','skus','customer','review'));
     }
@@ -60,7 +62,15 @@ class ProductController extends Controller
 
     public function compare($skuId){
         $sku = Sku::where('skuId', $skuId)->first();
-        return view('compare', compact('sku'));
+        $reviews = Review::where('fkproductId', $sku->fkproductId)->get();
+        $totalRating = 0;
+        $totalCustomer = 0;
+        foreach($reviews as $review){
+            $totalRating += $review->getRating->value;
+            $totalCustomer++;
+        }
+
+        return view('compare', compact('sku', 'reviews', 'totalRating'));
     }
 
     public function compareSearch(Request $request){
@@ -70,7 +80,13 @@ class ProductController extends Controller
                             ->orWhere('productCode', 'LIKE', "%{$request->searchTxt}%")
                             ->orWhere('tag', 'LIKE', "%{$request->searchTxt}%")
                             ->first();
-        return response()->json(['product'=>$product]);
+        $reviews = Review::where('fkproductId', $product->productId)->count();
+        $reviews = Review::where('fkproductId', $product->productId)->get();
+        $totalRating = 0;
+        foreach($reviews as $review){
+            $totalRating += $review->getRating->value;
+        }
+        return response()->json(['product'=>$product, 'reviews'=>$reviews, 'totalRating'=>$totalRating]);
 
 
 //              $allSearch = $request->allSearch;

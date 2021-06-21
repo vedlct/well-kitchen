@@ -25,12 +25,12 @@
                     <div class="product-details-img">
                         <div class="tab-content jump mb-4">
                             @foreach ($product->images as $key=>$itemImg)
-                            <div id="shop-details-{{$key}}" class="zoom tab-pane {{$key == 0 ? 'active' : '' }} large-img-style" style="background-image: url({{asset('admin/public/productImages/'.$itemImg->image)}});">
+                            <div id="shop-details-{{$key}}" class="zoom tab-pane fade {{$key == 0 ? 'active' : '' }} large-img-style" style="background-image: url({{asset('admin/public/productImages/'.$itemImg->image)}});">
                                 <img src="{{asset('admin/public/productImages/'.$itemImg->image)}}" alt="">
                             </div>
                             @endforeach
                         </div>
-                        <div class="quickview-slide-active owl-carousel nav nav-style-1">
+                        <div class="productDetails-slide-active owl-carousel nav nav-style-1">
                             @foreach ($product->images as $key=>$itemImg)
                                 <a class="shop-details-overly {{$key == 0 ? 'active' : '' }}" href="#shop-details-{{$key}}" data-toggle="tab">
                                     <img src="{{asset('admin/public/productImages/'.$itemImg->image)}}" alt="">
@@ -218,8 +218,8 @@
                                                 <div class="review-left">
                                                     <div class="review-name">
                                                         {{-- @dd($item->getRating->value); --}}
-                                                         <h4>  {{$item->customer->user->firstName}}</h4>
-                                                     
+                                                         <h4>{{$item->customer->user->firstName}}</h4>
+
                                                     </div>
                                                     <div class="review-rating">
                                                         @for ($i = 1; $i < 5; $i++)
@@ -231,12 +231,12 @@
                                                         @endif
                                                         @endfor
                                                         <i class="fa fa-star"></i>
-                                                        
+
                                                     </div>
-                                                    
+
                                                     {{-- <div class="ml-5"> {{date('Y-m-d H:i:s', strtotime($item->created_at))}} </div> --}}
                                                     <div class="ml-5"> {{\Carbon\Carbon::parse($item->created_at)->diffForHumans()}} </div>
-                                                  
+
                                                 </div>
                                             </div>
                                             <div class="review-bottom">
