@@ -37,6 +37,15 @@
                                                     <input type="file" class="form-control" name="imageLink">
                                                     <span class="text-danger"> <b>{{  $errors->first('imageLink') }}</b></span>
                                                 </div>
+                                                <div class="form-group">
+                                                    <label>banner Type</label>
+                                                    <select name="type" id="type" class="form-control">
+                                                        <option value="">Select</option>
+                                                        <option value="left">Left</option>
+                                                        <option value="right">Right</option>
+                                                    </select>
+                                                    <span class="text-danger"> <b>{{  $errors->first('type') }}</b></span>
+                                                </div>
                                                 
                                                 <div class="form-group" >
                                                     <label>Select Promotion</label>

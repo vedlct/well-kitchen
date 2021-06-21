@@ -30,7 +30,7 @@
                                 </div>
                                 <div class="card-content collapse show">
                                     <div class="card-body">
-                                        <form class="form" action="{{ route('banner.update') }}" method="post" enctype="multipart/form-data">
+                                        <form class="form" action="{{ route('banner.update',$banner->bannerId) }}" method="post" enctype="multipart/form-data">
                                             @csrf
                                             <input type="hidden" name="bannerId" value="{{$banner->bannerId}}">
                                             <div class="form-body">
@@ -75,6 +75,33 @@
                                                     <img height="100px" width="100px" src="{{url("public/bannerImage/".$banner->imageLink)}}">
                                                 </div>
                                                 @endif
+
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 col-form-label">banner Type</label>
+                                                    <div class="col-sm-10">
+                                                    <select name="type" id="type" class="form-control">
+                                                        <option value="">Select</option>
+                                                        <option value="left" {{$banner->type == 'left' ? 'selected' : '' }} >Left</option>
+                                                        <option value="right" {{$banner->type == 'right' ? 'selected' : '' }}>Right</option>
+                                                    </select>
+                                                    <span class="text-danger"> <b>{{  $errors->first('type') }}</b></span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 col-form-label">Availability Status<span class="text-danger">*</span></label>
+                                                    <div class="col-sm-10">
+                                                        <select id="status" name="status" class="form-control">
+                                                            <option value="">Select</option>
+                                                            <option value="Active" @if($banner->status == "Active") selected @endif>Active</option>
+                                                            <option value="Inactive" @if($banner->status == "Inactive") selected @endif>Inactive</option>
+                                                        </select>
+                                                        <span class="text-danger"> <b>{{ $errors->first('status') }}</b></span>
+                                                    </div>
+                                                </div>
+
+
+
                                                 <div class="form-group row">
                                                     <label class="col-sm-2 col-form-label">Select Promotion</label>
                                                     <div class="col-sm-10">

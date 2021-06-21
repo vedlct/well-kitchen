@@ -216,13 +216,13 @@
                                             <div class="review-top-wrap">
                                                 <div class="review-left">
                                                     <div class="review-name">
-                                                        {{-- @dd($customer); --}}
+                                                        {{-- @dd($item->getRating->value); --}}
                                                          <h4>{{$item->customer->user->firstName}}</h4>
 
                                                     </div>
                                                     <div class="review-rating">
                                                         @for ($i = 1; $i < 5; $i++)
-                                                        @if ($i < $item->rating)
+                                                        @if ($i < $item->getRating->value)
                                                             {{-- <span class="star star--gold"></span> --}}
                                                             <i class="fa fa-star"></i>
                                                         @else
@@ -232,6 +232,10 @@
                                                         <i class="fa fa-star"></i>
 
                                                     </div>
+                                                    
+                                                    {{-- <div class="ml-5"> {{date('Y-m-d H:i:s', strtotime($item->created_at))}} </div> --}}
+                                                    <div class="ml-5"> {{\Carbon\Carbon::parse($item->created_at)->diffForHumans()}} </div>
+                                                  
                                                 </div>
                                             </div>
                                             <div class="review-bottom">
@@ -252,16 +256,21 @@
                                         <div class="star-box">
                                             <span>Your rating:</span>
                                             <div class="star-rating">
-                                                <input type="radio" id="5-stars" name="rating" value="5" />
+                                                <input type="radio" id="5-stars" name="rating" value="5"  />
                                                 <label for="5-stars" class="star">&#9733;</label>
-                                                <input type="radio" id="4-stars" name="rating" value="4" />
+                                                <input type="radio" id="4-stars" name="rating" value="4"  />
                                                 <label for="4-stars" class="star">&#9733;</label>
-                                                <input type="radio" id="3-stars" name="rating" value="3" />
+                                                <input type="radio" id="3-stars" name="rating" value="3"  />
                                                 <label for="3-stars" class="star">&#9733;</label>
-                                                <input type="radio" id="2-stars" name="rating" value="2" />
+                                                <input type="radio" id="2-stars" name="rating" value="2"  />
                                                 <label for="2-stars" class="star">&#9733;</label>
-                                                <input type="radio" id="1-star" name="rating" value="1" required/>
+                                                <input type="radio" id="1-star" name="rating" value="1" />
                                                 <label for="1-star" class="star">&#9733;</label>
+                                                @error('rating')
+                                                <span class="invalid-feedback" role="alert">
+                                                    <strong>{{ $message }}</strong>
+                                                </span>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="row">
@@ -290,7 +299,9 @@
                                                     @if(Auth::check())
                                                     <input type="submit" value="Submit">
                                                     @else
-                                                    <a href="{{route('login')}}" class="btn btn-warning"> Login<p>to add Review</p> </a>
+                                                    {{-- <a href="{{route('login')}}" class="btn btn-warning"> Login<p>to add Review</p> </a> --}}
+                                                    {{-- <button onclick="myFunction()">Try it</button> --}}
+                                                    <input type="submit" value="Submit" onclick="myFunction()">
                                                     @endif
                                                 </div>
                                             </div>
@@ -385,6 +396,13 @@
 @section('js')
 
 <script>
+    function myFunction() {
+        toastr.warning('Please Login first');
+    }
+    // function addRating() {
+    //     toastr.warning('click star mark to add Rating');
+    // }
+
     function changeVariation(id)
     {
         variationRelationId = id;

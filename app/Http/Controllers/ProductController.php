@@ -8,6 +8,7 @@ use App\Models\Sku;
 use App\Models\VariationDetails;
 use App\Models\Customer;
 use App\Models\Review;
+use App\Models\Rating;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,8 +26,10 @@ class ProductController extends Controller
         }else{
             $customer = null;
         }
+        // $rating = Rating::with('customer.user','reviews')->where('fkproductId',$product->productId)->get();
+        // dd($rating);
+        $review = Review::with('customer.user','getRating')->where('fkproductId',$product->productId)->orderBy('created_at','desc')->limit(10)->get();;
 
-        $review = Review::with('customer.user')->where('fkproductId',$product->productId)->get();
         // dd($review);
         return view('productDetails', compact('sku', 'product','skus','customer','review'));
     }
