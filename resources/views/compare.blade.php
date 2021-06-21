@@ -72,11 +72,23 @@
                             <div class="pro-details-rating-wrap reviews">
                                 <div class="pro-details-rating ">
 
-                                    <i class="fa fa-star-o yellow"></i>
-                                    <i class="fa fa-star-o yellow"></i>
-                                    <i class="fa fa-star-o yellow"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
+                                    @if($finalRating > 0)
+                                        @for ($i = 5; $i >= $finalRating; $i--)
+                                            <i class="fa fa-star-o yellow"></i>
+                                        @endfor
+                                            @for ($i = 0; $i < 5-$finalRating; $i++)
+                                                <i class="fa fa-star-o"></i>
+                                            @endfor
+                                    @else
+
+                                        <i class="fa fa-star-o "></i>
+                                        <i class="fa fa-star-o "></i>
+                                        <i class="fa fa-star-o "></i>
+                                        <i class="fa fa-star-o "></i>
+                                        <i class="fa fa-star-o "></i>
+                                    @endif
+
+
                                 </div>
                                 <span class="totalReviews">{{$reviews->count()}} Reviews</span>
                             </div>
