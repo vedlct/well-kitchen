@@ -205,6 +205,7 @@
                         <div class="col-lg-7">
                             <div class="review-wrapper">
                                {{-- @foreach ($product->review as $item) --}}
+                               @if($review->count() > 0)
                                @foreach ($review as $item)
                                {{-- @dd($item->customer->user->firstName) --}}
                                     <div class="single-review">
@@ -243,6 +244,7 @@
                                         </div>
                                     </div>
                                 @endforeach
+                               @endif 
                             </div>
                         </div>
                         <div class="col-lg-5">

@@ -25,12 +25,22 @@ class ReviewController extends Controller
         $product = Product::where('productId',$request->productId)->pluck('productId')->first();
         // dd($product);
         $reviewIsExist = Review::where('customerID',$customer)->where('fkproductId',$product)->first();
+        $ratingIsExist = Rating::where('fkcustomerId',$customer)->where('fkproductId',$product)->first();
         // dd($reviewIsExist);
         if(!empty($reviewIsExist)) {
             // dd('review has with this customer and pro info');
             // dd( $request->review);
-                $reviewIsExist->review = $request->review;
-                $reviewIsExist->save();
+             $ratingIsExist->value = $request->rating;
+             $ratingIsExist->save();
+
+                $review=new Review();
+                $review->fkproductId = $reviewIsExist->fkproductId;
+                $review->customerID = $ratingIsExist->fkcustomerId;
+                $review->review = $request->review;
+                $review->rating = $ratingIsExist->ratingId;
+                $review->save();
+                Session::flash('success','Review update succesfully');
+                return back();
         }else{
             // dd('add review');
               $rating = new Rating();
@@ -48,10 +58,7 @@ class ReviewController extends Controller
         }
        
 
-      
-        
-
-        Session::flash('success','Review added succesfully');
+      Session::flash('success','Review added succesfully');
         return back();
 
     }
