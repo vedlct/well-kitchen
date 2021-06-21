@@ -54,6 +54,30 @@ class ProductController extends Controller
         return response()->json(['otherVariationSameSku'=>$otherVariationSameSku, 'sku'=> $sku, 'afterDiscountPrice'=>$afterDiscountPrice, 'variationDatas'=>$variationDatas ]);
     }
 
+    public function compare($skuId){
+        $sku = Sku::where('skuId', $skuId)->first();
+        return view('compare', compact('sku'));
+    }
+
+    public function compareSearch(Request $request){
+
+        $product = Product::with('sku', 'category', 'brand', 'details')
+                            ->where('productName', 'LIKE', "%{$request->searchTxt}%")
+                            ->orWhere('productCode', 'LIKE', "%{$request->searchTxt}%")
+                            ->orWhere('tag', 'LIKE', "%{$request->searchTxt}%")
+                            ->first();
+        return response()->json(['product'=>$product]);
+
+
+//              $allSearch = $request->allSearch;
+//        $products = Product::query()
+//            ->where('productName', 'LIKE', "%{$allSearch}%")
+//            ->orWhere('productCode', 'LIKE', "%{$allSearch}%")
+//            ->orWhere('tag', 'LIKE', "%{$allSearch}%")
+//            ->with('sku')
+//            ->get();
+    }
+
 //    public function sizeChoose(Request $request)
 //    {
 //        dd($request->all());

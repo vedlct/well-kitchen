@@ -24,11 +24,14 @@ Route::get('/checkout' ,[HomeController::class,'index'])->name('checkout.index')
 Route::post('add-to-cart',[HomeController::class,'addToCart'])->name('product.addTocart');
 Route::post('cart-remove',[HomeController::class,'removeItem'])->name('product.cartRemove');
 Route::post('cart-update-quantity',[HomeController::class,'updateQuantity'])->name('product.cartUpdateQuantity');
+Route::post('quick-view',[HomeController::class,'quickView'])->name('product.quickView');
 
 
 //product
 Route::get('product-details/{id}', [ProductController::class, 'productDetails'])->name('product.details');
 Route::post('variation/color/choose',[ProductController::class,'colorChoose'])->name('color.choose');
+Route::get('compare/{skuId}',[ProductController::class,'compare'])->name('product.compare');
+Route::post('compare/search',[ProductController::class,'compareSearch'])->name('product.compareSearch');
 
 
 //Search
