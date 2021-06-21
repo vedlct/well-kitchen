@@ -6,8 +6,8 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Sku;
 use App\Models\VariationDetails;
-use App\Models\Customer; 
-use App\Models\Review; 
+use App\Models\Customer;
+use App\Models\Review;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -56,6 +56,7 @@ class ProductController extends Controller
 
     public function compare($skuId){
         $sku = Sku::where('skuId', $skuId)->first();
+//        $review = Review::where('fkproductId', $sku->fkproductId)
         return view('compare', compact('sku'));
     }
 

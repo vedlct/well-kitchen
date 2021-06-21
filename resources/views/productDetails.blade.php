@@ -25,12 +25,12 @@
                     <div class="product-details-img">
                         <div class="tab-content jump mb-4">
                             @foreach ($product->images as $key=>$itemImg)
-                            <div id="shop-details-{{$key}}" class="zoom tab-pane {{$key == 0 ? 'active' : '' }} large-img-style" style="background-image: url({{asset('admin/public/productImages/'.$itemImg->image)}});">
+                            <div id="shop-details-{{$key}}" class="zoom tab-pane fade {{$key == 0 ? 'active' : '' }} large-img-style" style="background-image: url({{asset('admin/public/productImages/'.$itemImg->image)}});">
                                 <img src="{{asset('admin/public/productImages/'.$itemImg->image)}}" alt="">
                             </div>
                             @endforeach
                         </div>
-                        <div class="quickview-slide-active owl-carousel nav nav-style-1">
+                        <div class="productDetails-slide-active owl-carousel nav nav-style-1">
                             @foreach ($product->images as $key=>$itemImg)
                                 <a class="shop-details-overly {{$key == 0 ? 'active' : '' }}" href="#shop-details-{{$key}}" data-toggle="tab">
                                     <img src="{{asset('admin/public/productImages/'.$itemImg->image)}}" alt="">
@@ -218,7 +218,7 @@
                                                     <div class="review-name">
                                                         {{-- @dd($customer); --}}
                                                          <h4>{{$item->customer->user->firstName}}</h4>
-                                                     
+
                                                     </div>
                                                     <div class="review-rating">
                                                         @for ($i = 1; $i < 5; $i++)
@@ -230,7 +230,7 @@
                                                         @endif
                                                         @endfor
                                                         <i class="fa fa-star"></i>
-                                                        
+
                                                     </div>
                                                 </div>
                                             </div>

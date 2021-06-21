@@ -35,7 +35,7 @@
                             </div>
                             <div class="compareImageOne"></div>
                             <div class="compareOneHide">
-                            <img src="{{asset('admin/public/featureImage/'.$sku->product->featureImage)}}" alt="" class="img-fluid mb-3">
+                            <img src="{{asset('admin/public/featureImage/'.$sku->product->featureImage)}}" alt="" class="img-fluid mb-3 w-100">
                             <h4 class="text-center">
                                 <a href="{{route('product.details', $sku->skuId)}}">{{$sku->product->productName}}</a>
                             </h4>
@@ -116,7 +116,7 @@
                 success: function (data){
                     console.log(data.product.sku[0]['salePrice']);
                     $(".find").hide();
-                    $(".compareImageOne").empty().append('<img src="{{ URL::asset('/admin/public/featureImage') }}/'+data.product["featureImage"]+'") class="img-fluid mb-3">' +
+                    $(".compareImageOne").empty().append('<img src="{{ URL::asset('/admin/public/featureImage') }}/'+data.product["featureImage"]+'" class="img-fluid mb-3 w-100">' +
                         '<h4 class="text-center"><a href="{{URL('product-details/')}}/'+data.product.sku[0]["skuId"]+'">'+data.product["productName"]+'</a></h4>'+
                         '<h5 class="text-center compare-price">'+data.product.sku[0]["salePrice"]+'৳</h5>');
                     $(".compare-category-one").empty().append(data.product.category["categoryName"]);
@@ -137,7 +137,7 @@
                },
                 success: function (data){
                    $(".find").hide();
-                   $(".compareImageTwo").empty().append('<img src="{{ URL::asset('/admin/public/featureImage') }}/'+data.product["featureImage"]+'") class="img-fluid mb-3">' +
+                   $(".compareImageTwo").empty().append('<img src="{{ URL::asset('/admin/public/featureImage') }}/'+data.product["featureImage"]+'" class="img-fluid mb-3 w-100">' +
                         '<h4 class="text-center"><a href="{{URL('product-details/')}}/'+data.product.sku[0]["skuId"]+'">'+data.product["productName"]+'</a></h4>'+
                         '<h5 class="text-center compare-price">'+data.product.sku[0]["salePrice"]+'৳</h5>');
                     $(".compare-category-two").empty().append(data.product.category["categoryName"]);
