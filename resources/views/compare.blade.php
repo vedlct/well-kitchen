@@ -78,7 +78,7 @@
                                         @endfor
                                             @for ($i = 0; $i < 5-$finalRating; $i++)
                                                 <i class="fa fa-star-o"></i>
-                                            @endfor
+                                        @endfor
                                     @else
 
                                         <i class="fa fa-star-o "></i>
