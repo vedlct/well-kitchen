@@ -232,10 +232,10 @@
                                                         <i class="fa fa-star"></i>
 
                                                     </div>
-                                                    
+
                                                     {{-- <div class="ml-5"> {{date('Y-m-d H:i:s', strtotime($item->created_at))}} </div> --}}
                                                     <div class="ml-5"> {{\Carbon\Carbon::parse($item->created_at)->diffForHumans()}} </div>
-                                                  
+
                                                 </div>
                                             </div>
                                             <div class="review-bottom">

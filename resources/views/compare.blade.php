@@ -69,15 +69,16 @@
                     <tr>
                         <td>Rating</td>
                         <td>
-                            <div class="pro-details-rating-wrap">
-                                <div class="pro-details-rating">
+                            <div class="pro-details-rating-wrap reviews">
+                                <div class="pro-details-rating ">
+
                                     <i class="fa fa-star-o yellow"></i>
                                     <i class="fa fa-star-o yellow"></i>
                                     <i class="fa fa-star-o yellow"></i>
                                     <i class="fa fa-star-o"></i>
                                     <i class="fa fa-star-o"></i>
                                 </div>
-                                <span>3 Reviews</span>
+                                <span class="totalReviews">{{$reviews->count()}} Reviews</span>
                             </div>
                         </td>
                         <td>
@@ -122,6 +123,7 @@
                     $(".compare-category-one").empty().append(data.product.category["categoryName"]);
                     $(".compare-brand-one").empty().append(data.product.brand["brandName"]);
                     $(".compare-summary-one").empty().append(data.product.details["fabricDetails"]);
+                    $(".reviews").empty().append(data.reviews);
                 }
             });
         });
@@ -136,13 +138,17 @@
                    searchTxt: searchTxt,
                },
                 success: function (data){
+                   console.log(data.reviews);
                    $(".find").hide();
-                   $(".compareImageTwo").empty().append('<img src="{{ URL::asset('/admin/public/featureImage') }}/'+data.product["featureImage"]+'" class="img-fluid mb-3 w-100">' +
+                    $(".totalReviews").hide();
+
+                    $(".compareImageTwo").empty().append('<img src="{{ URL::asset('/admin/public/featureImage') }}/'+data.product["featureImage"]+'" class="img-fluid mb-3 w-100">' +
                         '<h4 class="text-center"><a href="{{URL('product-details/')}}/'+data.product.sku[0]["skuId"]+'">'+data.product["productName"]+'</a></h4>'+
                         '<h5 class="text-center compare-price">'+data.product.sku[0]["salePrice"]+'৳</h5>');
                     $(".compare-category-two").empty().append(data.product.category["categoryName"]);
                     $(".compare-brand-two").empty().append(data.product.brand["brandName"]);
                     $(".compare-summary-two").empty().append(data.product.details["fabricDetails"]);
+                    $(".totalReviews").empty().append(<div class="pro-details-rating"><div class="pro-details-rating"></div>);
                 }
             });
         });

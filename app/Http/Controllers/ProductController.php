@@ -59,8 +59,15 @@ class ProductController extends Controller
 
     public function compare($skuId){
         $sku = Sku::where('skuId', $skuId)->first();
-//        $review = Review::where('fkproductId', $sku->fkproductId)
-        return view('compare', compact('sku'));
+        $reviews = Review::where('fkproductId', $sku->fkproductId)->get();
+        $totalRating = 0;
+        $totalCustomer = 0;
+        foreach($reviews as $review){
+            $totalRating += $review->getRating->value;
+            $totalCustomer++;
+        }
+
+        return view('compare', compact('sku', 'reviews', 'totalRating'));
     }
 
     public function compareSearch(Request $request){
@@ -70,7 +77,13 @@ class ProductController extends Controller
                             ->orWhere('productCode', 'LIKE', "%{$request->searchTxt}%")
                             ->orWhere('tag', 'LIKE', "%{$request->searchTxt}%")
                             ->first();
-        return response()->json(['product'=>$product]);
+        $reviews = Review::where('fkproductId', $product->productId)->count();
+        $reviews = Review::where('fkproductId', $product->productId)->get();
+        $totalRating = 0;
+        foreach($reviews as $review){
+            $totalRating += $review->getRating->value;
+        }
+        return response()->json(['product'=>$product, 'reviews'=>$reviews, 'totalRating'=>$totalRating]);
 
 
 //              $allSearch = $request->allSearch;

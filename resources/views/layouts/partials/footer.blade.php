@@ -99,27 +99,12 @@
                 <div class="row">
                     <div class="col-md-5 col-sm-12 col-xs-12">
                         <div class="tab-content quickview-big-img imgtab">
-{{--                            <div id="pro-1" class="tab-pane fade show active">--}}
-{{--                                <img src="{{asset('public/assets/img/product/quickview-l1.jpg')}}" alt="">--}}
-{{--                            </div>--}}
-{{--                            <div id="pro-2" class="tab-pane fade">--}}
-{{--                                <img src="{{asset('public/assets/img/product/quickview-l2.jpg')}}" alt="">--}}
-{{--                            </div>--}}
-{{--                            <div id="pro-3" class="tab-pane fade">--}}
-{{--                                <img src="{{asset('public/assets/img/product/quickview-l3.jpg')}}" alt="">--}}
-{{--                            </div>--}}
-{{--                            <div id="pro-4" class="tab-pane fade">--}}
-{{--                                <img src="{{asset('public/assets/img/product/quickview-l2.jpg')}}" alt="">--}}
-{{--                            </div>--}}
+
                         </div>
-                        <!-- Thumbnail Large Image End -->
-                        <!-- Thumbnail Image End -->
+
                         <div class="quickview-wrap mt-15">
                             <div class="quickview-slide-active owl-carousel nav nav-style-1 imgtaball" role="tablist">
-{{--                                <a class="active" data-toggle="tab" href="#pro-1"><img src="{{asset('public/assets/img/product/quickview-s1.jpg')}}" alt=""></a>--}}
-{{--                                <a data-toggle="tab" href="#pro-2"><img src="{{asset('public/assets/img/product/quickview-s2.jpg')}}" alt=""></a>--}}
-{{--                                <a data-toggle="tab" href="#pro-3"><img src="{{asset('public/assets/img/product/quickview-s3.jpg')}}" alt=""></a>--}}
-{{--                                <a data-toggle="tab" href="#pro-4"><img src="{{asset('public/assets/img/product/quickview-s2.jpg')}}" alt=""></a>--}}
+
                             </div>
                         </div>
                     </div>
@@ -214,14 +199,21 @@
                 $(".pname").html(data.sku.product['productName']);
 
                 $.each(data.images, function(k,v) {
-                // $.each(data.sku.product.images, function(k1, v1) {
-                    // $.each(this, function(k, v) {
-                        $(".imgtab").append('<div id="pro-'+k+'" class="tab-pane fade '+(k == 0 ? "show active": "")+' "><img src="{{ URL::asset('/admin/public/productImages') }}/'+v.image+'"></div>');
-$(".imgtaball").append('<a data-toggle="tab" href="#pro-'+k+'" class="'+(k == 0 ? "": "")+' "><img src="{{ URL::asset('/admin/public/productImages') }}/'+v.image+'"></a>');
-
-                    // });
-                // });
+                        $(".imgtab").append('<div id="pro-'+k+'" class="tab-pane fade '+(k == 0 ? "show active": "")+' ">' +
+                            '<img src="{{ URL::asset('/admin/public/productImages') }}/'+v.image+'"></div>');
+                        $(".imgtaball").append('<a data-toggle="tab" href="#pro-'+k+'" class="'+(k == 0 ? "active": "")+' ">' +
+                            '<img src="{{ URL::asset('/admin/public/productImages') }}/'+v.image+'"></a>');
                 });
+
+                if(data.hotdeal == null){
+                    $(".salePrice").html('৳ '+data.saleprice);
+                    $(".oldprice").html('');
+                }
+                else{
+                    $(".salePrice").html('৳ '+data.saleprice);
+                    $(".oldprice").html('৳ '+data.oldprice);
+                }
+
                 $(".quickview-slide-active").owlCarousel({
                     loop: true,
                     navText: [
@@ -249,18 +241,10 @@ $(".imgtaball").append('<a data-toggle="tab" href="#pro-'+k+'" class="'+(k == 0 
                         },
                     },
                 });
+
                 $(".quickview-slide-active a").on("click", function () {
                     $(".quickview-slide-active a").removeClass("active");
                 });
-
-                if(data.hotdeal == null){
-                    $(".salePrice").html('৳ '+data.saleprice);
-                    $(".oldprice").html('');
-                }
-                else{
-                    $(".salePrice").html('৳ '+data.saleprice);
-                    $(".oldprice").html('৳ '+data.oldprice);
-                }
             },
         });
     });
@@ -282,7 +266,6 @@ $(".imgtaball").append('<a data-toggle="tab" href="#pro-'+k+'" class="'+(k == 0 
                 _sku:skuId
             },
             success: function (response) {
-                // console.log('res',response);
                 $('#cartPage').empty().html(response.cart)
                 $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
                 toastr.success('Item added to cart')
@@ -294,18 +277,14 @@ $(".imgtaball").append('<a data-toggle="tab" href="#pro-'+k+'" class="'+(k == 0 
     }
 
     function addToWishList(skuId){
-        // let quantity = 1;
-        // console.log(skuId);
         $.ajax({
             type: "POST",
             url: "{{route('wishlistAdd')}}",
             data:{
                 _token:'{{csrf_token()}}',
-                // _quantity:quantity,
                 _sku:skuId
             },
             success: function (response) {
-                // console.log('res',response.error);
                 if(response.error == "itemHas") {
                         toastr.warning('You have already added this item');
                     }
@@ -332,7 +311,6 @@ $(".imgtaball").append('<a data-toggle="tab" href="#pro-'+k+'" class="'+(k == 0 
               qtyvalue = 1;
           }
           console.log(qtyvalue);
-          // var value = parseInt($(`#qtyBtn${data}`).val());
           $.ajax({
               type: "POST",
               url: "{{route('product.cartUpdateQuantity')}}",
@@ -346,8 +324,6 @@ $(".imgtaball").append('<a data-toggle="tab" href="#pro-'+k+'" class="'+(k == 0 
                   $('#cartPage').empty().html(response.cart)
                   $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
                   toastr.success('Item update successfully')
-                  // $(".updatereload").load(" .updatereload");
-                  // $(".cartTotal").load(" .cartTotal");
                   $(".updatereload").load(location.href + " .updatereload");
                   $(".cartTotal").load(location.href + " .cartTotal");
               },
