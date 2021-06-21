@@ -23,12 +23,13 @@ class ProductController extends Controller
         // dd($product);
         if(Auth::check()){
             $customer = Customer::where('fkuserId',Auth::user()->userId)->with('user')->first();
+            $review = Review::with('customer.user','getRating')->where('fkproductId',$product->productId)->orderBy('created_at','desc')->limit(10)->get();
         }else{
             $customer = null;
         }
         // $rating = Rating::with('customer.user','reviews')->where('fkproductId',$product->productId)->get();
         // dd($rating);
-        $review = Review::with('customer.user','getRating')->where('fkproductId',$product->productId)->orderBy('created_at','desc')->limit(10)->get();;
+        
         
         // dd($review);
         return view('productDetails', compact('sku', 'product','skus','customer','review'));

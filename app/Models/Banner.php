@@ -11,4 +11,9 @@ class Banner extends Model
     protected $table ='banner';
     protected $primaryKey='bannerId';
     public $timestamps = false;
+
+    public function promotion()
+    {
+        return $this->hasOne('App\Models\Promotion', 'promotionsId', 'fkPromotionId');
+    }
 }

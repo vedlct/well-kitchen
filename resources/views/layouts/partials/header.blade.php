@@ -175,10 +175,16 @@
                             <div class="same-style header-wishlist">
                                 <a href="{{route('wishlist')}}"><i class="pe-7s-like"></i></a>
                             </div>
-                            <div class="same-style cart-wrap">
+
+
+                            {{-- <div id="cartPagehead" >
+                                @include('layouts.partials.cartHead')
+                            </div> --}}
+
+                            <div class="same-style cart-wrap" id='totalVal'>
                                 <button class="icon-cart" onclick="showNav()">
                                     <i class="pe-7s-shopbag"></i>
-                                    <span class="count-style">{{Cart::getContent()->count()}}</span>
+                                    <span class="count-style" > {{Cart::getContent()->count()}}</span>
                                 </button>
                                 <!-- <div class="shopping-cart-content">
                                     <div class="full-wrapper position-relative">

@@ -19,8 +19,18 @@ use Illuminate\Support\Facades\Auth;
 class HomeController extends Controller
 {
     public function index(){
+        $dateToday = date('Y-m-d h:i:s');
         $sliders = Slider::where('status', 'active')->get();
-        $banners = Banner::where('status', 'active')->take(2)->get();
+        $banners = Banner::where('status', 'active')->with('promotion')->take(2)->get();
+        // $validPromotion = Promotion::where('promotionsId',$ba)
+        // dd($banners->promotion);
+        // dd($banners);
+        // // foreach($banners as $item){
+        // //     $validPromotion = $item->promotion->where('startDate', '<=', date('Y-m-d H:i:s'))->where('endDate', '>=', date('Y-m-d H:i:s'))->get();
+           
+        // // }
+        
+        
         $categories = Category::where('homeShow', 1)->take(4)->get();
         $products = Product::with('category','sku')->where('status', 'active')->get();
         $skus = Sku::with('product')->where('status', 'active')->get();

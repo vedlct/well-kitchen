@@ -45,7 +45,7 @@ Route::post('/search-category-product' ,[CategoryController::class,'searchByProd
 
     Route::get('page/{id}',[PageController::class,'index'])->name('page');
 
-    Route::post('review-submit',[ReviewController::class,'ReviewSubmit'])->name('review.submit');
+    Route::post('review-submit',[ReviewController::class,'ReviewSubmit'])->name('review.submit')->middleware('auth');
 
     Route::get('/checkout' ,[CheckoutController::class,'index'])->name('checkout.index');
     Route::post('checkout-submit',[CheckoutController::class,'checkoutSubmit'])->name('checkout.submit');
