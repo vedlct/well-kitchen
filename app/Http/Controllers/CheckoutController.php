@@ -135,9 +135,9 @@ class CheckoutController extends Controller
             if ($q > $maxStock) {
                 $q = $maxStock;
             }
-            
+
             $batchId = array_keys($stockAvailable, $maxStock);
-            
+
             $batch = Batch::where('batchId', $batchId)->pluck('batchId')->first();
             $price = Batch::where('batchId', $batchId)->pluck('salePrice')->first();
             $order_item->price = $price;
@@ -162,6 +162,7 @@ class CheckoutController extends Controller
             }
         }
 
+        \Cart::clear();
 
         return back();
     }
