@@ -28,8 +28,28 @@ class ProductController extends Controller
             $review = Review::with('customer.user','getRating')->where('fkproductId',$product->productId)->orderBy('created_at','desc')->limit(10)->get();
             return view('productDetails', compact('sku', 'product','skus','review'));
         }
-       
-        
+
+        $reviews = Review::where('fkproductId', $sku->fkproductId)->get();
+
+        $finalRating = 0;
+        if($reviews->count() > 0 ) {
+            $totalRating = 0;
+            $totalCustomer = 0;
+
+            foreach ($reviews->unique('customerID') as $review) {
+                $totalRating += $review->getRating->value;
+                $totalCustomer++;
+            }
+            $finalRating = ceil($totalRating / $totalCustomer);
+        }
+        // $rating = Rating::with('customer.user','reviews')->where('fkproductId',$product->productId)->get();
+        // dd($rating);
+
+
+        // $review = Review::with('customer.user','getRating')->where('fkproductId',$product->productId)->orderBy('created_at','desc')->limit(10)->get();;
+
+        // dd($review);
+        return view('productDetails', compact('sku', 'product','skus','customer','review', 'finalRating'));
     }
 
     public function colorChoose(Request $request)
@@ -58,14 +78,20 @@ class ProductController extends Controller
     public function compare($skuId){
         $sku = Sku::where('skuId', $skuId)->first();
         $reviews = Review::where('fkproductId', $sku->fkproductId)->get();
-        $totalRating = 0;
-        $totalCustomer = 0;
-        foreach($reviews as $review){
-            $totalRating += $review->getRating->value;
-            $totalCustomer++;
-        }
+        $finalRating = 0;
+        if($reviews->count() > 0 ) {
+            $totalRating = 0;
+            $totalCustomer = 0;
 
-        return view('compare', compact('sku', 'reviews', 'totalRating'));
+            foreach ($reviews->unique('customerID') as $review) {
+                $totalRating += $review->getRating->value;
+                $totalCustomer++;
+            }
+            $finalRating = ceil($totalRating / $totalCustomer);
+        }
+//        $finalRating = ceil($ratingPerCustomer/5);
+
+        return view('compare', compact('sku', 'reviews', 'finalRating'));
     }
 
     public function compareSearch(Request $request){
@@ -75,13 +101,21 @@ class ProductController extends Controller
                             ->orWhere('productCode', 'LIKE', "%{$request->searchTxt}%")
                             ->orWhere('tag', 'LIKE', "%{$request->searchTxt}%")
                             ->first();
-        $reviews = Review::where('fkproductId', $product->productId)->count();
+        $reviewsCount = Review::where('fkproductId', $product->productId)->count();
         $reviews = Review::where('fkproductId', $product->productId)->get();
-        $totalRating = 0;
-        foreach($reviews as $review){
-            $totalRating += $review->getRating->value;
+        $finalRating = 0;
+        if($reviews->count() > 0 ) {
+            $totalRating = 0;
+            $totalCustomer = 0;
+
+            foreach ($reviews->unique('customerID') as $review) {
+                $totalRating += $review->getRating->value;
+                $totalCustomer++;
+            }
+            $finalRating = ceil($totalRating / $totalCustomer);
         }
-        return response()->json(['product'=>$product, 'reviews'=>$reviews, 'totalRating'=>$totalRating]);
+
+        return response()->json(['product'=>$product, 'reviews'=>$reviewsCount, 'finalRating'=>$finalRating]);
 
 
 //              $allSearch = $request->allSearch;
