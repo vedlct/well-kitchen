@@ -180,7 +180,7 @@
                                         @endif
                                     </div>
                                     <div class="pro-same-action pro-quickview">
-                                        <a href="#" data-toggle="modal" data-target="#exampleModal" data-sku_id="{{$sku->skuId}}" class="ttt"><i class="pe-7s-look"></i></a>
+                                        <a href="#" data-toggle="modal" data-target="#exampleModal" data-sku_id="{{$sku->skuId}}" class="quickView"><i class="pe-7s-look"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -292,7 +292,7 @@
                                                 @endif
                                             </div>
                                             <div class="pro-same-action pro-quickview">
-                                                <a title="Quick View" href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a>
+                                                <a title="Quick View" href="#" data-toggle="modal" data-target="#exampleModal" data-sku_id="{{$sku->skuId}}" class="quickView"><i class="pe-7s-look"></i></a>
                                             </div>
                                         </div>
                                     </div>
@@ -593,7 +593,7 @@
 
                                         </div>
                                         <div class="pro-same-action pro-quickview">
-                                            <a title="Quick View" href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a>
+                                            <a title="Quick View" href="#" data-toggle="modal" data-target="#exampleModal" data-sku_id="{{$sku->skuId}}" class="quickView"><i class="pe-7s-look"></i></a>
                                         </div>
                                     </div>
                                 </div>

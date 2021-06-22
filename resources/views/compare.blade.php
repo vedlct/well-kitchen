@@ -115,7 +115,9 @@
 
 @section('js')
     <script>
+
         $(document).on('click', '.searchToCompareOne', function(){
+            
             $(".compareOneHide").hide();
             var searchTxt = $(".compareProductOne").val();
 
@@ -152,7 +154,7 @@
                 success: function (data){
                    console.log(data.reviews);
                    $(".find").hide();
-                    $(".totalReviews").hide();
+                    // $(".totalReviews").hide();
 
                     $(".compareImageTwo").empty().append('<img src="{{ URL::asset('/admin/public/featureImage') }}/'+data.product["featureImage"]+'" class="img-fluid mb-3 w-100">' +
                         '<h4 class="text-center"><a href="{{URL('product-details/')}}/'+data.product.sku[0]["skuId"]+'">'+data.product["productName"]+'</a></h4>'+
@@ -160,7 +162,7 @@
                     $(".compare-category-two").empty().append(data.product.category["categoryName"]);
                     $(".compare-brand-two").empty().append(data.product.brand["brandName"]);
                     $(".compare-summary-two").empty().append(data.product.details["fabricDetails"]);
-                    $(".totalReviews").empty().append(<div class="pro-details-rating"><div class="pro-details-rating"></div>);
+                    // $(".totalReviews").empty().append(<div class="pro-details-rating"><div class="pro-details-rating"></div>);
                 }
             });
         });

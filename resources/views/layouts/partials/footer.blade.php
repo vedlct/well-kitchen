@@ -163,6 +163,7 @@
 <!-- Main JS -->
 <script src="{{asset('public/assets/js/main.js')}}"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+@yield('js')
 
 {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>--}}
 
@@ -180,7 +181,7 @@
     @endif
 
 
-    $(document).on('click', '.ttt', function(){
+    $(document).on('click', '.quickView', function(){
 
        let sku_id = $(this).data('sku_id');
         // setTimeout(function(){
@@ -354,7 +355,6 @@
       }
 </script>
 
-@yield('js')
 
 </body>
 
