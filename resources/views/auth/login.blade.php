@@ -21,15 +21,11 @@
                                         @csrf
                                         <input type="email" name="email" placeholder="Email">
                                         @error('email')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
+                                            <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                         <input type="password" name="password" placeholder="Password">
                                         @error('password')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
+                                            <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                         <div class="button-box">
                                             <div class="login-toggle-btn">
