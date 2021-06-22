@@ -139,7 +139,7 @@
     </div>
 </div>
 <!-- Modal end -->
-<div id="cartPage" >
+<div id="cartPage">
 @include('layouts.partials.cartNav')
 </div>
 <!-- chat icon start -->
@@ -350,6 +350,7 @@
                   toastr.success('Item update successfully')
                   $(".updatereload").load(location.href + " .updatereload");
                   $(".cartTotal").load(location.href + " .cartTotal");
+                  $(".total").load(location.href + " .total");
               },
               error:function (response){
                   toastr.error('Stock not available')
@@ -370,9 +371,9 @@
                   $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br> Cart(${response.cartQuantity})`);
                   toastr.success('Item delete from cart')
                   $(".deletereload").load(" .deletereload");
-                  $(".cartTotal").load(" .cartTotal");
-
-              }
+                  $(".cartTotal").load(".cartTotal");
+                  $("#cartTable").load(location.href + " #cartTable");
+               }
           });
       }
 </script>

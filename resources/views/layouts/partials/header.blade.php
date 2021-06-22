@@ -161,16 +161,15 @@
                                             <li><a href="{{url('login')}}">Login/Register</a></li>
                                         @else
                                         <li><a href="">Hello,{{Auth::user()->firstName}}</a></li>
-
-                                       @endif
                                         <li><a href="{{url('my-order')}}">My Orders</a></li>
                                         <li><a href="{{url('my-account')}}">my account</a></li>
-                                            @auth
+                                        @endif
+                                        @auth
                                         <li><a href="{{route('logout')}}"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
-                                            @endauth
+                                        @endauth
                                     </ul>
                                 </div>
                             </div>
@@ -183,10 +182,10 @@
                                 @include('layouts.partials.cartHead')
                             </div> --}}
 
-                            <div class="same-style cart-wrap" id='totalVal'>
+                            <div class="same-style cart-wrap" >
                                 <button class="icon-cart" onclick="showNav()">
                                     <i class="pe-7s-shopbag"></i>
-{{--                                    <span class="count-style" > {{Cart::getContent()->count()}}</span>--}}
+                                   <span class="count-style" > {{\Cart::getContent()->count()}}</span>
                                 </button>
                                 <!-- <div class="shopping-cart-content">
                                     <div class="full-wrapper position-relative">
@@ -350,7 +349,7 @@
                             </div>
                             <!-- fb page link -->
                             <div class="fb-page-like text-right ml-3">
-                                <a href="#" class="d-inline-block" target="_blank">
+                                <a href="{{($setting->facebook)}}" class="d-inline-block" target="_blank">
                                     <h5 class="text-uppercase mb-0">
                                         <i class="fa fa-facebook-square mr-1"></i> Like Us
                                     </h5>

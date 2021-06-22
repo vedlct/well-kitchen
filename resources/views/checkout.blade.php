@@ -52,8 +52,7 @@
                         <div class="col-lg-12">
                             <div class="billing-info mb-20">
                                 <label>Street Address</label>
-                                <input class="billing-address" placeholder="House number and street name" type="text" name="billingAddress" id="billingAddress">
-                                {{-- <input placeholder="Apartment, suite, unit etc." type="text" name="address"> --}}
+                                <input class="billing-address" placeholder="billing address" type="text" name="billingAddress" id="billingAddress">
                             </div>
                         </div>
                        
@@ -69,7 +68,7 @@
                     </div>
                    
                     <div class="checkout-account mt-25">
-                        <input class="checkout-toggle" type="checkbox">
+                        <input class="checkout-toggle" type="checkbox" name="shipping">
                         <span>Ship to a different address?</span>
                     </div>
                     <div class="different-address open-toggle mt-30">
@@ -77,8 +76,7 @@
                             <div class="col-lg-12">
                                 <div class="billing-info mb-20">
                                     <label>Street Address</label>
-                                    <input class="billing-address" placeholder="House number and street name" type="text" name="shippingAddress">
-                                    <input placeholder="Apartment, suite, unit etc." type="text" name="shippingAddress">
+                                    <input class="billing-address" placeholder="Shipping address" type="text" name="diffshippingAddress">
                                 </div>
                             </div>
                         </div>

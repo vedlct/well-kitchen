@@ -24,6 +24,7 @@ class CategoryController extends Controller
     }
 
     public function searchByProducts(Request $request){
+        // dd($request->all());
         $allSearch = $request->allSearch;
         $products = Product::query()
         ->where('productName', 'LIKE', "%{$allSearch}%")
@@ -35,7 +36,7 @@ class CategoryController extends Controller
     // dd($products[0]->sku->first());
         foreach($products as $pro){
             $skus = Sku::where('fkproductId',$pro->productId)->with('product.category','variationRelation')->first();
-            // dd($skus);
+            // dd($skus->variationRelation);
             $categoryId = $skus->product->category->categoryId;
             $category = $skus->product->category;
         }

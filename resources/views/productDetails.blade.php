@@ -81,19 +81,18 @@
                                     <i class="fa fa-star-o red"></i>
                                 @endfor
                             @else
-
                                 <i class="fa fa-star-o"></i>
                                 <i class="fa fa-star-o "></i>
                                 <i class="fa fa-star-o "></i>
                                 <i class="fa fa-star-o "></i>
                                 <i class="fa fa-star-o "></i>
-                                @endif
-
+                            @endif
                         </div>
-                        {{-- @dd($product); --}}
                         <span><a href="#">{{$product->review->count()}} Reviews</a></span>
                     </div>
+                    @if(isset($product->details->fabricDetails))
                     <p>{!! $product->details->fabricDetails !!}</p>
+                    @endif
 
                     <div class="pro-details-size-color" >
                         <div class="pro-details-color-wrap" id="colors">
@@ -193,10 +192,9 @@
                 <div id="des-details1" class="tab-pane ">
                     <div class="product-anotherinfo-wrapper">
                         <ul>
-                            <li><span>Weight</span> 400 g</li>
-                            <li><span>Dimensions</span>10 x 10 x 15 cm </li>
-                            <li><span>Materials</span> 60% cotton, 40% polyester</li>
-                            <li><span>Other Info</span> American heirloom jean shorts pug seitan letterpress</li>
+                            @if(isset($product->details->fabricDetails))
+                            <li><span>Details</span> {!! $product->details->fabricDetails !!}</li>
+                            @endif
                         </ul>
                     </div>
                 </div>
@@ -298,7 +296,7 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="rating-form-style form-submit">
-                                                    <textarea name="review" placeholder="Type Your Message here......" required></textarea>
+                                                    <textarea name="review" placeholder="Type Your Message here......"></textarea>
                                                     @if(Auth::check())
                                                     <input type="submit" value="Submit">
                                                     @else
