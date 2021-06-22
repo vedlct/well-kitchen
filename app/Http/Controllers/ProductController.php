@@ -124,7 +124,7 @@ class ProductController extends Controller
             $finalRating = ceil($totalRating / $totalCustomer);
         }
 
-        return response()->json(['product'=>$product, 'reviews'=>$reviewsCount, 'finalRating'=>$finalRating]);
+        return response()->json(['product'=>$product, 'revCount'=>$reviewsCount, 'finalRating'=>$finalRating]);
 
 
 //              $allSearch = $request->allSearch;

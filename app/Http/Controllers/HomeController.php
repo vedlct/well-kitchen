@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Review;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Customer;
@@ -27,10 +28,10 @@ class HomeController extends Controller
         // dd($banners);
         // // foreach($banners as $item){
         // //     $validPromotion = $item->promotion->where('startDate', '<=', date('Y-m-d H:i:s'))->where('endDate', '>=', date('Y-m-d H:i:s'))->get();
-           
+
         // // }
-        
-        
+
+
         $categories = Category::where('homeShow', 1)->take(4)->get();
         $products = Product::with('category','sku')->where('status', 'active')->get();
         $skus = Sku::with('product')->where('status', 'active')->get();
@@ -43,8 +44,21 @@ class HomeController extends Controller
 
     public function quickView(Request $request){
         $sku_id = $request->sku_id;
-        $sku = Sku::with('product')->where('skuId', $sku_id)->first();
-        $images = $sku->variationImages()->get();
+        $sku = Sku::with('product', 'product.details')->where('skuId', $sku_id)->first();
+        $reviews = Review::where('fkproductId', $sku->fkproductId)->get();
+        $revCount = $reviews->count();
+        $finalRating = 0;
+        if($reviews->count() > 0 ) {
+            $totalRating = 0;
+            $totalCustomer = 0;
+
+            foreach ($reviews->unique('customerID') as $review) {
+                $totalRating += $review->getRating->value;
+                $totalCustomer++;
+            }
+            $finalRating = ceil($totalRating / $totalCustomer);
+        }
+        $images = $sku->product->images()->get();
 
         $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first();
         $oldprice = null;
@@ -60,7 +74,7 @@ class HomeController extends Controller
             $oldprice = $sku->salePrice;
          }
 
-        return response()->json(['sku'=>$sku, 'hotdeal'=>$hotDeal, 'saleprice'=>$saleprice, 'oldprice'=>$oldprice, 'images'=>$images]);
+        return response()->json(['sku'=>$sku, 'hotdeal'=>$hotDeal, 'saleprice'=>$saleprice, 'finalRating'=>$finalRating, 'reviews'=>$reviews, 'revCount'=>$revCount, 'oldprice'=>$oldprice, 'images'=>$images]);
     }
 
     public function addToCart(Request $request){
