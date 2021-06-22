@@ -20,28 +20,44 @@ class ProductController extends Controller
         $relatedProducts = Product::where('categoryId', $sku->product->categoryId)->pluck('productId');
         $skus = Sku::whereIn('fkproductId', $relatedProducts)->with('product')->get()->unique('fkproductId');
         $product = Product::where('productId', $sku->fkproductId)->with('review.customer.user','category')->first();
+        $finalRating = 0;
         if(Auth::check()){
             $customer = Customer::where('fkuserId',Auth::user()->userId)->with('user')->first();
             $review = Review::with('customer.user','getRating')->where('fkproductId',$product->productId)->orderBy('created_at','desc')->limit(10)->get();
-            return view('productDetails', compact('sku', 'product','skus','customer','review'));
-        }else{
-            $review = Review::with('customer.user','getRating')->where('fkproductId',$product->productId)->orderBy('created_at','desc')->limit(10)->get();
-            return view('productDetails', compact('sku', 'product','skus','review'));
-        }
+            $reviews = Review::where('fkproductId', $sku->fkproductId)->get();
 
-        $reviews = Review::where('fkproductId', $sku->fkproductId)->get();
 
-        $finalRating = 0;
-        if($reviews->count() > 0 ) {
-            $totalRating = 0;
-            $totalCustomer = 0;
+            if($reviews->count() > 0 ) {
+                $totalRating = 0;
+                $totalCustomer = 0;
 
-            foreach ($reviews->unique('customerID') as $review) {
-                $totalRating += $review->getRating->value;
-                $totalCustomer++;
+                foreach ($reviews->unique('customerID') as $review) {
+                    $totalRating += $review->getRating->value;
+                    $totalCustomer++;
+                }
+                $finalRating = ceil($totalRating / $totalCustomer);
             }
-            $finalRating = ceil($totalRating / $totalCustomer);
+            return view('productDetails', compact('sku', 'product','skus','customer','review', 'finalRating'));
+        }else{
+            $reviews = Review::where('fkproductId', $sku->fkproductId)->get();
+
+
+            if($reviews->count() > 0 ) {
+                $totalRating = 0;
+                $totalCustomer = 0;
+
+                foreach ($reviews->unique('customerID') as $review) {
+                    $totalRating += $review->getRating->value;
+                    $totalCustomer++;
+                }
+                $finalRating = ceil($totalRating / $totalCustomer);
+            }
+            $review = Review::with('customer.user','getRating')->where('fkproductId',$product->productId)->orderBy('created_at','desc')->limit(10)->get();
+            return view('productDetails', compact('sku', 'product','skus','review', 'finalRating'));
         }
+
+
+
         // $rating = Rating::with('customer.user','reviews')->where('fkproductId',$product->productId)->get();
         // dd($rating);
 
@@ -49,7 +65,7 @@ class ProductController extends Controller
         // $review = Review::with('customer.user','getRating')->where('fkproductId',$product->productId)->orderBy('created_at','desc')->limit(10)->get();;
 
         // dd($review);
-        return view('productDetails', compact('sku', 'product','skus','customer','review', 'finalRating'));
+//        return view('productDetails', compact('sku', 'product','skus','customer','review', 'finalRating'));
     }
 
     public function colorChoose(Request $request)

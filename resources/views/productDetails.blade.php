@@ -73,7 +73,7 @@
                     <div class="pro-details-rating-wrap">
                         <div class="pro-details-rating">
                             {{-- @dd($product->review->count()); --}}
-                            @if($finalRating > 0)
+                            @if($finalRating? $finalRating  > 0: "")
                                 @for ($i = 5; $i >= $finalRating; $i--)
                                     <i class="fa fa-star-o yellow"></i>
                                 @endfor
