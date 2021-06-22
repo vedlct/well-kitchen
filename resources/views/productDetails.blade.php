@@ -81,19 +81,18 @@
                                     <i class="fa fa-star-o red"></i>
                                 @endfor
                             @else
-
                                 <i class="fa fa-star-o"></i>
                                 <i class="fa fa-star-o "></i>
                                 <i class="fa fa-star-o "></i>
                                 <i class="fa fa-star-o "></i>
                                 <i class="fa fa-star-o "></i>
-                                @endif
-
+                            @endif
                         </div>
-                        {{-- @dd($product); --}}
                         <span><a href="#">{{$product->review->count()}} Reviews</a></span>
                     </div>
+                    @if(isset($product->details->fabricDetails))
                     <p>{!! $product->details->fabricDetails !!}</p>
+                    @endif
 
                     <div class="pro-details-size-color" >
                         <div class="pro-details-color-wrap" id="colors">
@@ -298,7 +297,7 @@
                                             </div>
                                             <div class="col-md-12">
                                                 <div class="rating-form-style form-submit">
-                                                    <textarea name="review" placeholder="Type Your Message here......" required></textarea>
+                                                    <textarea name="review" placeholder="Type Your Message here......"></textarea>
                                                     @if(Auth::check())
                                                     <input type="submit" value="Submit">
                                                     @else

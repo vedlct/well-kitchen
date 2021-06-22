@@ -36,7 +36,7 @@ class CategoryController extends Controller
     // dd($products[0]->sku->first());
         foreach($products as $pro){
             $skus = Sku::where('fkproductId',$pro->productId)->with('product.category','variationRelation')->first();
-            // dd($skus);
+            // dd($skus->variationRelation);
             $categoryId = $skus->product->category->categoryId;
             $category = $skus->product->category;
         }

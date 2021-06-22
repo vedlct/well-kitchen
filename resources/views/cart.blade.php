@@ -118,7 +118,7 @@
                                     <li><input type="checkbox"> Express <span>$30.00</span></li>
                                 </ul>
                             </div> --}}
-                            <h4 class="grand-totall-title">Grand Total  <span>&#2547;{{\Cart::getSubTotal()}}</span></h4>
+                            <h4 class="grand-totall-title total">Grand Total  <span>&#2547;{{\Cart::getTotal()}}</span></h4>
                             {{-- @if(empty($customer)) --}}
                             {{-- <a href="{{route('login')}}">Goto Login</a> --}}
                             

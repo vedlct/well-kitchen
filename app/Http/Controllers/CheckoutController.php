@@ -62,6 +62,7 @@ class CheckoutController extends Controller
 
     public function checkoutSubmit(Request $request)
     {
+        dd($request->all());
         $customer = Customer::where('phone', $request->phone)->first();
 // dd($customer);
 
@@ -88,6 +89,15 @@ class CheckoutController extends Controller
                 $address->save();
 
                 Session::flash('success', 'User Registered Successfully');
+            }else{
+                if($request->shipping == 'on'){
+                    $address = new Address();
+                    $address->billingAddress = $request->billingAddress;
+                    $address->shippingAddress = $request->diffshippingAddress;
+                    $address->fkcustomerId  = $customer->customerId;
+                    $address->fkshipment_zoneId  = $request->fkshipment_zoneId;
+                    $address->save();
+                }
             }
 
 

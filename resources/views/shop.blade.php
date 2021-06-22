@@ -109,8 +109,10 @@
                         <h4 class="pro-sidebar-title">Colour </h4>
                         <div class="sidebar-widget-list mt-20">
                             <ul>
+                                {{-- @dd($skus); --}}
                                 @foreach($skus as $productsku)
                                 {{-- @dd($productsku->variationRelation); --}}
+                                 @if(isset($productsku->variationRelation))
                                     @foreach($productsku->variationRelation as $variationRelation)
                                         @if($variationRelation->variationDetailsdata->variationType == "Color")
                                             <li>
@@ -122,6 +124,7 @@
                                             </li>
                                         @endif
                                     @endforeach
+                                  @endif  
                                 @endforeach
                             </ul>
                         </div>
@@ -132,6 +135,7 @@
                             <ul>
                                 {{-- @dd($skus); --}}
                                 @foreach($skus as $productsku)
+                                  @if(isset($productsku->variationRelation))
                                     @foreach($productsku->variationRelation as $variationRelation)
                                         @if($variationRelation->variationDetailsdata->variationType == "Size")
                                             <li>
@@ -143,6 +147,7 @@
                                             </li>
                                         @endif
                                     @endforeach
+                                   @endif 
                                 @endforeach
                             </ul>
                         </div>
@@ -151,10 +156,9 @@
                         <h4 class="pro-sidebar-title">Tag </h4>
                         <div class="sidebar-widget-tag mt-25">
                             <ul>
-                                @foreach($skus->unique('fkproductId') as $key=>$sku)
+                                @foreach($skus->groupBy('fkproductId') as $key=>$sku)
                                         <li><a href="#" class="tagCheck">{{$sku->product->tag}}</a></li>
                                 @endforeach
-
                             </ul>
                         </div>
                     </div>

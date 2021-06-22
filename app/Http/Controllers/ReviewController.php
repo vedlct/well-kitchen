@@ -15,9 +15,9 @@ class ReviewController extends Controller
     public function ReviewSubmit(Request $request){
         // dd(Auth::user()->firstName);
         // dd($request->all());
-        $this->validate($request, [
-            'review' => 'required',
-        ]);
+        // $this->validate($request, [
+        //     'review' => 'required',
+        // ]);
 
         // $user = Auth::user()->userId;
         $customer = Customer::where('customerId',$request->customerId)->pluck('customerId')->first();

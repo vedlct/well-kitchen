@@ -328,6 +328,7 @@
                   toastr.success('Item update successfully')
                   $(".updatereload").load(location.href + " .updatereload");
                   $(".cartTotal").load(location.href + " .cartTotal");
+                  $(".total").load(location.href + " .total");
               },
               error:function (response){
                   toastr.error('Stock not available')

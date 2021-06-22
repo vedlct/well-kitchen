@@ -43,10 +43,10 @@
     </div>
     <div class="row my-md-5 my-4">
         <div class="col-6">
-            <a href="{{url('/cart')}}" class="btn btn-secondary w-100">View Cart</a>
+            <a href="{{route('cart')}}" class="btn btn-secondary w-100">View Cart</a>
         </div>
         <div class="col-6">
-            <a href="{{url('/checkout')}}" class="btn btn-danger w-100">checkout</a>
+            <a href="{{route('checkout.index')}}" class="btn btn-danger w-100">checkout</a>
         </div>
     </div>
 </section>
