@@ -24,6 +24,7 @@ class CategoryController extends Controller
     }
 
     public function searchByProducts(Request $request){
+        // dd($request->all());
         $allSearch = $request->allSearch;
         $products = Product::query()
         ->where('productName', 'LIKE', "%{$allSearch}%")
