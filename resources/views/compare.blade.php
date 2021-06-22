@@ -117,7 +117,7 @@
     <script>
 
         $(document).on('click', '.searchToCompareOne', function(){
-            
+
             $(".compareOneHide").hide();
             var searchTxt = $(".compareProductOne").val();
 

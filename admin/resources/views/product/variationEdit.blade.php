@@ -67,7 +67,7 @@
                 <div data-repeater-list="repeater-group">
                     <label>Barcode</label>
                     <div class="input-group mb-1" data-repeater-item>
-                        <input type="number" value="{{ $sku->barcode }}" name="barcode" id="barcodeVariationEdit" class="form-control" id="barcode">
+                        <input type="text" value="{{ $sku->barcode }}" name="barcode" id="barcodeVariationEdit" class="form-control" id="barcode">
                         <span class="input-group-append" id="button-addon2">
                             <a onclick="barcodeGenerateVariationEdit()" style="color: white; font-weight: bold; padding-top: 14px; padding: 14px 4px 10px;" class="btn btn-sm btn-danger" data-repeater-delete>
                               generate
