@@ -165,10 +165,12 @@
                                        @endif
                                         <li><a href="{{url('my-order')}}">My Orders</a></li>
                                         <li><a href="{{url('my-account')}}">my account</a></li>
+                                            @auth
                                         <li><a href="{{route('logout')}}"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
                                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                             {{ csrf_field() }}
                                         </form>
+                                            @endauth
                                     </ul>
                                 </div>
                             </div>
@@ -184,7 +186,7 @@
                             <div class="same-style cart-wrap" id='totalVal'>
                                 <button class="icon-cart" onclick="showNav()">
                                     <i class="pe-7s-shopbag"></i>
-                                    <span class="count-style" > {{Cart::getContent()->count()}}</span>
+{{--                                    <span class="count-style" > {{Cart::getContent()->count()}}</span>--}}
                                 </button>
                                 <!-- <div class="shopping-cart-content">
                                     <div class="full-wrapper position-relative">

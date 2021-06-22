@@ -200,13 +200,15 @@
                         </ul>
                     </div>
                 </div>
+
                 <div id="des-details3" class="tab-pane">
                     <div class="row">
                         <div class="col-lg-7">
                             <div class="review-wrapper">
                                {{-- @foreach ($product->review as $item) --}}
-                              @if(isset($review))
-                               @foreach ($review as $item)
+                              @if(isset($reviewAll))
+                               @foreach ($reviewAll as $item)
+
                                {{-- @dd($item->customer->user->firstName) --}}
                                     <div class="single-review">
                                         <div class="review-img">

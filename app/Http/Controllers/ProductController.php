@@ -23,9 +23,8 @@ class ProductController extends Controller
         $finalRating = 0;
         if(Auth::check()){
             $customer = Customer::where('fkuserId',Auth::user()->userId)->with('user')->first();
-            $review = Review::with('customer.user','getRating')->where('fkproductId',$product->productId)->orderBy('created_at','desc')->limit(10)->get();
+            $reviewAll = Review::with('customer.user','getRating')->where('fkproductId',$product->productId)->orderBy('created_at','desc')->limit(10)->get();
             $reviews = Review::where('fkproductId', $sku->fkproductId)->get();
-
 
             if($reviews->count() > 0 ) {
                 $totalRating = 0;
@@ -37,10 +36,10 @@ class ProductController extends Controller
                 }
                 $finalRating = ceil($totalRating / $totalCustomer);
             }
-            return view('productDetails', compact('sku', 'product','skus','customer','review', 'finalRating'));
+            return view('productDetails', compact('sku', 'product','skus','customer','reviewAll', 'finalRating'));
         }else{
             $reviews = Review::where('fkproductId', $sku->fkproductId)->get();
-
+            $review = Review::with('customer.user','getRating')->where('fkproductId',$product->productId)->orderBy('created_at','desc')->limit(10)->get();
 
             if($reviews->count() > 0 ) {
                 $totalRating = 0;
@@ -58,13 +57,7 @@ class ProductController extends Controller
 
 
 
-        // $rating = Rating::with('customer.user','reviews')->where('fkproductId',$product->productId)->get();
-        // dd($rating);
 
-
-        // $review = Review::with('customer.user','getRating')->where('fkproductId',$product->productId)->orderBy('created_at','desc')->limit(10)->get();;
-
-        // dd($review);
 //        return view('productDetails', compact('sku', 'product','skus','customer','review', 'finalRating'));
     }
 

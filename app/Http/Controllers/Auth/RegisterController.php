@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -29,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -52,8 +53,9 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'firstName' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:user'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'password' => ['required', 'string', 'min:8'],
         ]);
+
     }
 
     /**
@@ -64,10 +66,25 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'firstName' => $data['firstName'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+//        return User::create([
+//            'firstName' => $data['firstName'],
+//            'email' => $data['email'],
+//            'password' => Hash::make($data['password']),
+//        ]);
+
+        $user = new User();
+        $user->firstName = $data['firstName'];
+        $user->email = $data['email'];
+        $user->password = Hash::make($data['password']);
+        $user->save();
+
+        $customer = new Customer();
+        $customer->fkuserId = $user->userId;
+        $customer->status = 'active';
+        $customer->save();
+
+        return $user;
+
+
     }
 }
