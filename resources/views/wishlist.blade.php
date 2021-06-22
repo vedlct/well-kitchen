@@ -27,7 +27,7 @@
                                 @foreach ($lists as $item)
                                     <tr>
                                         <td class="product-thumbnail">
-                                            <a href=" {{route('product.details',$item->product->productId)}} "><img src="{{asset('admin/public/featureImage/'.$item->product->featureImage)}}" alt=""></a>
+                                            <a href=" {{route('product.details',$item->product->sku->first()->skuId)}} "><img src="{{asset('admin/public/featureImage/'.$item->product->featureImage)}}" alt=""></a>
                                         </td>
                                         <td class="product-name"><a href="#">{{$item->product->productName}}</a></td>
                                         <td class="product-price-cart"><span class="amount">${{$item->product->sku->first()->salePrice}}</span></td>
@@ -51,7 +51,7 @@
                                         </td>
                                     </tr>
                                 @endforeach
-                                
+
                             </tbody>
                         </table>
                     </div>

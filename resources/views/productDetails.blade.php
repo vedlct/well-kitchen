@@ -73,21 +73,20 @@
                     <div class="pro-details-rating-wrap">
                         <div class="pro-details-rating">
                             {{-- @dd($product->review->count()); --}}
-                            @if($product->review->count()>0)
+                            @if($finalRating? $finalRating  > 0: "")
+                                @for ($i = 5; $i >= $finalRating; $i--)
+                                    <i class="fa fa-star-o yellow"></i>
+                                @endfor
+                                @for ($i = 0; $i < 5-$finalRating; $i++)
+                                    <i class="fa fa-star-o red"></i>
+                                @endfor
+                            @else
 
-                                    @for ($i = 0; $i < ceil($product->review->avg('rating')); $i++)
-                                        <i class="fa fa-star-o yellow"></i>
-                                    @endfor
-                                    @for ($i = 0; $i < $count=4-($product->review->avg('rating')); $i++)
-                                        <i class="fa fa-star-o red"></i>
-                                    @endfor
-                                @else
-
-                                <i class="fa fa-star-o yellow"></i>
-                                <i class="fa fa-star-o yellow"></i>
-                                <i class="fa fa-star-o yellow"></i>
-                                <i class="fa fa-star-o yellow"></i>
-                                <i class="fa fa-star-o yellow"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o "></i>
+                                <i class="fa fa-star-o "></i>
+                                <i class="fa fa-star-o "></i>
+                                <i class="fa fa-star-o "></i>
                                 @endif
 
                         </div>
@@ -201,13 +200,15 @@
                         </ul>
                     </div>
                 </div>
+
                 <div id="des-details3" class="tab-pane">
                     <div class="row">
                         <div class="col-lg-7">
                             <div class="review-wrapper">
                                {{-- @foreach ($product->review as $item) --}}
-                               @if($review->count() > 0)
-                               @foreach ($review as $item)
+                              @if(isset($reviewAll))
+                               @foreach ($reviewAll as $item)
+
                                {{-- @dd($item->customer->user->firstName) --}}
                                     <div class="single-review">
                                         <div class="review-img">
@@ -245,7 +246,7 @@
                                         </div>
                                     </div>
                                 @endforeach
-                               @endif 
+                                @endif
                             </div>
                         </div>
                         <div class="col-lg-5">
