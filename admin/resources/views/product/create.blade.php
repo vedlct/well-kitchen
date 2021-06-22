@@ -380,7 +380,7 @@
                                                             <div data-repeater-list="repeater-group">
                                                                 <label>Barcode</label>
                                                                 <div class="input-group mb-1" data-repeater-item>
-                                                                    <input type="number" placeholder="barcode" name="barcode" id="barcodeVariation" class="form-control" id="barcode">
+                                                                    <input type="text" placeholder="barcode" name="barcode" id="barcodeVariation" class="form-control" id="barcode">
                                                                     <span class="input-group-append" id="button-addon2">
                                                                     <a onclick="barcodeGenerateVariation()" style="color: white; font-weight: bold; padding-top: 14px;" class="btn btn-sm btn-danger" data-repeater-delete>
                                                                       generate

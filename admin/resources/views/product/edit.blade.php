@@ -305,7 +305,7 @@
                                                                 <div data-repeater-list="repeater-group">
                                                                     <label>Barcode</label>
                                                                     <div class="input-group mb-1" data-repeater-item>
-                                                                        <input type="number" value="{{ $sku->barcode }}" name="barcodeSingle" id="barcodeEdit" class="form-control" id="example-ql-input">
+                                                                        <input type="text" value="{{ $sku->barcode }}" name="barcodeSingle" id="barcodeEdit" class="form-control" id="example-ql-input">
                                                                         <span class="input-group-append" id="button-addon2">
                                                                         <a onclick="barcodeGenerateEdit()" style="color: white; font-weight: bold; padding: 14px 4px 10px;" class="btn btn-sm btn-danger" data-repeater-delete>
                                                                         generate
@@ -482,7 +482,7 @@
                                                             <div data-repeater-list="repeater-group">
                                                                 <label>Barcode</label>
                                                                 <div class="input-group mb-1" data-repeater-item>
-                                                                    <input type="number" placeholder="barcode" name="barcode" id="barcodeVariationAdd" class="form-control" id="barcode">
+                                                                    <input type="text" placeholder="barcode" name="barcode" id="barcodeVariationAdd" class="form-control" id="barcode">
                                                                     <span class="input-group-append" id="button-addon2">
                                                                     <a onclick="barcodeGenerateVariationAdd()" style="color: white; font-weight: bold; padding: 14px 4px 10px;" class="btn btn-sm btn-danger" data-repeater-delete>
                                                                       generate
