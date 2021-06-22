@@ -20,12 +20,13 @@ class ProductController extends Controller
         $relatedProducts = Product::where('categoryId', $sku->product->categoryId)->pluck('productId');
         $skus = Sku::whereIn('fkproductId', $relatedProducts)->with('product')->get()->unique('fkproductId');
         $product = Product::where('productId', $sku->fkproductId)->with('review.customer.user','category')->first();
-        // dd($product);
         if(Auth::check()){
             $customer = Customer::where('fkuserId',Auth::user()->userId)->with('user')->first();
             $review = Review::with('customer.user','getRating')->where('fkproductId',$product->productId)->orderBy('created_at','desc')->limit(10)->get();
+            return view('productDetails', compact('sku', 'product','skus','customer','review'));
         }else{
-            $customer = null;
+            $review = Review::with('customer.user','getRating')->where('fkproductId',$product->productId)->orderBy('created_at','desc')->limit(10)->get();
+            return view('productDetails', compact('sku', 'product','skus','review'));
         }
 
         $reviews = Review::where('fkproductId', $sku->fkproductId)->get();
