@@ -110,12 +110,12 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="companyName"><b>Maximum Amount</b><span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" placeholder="Category Name" name="amount" id="amount">
+                                                    <input type="text" class="form-control" placeholder="Maximum Amount" name="amount" id="amount">
                                                     <span class="text-danger amount"> <b>{{  $errors->first('amount') }}</b></span>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="companyName"><b>Limit / Customer</b><span class="text-danger">*</span></label>
-                                                    <input type="text" class="form-control" placeholder="Category Name" name="limit" id="limit">
+                                                    <input type="text" class="form-control" placeholder="Limit customer" name="limit" id="limit">
                                                     <span class="text-danger limit"> <b>{{  $errors->first('limit') }}</b></span>
                                                 </div>
 
