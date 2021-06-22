@@ -244,7 +244,7 @@
                                         </div>
                                     </div>
                                 @endforeach
-                               @endif 
+                               @endif
                             </div>
                         </div>
                         <div class="col-lg-5">
