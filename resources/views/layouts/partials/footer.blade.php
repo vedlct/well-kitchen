@@ -142,7 +142,7 @@
     </div>
 </div>
 <!-- Modal end -->
-<div id="cartPage" >
+<div id="cartPage">
 @include('layouts.partials.cartNav')
 </div>
 <!-- chat icon start -->
@@ -347,9 +347,9 @@
                   $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br> Cart(${response.cartQuantity})`);
                   toastr.success('Item delete from cart')
                   $(".deletereload").load(" .deletereload");
-                  $(".cartTotal").load(" .cartTotal");
-
-              }
+                  $(".cartTotal").load(".cartTotal");
+                  $("#cartTable").load(location.href + " #cartTable");
+               }
           });
       }
 </script>

@@ -130,6 +130,7 @@
                         <h4 class="pro-sidebar-title">Size </h4>
                         <div class="sidebar-widget-list mt-20">
                             <ul>
+                                {{-- @dd($skus); --}}
                                 @foreach($skus as $productsku)
                                     @foreach($productsku->variationRelation as $variationRelation)
                                         @if($variationRelation->variationDetailsdata->variationType == "Size")

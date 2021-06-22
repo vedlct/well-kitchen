@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Session;
 
 class RegisterController extends Controller
 {
@@ -83,6 +84,7 @@ class RegisterController extends Controller
         $customer->status = 'active';
         $customer->save();
 
+        Session::flash('success','User registered succesfully');
         return $user;
 
 
