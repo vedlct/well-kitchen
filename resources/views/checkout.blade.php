@@ -52,8 +52,7 @@
                         <div class="col-lg-12">
                             <div class="billing-info mb-20">
                                 <label>Street Address</label>
-                                <input class="billing-address" placeholder="House number and street name" type="text" name="billingAddress" id="billingAddress">
-                                {{-- <input placeholder="Apartment, suite, unit etc." type="text" name="address"> --}}
+                                <input class="billing-address" placeholder="billing address" type="text" name="billingAddress" id="billingAddress">
                             </div>
                         </div>
                        
@@ -77,8 +76,7 @@
                             <div class="col-lg-12">
                                 <div class="billing-info mb-20">
                                     <label>Street Address</label>
-                                    <input class="billing-address" placeholder="House number and street name" type="text" name="diffshippingAddress">
-                                    {{-- <input placeholder="Apartment, suite, unit etc." type="text" name="diffshippingAddress"> --}}
+                                    <input class="billing-address" placeholder="Shipping address" type="text" name="diffshippingAddress">
                                 </div>
                             </div>
                         </div>
