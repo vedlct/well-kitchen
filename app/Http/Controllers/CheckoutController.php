@@ -62,7 +62,16 @@ class CheckoutController extends Controller
 
     public function checkoutSubmit(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
+
+        $validated = $request->validate([
+            'first_name' => 'required|max:50',
+            'last_name' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
+            'billingAddress' => 'required',
+        ]);
+
         $customer = Customer::where('phone', $request->phone)->first();
 // dd($customer);
 
@@ -88,7 +97,7 @@ class CheckoutController extends Controller
                 $address->fkshipment_zoneId  = $request->fkshipment_zoneId;
                 $address->save();
 
-                Session::flash('success', 'User Registered Successfully');
+                Session::flash('success', 'User Registered & Place Order Successfully complete');
             }else{
                 if($request->shipping == 'on'){
                     $address = new Address();

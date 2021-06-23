@@ -21,6 +21,11 @@
                                     @foreach ($shipmentZone as $item)
                                     <option value=" {{$item->shipment_zoneId}} "> {{$item->shipment_zoneName}} </option>
                                     @endforeach
+                                    @error('fkshipment_zoneId')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
                                 </select>
                             </div>
                         </div>
@@ -28,24 +33,38 @@
                             <div class="billing-info mb-20">
                                 <label>Phone</label>
                                 <input type="text" name="phone" id="phone" class="searchPhone" required>
+                                @error('phone')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <div class="billing-info mb-20">
                                 <label>First Name</label>
                                 <input type="text" name="first_name" id="firstName">
+                                @error('first_name')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6">
                             <div class="billing-info mb-20">
                                 <label>Last Name</label>
                                 <input type="text" name="last_name" id="lastName">
+                                @error('last_name')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                         <div class="col-lg-12">
                             <div class="billing-info mb-20">
                                 <label>Email Address</label>
                                 <input type="text" name="email" id="email">
+                                @error('email')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                        
@@ -53,6 +72,9 @@
                             <div class="billing-info mb-20">
                                 <label>Street Address</label>
                                 <input class="billing-address" placeholder="billing address" type="text" name="billingAddress" id="billingAddress">
+                                @error('billingAddress')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                        
