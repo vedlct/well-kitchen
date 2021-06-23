@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TestExport;
 use File;
 use Image;
+use Excel;
 use Session;
 use App\Models\Sku;
 use App\Models\Unit;
@@ -25,11 +27,16 @@ class ProductController extends Controller
         return view('product.index');
     }
 
+    public function export()
+    {
+//        Excel::create();
+        return Excel::download(new TestExport, 'test.xlsx');
+    }
+
     //All Product Ajax Return
     public function list()
     {
         $product = Product::all();
-
         return datatables()->of($product)
             ->addColumn('featureImage', function ($image) {
                 if (isset($image->featureImage)) {
@@ -89,7 +96,12 @@ class ProductController extends Controller
     public function variationStore(Request $request)
     {
         $this->validate($request, [
-            // 'barcode' => 'required|unique:product_variation_temp',
+            'variationType1' => 'required_without:variationType2|different:variationType2',
+            'variationType2' => 'required_without:variationType1|different:variationType1',
+            'variationValue1' => 'required_with:variationType1',
+            'variationValue2' => 'required_with:variationType2',
+            'salePrice' => 'required',
+
         ]);
         $sessionId = Session::get('uniqueSession');
         $product_variation_temp = new ProductVariationTemp();
@@ -329,7 +341,6 @@ class ProductController extends Controller
     public function variationAddNew(Request $request)
     {
         $this->validate($request, [
-//            'barcode' => 'required|unique:product_variation_temp',
             'variationType1' => 'required_without:variationType2|different:variationType2',
             'variationType2' => 'required_without:variationType1|different:variationType1',
             'variationValue1' => 'required_with:variationType1',
@@ -407,7 +418,6 @@ class ProductController extends Controller
     public function variationUpdate(Request $request)
     {
         $this->validate($request, [
-//            'barcode' => 'required',
             'variationType1' => 'required_without:variationType2|different:variationType2',
             'variationType2' => 'required_without:variationType1|different:variationType1',
             'variationValue1' => 'required_with:variationType1',

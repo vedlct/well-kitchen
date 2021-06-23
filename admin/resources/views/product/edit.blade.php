@@ -433,6 +433,7 @@
                                                                     <option value="Size">Size</option>
                                                                     <option value="Other">Other</option>
                                                                 </select>
+                                                                <div class="divAjaxError" style="color: red" class="mb-2" id="variationType1Error"></div>
                                                                 <input type="hidden" id="productId" value="{{ $product->productId }}" name="productId">
                                                             </div>
                                                         </div>
@@ -442,6 +443,7 @@
                                                                 <select name="variationValue1" id="variationValue1" class="form-control">
                                                                     <option value="" selected>Select Value</option>
                                                                 </select>
+                                                                <div class="divAjaxError" style="color: red" class="mb-2" id="variationValue1Error"></div>
                                                             </div>
                                                         </div>
 
@@ -454,6 +456,7 @@
                                                                     <option value="Size">Size</option>
                                                                     <option value="Other">Other</option>
                                                                 </select>
+                                                                <div class="divAjaxError" style="color: red" class="mb-2" id="variationType2Error"></div>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4 col-lg-4 col-xl-2" id="variationValues2">
@@ -462,12 +465,14 @@
                                                                 <select name="variationValue2" id="variationValue2" class="form-control">
                                                                     <option value="" selected>Select Value</option>
                                                                 </select>
+                                                                <div class="divAjaxError" style="color: red" class="mb-2" id="variationValue2Error"></div>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4 col-lg-4 col-xl-2">
                                                             <div class="form-group">
                                                                 <label>Sale Price</label>
                                                                 <input type="number" class="form-control" name="salePrice" id="salePrice" placeholder="sale price">
+                                                                <div class="divAjaxError" style="color: red" class="mb-2" id="salePriceError"></div>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4 col-lg-4 col-xl-2">
@@ -648,13 +653,6 @@ let productImageId;
             var rnd = Math.floor(Math.random() * 1000000000);
             document.getElementById('barcodeEdit').value = rnd;
         }
-
-        // Barcode Generate
-
-        // function barcodeGenerateEdit(){
-        //     var rnd = Math.floor(Math.random() * 1000000000);
-        //     document.getElementById('barcodeEdit').value = rnd;
-        // }
 
         function barcodeGenerateVariationAdd(){
             var rnd = Math.floor(Math.random() * 1000000000);

@@ -27,32 +27,32 @@
     </div>
 
     <!-- <div class="slider-area">
-                <div class="container">
-                    <div class="slider-active-3 owl-carousel slider-hm8 owl-dot-style">
-                        <div class="slider-height-6 d-flex align-items-center justify-content-center bg-img" style="background-image:url(assets/img/slider/slider-6.jpg);">
-                            <div class="slider-content-5 slider-animated-1 text-center">
-                                <h3 class="animated">New Arrival</h3>
-                                <h1 class="animated">Final Sale</h1>
-                                <p class="animated">30% off Summer Vacation</p>
+                    <div class="container">
+                        <div class="slider-active-3 owl-carousel slider-hm8 owl-dot-style">
+                            <div class="slider-height-6 d-flex align-items-center justify-content-center bg-img" style="background-image:url(assets/img/slider/slider-6.jpg);">
+                                <div class="slider-content-5 slider-animated-1 text-center">
+                                    <h3 class="animated">New Arrival</h3>
+                                    <h1 class="animated">Final Sale</h1>
+                                    <p class="animated">30% off Summer Vacation</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="slider-height-6 d-flex align-items-center justify-content-center bg-img" style="background-image:url(assets/img/slider/slider-6-1.jpg);">
-                            <div class="slider-content-5 slider-animated-1 text-center">
-                                <h3 class="animated">New Arrival</h3>
-                                <h1 class="animated">Final Sale</h1>
-                                <p class="animated">30% off Summer Vacation</p>
+                            <div class="slider-height-6 d-flex align-items-center justify-content-center bg-img" style="background-image:url(assets/img/slider/slider-6-1.jpg);">
+                                <div class="slider-content-5 slider-animated-1 text-center">
+                                    <h3 class="animated">New Arrival</h3>
+                                    <h1 class="animated">Final Sale</h1>
+                                    <p class="animated">30% off Summer Vacation</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="slider-height-6 d-flex align-items-center justify-content-center bg-img" style="background-image:url(assets/img/slider/slider-6-2.jpg);">
-                            <div class="slider-content-5 slider-animated-1 text-center">
-                                <h3 class="animated">New Arrival</h3>
-                                <h1 class="animated">Final Sale</h1>
-                                <p class="animated">30% off Summer Vacation</p>
+                            <div class="slider-height-6 d-flex align-items-center justify-content-center bg-img" style="background-image:url(assets/img/slider/slider-6-2.jpg);">
+                                <div class="slider-content-5 slider-animated-1 text-center">
+                                    <h3 class="animated">New Arrival</h3>
+                                    <h1 class="animated">Final Sale</h1>
+                                    <p class="animated">30% off Summer Vacation</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div> -->
+                </div> -->
     <!-- banner slider end -->
 
     <!-- all categories mobile start -->
@@ -710,117 +710,125 @@
     <!-- product area end -->
 
     <!-- single product start -->
-   
+
     @foreach ($categories as $key => $category)
 
-    {{-- {{dd($skus)}} --}}
-    
-    <div class="product-area pb-70">
-        <div class="container">
-            <div class="section-title-6 mb-45 text-center">
-                <h2>{{$category->categoryName}}</h2>
-            </div>
-            <div class="product-slider-active-2 owl-carousel owl-dot-none owl-loaded owl-drag">
+        {{-- {{dd($skus)}} --}}
 
-                {{-- @dd($skus); --}}
-                
-                    
-                <div class="owl-stage-outer">
-                    <div class="owl-stage"
-                        style="transform: translate3d(-1200px, 0px, 0px); transition: all 0s ease 0s; width: 3900px;">
-                        
-                        
-                        @foreach ($skus->unique('fkproductId') as $sku)
-                            @if(!empty($sku->product->hotdealProducts))
-                                @php
-                                    $hotDeal = $sku->product->hotdealProducts
-                                        ->where('hotdeals.status', 'Available')
-                                        ->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))
-                                        ->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))
-                                        ->first();
-                                @endphp
-                            @endif
-                           
-                            @if (!empty($sku->product()) && $sku->product->categoryId == $category->categoryId)
-                        <div class="owl-item active" style="width: 270px; margin-right: 30px;">
-                            <div class="product-wrap mb-25">
-                                <div class="product-img">
-                                    <a href="{{route('product.details', $sku->skuId)}}">
-                                        <img class="default-img" src="{{asset('admin/public/featureImage/'.$sku->product->featureImage)}}" alt="">
-                                    </a>
-                                    {{-- <span class="purple">Stock Out</span> --}}
-                                    @if ($sku->product->newarrived == 1)
-                                    <span class="purple">New</span>
+        <div class="product-area pb-70">
+            <div class="container">
+                <div class="section-title-6 mb-45 text-center">
+                    <h2>{{ $category->categoryName }}</h2>
+                </div>
+                <div class="product-slider-active-2 owl-carousel owl-dot-none owl-loaded owl-drag">
+
+                    {{-- @dd($skus); --}}
+
+
+                    <div class="owl-stage-outer">
+                        <div class="owl-stage"
+                            style="transform: translate3d(-1200px, 0px, 0px); transition: all 0s ease 0s; width: 3900px;">
+
+
+                            @foreach ($skus->unique('fkproductId') as $sku)
+                                @if (!empty($sku->product->hotdealProducts))
+                                    @php
+                                        $hotDeal = $sku->product->hotdealProducts
+                                            ->where('hotdeals.status', 'Available')
+                                            ->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))
+                                            ->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))
+                                            ->first();
+                                    @endphp
                                 @endif
 
-                                @if (!empty($hotDeal))
-                                    <span
-                                        class="blue discount">-{{ $hotDeal->hotdeals ? $hotDeal->hotdeals->percentage : '' }}%</span>
-                                @endif
-
-                                @if ($sku->product->isrecommended == 1)
-                                    <span class="pink">Feature</span>
-                                @endif
-                                    <div class="product-action">
-                                        <div class="pro-same-action pro-wishlist">
-                                            <a title="Wishlist" href="#" onclick="addToWishList({{ $sku->skuId }})"><i class="pe-7s-like"></i></a>
-                                        </div>
-                                        <div class="pro-same-action pro-cart">
-                                            @if ($sku->product->type == 'single')
-                                                        <a title="Add To Cart" href="#"
-                                                            onclick="addTocart({{ $sku->skuId }})"><i
-                                                                class="pe-7s-cart"></i> Add to cart</a>
-                                            @endif
-                                            @if ($sku->product->type == 'variation')
-                                                        <a title="Add To Cart"
-                                                            href="{{ route('product.details', $sku->skuId) }}"><i
-                                                                class="pe-7s-cart"></i> Add to cart</a>
-                                            @endif
-                                        </div>
-                                        <div class="pro-same-action pro-quickview">
-                                            <a href="#" data-toggle="modal" data-target="#exampleModal" data-sku_id="{{ $sku->skuId }}" class="quickView"><i
-                                                    class="pe-7s-look"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="product-content text-center">
-                                    <h3><a href="{{route('product.details', $sku->skuId)}}">{{$sku->product->productName}}</a></h3>
-                                    
-                                    <div class="product-price">
-                                                @if (empty($hotDeal))
-                                                    <span>৳ {{ $sku->salePrice }} </span>
+                                @if (!empty($sku->product()) && $sku->product->categoryId == $category->categoryId)
+                                    <div class="owl-item active" style="width: 270px; margin-right: 30px;">
+                                        <div class="product-wrap mb-25">
+                                            <div class="product-img">
+                                                <a href="{{ route('product.details', $sku->skuId) }}">
+                                                    <img class="default-img"
+                                                        src="{{ asset('admin/public/featureImage/' . $sku->product->featureImage) }}"
+                                                        alt="">
+                                                </a>
+                                                {{-- <span class="purple">Stock Out</span> --}}
+                                                @if ($sku->product->newarrived == 1)
+                                                    <span class="purple">New</span>
                                                 @endif
 
                                                 @if (!empty($hotDeal))
-                                                    @php
-                                                        $percentage = $hotDeal->hotdeals->percentage;
-                                                        $afterDiscountPrice = $sku->salePrice - ($sku->salePrice * $percentage) / 100;
-                                                    @endphp
-
-                                                    <span>৳ {{ $afterDiscountPrice }}</span>
-                                                    <span class="old">৳ {{ $sku->salePrice }}</span>
+                                                    <span
+                                                        class="blue discount">-{{ $hotDeal->hotdeals ? $hotDeal->hotdeals->percentage : '' }}%</span>
                                                 @endif
+
+                                                @if ($sku->product->isrecommended == 1)
+                                                    <span class="pink">Feature</span>
+                                                @endif
+                                                <div class="product-action">
+                                                    <div class="pro-same-action pro-wishlist">
+                                                        <a title="Wishlist" href="#"
+                                                            onclick="addToWishList({{ $sku->skuId }})"><i
+                                                                class="pe-7s-like"></i></a>
+                                                    </div>
+                                                    <div class="pro-same-action pro-cart">
+                                                        @if ($sku->product->type == 'single')
+                                                            <a title="Add To Cart" href="#"
+                                                                onclick="addTocart({{ $sku->skuId }})"><i
+                                                                    class="pe-7s-cart"></i> Add to cart</a>
+                                                        @endif
+                                                        @if ($sku->product->type == 'variation')
+                                                            <a title="Add To Cart"
+                                                                href="{{ route('product.details', $sku->skuId) }}"><i
+                                                                    class="pe-7s-cart"></i> Add to cart</a>
+                                                        @endif
+                                                    </div>
+                                                    <div class="pro-same-action pro-quickview">
+                                                        <a href="#" data-toggle="modal" data-target="#exampleModal"
+                                                            data-sku_id="{{ $sku->skuId }}" class="quickView"><i
+                                                                class="pe-7s-look"></i></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="product-content text-center">
+                                                <h3><a
+                                                        href="{{ route('product.details', $sku->skuId) }}">{{ $sku->product->productName }}</a>
+                                                </h3>
+
+                                                <div class="product-price">
+                                                    @if (empty($hotDeal))
+                                                        <span>৳ {{ $sku->salePrice }} </span>
+                                                    @endif
+
+                                                    @if (!empty($hotDeal))
+                                                        @php
+                                                            $percentage = $hotDeal->hotdeals->percentage;
+                                                            $afterDiscountPrice = $sku->salePrice - ($sku->salePrice * $percentage) / 100;
+                                                        @endphp
+
+                                                        <span>৳ {{ $afterDiscountPrice }}</span>
+                                                        <span class="old">৳ {{ $sku->salePrice }}</span>
+                                                    @endif
+                                                </div>
+
+                                            </div>
+                                        </div>
                                     </div>
-                                    
-                                </div>
-                            </div>
+                                @endif
+                            @endforeach
+
                         </div>
-                        @endif
-                        @endforeach
-                       
                     </div>
+                    <div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><span
+                                aria-label="Previous">‹</span></button><button type="button" role="presentation"
+                            class="owl-next"><span aria-label="Next">›</span></button></div>
+                    <div class="owl-dots"><button role="button" class="owl-dot active"><span></span></button><button
+                            role="button" class="owl-dot"><span></span></button></div>
                 </div>
-                <div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><span
-                            aria-label="Previous">‹</span></button><button type="button" role="presentation"
-                        class="owl-next"><span aria-label="Next">›</span></button></div>
-                <div class="owl-dots"><button role="button" class="owl-dot active"><span></span></button><button
-                        role="button" class="owl-dot"><span></span></button></div>
-            </div>
-            <div class="text-center">
-                <a href="{{route('category.products',$category->categoryId)}}" class="btn btn-secondary">View All Products</a>
+                <div class="text-center">
+                    <a href="{{ route('category.products', $category->categoryId) }}" class="btn btn-secondary">View All
+                        Products</a>
+                </div>
             </div>
         </div>
-    </div>
 
     @endforeach
     <!-- single product end -->
@@ -1254,142 +1262,114 @@
     <!-- testimonial end -->
 
     <!-- top view product start -->
-    {{-- <div class="product-area mt-50 pb-70"> --}}
-    {{-- <div class="container"> --}}
-    {{-- <div class="section-title-6 mb-45 text-center"> --}}
-    {{-- <h2>Most View Products</h2> --}}
-    {{-- </div> --}}
-    {{-- <div class="product-slider-active-2 owl-carousel owl-dot-none"> --}}
-    {{-- <div class="product-wrap mb-25"> --}}
-    {{-- <div class="product-img"> --}}
-    {{-- <a href="product-details.html"> --}}
-    {{-- <img class="default-img" src="{{asset('public/assets/img/product/hm29-pro-9.jpg')}}" alt=""> --}}
-    {{-- </a> --}}
-    {{-- <span class="purple">New</span> --}}
-    {{-- <div class="product-action"> --}}
-    {{-- <div class="pro-same-action pro-wishlist"> --}}
-    {{-- <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a> --}}
-    {{-- </div> --}}
-    {{-- <div class="pro-same-action pro-cart"> --}}
-    {{-- <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a> --}}
-    {{-- </div> --}}
-    {{-- <div class="pro-same-action pro-quickview"> --}}
-    {{-- <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a> --}}
-    {{-- </div> --}}
-    {{-- </div> --}}
-    {{-- </div> --}}
-    {{-- <div class="product-content text-center"> --}}
-    {{-- <h3><a href="product-details.html">Product Title Here</a></h3> --}}
-    {{-- <div class="product-price"> --}}
-    {{-- <span>৳  60.00</span> --}}
-    {{-- </div> --}}
-    {{-- </div> --}}
-    {{-- </div> --}}
-    {{-- <div class="product-wrap mb-25"> --}}
-    {{-- <div class="product-img"> --}}
-    {{-- <a href="product-details.html"> --}}
-    {{-- <img class="default-img" src="{{asset('public/assets/img/product/hm29-pro-10.jpg')}}" alt=""> --}}
-    {{-- </a> --}}
-    {{-- <span class="pink">-10%</span> --}}
-    {{-- <div class="product-action"> --}}
-    {{-- <div class="pro-same-action pro-wishlist"> --}}
-    {{-- <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a> --}}
-    {{-- </div> --}}
-    {{-- <div class="pro-same-action pro-cart"> --}}
-    {{-- <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a> --}}
-    {{-- </div> --}}
-    {{-- <div class="pro-same-action pro-quickview"> --}}
-    {{-- <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a> --}}
-    {{-- </div> --}}
-    {{-- </div> --}}
-    {{-- </div> --}}
-    {{-- <div class="product-content text-center"> --}}
-    {{-- <h3><a href="product-details.html">Product Title Here</a></h3> --}}
-    {{-- <div class="product-price"> --}}
-    {{-- <span>৳  60.00</span> --}}
-    {{-- <span class="old">৳  60.00</span> --}}
-    {{-- </div> --}}
-    {{-- </div> --}}
-    {{-- </div> --}}
-    {{-- <div class="product-wrap mb-25"> --}}
-    {{-- <div class="product-img"> --}}
-    {{-- <a href="product-details.html"> --}}
-    {{-- <img class="default-img" src="{{asset('public/assets/img/product/hm29-pro-11.jpg')}}" alt=""> --}}
-    {{-- </a> --}}
-    {{-- <span class="purple">New</span> --}}
-    {{-- <div class="product-action"> --}}
-    {{-- <div class="pro-same-action pro-wishlist"> --}}
-    {{-- <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a> --}}
-    {{-- </div> --}}
-    {{-- <div class="pro-same-action pro-cart"> --}}
-    {{-- <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a> --}}
-    {{-- </div> --}}
-    {{-- <div class="pro-same-action pro-quickview"> --}}
-    {{-- <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a> --}}
-    {{-- </div> --}}
-    {{-- </div> --}}
-    {{-- </div> --}}
-    {{-- <div class="product-content text-center"> --}}
-    {{-- <h3><a href="product-details.html">Product Title Here</a></h3> --}}
-    {{-- <div class="product-price"> --}}
-    {{-- <span>৳  60.00</span> --}}
-    {{-- </div> --}}
-    {{-- </div> --}}
-    {{-- </div> --}}
-    {{-- <div class="product-wrap mb-25"> --}}
-    {{-- <div class="product-img"> --}}
-    {{-- <a href="product-details.html"> --}}
-    {{-- <img class="default-img" src="{{asset('public/assets/img/product/hm29-pro-12.jpg')}}" alt=""> --}}
-    {{-- </a> --}}
-    {{-- <span class="pink">-10%</span> --}}
-    {{-- <div class="product-action"> --}}
-    {{-- <div class="pro-same-action pro-wishlist"> --}}
-    {{-- <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a> --}}
-    {{-- </div> --}}
-    {{-- <div class="pro-same-action pro-cart"> --}}
-    {{-- <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a> --}}
-    {{-- </div> --}}
-    {{-- <div class="pro-same-action pro-quickview"> --}}
-    {{-- <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a> --}}
-    {{-- </div> --}}
-    {{-- </div> --}}
-    {{-- </div> --}}
-    {{-- <div class="product-content text-center"> --}}
-    {{-- <h3><a href="product-details.html">Product Title Here</a></h3> --}}
-    {{-- <div class="product-price"> --}}
-    {{-- <span>৳  60.00</span> --}}
-    {{-- <span class="old">৳  60.00</span> --}}
-    {{-- </div> --}}
-    {{-- </div> --}}
-    {{-- </div> --}}
-    {{-- <div class="product-wrap mb-25"> --}}
-    {{-- <div class="product-img"> --}}
-    {{-- <a href="product-details.html"> --}}
-    {{-- <img class="default-img" src="{{asset('public/assets/img/product/hm29-pro-10.jpg')}}" alt=""> --}}
-    {{-- </a> --}}
-    {{-- <span class="purple">New</span> --}}
-    {{-- <div class="product-action"> --}}
-    {{-- <div class="pro-same-action pro-wishlist"> --}}
-    {{-- <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a> --}}
-    {{-- </div> --}}
-    {{-- <div class="pro-same-action pro-cart"> --}}
-    {{-- <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a> --}}
-    {{-- </div> --}}
-    {{-- <div class="pro-same-action pro-quickview"> --}}
-    {{-- <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a> --}}
-    {{-- </div> --}}
-    {{-- </div> --}}
-    {{-- </div> --}}
-    {{-- <div class="product-content text-center"> --}}
-    {{-- <h3><a href="product-details.html">Product Title Here</a></h3> --}}
-    {{-- <div class="product-price"> --}}
-    {{-- <span>৳  60.00</span> --}}
-    {{-- </div> --}}
-    {{-- </div> --}}
-    {{-- </div> --}}
-    {{-- </div> --}}
-    {{-- </div> --}}
-    {{-- </div> --}}
+    <div class="product-area mt-50 pb-70">
+        <div class="container">
+            <div class="section-title-6 mb-45 text-center">
+                <h2>Most View Products</h2>
+            </div>
+            <div class="product-slider-active-2 owl-carousel owl-dot-none owl-loaded owl-drag">
+
+
+                    
+                
+
+
+
+                <div class="owl-stage-outer">
+                    <div class="owl-stage"
+                        style="transform: translate3d(-1200px, 0px, 0px); transition: all 0s ease 0s; width: 3900px;">
+                        @foreach ($mostViewedProducts as $item)
+                            @php
+                                $skuProduct = App\Models\Sku::where('skuId',$item->fkskuId)->with('product')->first();
+                              
+                            @endphp
+
+                        @if (!empty($skuProduct->product()) && $skuProduct->product->isrecommended == 1)
+                        @php
+                            $hotDeal = $skuProduct->product->hotdealProducts
+                                ->where('hotdeals.status', 'Available')
+                                ->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))
+                                ->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))
+                                ->first();
+                            
+                        @endphp
+
+              
+                        <div class="owl-item active" style="width: 270px; margin-right: 30px;">
+                            <div class="product-wrap mb-25">
+                                <div class="product-img">
+                                    <a href="{{route('product.details', $skuProduct->skuId)}}">
+                                        <img class="default-img" src="{{ asset('admin/public/featureImage/' . $skuProduct->product->featureImage) }}" alt="">
+                                    </a>
+                                    {{-- <span class="purple">New</span> --}}
+                                                @if ($skuProduct->product->newarrived == 1)
+                                                    <span class="purple">New</span>
+                                                @endif
+
+                                                @if (!empty($hotDeal))
+                                                    <span
+                                                        class="blue discount">-{{ $hotDeal->hotdeals ? $hotDeal->hotdeals->percentage : '' }}%</span>
+                                                @endif
+
+                                                @if ($skuProduct->product->isrecommended == 1)
+                                                    <span class="pink">Feature</span>
+                                                @endif
+
+                                    <div class="product-action">
+                                        <div class="pro-same-action pro-wishlist">
+                                            <a title="Wishlist" href="#" onclick="addToWishList({{ $skuProduct->skuId }})"><i class="pe-7s-like"></i></a>
+                                        </div>
+                                        <div class="pro-same-action pro-cart">
+                                                        @if ($skuProduct->product->type == 'single')
+                                                            <a title="Add To Cart" href="#"
+                                                                onclick="addTocart({{ $skuProduct->skuId }})"><i
+                                                                    class="pe-7s-cart"></i> Add to cart</a>
+                                                        @endif
+                                                        @if ($skuProduct->product->type == 'variation')
+                                                            <a title="Add To Cart"
+                                                                href="{{ route('product.details', $skuProduct->skuId) }}"><i
+                                                                    class="pe-7s-cart"></i> Add to cart</a>
+                                                        @endif
+                                        </div>
+                                        <div class="pro-same-action pro-quickview">
+                                            <a href="#" data-toggle="modal" data-target="#exampleModal" data-sku_id="{{ $skuProduct->skuId }}" class="quickView"><i
+                                                    class="pe-7s-look"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-content text-center">
+                                    <h3><a href="{{route('product.details', $skuProduct->skuId)}}">{{$skuProduct->product->productName}}</a></h3>
+                                    <div class="product-price">
+                                        @if (empty($hotDeal))
+                                        <span>৳ {{ $skuProduct->salePrice }} </span>
+                                        @endif
+
+                                        @if (!empty($hotDeal))
+                                            @php
+                                                $percentage = $hotDeal->hotdeals->percentage;
+                                                $afterDiscountPrice = $skuProduct->salePrice - ($skuProduct->salePrice * $percentage) / 100;
+                                            @endphp
+
+                                            <span>৳ {{ $afterDiscountPrice }}</span>
+                                            <span class="old">৳ {{ $skuProduct->salePrice }}</span>
+                                        @endif
+                                        {{-- <span>৳ {{$skuProduct->salePrice}}</span> --}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                        @endforeach
+                    </div>
+                </div>
+                <div class="owl-nav disabled"><button type="button" role="presentation" class="owl-prev"><span
+                            aria-label="Previous">‹</span></button><button type="button" role="presentation"
+                        class="owl-next"><span aria-label="Next">›</span></button></div>
+                <div class="owl-dots"><button role="button" class="owl-dot active"><span></span></button><button
+                        role="button" class="owl-dot"><span></span></button></div>
+            </div>
+        </div>
+    </div>
     <!-- top view product end -->
 
     <!-- subscribe area start -->

@@ -164,6 +164,7 @@ return [
         Intervention\Image\ImageServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
+        Maatwebsite\Excel\ExcelServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -236,6 +237,7 @@ return [
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Cart' => Darryldecode\Cart\Facades\CartFacade::class,
         'PDF' => niklasravnsborg\LaravelPdf\Facades\Pdf::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

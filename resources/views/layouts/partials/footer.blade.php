@@ -97,7 +97,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-5 col-sm-12 col-xs-12">
+                    <div class="col-md-5 col-sm-12 col-xs-12 fff" >
                         <div class="tab-content quickview-big-img imgtab">
 
                         </div>
@@ -117,22 +117,19 @@
                                 <span class="old oldprice"></span>
                             </div>
                             <div class="pro-details-rating-wrap">
-                                <div class="pro-details-rating">
-                                    <i class="fa fa-star-o yellow"></i>
-                                    <i class="fa fa-star-o yellow"></i>
-                                    <i class="fa fa-star-o yellow"></i>
-                                    <i class="fa fa-star-o"></i>
-                                    <i class="fa fa-star-o"></i>
+                                <div class="pro-details-rating starHas" >
+
+{{--                                    <i class="fa fa-star-o yellow"></i>--}}
+{{--                                    <i class="fa fa-star-o yellow"></i>--}}
+{{--                                    <i class="fa fa-star-o yellow"></i>--}}
+{{--                                    <i class="fa fa-star-o"></i>--}}
+{{--                                    <i class="fa fa-star-o"></i>--}}
                                 </div>
-                                <span>3 Reviews</span>
+                                <span><span class="reviewsCount"></span> Reviews</span>
                             </div>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisic elit eiusm tempor incidid ut labore et dolore magna aliqua. Ut enim ad minim venialo quis nostrud exercitation ullamco</p>
+                            <p class="productDetail">Lorem ipsum dolor sit amet, consectetur adipisic elit eiusm tempor incidid ut labore et dolore magna aliqua. Ut enim ad minim venialo quis nostrud exercitation ullamco</p>
                             <div class="pro-details-list">
-                                <ul>
-                                    <li>- 0.5 mm Dail</li>
-                                    <li>- Inspired vector icons</li>
-                                    <li>- Very modern style  </li>
-                                </ul>
+                               <p class="productDescription"></p>
                             </div>
                         </div>
                     </div>
@@ -183,6 +180,11 @@
 
     $(document).on('click', '.quickView', function(){
 
+        $("#exampleModal").on("hidden.bs.modal", function (e) {
+            location.reload();
+            // $(".imgtab").ajax.load();
+
+        });
        let sku_id = $(this).data('sku_id');
         // setTimeout(function(){
         //
@@ -195,9 +197,13 @@
                 sku_id:sku_id,
             },
             success: function (data) {
+                // $(".imgtab").load(location.href + " .imgtab");
+                // $(".imgtaball").load(location.href + " .imgtaball");
 
                 // console.log(data);
                 $(".pname").html(data.sku.product['productName']);
+                $(".productDetail").html(data.sku.product.details['fabricDetails']);
+                $(".productDescription").html(data.sku.product.details['description']);
 
                 $.each(data.images, function(k,v) {
                         $(".imgtab").append('<div id="pro-'+k+'" class="tab-pane fade '+(k == 0 ? "show active": "")+' ">' +
@@ -213,6 +219,19 @@
                 else{
                     $(".salePrice").html('৳ '+data.saleprice);
                     $(".oldprice").html('৳ '+data.oldprice);
+                }
+                $(".reviewsCount").html(data.revCount);
+
+                if(data.finalRating > 0) {
+                    for ($i = 0; $i <= data.finalRating; $i++) {
+                        $(".starHas").append('<i class="fa fa-star-o yellow"></i>')
+
+                    }
+                    for ($i = 0; $i < 5 - data.finalRating; $i++) {
+                        $(".starHas").append('<i class="fa fa-star-o"></i>')
+                    }
+                }else {
+                    $(".starHas").append(' <i class="fa fa-star-o "></i><i class="fa fa-star-o "></i><i class="fa fa-star-o "></i><i class="fa fa-star-o "></i><i class="fa fa-star-o "></i>')
                 }
 
                 $(".quickview-slide-active").owlCarousel({
@@ -246,9 +265,12 @@
                 $(".quickview-slide-active a").on("click", function () {
                     $(".quickview-slide-active a").removeClass("active");
                 });
+
             },
         });
     });
+
+
 
     function addTocart(skuId = null) {
         let quantity=$('#quantity').val() ;

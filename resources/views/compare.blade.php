@@ -70,7 +70,7 @@
                         <td>Rating</td>
                         <td>
                             <div class="pro-details-rating-wrap reviews">
-                                <div class="pro-details-rating ">
+                                <div class="pro-details-rating starHasOne">
 
                                     @if($finalRating > 0)
                                         @for ($i = 5; $i >= $finalRating; $i--)
@@ -90,11 +90,16 @@
 
 
                                 </div>
-                                <span class="totalReviews">{{$reviews->count()}} Reviews</span>
+                                <span><span class="reviewsCountOne">{{$reviews->count()}}</span> Reviews</span>
                             </div>
                         </td>
                         <td>
+                            <div class="pro-details-rating-wrap reviews">
+                                <div class="pro-details-rating starHasTwo">
 
+                                </div>
+                                <span><span class="reviewsCountTwo"></span> Reviews</span>
+                            </div>
                         </td>
                     </tr>
                     <tr>
@@ -137,7 +142,19 @@
                     $(".compare-category-one").empty().append(data.product.category["categoryName"]);
                     $(".compare-brand-one").empty().append(data.product.brand["brandName"]);
                     $(".compare-summary-one").empty().append(data.product.details["fabricDetails"]);
-                    $(".reviews").empty().append(data.reviews);
+                    $(".reviewsCountOne").empty().append(data.revCount);
+                    $(".starHasOne").empty();
+                    if(data.finalRating > 0) {
+                        for ($i = 5; $i >= data.finalRating; $i--) {
+                            $(".starHasOne").append('<i class="fa fa-star-o yellow"></i>')
+
+                        }
+                        for ($i = 0; $i < 5 - data.finalRating; $i++) {
+                            $(".starHasOne").append('<i class="fa fa-star-o"></i>')
+                        }
+                    }else {
+                        $(".starHasOne").append(' <i class="fa fa-star-o "></i><i class="fa fa-star-o "></i><i class="fa fa-star-o "></i><i class="fa fa-star-o "></i><i class="fa fa-star-o "></i>')
+                    }
                 }
             });
         });
@@ -162,6 +179,20 @@
                     $(".compare-category-two").empty().append(data.product.category["categoryName"]);
                     $(".compare-brand-two").empty().append(data.product.brand["brandName"]);
                     $(".compare-summary-two").empty().append(data.product.details["fabricDetails"]);
+                    $(".reviewsCountTwo").empty().append(data.revCount);
+                    $(".starHasTwo").empty();
+
+                    if(data.finalRating > 0) {
+                        for ($i = 5; $i >= data.finalRating; $i--) {
+                            $(".starHasTwo").append('<i class="fa fa-star-o yellow"></i>')
+
+                        }
+                        for ($i = 0; $i < 5 - data.finalRating; $i++) {
+                            $(".starHasTwo").append('<i class="fa fa-star-o"></i>')
+                        }
+                    }else {
+                        $(".starHasTwo").append(' <i class="fa fa-star-o "></i><i class="fa fa-star-o "></i><i class="fa fa-star-o "></i><i class="fa fa-star-o "></i><i class="fa fa-star-o "></i>')
+                    }
                     // $(".totalReviews").empty().append(<div class="pro-details-rating"><div class="pro-details-rating"></div>);
                 }
             });

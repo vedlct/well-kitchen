@@ -9,6 +9,7 @@ use App\Models\VariationDetails;
 use App\Models\Customer;
 use App\Models\Review;
 use App\Models\Rating;
+use App\Models\ProductMostViewed;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -16,6 +17,17 @@ class ProductController extends Controller
 {
     public function productDetails($id)
     {
+        // dd($id);
+
+        //insert command for views
+                    if(Auth::check()){
+                    $mostViewedProduct = new ProductMostViewed();
+                    $mostViewedProduct->fkuserId = Auth::user()->userId;
+                    $mostViewedProduct->fkskuId = $id;
+                    $mostViewedProduct->save();
+                    }
+
+        //view product details
         $sku = Sku::with('product', 'variationImages')->findOrfail($id);
         $relatedProducts = Product::where('categoryId', $sku->product->categoryId)->pluck('productId');
         $skus = Sku::whereIn('fkproductId', $relatedProducts)->with('product')->get()->unique('fkproductId');
@@ -124,7 +136,7 @@ class ProductController extends Controller
             $finalRating = ceil($totalRating / $totalCustomer);
         }
 
-        return response()->json(['product'=>$product, 'reviews'=>$reviewsCount, 'finalRating'=>$finalRating]);
+        return response()->json(['product'=>$product, 'revCount'=>$reviewsCount, 'finalRating'=>$finalRating]);
 
 
 //              $allSearch = $request->allSearch;

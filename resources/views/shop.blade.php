@@ -10,7 +10,7 @@
                 <li>
                     <a href="{{route('category.products')}}">Shop</a>
                 </li>
-                
+
                 @if($categoryId != null)
                     <li class="active">{{$category->categoryName}}</li>
                 @endif
@@ -124,7 +124,7 @@
                                             </li>
                                         @endif
                                     @endforeach
-                                  @endif  
+                                  @endif
                                 @endforeach
                             </ul>
                         </div>
@@ -147,7 +147,7 @@
                                             </li>
                                         @endif
                                     @endforeach
-                                   @endif 
+                                   @endif
                                 @endforeach
                             </ul>
                         </div>

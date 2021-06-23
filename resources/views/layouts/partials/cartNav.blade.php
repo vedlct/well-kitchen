@@ -24,7 +24,7 @@
         </div>
         <div class="name-area px-2">
           <h5 class="product-name"><a href="{{route('product.details',$item->id)}}">{{$item->associatedModel->productName}}</a></h5>
-          <h6 class="quantity"> {{$item->quantity}} x ${{$item->price}}</h6>
+          <h6 class="quantity"> {{$item->quantity}} x &#2547;{{$item->price}}</h6>
         </div>
         <div class="" onclick="removeItem('{{$item->id}}')">
             <i class="fa fa-trash"></i>
@@ -38,7 +38,7 @@
             <h5>Sub-Total:</h5>
         </div>
         <div class="">
-        <h5>${{\Cart::getSubTotal()}}</h5>
+        <h5>&#2547;{{\Cart::getSubTotal()}}</h5>
         </div>
     </div>
     <div class="row my-md-5 my-4">

@@ -42,7 +42,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('edit/{id}', [BrandController::class, 'edit'])->name('edit');
         Route::post('update/{id}', [BrandController::class, 'update'])->name('update');
         Route::post('delete', [BrandController::class, 'delete'])->name('delete');
+        Route::post('delete', [ProductController::class, 'delete'])->name('delete');
+
     });
+    Route::get('export', [ProductController::class, 'export'])->name('testexport');
+
 
     //Category
     Route::group(['prefix' => 'category', 'as' => 'category.'], function () {
@@ -67,8 +71,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('delete', [UnitController::class, 'delete'])->name('delete');
     });
 
- 
-        
+
+
 
             //    ----------------------------Hotdeals-----------------------------
             Route::get('/hotdeals', [HotDealsController::class, 'index'])->name('hotdeals');
@@ -95,8 +99,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/promotion/product/{id}', [PromotionController::class,'promoProduct'])->name('promotion.promoProduct');
         Route::post('/promotion-productInsert', [PromotionController::class,'promoProductInsert'])->name('promotion.productInsert');
         Route::get('/promotion/show-product/{id}', [PromotionController::class,'showProduct'])->name('promotion.showProduct');
-       
-       
+
+
         //Meta data
         // Route::get('/meta',[PromotionController::class, 'show'])->name('meta');
         // Route::get('/meta-list', [PromotionController::class,'list'])->name('meta.list');
@@ -119,7 +123,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('update/{id}', [MetaController::class, 'update'])->name('update');
         Route::post('delete', [MetaController::class, 'delete'])->name('delete');
     });
-       
+
     //Testimonial
     Route::group(['prefix' => 'testimonial', 'as' => 'testimonial.'], function () {
         Route::get('/show', [TestimonialController::class, 'show'])->name('show');
@@ -131,8 +135,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('delete', [TestimonialController::class, 'delete'])->name('delete');
     });
 
-       
-       
+
+
           //Banner
     Route::group(['prefix' => 'banner', 'as' => 'banner.'], function () {
         Route::get('/show', [BannerController::class, 'index'])->name('show');
@@ -144,7 +148,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('update/{id}', [BannerController::class, 'update'])->name('update');
         Route::post('delete', [BannerController::class, 'delete'])->name('delete');
     });
-        
+
 
 
         // //            ------------------------------Banner-------------------------------------
@@ -160,7 +164,7 @@ Route::group(['middleware' => 'auth'], function () {
 
 
 
- 
+
 
     //Variation
     Route::group(['prefix' => 'variation', 'as' => 'variation.'], function () {

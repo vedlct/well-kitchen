@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Review;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Customer;
@@ -12,9 +13,11 @@ use App\Models\Sku;
 use App\Models\Testimonial;
 use App\Models\Stock;
 use App\Models\ShipmentZone;
+use App\Models\ProductMostViewed;
 use Illuminate\Support\Facades\DB;
 use Darryldecode\Cart\Cart;
 use Illuminate\Support\Facades\Auth;
+// use DB;
 
 class HomeController extends Controller
 {
@@ -27,12 +30,23 @@ class HomeController extends Controller
         // dd($banners);
         // // foreach($banners as $item){
         // //     $validPromotion = $item->promotion->where('startDate', '<=', date('Y-m-d H:i:s'))->where('endDate', '>=', date('Y-m-d H:i:s'))->get();
-           
+
         // // }
         
-        
+        // $mostViewedProduct = ProductMostViewed::select('fkskuId')->count()->groupBy('fkskuId')->get();
+        // dd($mostViewedProduct);
+
+        $mostViewedProducts = DB::table('product_most_viewed')->select('fkskuId', DB::raw('count(*) as total'))->groupBy('fkskuId')->orderBy('total','DESC')->get();
+     
+        // foreach($mostViewedProducts as $item){
+        //     $skuProduct = Sku::where('skuId',$item->fkskuId)->get();
+        // }
+
         $categories = Category::where('homeShow', 1)->with('products.sku','products.hotdealProducts.hotdeals')->get();
         // dd($categories);
+
+
+        // $categories = Category::where('homeShow', 1)->take(4)->get();
         $products = Product::with('category','sku')->where('status', 'active')->get();
         
         $skus = Sku::with('product')->where('status', 'active')->get();
@@ -40,13 +54,26 @@ class HomeController extends Controller
         $newArrival =  Product::with('sku')->where('status', 'active')->where('newarrived', 1)->get();
         $recommendedProduct = Product::with('sku')->where('status', 'active')->where('isrecommended', 1)->get();
         $testimonials = Testimonial::where('status', 'active')->where('home',1)->get();
-        return view('welcome',compact('categories','products','skus','newArrival','recommendedProduct','testimonials','sliders','banners'));
+        return view('welcome',compact('categories','products','skus','newArrival','recommendedProduct','testimonials','sliders','banners','mostViewedProducts'));
     }
 
     public function quickView(Request $request){
         $sku_id = $request->sku_id;
-        $sku = Sku::with('product')->where('skuId', $sku_id)->first();
-        $images = $sku->variationImages()->get();
+        $sku = Sku::with('product', 'product.details')->where('skuId', $sku_id)->first();
+        $reviews = Review::where('fkproductId', $sku->fkproductId)->get();
+        $revCount = $reviews->count();
+        $finalRating = 0;
+        if($reviews->count() > 0 ) {
+            $totalRating = 0;
+            $totalCustomer = 0;
+
+            foreach ($reviews->unique('customerID') as $review) {
+                $totalRating += $review->getRating->value;
+                $totalCustomer++;
+            }
+            $finalRating = ceil($totalRating / $totalCustomer);
+        }
+        $images = $sku->product->images()->get();
 
         $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first();
         $oldprice = null;
@@ -62,7 +89,7 @@ class HomeController extends Controller
             $oldprice = $sku->salePrice;
          }
 
-        return response()->json(['sku'=>$sku, 'hotdeal'=>$hotDeal, 'saleprice'=>$saleprice, 'oldprice'=>$oldprice, 'images'=>$images]);
+        return response()->json(['sku'=>$sku, 'hotdeal'=>$hotDeal, 'saleprice'=>$saleprice, 'finalRating'=>$finalRating, 'reviews'=>$reviews, 'revCount'=>$revCount, 'oldprice'=>$oldprice, 'images'=>$images]);
     }
 
     public function addToCart(Request $request){

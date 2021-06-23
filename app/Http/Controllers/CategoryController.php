@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     public function categoryProducts($categoryId=null){
-
+        // dd($categoryId);
 //        if(empty($categoryId)){
             $skus = Sku::with('product')->where('status', 'active')->get();
 

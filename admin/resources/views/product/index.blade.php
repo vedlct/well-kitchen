@@ -22,7 +22,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">All Products</h4>
+                                    <h4 class="card-title">All Products</h4><a href="{{route('testexport')}}">Export</a>
                                     <a class="heading-elements-toggle"><i
                                             class="la la-ellipsis-v font-medium-3"></i></a>
                                     <div class="heading-elements">
@@ -69,7 +69,7 @@
                 columns: [
                     {title: 'Product ID', data: 'productId', name: 'productId', className: "text-center", orderable: true, searchable: true},
                     {title: 'Product Name', data: 'productName', name: 'productName', className: "text-center", orderable: true, searchable: true},
-                    
+
                     {title: 'Product Image', data: 'featureImage', name: 'featureImage', className: "text-center", orderable: false, searchable: false},
                     {title: 'Category', data: 'category', name: 'categoryName', className: "text-center", orderable: false, searchable: false},
                     {title: 'Brand', data: 'brand', name: 'brandName', className: "text-center", orderable: false, searchable: false},
@@ -93,7 +93,7 @@
             window.location.href = newUrl;
         }
 
-       
+
 
         function deleteProduct(x) {
             categoryId = $(x).data('panel-id');
