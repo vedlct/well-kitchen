@@ -31,8 +31,10 @@ class HomeController extends Controller
         // // }
         
         
-        $categories = Category::where('homeShow', 1)->take(4)->get();
+        $categories = Category::where('homeShow', 1)->with('products.sku','products.hotdealProducts.hotdeals')->get();
+        // dd($categories);
         $products = Product::with('category','sku')->where('status', 'active')->get();
+        
         $skus = Sku::with('product')->where('status', 'active')->get();
 
         $newArrival =  Product::with('sku')->where('status', 'active')->where('newarrived', 1)->get();

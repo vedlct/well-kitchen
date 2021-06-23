@@ -156,7 +156,7 @@
                         <h4 class="pro-sidebar-title">Tag </h4>
                         <div class="sidebar-widget-tag mt-25">
                             <ul>
-                                @foreach($skus->groupBy('fkproductId') as $key=>$sku)
+                                @foreach($skus->unique('fkproductId') as $key=>$sku)
                                         <li><a href="#" class="tagCheck">{{$sku->product->tag}}</a></li>
                                 @endforeach
                             </ul>

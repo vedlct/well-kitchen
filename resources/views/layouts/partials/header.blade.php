@@ -134,7 +134,7 @@
                                 <input type="text" class="form-control" placeholder="Search... "
                                     aria-label="Recipient's username" aria-describedby="basic-addon2"  name="allSearch" id="search" value="{{Session::get('search')}}">
                                 <div class="input-group-append">
-                                    <span class="input-group-text" id="basic-addon2" type="submit"><i class="fa fa-search"></i></span>
+                                    <button class="input-group-text" id="basic-addon2" type="submit"><i class="fa fa-search"></i></button>
                                 </div>
                             </div>
                          </form>

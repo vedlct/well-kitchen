@@ -27,6 +27,7 @@ Route::post('cart-update-quantity',[HomeController::class,'updateQuantity'])->na
 Route::post('quick-view',[HomeController::class,'quickView'])->name('product.quickView');
 
 
+
 //product
 Route::get('product-details/{id}', [ProductController::class, 'productDetails'])->name('product.details');
 Route::post('variation/color/choose',[ProductController::class,'colorChoose'])->name('color.choose');

@@ -268,7 +268,7 @@
             },
             success: function (response) {
                 $('#cartPage').empty().html(response.cart)
-                $('#totalVal').ajax.reload();
+                // $('#totalVal').ajax.reload();
                 $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
                 toastr.success('Item added to cart')
             },
