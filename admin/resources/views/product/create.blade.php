@@ -403,7 +403,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4 col-lg-4 col-xl-3">
-                                                            <button  type="submit" style="text-decoration: none; color: #ffffff; line-height: 1.5" class="mt-2 form-control btn btn-info btn-sm">
+                                                            <button  type="submit" style="text-decoration: none; color: #ffffff; line-height: 1.5" class=" mt-2 mb-2 form-control btn btn-info btn-sm">
                                                                 <i class="la la-check"></i> Save</button>
                                                         </div>
                                                     </div>

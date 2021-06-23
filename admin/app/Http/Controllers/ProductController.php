@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TestExport;
 use File;
 use Image;
+use Excel;
 use Session;
 use App\Models\Sku;
 use App\Models\Unit;
@@ -25,11 +27,16 @@ class ProductController extends Controller
         return view('product.index');
     }
 
+    public function export()
+    {
+//        Excel::create();
+        return Excel::download(new TestExport, 'test.xlsx');
+    }
+
     //All Product Ajax Return
     public function list()
     {
         $product = Product::all();
-
         return datatables()->of($product)
             ->addColumn('featureImage', function ($image) {
                 if (isset($image->featureImage)) {

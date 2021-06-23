@@ -10,7 +10,7 @@
                 <li>
                     <a href="{{route('category.products')}}">Shop</a>
                 </li>
-                
+
                 @if($categoryId != null)
                     <li class="active">{{$category->categoryName}}</li>
                 @endif
@@ -124,7 +124,7 @@
                                             </li>
                                         @endif
                                     @endforeach
-                                  @endif  
+                                  @endif
                                 @endforeach
                             </ul>
                         </div>
@@ -147,7 +147,7 @@
                                             </li>
                                         @endif
                                     @endforeach
-                                   @endif 
+                                   @endif
                                 @endforeach
                             </ul>
                         </div>
@@ -156,7 +156,7 @@
                         <h4 class="pro-sidebar-title">Tag </h4>
                         <div class="sidebar-widget-tag mt-25">
                             <ul>
-                                @foreach($skus->groupBy('fkproductId') as $key=>$sku)
+                                @foreach($skus->unique('fkproductId') as $key=>$sku)
                                         <li><a href="#" class="tagCheck">{{$sku->product->tag}}</a></li>
                                 @endforeach
                             </ul>
