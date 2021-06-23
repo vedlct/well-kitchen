@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 class CategoryController extends Controller
 {
     public function categoryProducts($categoryId=null){
-
+        // dd($categoryId);
 //        if(empty($categoryId)){
             $skus = Sku::with('product')->where('status', 'active')->get();
 
@@ -34,12 +34,18 @@ class CategoryController extends Controller
         ->get();
 
     // dd($products[0]->sku->first());
+    // if(isset($products)){
+        // dd($products == '');
         foreach($products as $pro){
             $skus = Sku::where('fkproductId',$pro->productId)->with('product.category','variationRelation')->first();
             // dd($skus->variationRelation);
             $categoryId = $skus->product->category->categoryId;
             $category = $skus->product->category;
         }
+    // }else{
+        // dd('no');
+        // Session::flash('success','Item removed from wishlist');
+    // } 
         return view('shop', compact('products','skus','categoryId','category'));
     }
 

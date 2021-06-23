@@ -13,9 +13,11 @@ use App\Models\Sku;
 use App\Models\Testimonial;
 use App\Models\Stock;
 use App\Models\ShipmentZone;
+use App\Models\ProductMostViewed;
 use Illuminate\Support\Facades\DB;
 use Darryldecode\Cart\Cart;
 use Illuminate\Support\Facades\Auth;
+// use DB;
 
 class HomeController extends Controller
 {
@@ -30,16 +32,29 @@ class HomeController extends Controller
         // //     $validPromotion = $item->promotion->where('startDate', '<=', date('Y-m-d H:i:s'))->where('endDate', '>=', date('Y-m-d H:i:s'))->get();
 
         // // }
+        
+        // $mostViewedProduct = ProductMostViewed::select('fkskuId')->count()->groupBy('fkskuId')->get();
+        // dd($mostViewedProduct);
+
+        $mostViewedProducts = DB::table('product_most_viewed')->select('fkskuId', DB::raw('count(*) as total'))->groupBy('fkskuId')->orderBy('total','DESC')->get();
+     
+        // foreach($mostViewedProducts as $item){
+        //     $skuProduct = Sku::where('skuId',$item->fkskuId)->get();
+        // }
+
+        $categories = Category::where('homeShow', 1)->with('products.sku','products.hotdealProducts.hotdeals')->get();
+        // dd($categories);
 
 
-        $categories = Category::where('homeShow', 1)->take(4)->get();
+        // $categories = Category::where('homeShow', 1)->take(4)->get();
         $products = Product::with('category','sku')->where('status', 'active')->get();
+        
         $skus = Sku::with('product')->where('status', 'active')->get();
 
         $newArrival =  Product::with('sku')->where('status', 'active')->where('newarrived', 1)->get();
         $recommendedProduct = Product::with('sku')->where('status', 'active')->where('isrecommended', 1)->get();
         $testimonials = Testimonial::where('status', 'active')->where('home',1)->get();
-        return view('welcome',compact('categories','products','skus','newArrival','recommendedProduct','testimonials','sliders','banners'));
+        return view('welcome',compact('categories','products','skus','newArrival','recommendedProduct','testimonials','sliders','banners','mostViewedProducts'));
     }
 
     public function quickView(Request $request){

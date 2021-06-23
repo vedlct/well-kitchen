@@ -7,41 +7,21 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
 
-    <style>
-        #tests {
-            font-family: Arial, Helvetica, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        #tests td, #tests th {
-            border: 1px solid red;
-            padding: 8px;
-        }
-
-        #tests tr:nth-child(even){background-color: #f2f2f2;}
-
-        #tests tr:hover {background-color: #ddd;}
-
-        #tests th {
-            padding-top: 12px;
-            padding-bottom: 12px;
-            text-align: left;
-            background-color: #04AA6D;
-            color: white;
-        }
-    </style>
 </head>
 <body>
-    <table id="tests">
-        <tr>
-            <th style="color: #0ac282">pname</th>
+    <table>
+        <tr class="myContainer">
+            <th>Product Code</th>
+            <th>Barcode</th>
         </tr>
 
-        @foreach($pros as $pro)
-            <tr>
+        @foreach($allSkus as $allSku)
+            <tr class="myContainer" >
                 <td>
-                    {{$pro->productName}}
+                    {{$allSku->product->productCode}}
+                </td>
+                <td>
+                    {{$allSku->barcode}}
                 </td>
             </tr>
         @endforeach
