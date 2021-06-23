@@ -334,6 +334,7 @@
                                                                     <option id="size1" value="Size">Size</option>
                                                                     <option id="other1" value="Other">Other</option>
                                                                 </select>
+                                                                <div class="divAjaxError" style="color: red" class="mb-2" id="variationType1Error"></div>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4 col-lg-4 col-xl-3" id="variationValues1">
@@ -342,6 +343,7 @@
                                                                 <select name="variationValue1" id="variationValue1" class="form-control">
                                                                     <option value="" selected>Select Value</option>
                                                                 </select>
+                                                                <div class="divAjaxError" style="color: red" class="mb-2" id="variationValue1Error"></div>
                                                             </div>
                                                         </div>
 
@@ -354,6 +356,8 @@
                                                                     <option id="size2" value="Size">Size</option>
                                                                     <option id="other2" value="Other">Other</option>
                                                                 </select>
+                                                                <div class="divAjaxError" style="color: red" class="mb-2" id="variationType2Error"></div>
+
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4 col-lg-4 col-xl-3" id="variationValues2">
@@ -362,12 +366,14 @@
                                                                 <select name="variationValue2" id="variationValue2" class="form-control">
                                                                     <option value="" selected>Select Value</option>
                                                                 </select>
+                                                                <div class="divAjaxError" style="color: red" class="mb-2" id="variationValue2Error"></div>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4 col-lg-4 col-xl-3">
                                                             <div class="form-group">
                                                                 <label>Sale Price</label>
                                                                 <input type="text" class="form-control" name="salePrice" id="salePrice" placeholder="sale price">
+                                                                <div class="divAjaxError" style="color: red" class="mb-2" id="salePriceError"></div>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4 col-lg-4 col-xl-3">
@@ -537,33 +543,25 @@
         });
 
 
+
         // 1st Variation Type Change
         $(".variationType1").change(function(){
-           // var vari1 =  document.getElementById("variationType1").value
-           var variationType = this.value;
-            $('.variationType2 >option[value=' +variationType+ ']').remove();
-
-            // var index = $('.variationType1').get(0).selectedIndex;
-            // $('.variationType2 option:eq(' + index + ')').remove();
-           // alert(variationType);
-           $.ajax({
-              type: "POST",
-              url: "{{route('product.variationTypeChange')}}",
-              data: {_token: "{{ csrf_token() }}", 'variationType': variationType},
-              success: function (data){
-                  console.log(data);
-                  $("#variationValues1").html(data)
-              }
-           });
+            var variationType = this.value;
+            $.ajax({
+                type: "POST",
+                url: "{{route('product.variationTypeChange')}}",
+                data: {_token: "{{ csrf_token() }}", 'variationType': variationType},
+                success: function (data){
+                    console.log(data);
+                    $("#variationValues1").html(data)
+                }
+            });
         });
 
 
         // 2nd Variation Type Change
         $(".variationType2").change(function(){
             var variationType = this.value;
-            $('.variationType1 >option[value=' +variationType+ ']').remove();
-            // var index = $('.variationType2').get(0).selectedIndex;
-            // $('.variationType1 option:eq(' + index + ')').remove();
             $.ajax({
                 type: "POST",
                 url: "{{route('product.variationTypeChange2')}}",
@@ -574,6 +572,39 @@
                 }
             });
         });
+
+
+        // old
+        {{--// 1st Variation Type Change--}}
+        {{--$(".variationType1").change(function(){--}}
+        {{--   var variationType = this.value;--}}
+        {{--    $('.variationType2 >option[value=' +variationType+ ']').remove();--}}
+        {{--   $.ajax({--}}
+        {{--      type: "POST",--}}
+        {{--      url: "{{route('product.variationTypeChange')}}",--}}
+        {{--      data: {_token: "{{ csrf_token() }}", 'variationType': variationType},--}}
+        {{--      success: function (data){--}}
+        {{--          console.log(data);--}}
+        {{--          $("#variationValues1").html(data)--}}
+        {{--      }--}}
+        {{--   });--}}
+        {{--});--}}
+
+
+        {{--// 2nd Variation Type Change--}}
+        {{--$(".variationType2").change(function(){--}}
+        {{--    var variationType = this.value;--}}
+        {{--    $('.variationType1 >option[value=' +variationType+ ']').remove();--}}
+        {{--    $.ajax({--}}
+        {{--        type: "POST",--}}
+        {{--        url: "{{route('product.variationTypeChange2')}}",--}}
+        {{--        data: {_token: "{{ csrf_token() }}", 'variationType': variationType},--}}
+        {{--        success: function (data){--}}
+        {{--            console.log(data);--}}
+        {{--            $("#variationValues2").html(data)--}}
+        {{--        }--}}
+        {{--    });--}}
+        {{--});--}}
 
 
         // Temp Variation Store
@@ -588,12 +619,27 @@
                 cache: false,
                 processData: false,
                 success: function (data) {
-                    $("#variationList").html(data.html)
-                    $("#variationStore").reset();
+                    $("#variationList").html(data.html);
+                    $("#variationStore").trigger('reset');
+
+                    $('#variationType1Error').empty();
+                    $('#variationValue1Error').empty();
+                    $('#variationType2Error').empty();
+                    $('#variationValue2Error').empty();
+                    $('#salePriceError').empty();
+                    $('#barcodeError').empty();
+                    $('#variationValue1').empty();
+                    $('#variationValue2').empty();
                 },
 
                 error: function(response) {
-                    $('#barcodeError').text(response.responseJSON.errors.barcode);
+                    // $('#barcodeError').text(response.responseJSON.errors.barcode);
+                    $('#variationType1Error').empty().text(response.responseJSON.errors.variationType1);
+                    $('#variationValue1Error').empty().text(response.responseJSON.errors.variationValue1);
+                    $('#variationType2Error').empty().text(response.responseJSON.errors.variationType2);
+                    $('#variationValue2Error').empty().text(response.responseJSON.errors.variationValue2);
+                    $('#salePriceError').empty().text(response.responseJSON.errors.salePrice);
+                    $('#barcodeError').empty().text(response.responseJSON.errors.barcode);
                 }
             });
             e.preventDefault();

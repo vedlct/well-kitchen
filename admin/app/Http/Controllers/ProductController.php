@@ -89,7 +89,12 @@ class ProductController extends Controller
     public function variationStore(Request $request)
     {
         $this->validate($request, [
-            // 'barcode' => 'required|unique:product_variation_temp',
+            'variationType1' => 'required_without:variationType2|different:variationType2',
+            'variationType2' => 'required_without:variationType1|different:variationType1',
+            'variationValue1' => 'required_with:variationType1',
+            'variationValue2' => 'required_with:variationType2',
+            'salePrice' => 'required',
+
         ]);
         $sessionId = Session::get('uniqueSession');
         $product_variation_temp = new ProductVariationTemp();
@@ -329,7 +334,6 @@ class ProductController extends Controller
     public function variationAddNew(Request $request)
     {
         $this->validate($request, [
-//            'barcode' => 'required|unique:product_variation_temp',
             'variationType1' => 'required_without:variationType2|different:variationType2',
             'variationType2' => 'required_without:variationType1|different:variationType1',
             'variationValue1' => 'required_with:variationType1',
@@ -407,7 +411,6 @@ class ProductController extends Controller
     public function variationUpdate(Request $request)
     {
         $this->validate($request, [
-//            'barcode' => 'required',
             'variationType1' => 'required_without:variationType2|different:variationType2',
             'variationType2' => 'required_without:variationType1|different:variationType1',
             'variationValue1' => 'required_with:variationType1',
