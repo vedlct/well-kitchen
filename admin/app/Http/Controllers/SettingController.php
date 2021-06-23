@@ -53,7 +53,7 @@ class SettingController extends Controller
             $setting->imageLink=$filename;
             $setting->save();
             $location = public_path('settingImage/'.$filename);
-            Image::make($img)->resize(214,58)->save($location);
+            Image::make($img)->save($location);
         }
 
         return redirect()->route('setting.index');

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ExportController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DueController;
@@ -45,7 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('delete', [ProductController::class, 'delete'])->name('delete');
 
     });
-    Route::get('export', [ProductController::class, 'export'])->name('testexport');
+    Route::get('export', [ExportController::class, 'export'])->name('testexport');
 
 
     //Category
