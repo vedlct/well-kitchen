@@ -7,8 +7,8 @@
             @foreach ($sliders as $slider)
                 <div class="single-slider-2 slider-height-20 d-flex align-items-center slider-height-res bg-img" style="background-image:url('{{('admin/public/sliderImage/'.$slider->imageLink)}}');">
                     <div class="container">
-                        <div class="row">
-                            <div class="col-12">
+                        <div class="row justify-content-center">
+                            <div class="col-11">
                                 <div class="slider-content-20 slider-animated-1">
                                     <h3 class="animated">{{$slider->titletext}}</h3>
                                     <h1 class="animated">{{$slider->subText}}</h1>
@@ -58,51 +58,23 @@
     <div class="collections-area pt-100 pb-95 d-md-none">
         <div class="container">
             <div class="section-title-3 mb-40">
-                <h4>Our Product Categories ss</h4>
+                <h4>Our Product Categories</h4>
             </div>
             <!-- category buttons -->
             <div class="category-buttons">
                 <ul class="row nav nav-tabs" id="nav-tab" role="tablist">
+                    @foreach ($categories as $key=>$category)
                     <li class="col-md-6 col-lg-3 col-6 mb-3">
-                        <a class="active" href="./shop.html">
+                        <a class="{{$key == 0 ? 'active' : '' }}" href="{{route('category.products', $category->categoryId)}}">
                             <div class="category-name">
                                 <h4 class="mb-0">
-                                    <span>Baby Care</span>
-                                    <img src="" class="ml-3" alt="">
+                                    <span>{{$category->categoryName}}</span>
+                                    <img src="{{asset('admin/public/categoryImage/'.$category->imageLink)}}" class="ml-3" alt="">
                                 </h4>
                             </div>
                         </a>
                     </li>
-                    <li class="col-md-6 col-lg-3 col-6 mb-3">
-                        <a class="" href="./shop.html">
-                            <div class="category-name">
-                                <h4 class="mb-0">
-                                    <span>Baby Care</span>
-                                    <img src="" class="ml-3" alt="">
-                                </h4>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="col-md-6 col-lg-3 col-6 mb-3">
-                        <a class="" href="./shop.html">
-                            <div class="category-name">
-                                <h4 class="mb-0">
-                                    <span>Baby Care</span>
-                                    <img src="" class="ml-3" alt="">
-                                </h4>
-                            </div>
-                        </a>
-                    </li>
-                    <li class="col-md-6 col-lg-3 col-6 mb-3">
-                        <a class="" href="./shop.html">
-                            <div class="category-name">
-                                <h4 class="mb-0">
-                                    <span>Baby Care</span>
-                                    <img src="" class="ml-3" alt="">
-                                </h4>
-                            </div>
-                        </a>
-                    </li>
+                    @endforeach
                 </ul>
             </div>
 
@@ -117,10 +89,10 @@
                 <h4>Our Product Categories </h4>
             </div>
             <!-- category buttons -->
-            <div class="category-buttons">
-                <ul class="row nav nav-tabs" id="nav-tab" role="tablist">
+            <div class="category-buttons carousel slide" id="carouselExampleControls" data-ride="carousel">
+                <ul class="row nav nav-tabs carousel-inner" id="nav-tab" role="tablist">
                     @foreach ($categories as $key=>$category)
-                    <li class="col-md-6 col-lg-3 col-6 mb-3">
+                    <li class="col-md-6 col-lg-3 col-6 mb-3 carousel-item {{$key == 0 ? 'active' : '' }}">
                         <a class="{{$key == 0 ? 'active' : '' }}" id="cat1-tab" data-toggle="tab" href="#cat{{$category->categoryId}}" role="tab" aria-selected="true">
                             <div class="category-name">
                                 <h4 class="mb-0">
