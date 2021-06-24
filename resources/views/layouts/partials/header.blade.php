@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="{{asset('public/assets/css/icons.min.css')}}">
     <!-- Plugins CSS -->
     <link rel="stylesheet" href="{{asset('public/assets/css/plugins.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css">
     <!-- Main Style CSS -->
     <link rel="stylesheet" href="{{asset('public/assets/css/style.css')}}">
     <!-- Custom CSS -->

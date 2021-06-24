@@ -963,3 +963,40 @@ function showFourCol() {
   $(".shop-col-item").removeClass("col-6");
   $(".shop-col-item").removeClass("col-md-4");
 }
+
+
+  $('.category-name-slider').slick({
+    arrows: true,
+    dots: false,
+    infinite: true,
+    autoplay: false,
+    speed: 400,
+    slidesToShow: 4,
+    responsive: [
+      {
+        breakpoint: 1200,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 3,
+            arrows: true
+          }
+      },
+      {
+        breakpoint: 900,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 2,
+            arrows: true
+          }
+      },
+      {
+      breakpoint: 667,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          arrows: false
+        }
+      }
+    ]
+  });
+  

@@ -25,7 +25,7 @@
                     <div class="product-details-img">
                         <div class="tab-content jump mb-4">
                             @foreach ($product->images as $key=>$itemImg)
-                            <div id="shop-details-{{$key}}" class="zoom tab-pane fade {{$key == 0 ? 'active' : '' }} large-img-style" style="background-image: url({{asset('admin/public/productImages/'.$itemImg->image)}});">
+                            <div id="shop-details-{{$key}}" class="zoom tab-pane fade {{$key == 0 ? 'active' : '' }} large-img-style" style="background-image: url('{{asset('admin/public/productImages/'.$itemImg->image)}}');">
                                 <img src="{{asset('admin/public/productImages/'.$itemImg->image)}}" alt="">
                             </div>
                             @endforeach
@@ -395,6 +395,35 @@
 @endsection
 
 @section('js')
+
+<script>
+        // zoom image
+        $(document).ready(function(){
+            
+            $(".zoom").mousemove(function(e){
+                zoom(e);
+            });
+
+            function zoom(e){
+                var x, y;
+                var zoomer = e.currentTarget;
+                if(e.offsetX) {
+                    offsetX = e.offsetX;
+                } else {
+                    offsetX = e.touches[0].pageX;
+                }
+
+                if(e.offsetY) {
+                    offsetY = e.offsetY;
+                } else {
+                    offsetX = e.touches[0].pageX;
+                }
+                x = offsetX/zoomer.offsetWidth*100;
+                y = offsetY/zoomer.offsetHeight*100;
+                zoomer.style.backgroundPosition = x+'% '+y+'%';
+            }
+        });
+    </script>
 
 <script>
     function myFunction() {
