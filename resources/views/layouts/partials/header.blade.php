@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="{{asset('public/assets/css/icons.min.css')}}">
     <!-- Plugins CSS -->
     <link rel="stylesheet" href="{{asset('public/assets/css/plugins.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css">
     <!-- Main Style CSS -->
     <link rel="stylesheet" href="{{asset('public/assets/css/style.css')}}">
     <!-- Custom CSS -->
@@ -33,6 +34,9 @@
     <section class="right-toogle-nav" id="showRightNav">
         <div class="inner">
             <ul class="list-unstyled all-item">
+                <li>
+                    <a href="/">Home</a>
+                </li>
                 <li>
                     <a class="d-block" data-toggle="collapse" href="#showCategorySubmenu" role="button" aria-expanded="false" aria-controls="showCategorySubmenu">Men's <i class="fa fa-angle-right float-right"></i></a>
                     <div class="collapse" id="showCategorySubmenu">

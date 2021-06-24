@@ -90,25 +90,22 @@
                 <h4>Our Product Categories </h4>
             </div>
             <!-- category buttons -->
-            <div class="category-buttons">
-                <ul class="row nav nav-tabs" id="nav-tab" role="tablist">
+            <div class="category-buttons mb-4">
+                <div class="category-name-slider nav" id="nav-tab" role="tablist">
                     @foreach ($categories as $key => $category)
-                        <li class="col-md-6 col-lg-3 col-6 mb-3">
-                            <a class="{{ $key == 0 ? 'active' : '' }}" id="cat1-tab" data-toggle="tab"
-                                href="#cat{{ $category->categoryId }}" role="tab" aria-selected="true">
-                                <div class="category-name">
-                                    <h4 class="mb-0">
-                                        <span>{{ $category->categoryName }} </span>
+                        <a class="{{ $key == 0 ? 'active' : '' }} nav-link" id="cat1-tab" data-toggle="tab"
+                            href="#cat{{ $category->categoryId }}" role="tab" aria-selected="true">
+                            <div class="category-name">
+                                <h4 class="mb-0">
+                                    <span>{{ $category->categoryName }} 
                                         <img src="{{ asset('admin/public/categoryImage/' . $category->imageLink) }}"
                                             class="ml-3" alt="">
-                                    </h4>
-                                </div>
-                            </a>
-                        </li>
+                                    </span>
+                                </h4>
+                            </div>
+                        </a>
                     @endforeach
-
-
-                </ul>
+                </div>
             </div>
 
             <!-- category img show -->
