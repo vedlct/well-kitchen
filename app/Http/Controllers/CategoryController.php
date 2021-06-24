@@ -9,6 +9,7 @@ use App\Models\Sku;
 use App\Models\Stock;
 use App\Models\VariationDetails;
 use Illuminate\Http\Request;
+use Session;
 
 class CategoryController extends Controller
 {
@@ -32,21 +33,28 @@ class CategoryController extends Controller
         ->orWhere('tag', 'LIKE', "%{$allSearch}%")
         ->with('sku')
         ->get();
+        $skusIds = [];
+        if($products->count() > 0 ){
+            foreach($products as $product){
+                foreach($product->sku as $productsku){
+                    $skusIds[] = $productsku->skuId;
+                }
+            }
+            $skus = Sku::with('product')->whereIn('skuId', $skusIds)->where('status', 'active')->get();
+//            foreach($products as $pro){
+//                $skusSingle = Sku::where('fkproductId',$pro->productId)->with('product.category')->first();
+//
+//                $categoryId = $skusSingle->product->categoryId;
+//                $category = $skusSingle->product->category;
+//            }
+            $categoryId = $skus->first()->product->categoryId;
 
-    // dd($products[0]->sku->first());
-    // if(isset($products)){
-        // dd($products == '');
-        foreach($products as $pro){
-            $skus = Sku::where('fkproductId',$pro->productId)->with('product.category','variationRelation')->first();
-            // dd($skus->variationRelation);
-            $categoryId = $skus->product->category->categoryId;
-            $category = $skus->product->category;
+            $category = $skus->first()->product->category;
+            return view('shop', compact('products','skus','categoryId','category'));
+        }else{
+            Session::flash('warning', 'No product matched');
+            return redirect('/');
         }
-    // }else{
-        // dd('no');
-        // Session::flash('success','Item removed from wishlist');
-    // } 
-        return view('shop', compact('products','skus','categoryId','category'));
     }
 
     public function filterProducts(Request $request){
@@ -115,7 +123,7 @@ class CategoryController extends Controller
             $skuss = $skuss->whereIn('skuId', $availableSku);
         }
 
-           $per_paginate = 1;
+           $per_paginate = 9;
            $skip = ($request->page - 1) * $per_paginate;
            if ($skip < 0) {
                $skip = 0;

@@ -379,230 +379,6 @@
 
                     </div>
                 </div>
-                {{-- <div class="tab-pane" id="product-2"> --}}
-                {{-- <div class="row"> --}}
-                {{-- <div class="col-6 col-xl-3 col-md-6 col-lg-4 col-sm-6"> --}}
-                {{-- <div class="product-wrap-5 mb-25"> --}}
-                {{-- <div class="product-img"> --}}
-                {{-- <a href="product-details.html"> --}}
-                {{-- <img src="{{asset('public/assets/img/product/hm8-pro-12.jpg')}}" alt=""> --}}
-                {{-- </a> --}}
-                {{-- <span class="purple">New</span> --}}
-                {{-- <div class="product-action-4"> --}}
-                {{-- <div class="pro-same-action pro-wishlist"> --}}
-                {{-- <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a> --}}
-                {{-- </div> --}}
-                {{-- <div class="pro-same-action pro-cart"> --}}
-                {{-- <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i></a> --}}
-                {{-- </div> --}}
-                {{-- <div class="pro-same-action pro-quickview"> --}}
-                {{-- <a title="Quick View" href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- <div class="product-content-5 text-center"> --}}
-                {{-- <h3><a href="product-details.html">Product Title Here</a></h3> --}}
-                {{-- <div class="price-5"> --}}
-                {{-- <span>৳  60.00</span> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- <div class="col-6 col-xl-3 col-md-6 col-lg-4 col-sm-6"> --}}
-                {{-- <div class="product-wrap-5 mb-25"> --}}
-                {{-- <div class="product-img"> --}}
-                {{-- <a href="product-details.html"> --}}
-                {{-- <img src="{{asset('public/assets/img/product/hm8-pro-11.jpg')}}" alt=""> --}}
-                {{-- </a> --}}
-                {{-- <span class="pink">-10%</span> --}}
-                {{-- <div class="product-action-4"> --}}
-                {{-- <div class="pro-same-action pro-wishlist"> --}}
-                {{-- <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a> --}}
-                {{-- </div> --}}
-                {{-- <div class="pro-same-action pro-cart"> --}}
-                {{-- <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i></a> --}}
-                {{-- </div> --}}
-                {{-- <div class="pro-same-action pro-quickview"> --}}
-                {{-- <a title="Quick View" href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- <div class="product-content-5 text-center"> --}}
-                {{-- <h3><a href="product-details.html">Product Title Here</a></h3> --}}
-                {{-- <div class="price-5"> --}}
-                {{-- <span>৳  40.00</span> --}}
-                {{-- <span class="old">৳  500.00</span> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- <div class="col-6 col-xl-3 col-md-6 col-lg-4 col-sm-6"> --}}
-                {{-- <div class="product-wrap-5 mb-25"> --}}
-                {{-- <div class="product-img"> --}}
-                {{-- <a href="product-details.html"> --}}
-                {{-- <img src="{{asset('public/assets/img/product/hm8-pro-10.jpg')}}" alt=""> --}}
-                {{-- </a> --}}
-                {{-- <span class="purple">New</span> --}}
-                {{-- <div class="product-action-4"> --}}
-                {{-- <div class="pro-same-action pro-wishlist"> --}}
-                {{-- <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a> --}}
-                {{-- </div> --}}
-                {{-- <div class="pro-same-action pro-cart"> --}}
-                {{-- <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i></a> --}}
-                {{-- </div> --}}
-                {{-- <div class="pro-same-action pro-quickview"> --}}
-                {{-- <a title="Quick View" href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- <div class="product-content-5 text-center"> --}}
-                {{-- <h3><a href="product-details.html">Product Title Here</a></h3> --}}
-                {{-- <div class="price-5"> --}}
-                {{-- <span>৳  70.00</span> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- <div class="col-6 col-xl-3 col-md-6 col-lg-4 col-sm-6"> --}}
-                {{-- <div class="product-wrap-5 mb-25"> --}}
-                {{-- <div class="product-img"> --}}
-                {{-- <a href="product-details.html"> --}}
-                {{-- <img src="{{asset('public/assets/img/product/hm8-pro-9.jpg')}}" alt=""> --}}
-                {{-- </a> --}}
-                {{-- <span class="pink">-20%</span> --}}
-                {{-- <div class="product-action-4"> --}}
-                {{-- <div class="pro-same-action pro-wishlist"> --}}
-                {{-- <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a> --}}
-                {{-- </div> --}}
-                {{-- <div class="pro-same-action pro-cart"> --}}
-                {{-- <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i></a> --}}
-                {{-- </div> --}}
-                {{-- <div class="pro-same-action pro-quickview"> --}}
-                {{-- <a title="Quick View" href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- <div class="product-content-5 text-center"> --}}
-                {{-- <h3><a href="product-details.html">Product Title Here</a></h3> --}}
-                {{-- <div class="price-5"> --}}
-                {{-- <span>৳  60.00</span> --}}
-                {{-- <span class="old">৳  80.00</span> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- <div class="col-6 col-xl-3 col-md-6 col-lg-4 col-sm-6"> --}}
-                {{-- <div class="product-wrap-5 mb-25"> --}}
-                {{-- <div class="product-img"> --}}
-                {{-- <a href="product-details.html"> --}}
-                {{-- <img src="{{asset('public/assets/img/product/hm8-pro-8.jpg')}}" alt=""> --}}
-                {{-- </a> --}}
-                {{-- <span class="purple">New</span> --}}
-                {{-- <div class="product-action-4"> --}}
-                {{-- <div class="pro-same-action pro-wishlist"> --}}
-                {{-- <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a> --}}
-                {{-- </div> --}}
-                {{-- <div class="pro-same-action pro-cart"> --}}
-                {{-- <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i></a> --}}
-                {{-- </div> --}}
-                {{-- <div class="pro-same-action pro-quickview"> --}}
-                {{-- <a title="Quick View" href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- <div class="product-content-5 text-center"> --}}
-                {{-- <h3><a href="product-details.html">Product Title Here</a></h3> --}}
-                {{-- <div class="price-5"> --}}
-                {{-- <span>৳  80.00</span> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- <div class="col-6 col-xl-3 col-md-6 col-lg-4 col-sm-6"> --}}
-                {{-- <div class="product-wrap-5 mb-25"> --}}
-                {{-- <div class="product-img"> --}}
-                {{-- <a href="product-details.html"> --}}
-                {{-- <img src="{{asset('public/assets/img/product/hm8-pro-7.jpg')}}" alt=""> --}}
-                {{-- </a> --}}
-                {{-- <span class="pink">-30%</span> --}}
-                {{-- <div class="product-action-4"> --}}
-                {{-- <div class="pro-same-action pro-wishlist"> --}}
-                {{-- <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a> --}}
-                {{-- </div> --}}
-                {{-- <div class="pro-same-action pro-cart"> --}}
-                {{-- <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i></a> --}}
-                {{-- </div> --}}
-                {{-- <div class="pro-same-action pro-quickview"> --}}
-                {{-- <a title="Quick View" href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- <div class="product-content-5 text-center"> --}}
-                {{-- <h3><a href="product-details.html">Product Title Here</a></h3> --}}
-                {{-- <div class="price-5"> --}}
-                {{-- <span>৳  40.00</span> --}}
-                {{-- <span class="old">৳  70.00</span> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- <div class="col-6 col-xl-3 col-md-6 col-lg-4 col-sm-6"> --}}
-                {{-- <div class="product-wrap-5 mb-25"> --}}
-                {{-- <div class="product-img"> --}}
-                {{-- <a href="product-details.html"> --}}
-                {{-- <img src="{{asset('public/assets/img/product/hm8-pro-6.jpg')}}" alt=""> --}}
-                {{-- </a> --}}
-                {{-- <span class="purple">New</span> --}}
-                {{-- <div class="product-action-4"> --}}
-                {{-- <div class="pro-same-action pro-wishlist"> --}}
-                {{-- <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a> --}}
-                {{-- </div> --}}
-                {{-- <div class="pro-same-action pro-cart"> --}}
-                {{-- <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i></a> --}}
-                {{-- </div> --}}
-                {{-- <div class="pro-same-action pro-quickview"> --}}
-                {{-- <a title="Quick View" href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- <div class="product-content-5 text-center"> --}}
-                {{-- <h3><a href="product-details.html">Product Title Here</a></h3> --}}
-                {{-- <div class="price-5"> --}}
-                {{-- <span>৳  90.00</span> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- <div class="col-6 col-xl-3 col-md-6 col-lg-4 col-sm-6"> --}}
-                {{-- <div class="product-wrap-5 mb-25"> --}}
-                {{-- <div class="product-img"> --}}
-                {{-- <a href="product-details.html"> --}}
-                {{-- <img src="{{asset('public/assets/img/product/hm8-pro-5.jpg')}}" alt=""> --}}
-                {{-- </a> --}}
-                {{-- <span class="pink">-20%</span> --}}
-                {{-- <div class="product-action-4"> --}}
-                {{-- <div class="pro-same-action pro-wishlist"> --}}
-                {{-- <a title="Wishlist" href="wishlist.html"><i class="pe-7s-like"></i></a> --}}
-                {{-- </div> --}}
-                {{-- <div class="pro-same-action pro-cart"> --}}
-                {{-- <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i></a> --}}
-                {{-- </div> --}}
-                {{-- <div class="pro-same-action pro-quickview"> --}}
-                {{-- <a title="Quick View" href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- <div class="product-content-5 text-center"> --}}
-                {{-- <h3><a href="product-details.html">Product Title Here</a></h3> --}}
-                {{-- <div class="price-5"> --}}
-                {{-- <span>৳  70.00</span> --}}
-                {{-- <span class="old">৳  90.00</span> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
-                {{-- </div> --}}
                 <div class="tab-pane" id="product-3">
                     <div class="row">
                         @foreach ($skus->unique('fkproductId') as $sku)
@@ -1270,8 +1046,8 @@
             <div class="product-slider-active-2 owl-carousel owl-dot-none owl-loaded owl-drag">
 
 
-                    
-                
+
+
 
 
 
@@ -1281,7 +1057,6 @@
                         @foreach ($mostViewedProducts as $item)
                             @php
                                 $skuProduct = App\Models\Sku::where('skuId',$item->fkskuId)->with('product')->first();
-                              
                             @endphp
 
                         @if (!empty($skuProduct->product()) && $skuProduct->product->isrecommended == 1)
@@ -1291,10 +1066,10 @@
                                 ->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))
                                 ->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))
                                 ->first();
-                            
+
                         @endphp
 
-              
+
                         <div class="owl-item active" style="width: 270px; margin-right: 30px;">
                             <div class="product-wrap mb-25">
                                 <div class="product-img">

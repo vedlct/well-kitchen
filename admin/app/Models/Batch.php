@@ -11,7 +11,10 @@ class Batch extends Model
     protected $table='batch';
     protected $primaryKey='batchId';
 
-   public function sku()
+    protected $fillable = ['skuId', 'vendor', 'storeId', 'quantity'];
+
+
+    public function sku()
    {
        return $this->hasOne('App\Models\Sku', 'skuId', 'skuId');
    }

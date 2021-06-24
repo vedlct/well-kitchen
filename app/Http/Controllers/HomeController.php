@@ -32,12 +32,12 @@ class HomeController extends Controller
         // //     $validPromotion = $item->promotion->where('startDate', '<=', date('Y-m-d H:i:s'))->where('endDate', '>=', date('Y-m-d H:i:s'))->get();
 
         // // }
-        
+
         // $mostViewedProduct = ProductMostViewed::select('fkskuId')->count()->groupBy('fkskuId')->get();
         // dd($mostViewedProduct);
 
         $mostViewedProducts = DB::table('product_most_viewed')->select('fkskuId', DB::raw('count(*) as total'))->groupBy('fkskuId')->orderBy('total','DESC')->get();
-     
+
         // foreach($mostViewedProducts as $item){
         //     $skuProduct = Sku::where('skuId',$item->fkskuId)->get();
         // }
@@ -48,7 +48,7 @@ class HomeController extends Controller
 
         // $categories = Category::where('homeShow', 1)->take(4)->get();
         $products = Product::with('category','sku')->where('status', 'active')->get();
-        
+
         $skus = Sku::with('product')->where('status', 'active')->get();
 
         $newArrival =  Product::with('sku')->where('status', 'active')->where('newarrived', 1)->get();

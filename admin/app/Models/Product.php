@@ -11,6 +11,8 @@ class Product extends Model
     protected $table = 'product';
     protected $primaryKey = 'productId';
 
+    protected $fillable = ['productName'];
+
     public function category(){
         return $this->hasOne('App\Models\Category', 'categoryId', 'categoryId');
     }

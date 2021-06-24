@@ -13,15 +13,26 @@
         <tr class="myContainer">
             <th>Product Code</th>
             <th>Barcode</th>
+            <th>Opening Stock</th>
+            <th>Stock</th>
         </tr>
+{{--{{dd($skuOpeningStock->where('skuId', 11)->openingStock)}}--}}
 
         @foreach($allSkus as $allSku)
             <tr class="myContainer" >
                 <td>
-                    {{$allSku->product->productCode}}
+                    {{$allSku->productCode}}
                 </td>
                 <td>
                     {{$allSku->barcode}}
+                </td>
+                <td>
+                    @foreach($skuOpeningStock->where('skuId', $allSku->skuId) as $openingStock)
+                        {{$openingStock->openingStock}}
+                    @endforeach
+                </td>
+                <td>
+                    {{$allSku->available}}
                 </td>
             </tr>
         @endforeach

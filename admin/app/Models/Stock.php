@@ -10,4 +10,7 @@ class Stock extends Model
     use HasFactory;
     protected $table='stock_record';
     protected $primaryKey='stock_recordId';
+
+    protected $fillable = ['fkskuId', 'batchId', 'stock', 'type', 'identifier'];
+
 }

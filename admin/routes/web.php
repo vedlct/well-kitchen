@@ -46,8 +46,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('delete', [ProductController::class, 'delete'])->name('delete');
 
     });
-    Route::get('export', [ExportController::class, 'export'])->name('testexport');
-
+    Route::get('export', [ExportController::class, 'export'])->name('export');
+    Route::post('import', [ExportController::class, 'import'])->name('import');
 
     //Category
     Route::group(['prefix' => 'category', 'as' => 'category.'], function () {
