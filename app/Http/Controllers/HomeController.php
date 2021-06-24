@@ -43,6 +43,7 @@ class HomeController extends Controller
         // }
 
         $categories = Category::where('homeShow', 1)->with('products.sku','products.hotdealProducts.hotdeals')->get();
+//       $categories = Category::where('homeShow', 1)->with('products.sku','products.hotdealProducts.hotdeals')->get();
         // dd($categories);
 
 
@@ -50,10 +51,18 @@ class HomeController extends Controller
         $products = Product::with('category','sku')->where('status', 'active')->get();
 
         $skus = Sku::with('product')->where('status', 'active')->get();
-
         $newArrival =  Product::with('sku')->where('status', 'active')->where('newarrived', 1)->get();
         $recommendedProduct = Product::with('sku')->where('status', 'active')->where('isrecommended', 1)->get();
         $testimonials = Testimonial::where('status', 'active')->where('home',1)->get();
+
+        $mostViewedProducts = DB::table('product_most_viewed')->select('fkskuId', DB::raw('count(*) as total'))->groupBy('fkskuId')->orderBy('total','DESC')->get();
+        // dd($mostViewedProducts);
+        // foreach($mostViewedProducts as $item){
+            // @dd($item->sku);
+            // $skuProduct = Sku::where('skuId', $item->fkskuId)->with('product')->get();
+            // dd($skuProduct);
+        // }
+
         return view('welcome',compact('categories','products','skus','newArrival','recommendedProduct','testimonials','sliders','banners','mostViewedProducts'));
     }
 

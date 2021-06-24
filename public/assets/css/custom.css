@@ -176,10 +176,12 @@ img {
   position: relative;
 }
 ul.menuH .home-parent-categories {
-  left: 0;
+  transform: rotateX(0deg);
 }
 .stick ul.menuH .home-parent-categories {
-  left: -9999px;
+  left: 0;
+  transition: 0.3s;
+  transform: rotateX(90deg);
 }
 
 .menuH li:hover,
@@ -222,7 +224,7 @@ ul.menuH a.heading i {
 
 /*######sub level###########*/
 .stick ul.menuH .home-nav-category-btn:hover .home-parent-categories {
-  left: 0 !important;
+  transform: rotateX(0deg);
 }
 .stick .header-search {
   display: block !important;
@@ -230,12 +232,14 @@ ul.menuH a.heading i {
 ul.menuH ul {
   width: 270px;
   position: absolute;
-  left: -9999px;
+  left: 0;
+  transform: rotateX(90deg);
   border: 1px solid #DDD;
   border-top: 0;
   background: #FFF;
   list-style: none;
   padding: 0 1px 10px 0;
+  transition: 0.3s;
 }
 
 .menuH li li {
@@ -253,8 +257,8 @@ ul.menuH ul {
 
 .menuH li:hover ul,
 .menuH li.onhover ul {
-  left: 0px;
   top: auto;
+  transform: rotateX(0deg);
 }
 
 .menuH li:hover .dropToLeft,
@@ -266,6 +270,7 @@ ul.menuH ul {
 
 .menuH ul ul {
   border-top: 1px solid #DDD;
+  transition: 0s;
 }
 
 .menuH li:hover ul ul,
@@ -332,6 +337,7 @@ ul.menuH ul {
   border: none;
 }
 .right-toogle-nav .all-item a {
+  display: block;
   color: #fff;
   font-size: 16px;
   padding: 2px 3px;
@@ -509,4 +515,19 @@ ul.menuH ul {
 input.form-control:focus {
     box-shadow: none !important;
     border-color: unset !important;
+}
+
+@media (max-width: 400px) {
+  .single-slider-2 .slider-content-20 {
+    text-align: center;
+  }
+}
+
+
+/*  */
+.slick-prev:before, .slick-next:before {
+  color: #e42121;
+}
+.category-buttons .slick-slide img {
+  display: unset;
 }

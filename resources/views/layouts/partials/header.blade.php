@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="{{asset('public/assets/css/icons.min.css')}}">
     <!-- Plugins CSS -->
     <link rel="stylesheet" href="{{asset('public/assets/css/plugins.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.css">
     <!-- Main Style CSS -->
     <link rel="stylesheet" href="{{asset('public/assets/css/style.css')}}">
     <!-- Custom CSS -->
@@ -33,47 +34,37 @@
     <section class="right-toogle-nav" id="showRightNav">
         <div class="inner">
             <ul class="list-unstyled all-item">
+                @foreach($allCategories->where('parent',null) as $key => $parentCategory)
                 <li>
-                    <a class="d-block" data-toggle="collapse" href="#showCategorySubmenu" role="button" aria-expanded="false" aria-controls="showCategorySubmenu">Men's <i class="fa fa-angle-right float-right"></i></a>
-                    <div class="collapse" id="showCategorySubmenu">
+                    <a class="d-block" data-toggle="collapse" href="#showCategorySubmenu{{$key}} " role="button" aria-expanded="false" aria-controls="showCategorySubmenu">{{ $parentCategory->categoryName }}  
+                      <i class="fa fa-angle-right float-right"></i>
+                    </a>
+                    
+                    <div class="collapse" id="showCategorySubmenu{{$key}}">
                         <ul class="ml-3">
+                            @foreach($subCategories->where('parent', $parentCategory->categoryId) as $keyItem => $subCategory)
                             <li>
-                                <a href="">Womens</a>
+                               <a href="{{route('category.products', $subCategory->categoryId)}}"> {{ $subCategory->categoryName}}</a>
+                                
+                                <div class="collapse" id="showCategorySubmenu{{$keyItem}}">
+                                    <ul class="ml-3">
+                                        @foreach($subSubCategories->where('subParent', $subCategory->categoryId) as $subParentCategory)
+                                        <li>
+                                        <a href="{{route('category.products', $subParentCategory->categoryId)}}"> {{ $subParentCategory->categoryName }}</a>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
                             </li>
-                            <li>
-                                <a href="">Kitchen</a>
-                            </li>
+                           @endforeach
                         </ul>
                     </div>
-                </li>
-                <li>
-                    <a href="">Womens</a>
-                </li>
-                <li>
-                    <a href="">Kitchen</a>
-                </li>
-                <li>
-                    <a href="">Men's</a>
-                </li>
-                <li>
-                    <a href="">Womens</a>
-                </li>
-                <li>
-                    <a href="">Kitchen</a>
-                </li>
-                <li>
-                    <a href="">Collection</a>
-                </li>
-                <li>
-                    <a href="">About</a>
-                </li>
-                <li>
-                    <a href="">Contact</a>
-                </li>
+                 </li>
+                @endforeach
             </ul>
             <div class="bottom-area py-3">
                 <div class="fb-page-like p-2 pl-3">
-                    <a href="#" class="d-inline-block" target="_blank">
+                    <a href=" {{$setting->facebook}} " class="d-inline-block" target="_blank">
                         <h5 class="text-uppercase mb-0">
                             <i class="fa fa-facebook-square mr-1"></i> Like Us
                         </h5>
@@ -300,7 +291,7 @@
                                         @endforeach
                                     </ul>
                                 </li>
-                                <ul>
+                            </ul>
                         </div>
                     </div>
                     <div class="col-lg-6">
