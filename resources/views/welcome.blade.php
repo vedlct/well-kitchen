@@ -90,21 +90,6 @@
                 <h4>Our Product Categories </h4>
             </div>
             <!-- category buttons -->
-<<<<<<< HEAD
-            <div class="category-buttons carousel slide" id="carouselExampleControls" data-ride="carousel">
-                <ul class="row nav nav-tabs carousel-inner" id="nav-tab" role="tablist">
-                    @foreach ($categories as $key=>$category)
-                    <li class="col-md-6 col-lg-3 col-6 mb-3 carousel-item {{$key == 0 ? 'active' : '' }}">
-                        <a class="{{$key == 0 ? 'active' : '' }}" id="cat1-tab" data-toggle="tab" href="#cat{{$category->categoryId}}" role="tab" aria-selected="true">
-                            <div class="category-name">
-                                <h4 class="mb-0">
-                                    <span>{{$category->categoryName}} </span>
-                                    <img src="{{asset('admin/public/categoryImage/'.$category->imageLink)}}" class="ml-3" alt="">
-                                </h4>
-                            </div>
-                        </a>
-                    </li>
-=======
             <div class="category-buttons">
                 <ul class="row nav nav-tabs" id="nav-tab" role="tablist">
                     @foreach ($categories as $key => $category)
@@ -120,7 +105,6 @@
                                 </div>
                             </a>
                         </li>
->>>>>>> 7d0f582275edf7a68a0eaf2160b7d0dfe6fca8e7
                     @endforeach
 
 
