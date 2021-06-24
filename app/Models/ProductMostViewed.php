@@ -11,4 +11,6 @@ class ProductMostViewed extends Model
     protected $table = 'product_most_viewed';
     protected $primaryKey = 'id';
     public $timestamps = true;
+
+    
 }
