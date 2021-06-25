@@ -104,7 +104,7 @@
 
 
         function deleteProduct(x) {
-            categoryId = $(x).data('panel-id');
+            productId = $(x).data('panel-id');
             if(!confirm("Delete This Product?")){
                 return false;
             }

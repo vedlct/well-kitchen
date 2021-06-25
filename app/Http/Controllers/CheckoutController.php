@@ -21,7 +21,8 @@ class CheckoutController extends Controller
 {
     public function index()
     {
-        $shipmentZone = ShipmentZone::all();
+        $shipmentZone = ShipmentZone::where('status','active')->get();
+        // dd($shipmentZone);
         if (Auth::check()) {
             $customer = Customer::where('fkuserId', Auth::user()->userId)->with('address', 'order', 'user')->first();
             return view('checkout', compact('customer', 'shipmentZone'));

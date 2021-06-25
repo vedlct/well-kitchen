@@ -97,14 +97,14 @@
                                             ->first();
                                     @endphp
                                 @endif
-                                {{-- @dd($sku->product->categoryId); --}}
-                                @if (!empty($sku->product()) && $sku->product->categoryId == $category->categoryId)
+                                {{-- @dd($sku->product->newarrived); --}}
+                                @if (!empty($sku->product) && $sku->product->categoryId == $category->categoryId)
                                     <div class="product-wrap mb-25">
                                         <div class="product-img">
                                             {{-- <a href="product-details.html"> --}}
                                             <a href="{{ route('product.details', $sku->skuId) }}">
                                                 <img class="default-img"
-                                                    src="{{ asset('admin/public/featureImage/' . $sku->product->featureImage) }}"
+                                                    src="{{ asset('admin/public/featureImage/'.$sku->product->featureImage) }}"
                                                     alt="">
                                             </a>
                                             @if ($sku->product->newarrived == 1)
@@ -232,7 +232,7 @@
                 <div class="tab-pane active" id="product-1">
                     <div class="row">
                         @foreach ($skus->unique('fkproductId') as $sku)
-                            @if (!empty($sku->product()) && $sku->product->newarrived == 1)
+                            @if (!empty($sku->product) && $sku->product->newarrived == 1)
                                 @php
                                     $hotDeal = $sku->product->hotdealProducts
                                         ->where('hotdeals.status', 'Available')
@@ -323,7 +323,7 @@
                 <div class="tab-pane" id="product-3">
                     <div class="row">
                         @foreach ($skus->unique('fkproductId') as $sku)
-                            @if (!empty($sku->product()) && $sku->product->isrecommended == 1)
+                            @if (!empty($sku->product) && $sku->product->isrecommended == 1)
                                 @php
                                     $hotDeal = $sku->product->hotdealProducts
                                         ->where('hotdeals.status', 'Available')
@@ -427,10 +427,8 @@
     <!-- product area end -->
 
     <!-- single product start -->
-    {{-- @dd($categories); --}}
     @foreach ($categories as $key => $category)
 
-    {{-- @dd($category->products->count()); --}}
     @if($category->products->count() > 0 )
 
     <div class="product-area pb-70">
@@ -440,8 +438,6 @@
 
             </div>
             <div class="product-slider-active-2 owl-carousel owl-dot-none owl-loaded owl-drag">
-
-
 
 
                 <div class="owl-stage-outer">
@@ -460,7 +456,7 @@
                                 @endphp
                             @endif
 
-                            @if (!empty($sku->product()) && $sku->product->categoryId == $category->categoryId)
+                            @if (!empty($sku->product) && $sku->product->categoryId == $category->categoryId)
                                 <div class="owl-item active" style="width: 270px; margin-right: 30px;">
                                     <div class="product-wrap mb-25">
                                         <div class="product-img">
@@ -548,8 +544,6 @@
             </div>
         </div>
     </div>
-       @else
-        <h5>no </h5>
        @endif
     @endforeach
     <!-- single product end -->

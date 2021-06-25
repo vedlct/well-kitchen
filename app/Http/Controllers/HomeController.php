@@ -36,18 +36,13 @@ class HomeController extends Controller
         // $mostViewedProduct = ProductMostViewed::select('fkskuId')->count()->groupBy('fkskuId')->get();
         // dd($mostViewedProduct);
 
-        $mostViewedProducts = DB::table('product_most_viewed')->select('fkskuId', DB::raw('count(*) as total'))->groupBy('fkskuId')->orderBy('total','DESC')->get();
+        // $mostViewedProducts = DB::table('product_most_viewed')->select('fkskuId', DB::raw('count(*) as total'))->groupBy('fkskuId')->orderBy('total','DESC')->get();
 
         // foreach($mostViewedProducts as $item){
         //     $skuProduct = Sku::where('skuId',$item->fkskuId)->get();
         // }
 
         $categories = Category::where('homeShow', 1)->with('products.sku','products.hotdealProducts.hotdeals')->get();
-//       $categories = Category::where('homeShow', 1)->with('products.sku','products.hotdealProducts.hotdeals')->get();
-        // dd($categories);
-
-
-        // $categories = Category::where('homeShow', 1)->take(4)->get();
         $products = Product::with('category','sku')->where('status', 'active')->get();
 
         $skus = Sku::with('product')->where('status', 'active')->get();
