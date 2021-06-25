@@ -9,6 +9,8 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CuponController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\MyProfileController;
 use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
@@ -70,18 +72,24 @@ Route::get('/my-order', function () {
     return view('myOrder');
 });
 
-Route::get('/my-account', function () {
-    return view('myAccount');
-});
+
+
+Route::get('/my-account', [MyProfileController::class, 'index'])->name('profile')->middleware('auth');
+Route::post('/user-info-update', [MyProfileController::class, 'updateUserInfo'])->name('userinfo.update')->middleware('auth');
+Route::post('/user-address-update', [MyProfileController::class, 'updateAddressInfo'])->name('address.update')->middleware('auth');
+Route::post('/user-password-update', [MyProfileController::class, 'updatePassword'])->name('password.update')->middleware('auth');
+
+
 
 
 Route::get('/faq', function () {
     return view('faq');
 });
 
-Route::get('/contact', function () {
-    return view('contact');
-});
+
+
+Route::get('/contact', [ContactController::class, 'index'])->name('contact');
+Route::post('/contact-submit', [ContactController::class, 'submitContactInfo'])->name('contact.submit');
 
 Route::get('/about', function () {
     return view('about');

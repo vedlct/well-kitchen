@@ -12,6 +12,9 @@
                             </div>
                             <div id="my-account-1" class="panel-collapse collapse show">
                                 <div class="panel-body">
+                                <form action="{{route('userinfo.update')}}" method="post"> 
+                                    @csrf
+                                    <input type="hidden" name="userId" value="{{$customer->user->userId}}">
                                     <div class="myaccount-info-wrapper">
                                         <div class="account-info-wrapper">
                                             <h5>Your Personal Details</h5>
@@ -20,25 +23,25 @@
                                             <div class="col-lg-6 col-md-6">
                                                 <div class="billing-info">
                                                     <label>First Name</label>
-                                                    <input type="text">
+                                                    <input type="text" name="firstName" value=" {{$customer->user->firstName}} ">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6">
                                                 <div class="billing-info">
                                                     <label>Last Name</label>
-                                                    <input type="text">
+                                                    <input type="text" name="lastName" value=" {{$customer->user->lastName}}">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-12">
                                                 <div class="billing-info">
                                                     <label>Email Address</label>
-                                                    <input type="email">
+                                                    <input type="email" name="email" value=" {{$customer->user->email}}">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6">
                                                 <div class="billing-info">
                                                     <label>Phone</label>
-                                                    <input type="text">
+                                                    <input type="text" name="phone" value="{{$customer->phone}}">
                                                 </div>
                                             </div>
                                         </div>
@@ -48,6 +51,10 @@
                                             </div>
                                         </div>
                                     </div>
+                                </form>
+                                <form method="POST" action=" {{route('address.update')}} ">
+                                    @csrf
+                                    <input type="hidden" name="userId" value="{{$customer->user->userId}}">
                                     <div class="myaccount-info-wrapper">
                                         <div class="account-info-wrapper">
                                             <h5>Your Shipping & Billing Address</h5>
@@ -55,15 +62,15 @@
                                         <div class="row">
                                             <div class="col-lg-12">
                                                 <div class="billing-info mb-20">
-                                                    <label>Street Address</label>
-                                                    <input class="billing-address mb-3" placeholder="House number and street name" type="text">
-                                                    <input placeholder="Apartment, suite, unit etc." type="text">
+                                                    <label>Shipping Address</label>
+                                                    <input class="billing-address mb-3" placeholder="House number and street name" type="text" name="shippingAddress" value=" {{$getCustomerAddress->shippingAddress}}">
+                                                    {{-- <input placeholder="Apartment, suite, unit etc." type="text"> --}}
                                                 </div>
                                             </div>
                                             <div class="col-lg-12">
                                                 <div class="billing-info mb-20">
-                                                    <label>Town / City</label>
-                                                    <input type="text">
+                                                    <label>Billing Address</label>
+                                                    <input type="text" name="billingAddress" value=" {{$getCustomerAddress->billingAddress}}">
                                                 </div>
                                             </div>
                                         </div>
@@ -73,6 +80,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                </form>   
                                 </div>
                             </div>
                         </div>
@@ -82,6 +90,9 @@
                             </div>
                             <div id="my-account-2" class="panel-collapse collapse">
                                 <div class="panel-body">
+                                 <form method="post" action=" {{route('password.update')}} ">
+                                    @csrf
+                                    <input type="hidden" name="email" value="{{$customer->user->email}}">
                                     <div class="myaccount-info-wrapper">
                                         <div class="account-info-wrapper">
                                             <h4>Change Password</h4>
@@ -90,19 +101,24 @@
                                             <div class="col-lg-12 col-md-12">
                                                 <div class="billing-info">
                                                     <label>Old Password</label>
-                                                    <input type="password">
+                                                    <input type="password" name="oldPassword">
                                                 </div>
                                             </div>
                                             <div class="col-lg-12 col-md-12">
                                                 <div class="billing-info">
-                                                    <label>New Password</label>
-                                                    <input type="password">
+                                                    <label for="newPassword" >New Password</label>
+                                                    <input id="password" type="password" class="form-control @error('newPassword') is-invalid @enderror" name="newPassword" required autocomplete="new-password" >
+                                                    @error('newPassword')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                                 </div>
                                             </div>
                                             <div class="col-lg-12 col-md-12">
                                                 <div class="billing-info">
-                                                    <label>Confirm New Password</label>
-                                                    <input type="password">
+                                                    <label for="password-confirm">Confirm New Password</label>
+                                                    <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
                                                 </div>
                                             </div>
                                         </div>
@@ -112,6 +128,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                 </form>
                                 </div>
                             </div>
                         </div>
@@ -130,21 +147,13 @@
                                                 <div class="col-lg-6 col-md-6 d-flex align-items-center justify-content-center">
                                                     <div class="entries-info text-center">
                                                         <h4>Shipping Address:</h4>
-                                                        <p>John Doe </p>
-                                                        <p> Road#8 , Block#d </p>
-                                                        <p> Mirpur. </p>
-                                                        <p>Dhaka </p>
-                                                        <p>Bangladesh </p>
+                                                        <p>{{$getCustomerAddress->shippingAddress}}</p>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 d-flex align-items-center justify-content-center">
                                                     <div class="entries-info text-center">
                                                         <h4>Billing Address:</h4>
-                                                        <p>John Doe </p>
-                                                        <p> Road#8 , Block#d </p>
-                                                        <p> Mirpur. </p>
-                                                        <p>Dhaka </p>
-                                                        <p>Bangladesh </p>
+                                                        <p>{{$getCustomerAddress->billingAddress}} </p>
                                                     </div>
                                                 </div>
                                             </div>

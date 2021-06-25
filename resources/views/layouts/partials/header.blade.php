@@ -153,7 +153,7 @@
                                         @else
                                         <li><a href="">Hello,{{Auth::user()->firstName}}</a></li>
                                         <li><a href="{{url('my-order')}}">My Orders</a></li>
-                                        <li><a href="{{url('my-account')}}">my account</a></li>
+                                        <li><a href="{{route('profile')}}">my account</a></li>
                                         @endif
                                         @auth
                                         <li><a href="{{route('logout')}}"  onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a></li>
@@ -300,6 +300,7 @@
                             <nav>
                                 <ul>
                                     <li><a href="{{url('/')}}">Home</a>
+                                    <li><a href="{{route('contact')}}">Contact</a>
                                     @foreach($menu->where('menuType','Header')->sortByDesc('menuOrder')->take(8) as $headerMenu)
 
                                     {{-- <li><a href="{{url('/')}}">Home</a>
