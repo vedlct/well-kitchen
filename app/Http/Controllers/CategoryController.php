@@ -16,7 +16,9 @@ class CategoryController extends Controller
     public function categoryProducts($categoryId=null){
         // dd($categoryId);
 //        if(empty($categoryId)){
-            $skus = Sku::with('product')->where('status', 'active')->get();
+            $skus = Sku::with('product')->whereHas('product', function ($query) {
+                $query->where('status', 'active');
+            })->get();
 
         $newArrived = Product::where('newarrived', 1)->count();
         $category = Category::where('categoryId', $categoryId)->first();
@@ -40,7 +42,9 @@ class CategoryController extends Controller
                     $skusIds[] = $productsku->skuId;
                 }
             }
-            $skus = Sku::with('product')->whereIn('skuId', $skusIds)->where('status', 'active')->get();
+            $skus = Sku::with('product')->whereIn('skuId', $skusIds)->whereHas('product', function ($query) {
+                $query->where('status', 'active');
+            })->get();
 //            foreach($products as $pro){
 //                $skusSingle = Sku::where('fkproductId',$pro->productId)->with('product.category')->first();
 //
@@ -59,9 +63,13 @@ class CategoryController extends Controller
 
     public function filterProducts(Request $request){
         if($request->priceMin && $request->priceMax) {
-            $skuss = Sku::with('product')->where('salePrice', '>=', $request->priceMin)->where('salePrice', '<=', $request->priceMax)->where('status', 'active');
+            $skuss = Sku::with('product')->where('salePrice', '>=', $request->priceMin)->where('salePrice', '<=', $request->priceMax)->whereHas('product', function ($query) {
+                $query->where('status', 'active');
+            });
         }else {
-            $skuss = Sku::with('product')->where('status', 'active');
+            $skuss = Sku::with('product')->whereHas('product', function ($query) {
+                $query->where('status', 'active');
+            });
         }
 
         if (!empty($request->categoryId)) {

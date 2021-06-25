@@ -186,7 +186,9 @@
             <div class="tab-content description-review-bottom">
                 <div id="des-details2" class="tab-pane active">
                     <div class="product-description-wrapper">
-                        <p>{!! $product->details->description!!}</p>
+                        @if(isset($product->details->description))
+                        <p>{!!  $product->details->description !!}</p>
+                            @endif
                     </div>
                 </div>
                 <div id="des-details1" class="tab-pane ">
@@ -359,8 +361,13 @@
                                 @endif
                             </div>
                             <div class="pro-same-action pro-quickview">
-                                <a href="#" data-toggle="modal" data-target="#quickView"><i class="pe-7s-look"></i></a>
+                                <a title="Quick View" href="#" data-toggle="modal"
+                                   data-target="#exampleModal" data-sku_id="{{ $sku->skuId }}"
+                                   class="quickView"><i class="pe-7s-look"></i></a>
                             </div>
+{{--                            <div class="pro-same-action pro-quickview">--}}
+{{--                                <a href="#" data-toggle="modal" data-target="#quickView"><i class="pe-7s-look"></i></a>--}}
+{{--                            </div>--}}
                         </div>
                     </div>
                     <div class="product-content text-center">
@@ -399,7 +406,7 @@
 <script>
         // zoom image
         $(document).ready(function(){
-            
+
             $(".zoom").mousemove(function(e){
                 zoom(e);
             });

@@ -45,7 +45,9 @@ class HomeController extends Controller
         $categories = Category::where('homeShow', 1)->with('products.sku','products.hotdealProducts.hotdeals')->get();
         $products = Product::with('category','sku')->where('status', 'active')->get();
 
-        $skus = Sku::with('product')->where('status', 'active')->get();
+        $skus = Sku::with('product')->whereHas('product', function ($query) {
+            $query->where('status', 'active');
+        })->get();
         $newArrival =  Product::with('sku')->where('status', 'active')->where('newarrived', 1)->get();
         $recommendedProduct = Product::with('sku')->where('status', 'active')->where('isrecommended', 1)->get();
         $testimonials = Testimonial::where('status', 'active')->where('home',1)->get();

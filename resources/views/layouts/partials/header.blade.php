@@ -36,16 +36,16 @@
             <ul class="list-unstyled all-item">
                 @foreach($allCategories->where('parent',null) as $key => $parentCategory)
                 <li>
-                    <a class="d-block" data-toggle="collapse" href="#showCategorySubmenu{{$key}} " role="button" aria-expanded="false" aria-controls="showCategorySubmenu">{{ $parentCategory->categoryName }}  
+                    <a class="d-block" data-toggle="collapse" href="#showCategorySubmenu{{$key}} " role="button" aria-expanded="false" aria-controls="showCategorySubmenu">{{ $parentCategory->categoryName }}
                       <i class="fa fa-angle-right float-right"></i>
                     </a>
-                    
+
                     <div class="collapse" id="showCategorySubmenu{{$key}}">
                         <ul class="ml-3">
                             @foreach($subCategories->where('parent', $parentCategory->categoryId) as $keyItem => $subCategory)
                             <li>
                                <a href="{{route('category.products', $subCategory->categoryId)}}"> {{ $subCategory->categoryName}}</a>
-                                
+
                                 <div class="collapse" id="showCategorySubmenu{{$keyItem}}">
                                     <ul class="ml-3">
                                         @foreach($subSubCategories->where('subParent', $subCategory->categoryId) as $subParentCategory)
@@ -91,7 +91,7 @@
                 <div class="header-top-wap">
                     <div class="language-currency-wrap">
                         <div class="same-language-currency">
-                            <p class="contact">Call Us {{$setting->phone}}</p>
+                            <p class="contact">Call Us <a href="tel:{{$setting->phone}}">{{$setting->phone}}</a></p>
                         </div>
                     </div>
                     <div class="header-offer">

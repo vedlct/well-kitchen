@@ -351,6 +351,7 @@
                   $(".updatereload").load(location.href + " .updatereload");
                   $(".cartTotal").load(location.href + " .cartTotal");
                   $(".total").load(location.href + " .total");
+                  window.location.reload();
               },
               error:function (response){
                   toastr.error('Stock not available')
