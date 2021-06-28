@@ -64,8 +64,8 @@
             <div class="category-buttons mb-4">
                 <div class="category-name-slider nav" id="nav-tab" role="tablist">
                     @foreach ($categories as $key => $category)
-                        <a class="{{ $key == 0 ? 'active' : '' }} nav-link" id="cat1-tab" data-toggle="tab"
-                            href="#cat{{ $category->categoryId }}" role="tab" aria-selected="true">
+                        <a class="{{ $key == 0 ? 'active' : '' }} nav-link" id="cat1-tab{{ $category->categoryId }}" data-toggle="tab"
+                            href="#cat{{ $category->categoryId }}" role="tab" aria-selected="false">
                             <div class="category-name">
                                 <h4 class="mb-0">
                                     <span>{{ $category->categoryName }}
@@ -82,7 +82,7 @@
             <!-- category img show -->
             <div class="tab-content" id="nav-tabContent">
                 @foreach ($categories as $key => $category)
-                    <div class="tab-pane fade show {{ $key == 0 ? 'active' : '' }}" id="cat{{ $category->categoryId }}"
+                    <div class="tab-pane fade {{ $key == 0 ? 'show active' : '' }}" id="cat{{ $category->categoryId }}"
                         role="tabpanel">
                         <div class="product-slider-active-2 owl-carousel owl-dot-none">
 
@@ -725,5 +725,11 @@
 @endsection
 
 @section('js')
+.category-name-slider 
 
+<script>
+    $(".category-name-slider .nav-link").click(function(){
+  $(".category-name-slider .nav-link").removeClass("active");
+});
+</script>
 @endsection
