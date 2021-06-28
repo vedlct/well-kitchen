@@ -208,7 +208,7 @@
                             </div> --}}
 
                             <div class="same-style cart-wrap" >
-                                <button class="icon-cart" onclick="showNav()">
+                                <button class="icon-cart" id="headerCartBag" onclick="showNav()">
                                     <i class="pe-7s-shopbag"></i>
                                    <span class="count-style" > {{\Cart::getContent()->count()}}</span>
                                 </button>
