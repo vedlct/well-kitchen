@@ -149,8 +149,21 @@
                         <div class="cart-plus-minus">
                             <input class="cart-plus-minus-box" type="text" name="qtybutton" id="quantity" value="1">
                         </div>
+
+
+
+                        {{-- @if ($sku->product->type == 'single')
+                        <a href="#" onclick="addTocart({{$sku->skuId}})">Add To Cart</a>
+                    @endif
+                    @if ($sku->product->type == 'variation')
+                        <a title="Add To Cart"
+                            href="{{ route('product.details', $sku->skuId) }}"><i
+                                class="pe-7s-cart"></i> Add to cart</a>
+                    @endif --}}
+
                         <div class="pro-details-cart btn-hover addtocartsku">
-                            <a href="#" onclick="addTocart({{$sku->skuId}})">Add To Cart</a>
+
+                            <a href="#" onclick="addTocart({{$sku->product->type == "single" ? $sku->skuId : '0'}})">Add To Cart</a>
                         </div>
                         <div class="pro-details-wishlist">
                             <a href="#" onclick="addToWishList({{$sku->skuId}})"><i class="fa fa-heart-o"></i></a>
