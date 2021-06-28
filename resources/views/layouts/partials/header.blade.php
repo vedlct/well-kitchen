@@ -31,6 +31,9 @@
 <body class="position-relative">
     <!-- category for mobile start -->
     <div class="dark-overlay" id="darkOverlay" onclick="hideWithDark()"></div>
+    <div class="toggle-nav-cross" id="rightNavClose" onclick="hideWithDark()">
+        <i class="fa fa-times close-icon"></i>
+    </div>
     <section class="right-toogle-nav" id="showRightNav">
         <div class="inner">
             <ul class="list-unstyled all-item">
@@ -61,6 +64,37 @@
                     </div>
                  </li>
                 @endforeach
+
+                <!-- demo category start -->
+                <li>
+                    <!-- parent category -->
+                    <a class="d-block collapsed" data-toggle="collapse" href="#one " role="button" aria-expanded="false" aria-controls="showCategorySubmenu">Home Appliances
+                      <i class="fa fa-angle-right float-right"></i>
+                    </a>
+                    <!-- sub category -->
+                    <div class="collapse" id="one" style="">
+                        <ul class="ml-3">
+                        <li>
+                            <a class="d-block collapsed" data-toggle="collapse" href="#oneTwo " role="button" aria-expanded="false" aria-controls="showCategorySubmenu">Home Appliances
+                                <i class="fa fa-angle-right float-right"></i>
+                            </a>
+                            <!-- sub sub category -->
+                            <div class="collapse" id="oneTwo" style="">
+                                <ul class="ml-3">
+                                    <li>
+                                        <a href="http://localhost/well-kitchen/categories/9"> skin powder</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="http://localhost/well-kitchen/categories/9"> skin powder</a>
+                        </li>
+                        </ul>
+                    </div>
+                </li>
+                <!-- demo category end -->
+
             </ul>
             <div class="bottom-area py-3">
                 <div class="fb-page-like p-2 pl-3">

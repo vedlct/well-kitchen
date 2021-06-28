@@ -315,13 +315,13 @@ ul.menuH ul {
   display: none;
 }
 .right-toogle-nav {
-  color: #fff;
+  color: #343538;
   position: fixed;
   width: 240px;
   height: 100%;
   top: 0;
   left: -1000px;
-  background: #343538;
+  background: #fff;
   z-index: 10000;
   overflow: scroll;
   transition: 0.5s;
@@ -338,7 +338,7 @@ ul.menuH ul {
 }
 .right-toogle-nav .all-item a {
   display: block;
-  color: #fff;
+  color: #343538;
   font-size: 16px;
   padding: 2px 3px;
 }
@@ -346,7 +346,7 @@ ul.menuH ul {
   text-decoration: none;
 }
 .right-toogle-nav * {
-  color: #fff;
+  color: #343538;
   font-size: 16px;
 }
 
@@ -521,6 +521,9 @@ input.form-control:focus {
   .single-slider-2 .slider-content-20 {
     text-align: center;
   }
+  .header-right-wrap .same-style .account-dropdown {
+    left: -20px;
+  }
 }
 
 
@@ -530,4 +533,17 @@ input.form-control:focus {
 }
 .category-buttons .slick-slide img {
   display: unset;
+}
+.toggle-nav-cross {
+  text-align: center;
+  padding: 4px 5px;
+  color: #fff;
+  position: fixed;
+  width: 40px;
+  top: 0;
+  left: -1000px;
+  background: #333;
+  z-index: 10000;
+  overflow: scroll;
+  transition: 0.5s;
 }

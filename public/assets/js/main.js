@@ -913,6 +913,8 @@
 function showRightNav() {
   var a = document.getElementById("showRightNav");
   a.style.left = "0";
+  var aclose = document.getElementById("rightNavClose");
+  aclose.style.left = "240px";
   document.getElementsByTagName("BODY")[0].style.overflowY = "hidden";
   document.getElementById("darkOverlay").style.display = "block";
 }
@@ -920,12 +922,16 @@ function showRightNav() {
 function hideNav() {
   var b = document.getElementById("showRightNav");
   b.style.left = "-1000px";
+  var bClose = document.getElementById("rightNavClose");
+  bClose.style.left = "-1000px";
   document.getElementsByTagName("BODY")[0].style.overflowY = "visible";
   document.getElementById("darkOverlay").style.display = "none";
 }
 function hideWithDark() {
   var b = document.getElementById("showRightNav");
   b.style.left = "-1000px";
+  var bClose = document.getElementById("rightNavClose");
+  bClose.style.left = "-1000px";
   document.getElementsByTagName("BODY")[0].style.overflowY = "visible";
   document.getElementById("darkOverlay").style.display = "none";
 }
