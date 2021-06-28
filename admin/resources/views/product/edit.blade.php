@@ -429,9 +429,12 @@
                                                                 <label>Variation Type</label>
                                                                 <select name="variationType1" id="variationType1" class="variationType1 form-control">
                                                                     <option value="" selected>Select Type</option>
-                                                                    <option value="Color">Color</option>
+                                                                    @foreach($variations->unique('variationType') as $variationType)
+                                                                    <option id="color1" value="{{$variationType->variationType}}">{{$variationType->variationType}}</option>
+                                                                    @endforeach
+                                                                    {{-- <option value="Color">Color</option>
                                                                     <option value="Size">Size</option>
-                                                                    <option value="Other">Other</option>
+                                                                    <option value="Other">Other</option> --}}
                                                                 </select>
                                                                 <div class="divAjaxError" style="color: red" class="mb-2" id="variationType1Error"></div>
                                                                 <input type="hidden" id="productId" value="{{ $product->productId }}" name="productId">
@@ -452,9 +455,12 @@
                                                                 <label>Variation Type</label>
                                                                 <select name="variationType2" id="variationType2" class="variationType2 form-control">
                                                                     <option value="" selected>Select Type</option>
-                                                                    <option value="Color">Color</option>
+                                                                    @foreach($variations->unique('variationType') as $variationType)
+                                                                    <option id="color1" value="{{$variationType->variationType}}">{{$variationType->variationType}}</option>
+                                                                    @endforeach
+                                                                    {{-- <option value="Color">Color</option>
                                                                     <option value="Size">Size</option>
-                                                                    <option value="Other">Other</option>
+                                                                    <option value="Other">Other</option> --}}
                                                                 </select>
                                                                 <div class="divAjaxError" style="color: red" class="mb-2" id="variationType2Error"></div>
                                                             </div>

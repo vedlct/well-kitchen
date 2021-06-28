@@ -5,12 +5,12 @@
         <div class="breadcrumb-content">
             <ul>
                 <li>
-                    <a href="index.html">Shop</a>
+                    <a href="{{route('home')}}">Home</a>
                 </li>
                 <li>
-                    <a href="#">Gadget</a>
+                    <a href="{{route('category.products')}}">Shop</a>
                 </li>
-                <li class="active">Watch</li>
+                <li class="active">{{ $product->productName}}</li>
             </ul>
         </div>
     </div>
@@ -96,8 +96,14 @@
 
                     <div class="pro-details-size-color" >
                         <div class="pro-details-color-wrap" id="colors">
+                            @foreach($product->sku as $productsku)
+                            @foreach($productsku->variationRelation as $variationRelation)
 
+                            @if($variationRelation->variationDetailsdata->variationType == "Color")
                             <span>Color</span>
+                            @endif
+                            @endforeach
+                            @endforeach
                             <div class="pro-details-color-content">
                                 <!-- select color -->
                                 @foreach($product->sku as $productsku)
@@ -113,7 +119,14 @@
                             </div>
                         </div>
                         <div class="pro-details-size" id="sizes">
+                            @foreach($product->sku as $productsku)
+                                @foreach($productsku->variationRelation as $variationRelation)
+
+                                @if($variationRelation->variationDetailsdata->variationType == "Size")
                             <span>Size</span>
+                            @endif
+                            @endforeach
+                            @endforeach
                             <div class="pro-details-size-content">
                                 <!-- select size -->
                                 @foreach($product->sku as $productsku)

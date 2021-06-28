@@ -131,7 +131,7 @@ class CategoryController extends Controller
             $skuss = $skuss->whereIn('skuId', $availableSku);
         }
 
-           $per_paginate = 9;
+           $per_paginate = 15;
            $skip = ($request->page - 1) * $per_paginate;
            if ($skip < 0) {
                $skip = 0;

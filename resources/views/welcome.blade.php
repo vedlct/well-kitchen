@@ -228,11 +228,12 @@
                     </a>
                 </div>
             </div>
+            
             <div class="tab-content jump">
                 <div class="tab-pane active" id="product-1">
                     <div class="row">
-                        @foreach ($skus->unique('fkproductId') as $sku)
-                            @if (!empty($sku->product) && $sku->product->newarrived == 1)
+                        @foreach ($newArrivals->unique('fkproductId') as $sku)
+                            
                                 @php
                                     $hotDeal = $sku->product->hotdealProducts
                                         ->where('hotdeals.status', 'Available')
@@ -313,7 +314,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endif
+                           
                         @endforeach
 
 
@@ -322,8 +323,8 @@
 
                 <div class="tab-pane" id="product-3">
                     <div class="row">
-                        @foreach ($skus->unique('fkproductId') as $sku)
-                            @if (!empty($sku->product) && $sku->product->isrecommended == 1)
+                        @foreach ($recommendeds->unique('fkproductId') as $sku)
+                            
                                 @php
                                     $hotDeal = $sku->product->hotdealProducts
                                         ->where('hotdeals.status', 'Available')
@@ -415,7 +416,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            @endif
+                          
                         @endforeach
 
 
