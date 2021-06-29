@@ -18,6 +18,8 @@ class ProductController extends Controller
 {
     public function productDetails($id)
     {
+        $parentCategory = null;
+        $subCategory = null;
         // dd(\Request::ip());
         // dd($id);
 
@@ -43,10 +45,19 @@ class ProductController extends Controller
 
         //view product details
         $sku = Sku::with('product', 'variationImages')->findOrfail($id);
+
         $relatedProducts = Product::where('categoryId', $sku->product->categoryId)->where('status', 'active')->pluck('productId');
         $skus = Sku::whereIn('fkproductId', $relatedProducts)->with('product')->get()->unique('fkproductId');
         $product = Product::where('productId', $sku->fkproductId)->with('review.customer.user','category')->first();
+        $category = Category::where('categoryId', $product->categoryId)->first();
+        if($category){
+            $categoryId = $category->categoryId;
+            $parentCategory = Category::where('categoryId', $category->parent)->first();
+            $subCategory = Category::where('categoryId', $category->subParent)->first();
+        }
+
         $finalRating = 0;
+
         if(Auth::check()){
             $customer = Customer::where('fkuserId',Auth::user()->userId)->with('user')->first();
             $reviewAll = Review::with('customer.user','getRating')->where('fkproductId',$product->productId)->orderBy('created_at','desc')->limit(10)->get();
@@ -78,7 +89,7 @@ class ProductController extends Controller
                 $finalRating = ceil($totalRating / $totalCustomer);
             }
             $review = Review::with('customer.user','getRating')->where('fkproductId',$product->productId)->orderBy('created_at','desc')->limit(10)->get();
-            return view('productDetails', compact('sku', 'product','skus','review', 'finalRating'));
+            return view('productDetails', compact('sku', 'product','skus','review', 'categoryId', 'category', 'parentCategory', 'subCategory', 'finalRating'));
         }
 
 

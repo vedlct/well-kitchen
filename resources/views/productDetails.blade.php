@@ -8,9 +8,24 @@
                     <a href="{{route('home')}}">Home</a>
                 </li>
                 <li>
-                    <a href="{{route('category.products')}}">Shop</a>
+                    <a href="{{route('category.products')}}">Category</a>
                 </li>
-                <li class="active">{{ $product->productName}}</li>
+                @if($subCategory != null)
+                    @if($parentCategory != null)
+                        <li class="active"><a href="{{route('category.products', $parentCategory->categoryId)}}">{{$parentCategory->categoryName}}</a></li>
+                    @endif
+
+                        <li class="active"><a href="{{route('category.products', $subCategory->categoryId)}}">{{$subCategory->categoryName}}</a></li>
+
+                    @else
+                    @if($parentCategory != null)
+                        <li class="active"><a href="{{route('category.products', $parentCategory->categoryId)}}">{{$parentCategory->categoryName}}</a></li>
+                    @endif
+                @endif
+                @if($categoryId != null)
+                    <li class="active">{{$category->categoryName}}</li>
+                @endif
+                {{-- <li class="active">{{ $product->productName}}</li> --}}
             </ul>
         </div>
     </div>

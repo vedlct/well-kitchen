@@ -70,7 +70,11 @@
                     </div>
                  </li>
                 @endforeach --}}
-                
+                <li><a href="{{url('/')}}">Home</a>
+                    <li><a href="{{route('contact')}}">Contact</a>
+                        @foreach($menu->where('menuType','Header')->sortByDesc('menuOrder')->take(8) as $headerMenu)
+                            <li><a href="{{route('page',$headerMenu->fkpageId)}}">{{$headerMenu->menuName}}</a>
+                        @endforeach
                 @foreach($allCategories as $key => $parentCategory)
                 <li>
                     <!-- parent category -->
@@ -88,7 +92,9 @@
                             @foreach($subCategories->where('parent', $parentCategory->categoryId) as $keyItem => $subCategory)
                         <li>
                             @if($subSubCategories->where('subParent', $subCategory->categoryId)->count() > 0)
+                            
                             <a  href="{{route('category.products', $parentCategory->categoryId)}}" >View All</a>
+                            
                             <a class="d-block collapsed" data-toggle="collapse" href="#oneTwo{{$keyItem}} " role="button" aria-expanded="false" aria-controls="showCategorySubmenu">{{ $subCategory->categoryName }}
                                
                                 <i class="fa fa-angle-right float-right"></i>
