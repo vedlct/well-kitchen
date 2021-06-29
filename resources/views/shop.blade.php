@@ -152,7 +152,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="sidebar-widget mt-50">
+                    {{-- <div class="sidebar-widget mt-50">
                         <h4 class="pro-sidebar-title">Tag </h4>
                         <div class="sidebar-widget-tag mt-25">
                             <ul>
@@ -161,7 +161,7 @@
                                 @endforeach
                             </ul>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
