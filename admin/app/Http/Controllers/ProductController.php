@@ -72,8 +72,9 @@ class ProductController extends Controller
         $brands = Brand::where('status', 'active')->get();
         $units = Unit::all();
         $variations = Variation::all();
+        $variationTypes = Variation::pluck('variationType');
 
-        return view('product.create', compact('categories', 'brands', 'units', 'variations'));
+        return view('product.create', compact('categories', 'brands', 'units', 'variationTypes', 'variations'));
     }
 
     //Find Sub-Category
@@ -409,6 +410,7 @@ class ProductController extends Controller
     //Update Variation
     public function variationUpdate(Request $request)
     {
+       
         $this->validate($request, [
             'variationType1' => 'required_without:variationType2|different:variationType2',
             'variationType2' => 'required_without:variationType1|different:variationType1',

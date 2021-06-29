@@ -39,9 +39,16 @@ class HomeController extends Controller
 
         $skus = Sku::with('product')->whereHas('product', function ($query) {
             $query->where('status', 'active');
-        })->get();
-        $newArrival =  Product::with('sku')->where('status', 'active')->where('newarrived', 1)->get();
-        $recommendedProduct = Product::with('sku')->where('status', 'active')->where('isrecommended', 1)->get();
+        })->take(15)->get();
+
+        $newArrivals = Sku::with('product')->whereHas('product', function ($query) {
+            $query->where('status', 'active')->where('newarrived', 1);
+        })->take(15)->get();
+        // dd($newArrivalSkus);
+
+        $recommendeds =  $newArrivalSkus = Sku::with('product')->whereHas('product', function ($query) {
+            $query->where('status', 'active')->where('isrecommended', 1);
+        })->take(15)->get();
         $testimonials = Testimonial::where('status', 'active')->where('home',1)->get();
         
         if(Auth::check()){
@@ -52,7 +59,7 @@ class HomeController extends Controller
         
        
 
-        return view('welcome',compact('categories','products','skus','newArrival','recommendedProduct','testimonials','sliders','banners','mostViewedProducts'));
+        return view('welcome',compact('categories', 'products', 'skus', 'newArrivals', 'recommendeds', 'testimonials', 'sliders', 'banners', 'mostViewedProducts'));
     }
 
     public function quickView(Request $request){
@@ -91,6 +98,7 @@ class HomeController extends Controller
     }
 
     public function addToCart(Request $request){
+     
         $stockIn=Stock::where('fkskuId',$request->_sku)->where('type', 'in')->sum('stock');
         $stockOut=Stock::where('fkskuId',$request->_sku)->where('type', 'out')->sum('stock');
         $stockAvailable = $stockIn-$stockOut;

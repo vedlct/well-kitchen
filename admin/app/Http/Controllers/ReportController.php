@@ -122,8 +122,8 @@ class ReportController extends Controller
         }
 
         if (!empty($request->fromDate) && !empty($request->toDate)) {
-            $products = $products->where('order_info.created_at', '>=', $request->fromDate . " 12:00:00")
-                ->where('order_info.created_at', '<=', $request->toDate . " 23:59:59");
+            $products = $products->whereDate('order_info.created_at', '>=', $request->fromDate)
+                ->whereDate('order_info.created_at', '<=', $request->toDate);
         }
 
         $products = $products->get();

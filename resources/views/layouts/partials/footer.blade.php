@@ -272,7 +272,13 @@
 
 
 
-    function addTocart(skuId = null) {
+    function addTocart(skuId) {
+
+        if(skuId == 0){
+            toastr.warning('Please Choose a variation');
+        }
+
+        if(skuId != 0){
         let quantity=$('#quantity').val() ;
         if(quantity && quantity >= 1){
             quantity;
@@ -290,7 +296,7 @@
             },
             success: function (response) {
                 $('#cartPage').empty().html(response.cart)
-                // $('#totalVal').ajax.reload();
+                 $('#headerCartBag').load(document.URL + ' #headerCartBag');
                 $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
                 toastr.success('Item added to cart')
             },
@@ -298,6 +304,7 @@
             toastr.error('Stock not available')
             }
         });
+     }
     }
 
     function addToWishList(skuId){
