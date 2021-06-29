@@ -29,7 +29,11 @@
 </head>
 
 <body class="position-relative">
-    {{-- {{dd($allCategories)}} --}}
+
+      <!-- preloader start -->
+    <div class="loader_bg">
+        <div class="loader"></div>
+    </div>
 
     <!-- category for mobile start -->
     <div class="dark-overlay" id="darkOverlay" onclick="hideWithDark()"></div>
@@ -177,7 +181,7 @@
                         </div>
                     </div>
                     <div class="header-offer">
-                        <p>Free delivery on order over <span>&#2547;500</span></p>
+                        <p>Free delivery on order over <span>&#2547;{{$setting->free_delivery_on_order_over_tk}}</span></p>
                     </div>
                 </div>
             </div>
