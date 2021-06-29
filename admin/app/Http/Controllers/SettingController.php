@@ -40,6 +40,7 @@ class SettingController extends Controller
         $setting->companyName=$request->companyName;
         $setting->email=$request->email;
         $setting->point=$request->redeem;
+        $setting->free_delivery_on_order_over_tk=$request->free_delivery_on_order_over_tk;
         $setting->address=$request->address;
         $setting->phone=$request->phone;
         $setting->facebook=$request->facebook;

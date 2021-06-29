@@ -13,7 +13,7 @@
                         <p>© 2021 <a href="{{route('home')}}">{{$setting->companyName}}</a><br> All Rights Reserved</p>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-4 col-sm-4">
+                {{-- <div class="col-lg-2 col-md-4 col-sm-4">
                     <div class="footer-widget mb-30 ml-30">
                         <div class="footer-title">
                             <h3>ABOUT US</h3>
@@ -26,7 +26,7 @@
                             </ul>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="col-lg-2 col-md-4 col-sm-4">
                     <div class="footer-widget mb-30 ml-50">
                         <div class="footer-title">
@@ -34,9 +34,9 @@
                         </div>
                         <div class="footer-list">
                             <ul>
-                                <li><a href="#">Returns</a></li>
-                                <li><a href="#">Support Policy</a></li>
-                                <li><a href="#">Size guide</a></li>
+                                @foreach($menu->where('menuType','Footer')->sortByDesc('menuOrder')->take(4) as $footerMenu)
+                                <li><a href="{{route('page',$footerMenu->fkpageId)}}">{{$footerMenu->menuName}}</a></li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>
@@ -48,9 +48,9 @@
                         </div>
                         <div class="footer-list">
                             <ul>
-                                <li><a href="{{$setting->facebook}}">Facebook</a></li>
-                                <li><a href="{{$setting->twitter}}">Twitter</a></li>
-                                <li><a href="{{$setting->instagram}}">Instagram</a></li>
+                                <li><a href=" {{($setting->facebook)}} "><i class="fa fa-facebook"></i></a></li>
+                                <li><a href=" {{($setting->twitter)}} "><i class="fa fa-twitter"></i></a></li>
+                                <li><a href=" {{$setting->instagram}} "><i class="fa fa-linkedin"></i></a></li>
                                 {{-- <li><a href="#">Youtube</a></li> --}}
                             </ul>
                         </div>
