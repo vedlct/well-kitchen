@@ -479,12 +479,31 @@ class ProductController extends Controller
         $product->fkidproduct_unit = $request->fkidproduct_unit;
         $product->type = $request->type;
         $product->status = $request->status;
-        if(!empty($request->newArrival)){
+
+
+        if($request->newArrival == "on"){
+
+            $product->newarrived='1';
+            $product->isrecommended='0';
+        }
+        if ($request->featureProduct == "on") {
+            $product->isrecommended='1';
+            $product->newarrived='0';
+        }
+        if ($request->featureProduct == "on" && $request->newArrival == "on") {
+            $product->isrecommended='1';
             $product->newarrived='1';
         }
-        if (!empty($request->featureProduct)) {
-            $product->isrecommended='1';
+        if ($request->featureProduct != "on" && $request->newArrival != "on") {
+            $product->isrecommended='0';
+            $product->newarrived='0';
         }
+        // if(!empty($request->newArrival)){
+        //     $product->newarrived='1';
+        // }
+        // if (!empty($request->featureProduct)) {
+        //     $product->isrecommended='1';
+        // }
         $product->save();
 
         if ($request->hasFile('featureImage')) {
