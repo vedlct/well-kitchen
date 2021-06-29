@@ -12,20 +12,34 @@ use App\Models\Rating;
 use App\Models\ProductMostViewed;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Session;
 
 class ProductController extends Controller
 {
     public function productDetails($id)
     {
+        // dd(\Request::ip());
         // dd($id);
 
         //insert command for views
-                    if(Auth::check()){
+
+    //    $sessionId = Session::get('uniqueSession');
+       $sessionId = \Request::ip();
+        // dd(($sessionId));
+
+        $mostViewedProduct = new ProductMostViewed();
+        // $mostViewedProduct->fkuserId = Auth::user()->userId;
+        $mostViewedProduct->session_id = $sessionId;
+        $mostViewedProduct->fkskuId = $id;
+        $mostViewedProduct->save();
+
+                if(Auth::check()){
                     $mostViewedProduct = new ProductMostViewed();
                     $mostViewedProduct->fkuserId = Auth::user()->userId;
+                    // $mostViewedProduct->fkuserId = $sessionId;
                     $mostViewedProduct->fkskuId = $id;
                     $mostViewedProduct->save();
-                    }
+                }
 
         //view product details
         $sku = Sku::with('product', 'variationImages')->findOrfail($id);

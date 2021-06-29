@@ -69,6 +69,15 @@
                                                     @endif
                                                 </div>
                                             </div>
+                                            <div class="form-group row">
+                                                <label for="example-search-input" class="col-sm-2 col-form-label">Free delivery on order over tk</label>
+                                                <div class="col-sm-10">
+                                                    <input class="form-control" type="text" name="free_delivery_on_order_over_tk" placeholder="free delivery on order over tk" id="example-search-input" value="{{$setting->free_delivery_on_order_over_tk}}">
+                                                    @if ($errors->has('free_delivery_on_order_over_tk'))
+                                                        <span class="text-danger"><strong>{{ $errors->first('free_delivery_on_order_over_tk') }}</strong> </span>
+                                                    @endif
+                                                </div>
+                                            </div>
 
                                             <div class="form-group row">
                                                 <label for="example-search-input" class="col-sm-2 col-form-label">address</label>

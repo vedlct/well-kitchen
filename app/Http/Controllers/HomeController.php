@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\DB;
 use Darryldecode\Cart\Cart;
 use Illuminate\Support\Facades\Auth;
 // use DB;
+use Session;
 
 class HomeController extends Controller
 {
@@ -33,15 +34,6 @@ class HomeController extends Controller
 
         // // }
 
-        // $mostViewedProduct = ProductMostViewed::select('fkskuId')->count()->groupBy('fkskuId')->get();
-        // dd($mostViewedProduct);
-
-        // $mostViewedProducts = DB::table('product_most_viewed')->select('fkskuId', DB::raw('count(*) as total'))->groupBy('fkskuId')->orderBy('total','DESC')->get();
-
-        // foreach($mostViewedProducts as $item){
-        //     $skuProduct = Sku::where('skuId',$item->fkskuId)->get();
-        // }
-
         $categories = Category::where('homeShow', 1)->with('products.sku','products.hotdealProducts.hotdeals')->get();
         $products = Product::with('category','sku')->where('status', 'active')->get();
 
@@ -51,14 +43,14 @@ class HomeController extends Controller
         $newArrival =  Product::with('sku')->where('status', 'active')->where('newarrived', 1)->get();
         $recommendedProduct = Product::with('sku')->where('status', 'active')->where('isrecommended', 1)->get();
         $testimonials = Testimonial::where('status', 'active')->where('home',1)->get();
-
-        $mostViewedProducts = DB::table('product_most_viewed')->select('fkskuId', DB::raw('count(*) as total'))->groupBy('fkskuId')->orderBy('total','DESC')->get();
-        // dd($mostViewedProducts);
-        // foreach($mostViewedProducts as $item){
-            // @dd($item->sku);
-            // $skuProduct = Sku::where('skuId', $item->fkskuId)->with('product')->get();
-            // dd($skuProduct);
-        // }
+        
+        if(Auth::check()){
+            $mostViewedProducts = ProductMostViewed::where('fkuserId', Auth::user()->userId)->get();
+        }else{
+            $mostViewedProducts = ProductMostViewed::where('session_id', \Request::ip())->get();
+        }
+        
+       
 
         return view('welcome',compact('categories','products','skus','newArrival','recommendedProduct','testimonials','sliders','banners','mostViewedProducts'));
     }
