@@ -7,6 +7,7 @@ use App\Models\HotDealsProduct;
 use App\Models\Product;
 use App\Models\Sku;
 use App\Models\Stock;
+use App\Models\Variation;
 use App\Models\VariationDetails;
 use Illuminate\Http\Request;
 use Session;
@@ -27,7 +28,10 @@ class CategoryController extends Controller
             })->pluck('skuId');
 
             $variations = VariationDetails::whereIn('skuId', $skuIds)->get();
-
+            $variationDatas = VariationDetails::whereIn('skuId', $skuIds)->pluck('variationData');
+            $variationColorIds = Variation::whereIn('variationId', $variationDatas)->where('variationType', 'Color')->get();
+            $variationSizeIds = Variation::whereIn('variationId', $variationDatas)->where('variationType', 'Size')->get();
+            
         $newArrived = Product::where('newarrived', 1)->count();
         $category = Category::where('categoryId', $categoryId)->first();
         if($category){
@@ -44,7 +48,7 @@ class CategoryController extends Controller
         ->first();
         }
 
-        return view('shop', compact('newArrived', 'categoryId', 'variations', 'parentCategory', 'minmaxPrice', 'subCategory', 'category', 'skus'));
+        return view('shop', compact('newArrived', 'categoryId', 'variations', 'variationColorIds', 'variationSizeIds', 'parentCategory', 'minmaxPrice', 'subCategory', 'category', 'skus'));
     }
 
     public function searchByProducts(Request $request){
@@ -85,6 +89,9 @@ class CategoryController extends Controller
                 $query->where('status', 'active')->where('categoryId', $category->categoryId);
             })->get();
             $variations = VariationDetails::whereIn('skuId', $skuIds)->get();
+            $variationDatas = VariationDetails::whereIn('skuId', $skuIds)->pluck('variationData');
+            $variationColorIds = Variation::whereIn('variationId', $variationDatas)->where('variationType', 'Color')->get();
+            $variationSizeIds = Variation::whereIn('variationId', $variationDatas)->where('variationType', 'Size')->get();
 
             
             if($category){
@@ -100,7 +107,7 @@ class CategoryController extends Controller
             ->groupBy('product.categoryId')
             ->first();
             }
-            return view('shop', compact('products','skus', 'variations', 'categoryId','category', 'parentCategory', 'minmaxPrice', 'subCategory',));
+            return view('shop', compact('products','skus', 'variations', 'variationColorIds', 'variationSizeIds', 'categoryId','category', 'parentCategory', 'minmaxPrice', 'subCategory',));
         }else{
             Session::flash('warning', 'No product matched');
             return redirect('/');

@@ -118,7 +118,9 @@
                     </div>
 
                     <div class="sidebar-widget mt-50">
+                        @if($variationColorIds->count() > 0)
                         <h4 class="pro-sidebar-title">Colour </h4>
+                        @endif
                         <div class="sidebar-widget-list mt-20">
                             <ul>
                                
@@ -153,8 +155,9 @@
                         </div>
                     </div>
                     <div class="sidebar-widget mt-40">
-
+                        @if($variationSizeIds->count() > 0)
                         <h4 class="pro-sidebar-title">Size </h4>
+                        @endif
                         <div class="sidebar-widget-list mt-20">
                             <ul>
                                 @foreach($variations->unique('variationData') as $variationRelation)

@@ -111,14 +111,16 @@
 
                     <div class="pro-details-size-color" >
                         <div class="pro-details-color-wrap" id="colors">
-                            @foreach($product->sku as $productsku)
+                            {{-- @foreach($product->sku as $productsku)
                             @foreach($productsku->variationRelation as $variationRelation)
 
-                            @if($variationRelation->variationDetailsdata->variationType == "Color")
+                            @if($variationRelation->variationDetailsdata->variationType == "Color") --}}
+                            @if($variationColorIds->count() > 0)
                             <span>Color</span>
                             @endif
+                            {{-- @endif
                             @endforeach
-                            @endforeach
+                            @endforeach --}}
                             <div class="pro-details-color-content">
                                 <!-- select color -->
                                 @foreach($product->sku as $productsku)
@@ -134,14 +136,16 @@
                             </div>
                         </div>
                         <div class="pro-details-size" id="sizes">
-                            @foreach($product->sku as $productsku)
+                            {{-- @foreach($product->sku as $productsku)
                                 @foreach($productsku->variationRelation as $variationRelation)
 
-                                @if($variationRelation->variationDetailsdata->variationType == "Size")
+                                @if($variationRelation->variationDetailsdata->variationType == "Size") --}}
+                                @if($variationSizeIds->count() > 0)
                             <span>Size</span>
                             @endif
+                            {{-- @endif
                             @endforeach
-                            @endforeach
+                            @endforeach --}}
                             <div class="pro-details-size-content">
                                 <!-- select size -->
                                 @foreach($product->sku as $productsku)
