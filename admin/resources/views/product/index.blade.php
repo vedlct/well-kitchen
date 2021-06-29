@@ -22,14 +22,15 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h4 class="card-title">All Products</h4><a href="{{route('export')}}">Export</a>
-                                    <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
+                                    <h4 class="card-title">All Products</h4>
+                                    {{-- <a href="{{route('export')}}">Export</a> --}}
+                                    {{-- <form action="{{ route('import') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <input type="file" name="file" class="form-control">
                                         <br>
                                         <button class="btn btn-success">Import User Data</button>
 
-                                    </form>
+                                    </form> --}}
 {{--                                    <a href="{{route('import')}}">Import</a>--}}
                                     <a class="heading-elements-toggle"><i
                                             class="la la-ellipsis-v font-medium-3"></i></a>

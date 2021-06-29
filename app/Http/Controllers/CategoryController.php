@@ -7,26 +7,54 @@ use App\Models\HotDealsProduct;
 use App\Models\Product;
 use App\Models\Sku;
 use App\Models\Stock;
+use App\Models\Variation;
 use App\Models\VariationDetails;
 use Illuminate\Http\Request;
 use Session;
 
 class CategoryController extends Controller
 {
-    public function categoryProducts($categoryId=null){
-        // dd($categoryId);
-//        if(empty($categoryId)){
-            $skus = Sku::with('product')->whereHas('product', function ($query) {
-                $query->where('status', 'active');
-            })->get();
+    public function categoryProducts($categoryId = null){
+        $parentCategory = null;
+        $subCategory = null;
+       $minmaxPrice =  null;
 
+            $skus = Sku::with('product')->whereHas('product', function ($query) use($categoryId) {
+                $query->where('status', 'active')->where('categoryId', $categoryId);
+            })->get();
+           
+            $skuIds = Sku::with('product')->whereHas('product', function ($query) use($categoryId) {
+                $query->where('status', 'active')->where('categoryId', $categoryId);
+            })->pluck('skuId');
+
+            $variations = VariationDetails::whereIn('skuId', $skuIds)->get();
+            $variationDatas = VariationDetails::whereIn('skuId', $skuIds)->pluck('variationData');
+            $variationColorIds = Variation::whereIn('variationId', $variationDatas)->where('variationType', 'Color')->get();
+            $variationSizeIds = Variation::whereIn('variationId', $variationDatas)->where('variationType', 'Size')->get();
+            
         $newArrived = Product::where('newarrived', 1)->count();
         $category = Category::where('categoryId', $categoryId)->first();
+        if($category){
 
-        return view('shop', compact('newArrived', 'categoryId', 'category', 'skus'));
+            $parentCategory = Category::where('categoryId', $category->parent)->first();
+            $subCategory = Category::where('categoryId', $category->subParent)->first();
+
+            $minmaxPrice = \DB::table('product')
+        ->select(\DB::raw("MAX(sku.salePrice) AS max_price"), \DB::raw("MIN(sku.salePrice) AS min_price"))
+        // ->leftJoin('category', 'product.categoryId', '=', 'category.categoryId')
+        ->join('sku', 'product.productId', '=', 'sku.fkproductId')
+        ->where('product.categoryId', $categoryId)
+        ->groupBy('product.categoryId')
+        ->first();
+        }
+
+        return view('shop', compact('newArrived', 'categoryId', 'variations', 'variationColorIds', 'variationSizeIds', 'parentCategory', 'minmaxPrice', 'subCategory', 'category', 'skus'));
     }
 
     public function searchByProducts(Request $request){
+        $parentCategory = null;
+        $subCategory = null;
+       $minmaxPrice =  null;
         // dd($request->all());
         $allSearch = $request->allSearch;
         $products = Product::query()
@@ -42,9 +70,11 @@ class CategoryController extends Controller
                     $skusIds[] = $productsku->skuId;
                 }
             }
+            
             $skus = Sku::with('product')->whereIn('skuId', $skusIds)->whereHas('product', function ($query) {
                 $query->where('status', 'active');
             })->get();
+
 //            foreach($products as $pro){
 //                $skusSingle = Sku::where('fkproductId',$pro->productId)->with('product.category')->first();
 //
@@ -54,7 +84,30 @@ class CategoryController extends Controller
             $categoryId = $skus->first()->product->categoryId;
 
             $category = $skus->first()->product->category;
-            return view('shop', compact('products','skus','categoryId','category'));
+           
+            $skuIds = Sku::with('product')->whereIn('skuId', $skusIds)->whereHas('product', function ($query) use($category) {
+                $query->where('status', 'active')->where('categoryId', $category->categoryId);
+            })->get();
+            $variations = VariationDetails::whereIn('skuId', $skuIds)->get();
+            $variationDatas = VariationDetails::whereIn('skuId', $skuIds)->pluck('variationData');
+            $variationColorIds = Variation::whereIn('variationId', $variationDatas)->where('variationType', 'Color')->get();
+            $variationSizeIds = Variation::whereIn('variationId', $variationDatas)->where('variationType', 'Size')->get();
+
+            
+            if($category){
+
+                $parentCategory = Category::where('categoryId', $category->parent)->first();
+                $subCategory = Category::where('categoryId', $category->subParent)->first();
+    
+                $minmaxPrice = \DB::table('product')
+            ->select(\DB::raw("MAX(sku.salePrice) AS max_price"), \DB::raw("MIN(sku.salePrice) AS min_price"))
+            // ->leftJoin('category', 'product.categoryId', '=', 'category.categoryId')
+            ->join('sku', 'product.productId', '=', 'sku.fkproductId')
+            ->where('product.categoryId', $categoryId)
+            ->groupBy('product.categoryId')
+            ->first();
+            }
+            return view('shop', compact('products','skus', 'variations', 'variationColorIds', 'variationSizeIds', 'categoryId','category', 'parentCategory', 'minmaxPrice', 'subCategory',));
         }else{
             Session::flash('warning', 'No product matched');
             return redirect('/');
