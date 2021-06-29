@@ -29,6 +29,12 @@
 </head>
 
 <body class="position-relative">
+
+      <!-- preloader start -->
+    <div class="loader_bg">
+        <div class="loader"></div>
+    </div>
+
     <!-- category for mobile start -->
     <div class="dark-overlay" id="darkOverlay" onclick="hideWithDark()"></div>
     <div class="toggle-nav-cross" id="rightNavClose" onclick="hideWithDark()">

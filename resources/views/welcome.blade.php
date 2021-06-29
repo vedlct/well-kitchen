@@ -38,7 +38,7 @@
                     @foreach ($categories as $key=>$category)
                     <li class="col-md-6 col-lg-3 col-6 mb-3">
                         <a class="{{$key == 0 ? 'active' : '' }}" href="{{route('category.products', $category->categoryId)}}">
-                            <div class="category-name">
+                            <div class="category-name h-100">
                                 <h4 class="mb-0">
                                     <span>{{$category->categoryName}}</span>
                                     <img src="{{asset('admin/public/categoryImage/'.$category->imageLink)}}" class="ml-3" alt="">
@@ -64,7 +64,7 @@
             <div class="category-buttons mb-4">
                 <div class="category-name-slider nav" id="nav-tab" role="tablist">
                     @foreach ($categories as $key => $category)
-                        <a class="{{ $key == 0 ? 'active' : '' }} nav-link" id="cat1-tab{{ $category->categoryId }}" data-toggle="tab"
+                        <a class="{{ $key == 0 ? 'active' : '' }} nav-link nav-items" id="cat1-tab{{ $category->categoryId }}" data-toggle="tab"
                             href="#cat{{ $category->categoryId }}" role="tab" aria-selected="false">
                             <div class="category-name">
                                 <h4 class="mb-0">

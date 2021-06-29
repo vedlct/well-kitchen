@@ -164,6 +164,14 @@
 
 {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>--}}
 
+  <!-- preloader js -->
+  <script>
+    $(window).on("load", function(){
+      $(".loader_bg").fadeOut("slow");
+      
+    });
+  </script>
+
   <script>
       toastr.options.preventDuplicates = true;
     toastr.options.showMethod = 'slideDown';
