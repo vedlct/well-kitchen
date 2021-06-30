@@ -82,7 +82,7 @@ class ProductController extends Controller
                 }
                 $finalRating = ceil($totalRating / $totalCustomer);
             }
-            return view('productDetails', compact('sku', 'product','skus','customer','reviewAll', 'finalRating'));
+            return view('productDetails', compact('sku', 'product','skus','customer','reviewAll', 'finalRating', 'categoryId', 'category', 'variationColorIds', 'variationSizeIds', 'parentCategory', 'subCategory'));
         }else{
             $reviews = Review::where('fkproductId', $sku->fkproductId)->get();
             $review = Review::with('customer.user','getRating')->where('fkproductId',$product->productId)->orderBy('created_at','desc')->limit(10)->get();
