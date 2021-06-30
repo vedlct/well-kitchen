@@ -325,7 +325,7 @@
                                             <div class="col-md-6">
                                                 <div class="rating-form-style mb-10">
                                                     @if(Auth::check())
-                                                    <input placeholder="Name" type="hidden" name="customerId" value="{{$customer->customerId}}">
+                                                    <input placeholder="Name" type="hidden" name="customerId" value="{{$customer?$customer->customerId:''}}">
                                                     <input placeholder="Name" type="text" value="{{Auth::user()->firstName}}" readonly>
                                                     @else
                                                     <input placeholder="Name" type="text" name="customerId" required>

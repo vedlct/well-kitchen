@@ -248,74 +248,7 @@
 
 
         function readyFn() {
-{{--            var categoryId = {{$categoryId}} ;--}}
             filter();
-            {{--$.ajax({--}}
-            {{--    url: "{{route('filter.products')}}",--}}
-            {{--    method: 'POST',--}}
-            {{--    data: {--}}
-            {{--        _token: "{{csrf_token()}}",--}}
-            {{--        categoryId: categoryId--}}
-            {{--    },--}}
-            {{--    success: function (data) {--}}
-            {{--        console.log(data);--}}
-            {{--        sks = data.skuss;--}}
-            {{--        console.log(sks);--}}
-            {{--        $("#productdetails").html(data.html);--}}
-            {{--        $(document).on('click', '.page', function(event){--}}
-            {{--            event.preventDefault();--}}
-            {{--            let page = $(this).data('page_id');--}}
-            {{--            // alert(page);--}}
-            {{--            // console.log(page);--}}
-            {{--            console.log(sks);--}}
-            {{--            $.ajax({--}}
-            {{--                url: "{{route('filter.products')}}",--}}
-            {{--                method: 'POST',--}}
-            {{--                data: {--}}
-            {{--                    _token: "{{csrf_token()}}",--}}
-            {{--                    page : page,--}}
-            {{--                    categoryId: categoryId--}}
-            {{--                    // sks: sks--}}
-            {{--                },--}}
-            {{--                success: function(data) {--}}
-            {{--                    console.log('ffff');--}}
-            {{--                    console.log(data);--}}
-            {{--                    $("#productdetails").html(data.html);--}}
-            {{--                }--}}
-            {{--            });--}}
-            {{--        });--}}
-
-            {{--        $(document).on('click', '.prev,.next', function(event){--}}
-            {{--            event.preventDefault();--}}
-
-            {{--            let container = $(this).closest('.pager');--}}
-            {{--            let page =parseInt(container.find('.active').text());--}}
-            {{--            let clicked_class = $(this).hasClass('prev');--}}
-            {{--            if(clicked_class)--}}
-            {{--            {--}}
-            {{--                --page;--}}
-            {{--            }--}}
-            {{--            else{--}}
-            {{--                page++;--}}
-            {{--            }--}}
-            {{--            $.ajax({--}}
-            {{--                url: "{{route('filter.products')}}",--}}
-            {{--                method: 'POST',--}}
-            {{--                data: {--}}
-            {{--                    _token: "{{csrf_token()}}",--}}
-            {{--                    page : page,--}}
-            {{--                    categoryId: categoryId--}}
-            {{--                },--}}
-            {{--                success: function(data) {--}}
-            {{--                    console.log(data);--}}
-            {{--                    $("#productdetails").html(data.html);--}}
-            {{--                }--}}
-            {{--            });--}}
-            {{--        });--}}
-
-
-            {{--    }--}}
-            {{--});--}}
         };
 
         $(document).ready(readyFn);
@@ -371,7 +304,7 @@
         $(".newCheck").change(function() {
 
             if(this.checked) {
-                newSS.push(this.value);
+                newSS.push(this.value); 
 
             }else{
                 if(jQuery.inArray(this.value, newSS) !== -1){

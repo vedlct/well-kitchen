@@ -115,14 +115,23 @@ class CategoryController extends Controller
     }
 
     public function filterProducts(Request $request){
-        if($request->priceMin && $request->priceMax) {
-            $skuss = Sku::with('product')->where('salePrice', '>=', $request->priceMin)->where('salePrice', '<=', $request->priceMax)->whereHas('product', function ($query) {
-                $query->where('status', 'active');
-            });
-        }else {
-            $skuss = Sku::with('product')->whereHas('product', function ($query) {
-                $query->where('status', 'active');
-            });
+        // dd($request->all());
+        // if(!empty($request->priceMin) && !empty($request->priceMax)) {
+        //     $skuss = Sku::with('product')->where('salePrice', '>=', $request->priceMin)->where('salePrice', '<=', $request->priceMax)->whereHas('product', function ($query) {
+        //         $query->where('status', 'active');
+        //     });
+        // }else {
+        //     $skuss = Sku::with('product')->whereHas('product', function ($query) {
+        //         $query->where('status', 'active');
+        //     });
+        // }
+
+        $skuss = Sku::with('product')->whereHas('product', function ($query) {
+                    $query->where('status', 'active');
+                });
+
+        if(!empty($request->priceMin) && !empty($request->priceMax)) {
+            $skuss = $skuss->where('salePrice', '>=', $request->priceMin)->where('salePrice', '<=', $request->priceMax);
         }
 
         if (!empty($request->categoryId)) {
@@ -130,6 +139,8 @@ class CategoryController extends Controller
                 $query->where('categoryId', $request->categoryId);
             });
         }
+       
+       
 
         if(!empty($request->products)){
             $skuss = $skuss->whereHas('product', function ($query) use ($request) {
@@ -171,17 +182,32 @@ class CategoryController extends Controller
             });
         }
 
+        if (!empty($request->alphaOrderSS) && ($request->alphaOrderSS=="A")) {
+           $skuss = $skuss->whereHas('product', function ($query) {
+            $query->orderBy('productId', 'desc');
+            // $q->orderBy('price', $queryParameters['orderBy']);
+            });
+            // dd($skuss->get());
+        }
+       
+        if (!empty($request->alphaOrderSS) && ($request->alphaOrderSS=="Z")) {
+           
+            $skuss = $skuss->whereHas('product', function ($query) use ($request) {
+            })->orderBy('productName', 'desc');
+        }
+
         if (!empty($request->instockSS) || (!empty($request->alphaOrderSS) && ($request->alphaOrderSS=="instock"))) {
-            $availableSku = [];
-            foreach($skuss->get() as $sku){
-                $stockIn=Stock::where('fkskuId',$sku->skuId)->where('type', 'in')->sum('stock');
-                $stockOut=Stock::where('fkskuId',$sku->skuId)->where('type', 'out')->sum('stock');
-                $stockAvailable = $stockIn-$stockOut;
-                if($stockAvailable > 0){
-                    $availableSku[] = $sku->skuId;
-                }
+        $availableSku = [];
+        foreach($skuss->get() as $sku){
+            $stockIn=Stock::where('fkskuId',$sku->skuId)->where('type', 'in')->sum('stock');
+            $stockOut=Stock::where('fkskuId',$sku->skuId)->where('type', 'out')->sum('stock');
+            $stockAvailable = $stockIn-$stockOut;
+            if($stockAvailable > 0){
+                $availableSku[] = $sku->skuId;
             }
-            $skuss = $skuss->whereIn('skuId', $availableSku);
+        }
+
+        $skuss = $skuss->whereIn('skuId', $availableSku);
         }
 
            $per_paginate = 15;
