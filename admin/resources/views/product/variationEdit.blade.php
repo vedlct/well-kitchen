@@ -100,11 +100,27 @@
                     </button>
                 </div>
             </div>
+            <div class="col-md-4 col-lg-4 col-xl-3">
+                <div class="form-group">
+                    <br>
+                    <button style=" border: 1px solid #cacfe7; margin-top: 7px;  padding: 10px 5px;" class="btn w-100" type="button" data-toggle="collapse" data-target="#variationshort" aria-expanded="false" aria-controls="collapseExample">
+                        Variation Short des
+                    </button>
+                </div>
+            </div>
             <div id="varDetails" class="collapse row">
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="">Variation Details</label><span style="color: red;margin-left: 5px;font-weight: bold;">*</span>
                         <textarea class="form-control" name="variationDetails" id="variationDetails">{{ $sku->variationDetails ? $sku->variationDetails->description : ''  }}</textarea>
+                    </div>
+                </div>
+            </div>
+            <div id="variationshort" class="collapse row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="">Variation Short Description</label><span style="color: red;margin-left: 5px;font-weight: bold;">*</span>
+                        <textarea class="form-control " name="variationShortDes" id="variationShortDes">{{ $sku->variationDetails ? $sku->variationDetails->fabricDetails : ''  }}</textarea>
                     </div>
                 </div>
             </div>
@@ -117,6 +133,8 @@
 <script>
     $(document).ready(function () {
         CKEDITOR.replace('variationDetails');
+        CKEDITOR.replace('variationShortDes');
+
 
     });
     // 1st Variation Type Change

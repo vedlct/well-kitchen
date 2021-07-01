@@ -106,6 +106,8 @@ class ProductController extends Controller
         $product_variation_temp->salePrice = $request->salePrice;
         $product_variation_temp->stockAlert = $request->stockAlert;
         $product_variation_temp->variationDetails = $request->variationDetails;
+        $product_variation_temp->variationShortDes = $request->variationShortDes;
+
 
         if ($request->variationValue1) {
             $variation1 = Variation::where('variationId', $request->variationValue1)->first();
@@ -173,13 +175,13 @@ class ProductController extends Controller
             $product->save();
         }
 
-        if (!empty($request->productDetails)) {
-            $productDetails = new ProductDetails();
-            $productDetails->description = $request->productDetails;
-            $productDetails->fabricDetails = $request->shortDescription;
-            $productDetails->productId = $product->productId;
-            $productDetails->save();
-        }
+        // if (!empty($request->productDetails)) {
+        //     $productDetails = new ProductDetails();
+        //     $productDetails->description = $request->productDetails;
+        //     $productDetails->fabricDetails = $request->shortDescription;
+        //     $productDetails->productId = $product->productId;
+        //     $productDetails->save();
+        // }
 
         if($product->type == "single"){
 
@@ -190,6 +192,17 @@ class ProductController extends Controller
             $sku->stockAlert = $request->stockAlert;
             $sku->status = $product->status;
             $sku->save();
+
+
+            if (!empty($request->productDetails) || !empty($request->shortDescription)) {
+                $productDetails = new ProductDetails();
+                $productDetails->description = $request->productDetails;
+                $productDetails->fabricDetails = $request->shortDescription;
+                $productDetails->productId = $product->productId;
+                $productDetails->fkskuId = $sku->skuId;
+
+                $productDetails->save();
+            }
 
             if ($request->hasFile('productImages')) {
                 foreach ($request->file('productImages') as $pimage) {
@@ -234,12 +247,12 @@ class ProductController extends Controller
                     $sku->status = $product->status;
                     $sku->save();
 
-                        $productDetails = new ProductDetails();
-                        $productDetails->description = $product_variation->variationDetails;
-                        $productDetails->fabricDetails = null;
-                        $productDetails->productId = $product->productId;
-                        $productDetails->fkskuId = $sku->skuId;
-                        $productDetails->save();
+                    $productDetails = new ProductDetails();
+                    $productDetails->description = $product_variation->variationDetails;
+                    $productDetails->fabricDetails = $product_variation->variationShortDes;
+                    $productDetails->productId = $product->productId;
+                    $productDetails->fkskuId = $sku->skuId;
+                    $productDetails->save();
 
                     if ($product_variation->variationValue1) {
                         $variationRelation = new VariationDetails();
@@ -357,6 +370,13 @@ class ProductController extends Controller
         $sku->stockAlert = $request->stockAlert;
         $sku->save();
 
+        $productDetails = new ProductDetails();
+        $productDetails->description = $product_variation->variationDetails;
+        $productDetails->fabricDetails = $product_variation->variationShortDes;
+        $productDetails->productId = $product->productId;
+        $productDetails->fkskuId = $sku->skuId;
+        $productDetails->save();
+
         //variation store
         if ($request->variationValue1) {
             $variationRelation = new VariationDetails();
@@ -444,6 +464,12 @@ class ProductController extends Controller
         if($request->variationDetails){
             $productDetails = ProductDetails::where('fkskuId', $request->skuId)->first();
             $productDetails->description = $request->variationDetails;
+            $productDetails->save();
+        }
+
+        if($request->variationShortDes){
+            $productDetails = ProductDetails::where('fkskuId', $request->skuId)->first();
+            $productDetails->fabricDetails = $request->variationShortDes;
             $productDetails->save();
         }
 

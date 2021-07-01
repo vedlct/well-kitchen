@@ -62,6 +62,26 @@ class HomeController extends Controller
         return view('welcome',compact('categories', 'products', 'skus', 'newArrivals', 'recommendeds', 'testimonials', 'sliders', 'banners', 'mostViewedProducts'));
     }
 
+
+    public function offers(){
+        $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first();
+        $oldprice = null;
+        if(empty($hotDeal)){
+            $saleprice = $sku->salePrice ;
+        }
+
+        if(!empty($hotDeal)) {
+             $percentage = $hotDeal->hotdeals->percentage;
+             $afterDiscountPrice = ($sku->salePrice) - (($sku->salePrice) * $percentage) / 100;
+
+            $saleprice = $afterDiscountPrice;
+            $oldprice = $sku->salePrice;
+         }
+         dd($hotDeal);
+        return view('offers');
+    }
+
+
     public function quickView(Request $request){
         $sku_id = $request->sku_id;
         $sku = Sku::with('product', 'product.details')->where('skuId', $sku_id)->first();

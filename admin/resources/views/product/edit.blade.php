@@ -424,6 +424,131 @@
                                                 @csrf
                                                 <div class="form-body">
                                                     <div class="row">
+                                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                                            <div class="form-group">
+                                                                <label>Variation Type</label>
+                                                                <select name="variationType1" id="variationType1" class="variationType1 form-control">
+                                                                    <option value="" selected>Select Type</option>
+                                                                    @foreach($variations->unique('variationType') as $variationType)
+                                                                    <option id="color1" value="{{$variationType->variationType}}">{{$variationType->variationType}}</option>
+                                                                    @endforeach
+                                                                    {{-- <option id="size1" value="Size">Size</option> --}}
+                                                                    {{-- <option id="other1" value="Other">Other</option> --}}
+                                                                </select>
+                                                                <div class="divAjaxError" style="color: red" class="mb-2" id="variationType1Error"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 col-lg-4 col-xl-3" id="variationValues1">
+                                                            <div class="form-group">
+                                                                <label>Variation Value</label>
+                                                                <select name="variationValue1" id="variationValue1" class="form-control">
+                                                                    <option value="" selected>Select Value</option>
+                                                                </select>
+                                                                <div class="divAjaxError" style="color: red" class="mb-2" id="variationValue1Error"></div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                                            <div class="form-group">
+                                                                <label>Variation Type</label>
+                                                                <select name="variationType2" id="variationType2" class="variationType2 form-control">
+                                                                    <option value="" selected>Select Type</option>
+                                                                    @foreach($variations->unique('variationType') as $variationType)
+                                                                    <option id="color1" value="{{$variationType->variationType}}">{{$variationType->variationType}}</option>
+                                                                    @endforeach
+                                                                    {{-- <option id="color2" value="Color">Color</option>
+                                                                    <option id="size2" value="Size">Size</option>
+                                                                    <option id="other2" value="Other">Other</option> --}}
+                                                                </select>
+                                                                <div class="divAjaxError" style="color: red" class="mb-2" id="variationType2Error"></div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 col-lg-4 col-xl-3" id="variationValues2">
+                                                            <div class="form-group">
+                                                                <label>Variation Value</label>
+                                                                <select name="variationValue2" id="variationValue2" class="form-control">
+                                                                    <option value="" selected>Select Value</option>
+                                                                </select>
+                                                                <div class="divAjaxError" style="color: red" class="mb-2" id="variationValue2Error"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                                            <div class="form-group">
+                                                                <label>Sale Price</label>
+                                                                <input type="text" class="form-control" name="salePrice" id="salePrice" placeholder="sale price">
+                                                                <div class="divAjaxError" style="color: red" class="mb-2" id="salePriceError"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                                            <div class="form-group">
+                                                                <label>Stock Alert</label>
+                                                                <input type="number" class="form-control" id="stockAlert" name="stockAlert" placeholder="stock alert">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                                            <div data-repeater-list="repeater-group">
+                                                                <label>Barcode</label>
+                                                                <div class="input-group mb-1" data-repeater-item>
+                                                                    <input type="text" placeholder="barcode" name="barcode" id="barcodeVariation" class="form-control" id="barcode">
+                                                                    <span class="input-group-append" id="button-addon2">
+                                                                    <a onclick="barcodeGenerateVariation()" style="color: white; font-weight: bold; padding-top: 14px;" class="btn btn-sm btn-danger" data-repeater-delete>
+                                                                      generate
+                                                                    </a>
+                                                                </span>
+                                                                    <div style="color: red" class="mb-2" id="barcodeError"></div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                                            <div class="form-group">
+                                                                <label>Variation Image</label>
+                                                                <input type="file" id="varImage" class="form-control" name="variationImage[]" multiple>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                                            <div class="form-group">
+                                                                <br>
+                                                                <button style=" border: 1px solid #cacfe7; margin-top: 7px;  padding: 10px 5px;" class="btn w-100" type="button" data-toggle="collapse" data-target="#varDetails" aria-expanded="false" aria-controls="collapseExample">
+                                                                    Variation Details
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                                            <div class="form-group">
+                                                                <br>
+                                                                <button style=" border: 1px solid #cacfe7; margin-top: 7px;  padding: 10px 5px;" class="btn w-100" type="button" data-toggle="collapse" data-target="#variationshort" aria-expanded="false" aria-controls="collapseExample">
+                                                                    Variation Short des
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div id="varDetails" class="collapse row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label for="">Variation Details</label><span style="color: red;margin-left: 5px;font-weight: bold;">*</span>
+                                                                    <textarea class="form-control" name="variationDetails" id="variationDetails"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="variationshort" class="collapse row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label for="">Variation Short Description</label><span style="color: red;margin-left: 5px;font-weight: bold;">*</span>
+                                                                    <textarea class="form-control " name="variationShortDes" id="variationShortDes"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                                            <button  type="submit" style="text-decoration: none; color: #ffffff; line-height: 1.5" class=" mt-2 mb-2 form-control btn btn-info btn-sm">
+                                                                <i class="la la-check"></i> Save</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                            {{-- <form id="variationAddNew" enctype="multipart/form-data">
+                                                @csrf
+                                                <div class="form-body">
+                                                    <div class="row">
                                                         <div class="col-md-4 col-lg-4 col-xl-2">
                                                             <div class="form-group">
                                                                 <label>Variation Type</label>
@@ -432,9 +557,7 @@
                                                                     @foreach($variations->unique('variationType') as $variationType)
                                                                     <option id="color1" value="{{$variationType->variationType}}">{{$variationType->variationType}}</option>
                                                                     @endforeach
-                                                                    {{-- <option value="Color">Color</option>
-                                                                    <option value="Size">Size</option>
-                                                                    <option value="Other">Other</option> --}}
+                                                                   
                                                                 </select>
                                                                 <div class="divAjaxError" style="color: red" class="mb-2" id="variationType1Error"></div>
                                                                 <input type="hidden" id="productId" value="{{ $product->productId }}" name="productId">
@@ -458,9 +581,7 @@
                                                                     @foreach($variations->unique('variationType') as $variationType)
                                                                     <option id="color1" value="{{$variationType->variationType}}">{{$variationType->variationType}}</option>
                                                                     @endforeach
-                                                                    {{-- <option value="Color">Color</option>
-                                                                    <option value="Size">Size</option>
-                                                                    <option value="Other">Other</option> --}}
+                                                                   
                                                                 </select>
                                                                 <div class="divAjaxError" style="color: red" class="mb-2" id="variationType2Error"></div>
                                                             </div>
@@ -514,7 +635,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </form>
+                                            </form> --}}
                                             <br>
                                             </form>
                                         </div>
@@ -552,6 +673,8 @@ let productImageId;
         $(document).ready(function () {
             CKEDITOR.replace('shortDescription');
             CKEDITOR.replace('productDetails');
+            CKEDITOR.replace('variationDetails');
+            CKEDITOR.replace('variationShortDes');
 
             @if($product->type == "variation")
             var productId = {{ $product->productId }}
