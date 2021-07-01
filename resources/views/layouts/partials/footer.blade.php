@@ -47,7 +47,7 @@
                             <h3>FOLLOW US</h3>
                         </div>
                         <div class="footer-list">
-                            <ul>
+                            <ul class="social-icon">
                                 <li><a href=" {{($setting->facebook)}} "><i class="fa fa-facebook"></i></a></li>
                                 <li><a href=" {{($setting->twitter)}} "><i class="fa fa-twitter"></i></a></li>
                                 <li><a href=" {{$setting->instagram}} "><i class="fa fa-linkedin"></i></a></li>
