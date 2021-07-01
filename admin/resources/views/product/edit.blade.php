@@ -298,14 +298,14 @@
                                                             <div id="singleSalePrice" class="col-md-4 col-lg-4 col-xl-3">
                                                                 <div class="form-group">
                                                                     <label>Sale Price</label>
-                                                                    <input type="number" class="form-control" name="salePrice" id="salePrice" value="{{ $sku->salePrice }}">
+                                                                    <input type="number" class="form-control" name="salePrice" id="salePrice" value="{{ $sku?$sku->salePrice:'' }}">
                                                                 </div>
                                                             </div>
                                                             <div id="singleBarcode" class="col-md-4 col-lg-4 col-xl-3">
                                                                 <div data-repeater-list="repeater-group">
                                                                     <label>Barcode</label>
                                                                     <div class="input-group mb-1" data-repeater-item>
-                                                                        <input type="text" value="{{ $sku->barcode }}" name="barcodeSingle" id="barcodeEdit" class="form-control" id="example-ql-input">
+                                                                        <input type="text" value="{{ $sku?$sku->barcode:'' }}" name="barcodeSingle" id="barcodeEdit" class="form-control" id="example-ql-input">
                                                                         <span class="input-group-append" id="button-addon2">
                                                                         <a onclick="barcodeGenerateEdit()" style="color: white; font-weight: bold; padding: 14px 4px 10px;" class="btn btn-sm btn-danger" data-repeater-delete>
                                                                         generate
@@ -320,7 +320,7 @@
                                                             <div id="singleStock" class="col-md-4 col-lg-4 col-xl-3">
                                                                 <div class="form-group">
                                                                     <label>Stock Alert</label>
-                                                                    <input type="number" class="form-control" id="stockAlert" name="stockAlert" value="{{ $sku->stockAlert }}">
+                                                                    <input type="number" class="form-control" id="stockAlert" name="stockAlert" value="{{ $sku?$sku->stockAlert:'' }}">
                                                                 </div>
                                                             </div>
                                                             @endif

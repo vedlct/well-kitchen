@@ -476,7 +476,7 @@ class ProductController extends Controller
 
     //Update Product
     public function update(Request $request, $productId){
-
+// dd($request->all());
         $this->validate($request, [
             'productName' => 'required',
             'productCode' => 'required',
@@ -495,6 +495,7 @@ class ProductController extends Controller
         $product->type = $request->type;
         $product->status = $request->status;
 
+        $product->save();
 
         if($request->newArrival == "on"){
 
