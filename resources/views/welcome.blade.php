@@ -189,17 +189,7 @@
     <div class="banner-area pb-50">
         <div class="container">
             <div class="row">
-                {{-- @dd(date('Y-m-d H:i:s')); --}}
-                @php
-                    $dateToday = date('Y-m-d H:i:s');
-                @endphp
-                {{-- @dd($banners->promotion->where('endDate' ,'=>', $dateToday )); --}}
-                @foreach ($banners as $item)
-                    {{-- @php
-                  $item = $item->where('promotions.endDate' ,'>=', $dateToday)->where('promotions.startDate','<=', $dateToday)->get();
-              @endphp --}}
-                    {{-- @dd($item); --}}
-                    {{-- @dd($item->promotion->where('endDate' ,'>=', $dateToday)->where('startDate','<=', $dateToday)->get()); --}}
+               @foreach ($banners as $item)
                     <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                         <div class="single-banner mb-30">
                             <a href="#"><img src="{{ asset('admin/public/bannerImage/' . $item->imageLink) }}"
@@ -211,6 +201,8 @@
         </div>
     </div>
     <!-- banner end -->
+
+    
 
     <!-- product area start -->
     <div class="product-area pb-70">

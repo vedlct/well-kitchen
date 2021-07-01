@@ -25,14 +25,10 @@ class HomeController extends Controller
     public function index(){
         $dateToday = date('Y-m-d h:i:s');
         $sliders = Slider::where('status', 'active')->get();
-        $banners = Banner::where('status', 'active')->with('promotion')->take(2)->get();
-        // $validPromotion = Promotion::where('promotionsId',$ba)
-        // dd($banners->promotion);
-        // dd($banners);
-        // // foreach($banners as $item){
-        // //     $validPromotion = $item->promotion->where('startDate', '<=', date('Y-m-d H:i:s'))->where('endDate', '>=', date('Y-m-d H:i:s'))->get();
-
-        // // }
+        $banners = Banner::with('promotion')->whereHas('promotion', function ($query){
+            $query->where('status', 'active')->where('startDate', '<=', date('Y-m-d H:i:s'))->where('endDate', '>=', date('Y-m-d H:i:s'));
+        })->take(2)->get();
+        
 
         $categories = Category::where('homeShow', 1)->with('products.sku','products.hotdealProducts.hotdeals')->get();
         $products = Product::with('category','sku')->where('status', 'active')->get();
