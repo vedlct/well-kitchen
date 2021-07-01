@@ -21,4 +21,5 @@ class Promotion extends Model
     {
         return $this->hasOne('App\Models\PromoImage', 'fkpromotionsId', 'promotionsId');
     }
+
 }
