@@ -492,10 +492,9 @@ class ProductController extends Controller
         $product->categoryId = $request->categoryId;
         $product->fkbrandId = $request->fkbrandId;
         $product->fkidproduct_unit = $request->fkidproduct_unit;
-        $product->type = $request->type;
         $product->status = $request->status;
 
-        $product->save();
+        
 
         if($request->newArrival == "on"){
 
@@ -520,32 +519,8 @@ class ProductController extends Controller
         // if (!empty($request->featureProduct)) {
         //     $product->isrecommended='1';
         // }
-        $product->save();
 
-        if ($request->hasFile('featureImage')) {
-            $originalExtension = $request->featureImage->getClientOriginalExtension();
-            $uniqueImageName = $product->productId.rand(100, 999).'.'.$originalExtension;
-            $image = Image::make($request->featureImage);
-            $image->save(public_path().'/featureImage/'.$uniqueImageName);
-            $product->featureImage = $uniqueImageName;
-            $product->save();
-        }
-
-        if (!empty($request->productDetails)) {
-            $productDetails = ProductDetails::where('productId',$productId)->first();
-            $productDetails->description = $request->productDetails;
-            $productDetails->fabricDetails = $request->shortDescription;
-            $productDetails->save();
-        }
-
-        if (empty($request->productDetails)) {
-            $productDetails = new ProductDetails();
-            $productDetails->description = $request->productDetails;
-            $productDetails->fabricDetails = $request->shortDescription;
-            $productDetails->productId = $productId;
-            $productDetails->save();
-        }
-
+        
         if ($product->type == 'single') {
             $sku = Sku::where('fkproductId', $productId)->first();
             $sku->barcode = $request->barcodeSingle;
@@ -582,10 +557,37 @@ class ProductController extends Controller
                 $productImage->save();
             }
         }
+        $product->type = $request->type;
+
+        if ($request->hasFile('featureImage')) {
+            $originalExtension = $request->featureImage->getClientOriginalExtension();
+            $uniqueImageName = $product->productId.rand(100, 999).'.'.$originalExtension;
+            $image = Image::make($request->featureImage);
+            $image->save(public_path().'/featureImage/'.$uniqueImageName);
+            $product->featureImage = $uniqueImageName;
+            $product->save();
+        }
+
+        if (!empty($request->productDetails)) {
+            $productDetails = ProductDetails::where('productId',$productId)->first();
+            $productDetails->description = $request->productDetails;
+            $productDetails->fabricDetails = $request->shortDescription;
+            $productDetails->save();
+        }
+
+        if (empty($request->productDetails)) {
+            $productDetails = new ProductDetails();
+            $productDetails->description = $request->productDetails;
+            $productDetails->fabricDetails = $request->shortDescription;
+            $productDetails->productId = $productId;
+            $productDetails->save();
+        }
+
+        $product->save();
 
         Session::flash('success', 'Product Updated Successfully');
 
-        return back();
+        return redirect()->route('product.show');
     }
 
     //Variation Image Delete
