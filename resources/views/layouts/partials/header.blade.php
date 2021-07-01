@@ -29,6 +29,12 @@
 </head>
 
 <body class="position-relative">
+
+      <!-- preloader start -->
+    <div class="loader_bg">
+        <div class="loader"></div>
+    </div>
+
     <!-- category for mobile start -->
     <div class="dark-overlay" id="darkOverlay" onclick="hideWithDark()"></div>
     <div class="toggle-nav-cross" id="rightNavClose" onclick="hideWithDark()">
@@ -37,7 +43,7 @@
     <section class="right-toogle-nav" id="showRightNav">
         <div class="inner">
             <ul class="list-unstyled all-item">
-                @foreach($allCategories->where('parent',null) as $key => $parentCategory)
+                {{-- @foreach($allCategories->where('parent',null) as $key => $parentCategory)
                 <li>
                     <a class="d-block" data-toggle="collapse" href="#showCategorySubmenu{{$key}} " role="button" aria-expanded="false" aria-controls="showCategorySubmenu">{{ $parentCategory->categoryName }}
                       <i class="fa fa-angle-right float-right"></i>
@@ -51,7 +57,7 @@
 
                                 <div class="collapse" id="showCategorySubmenu{{$keyItem}}">
                                     <ul class="ml-3">
-                                        @foreach($subSubCategories->where('subParent', $subCategory->categoryId) as $subParentCategory)
+                                            @foreach($subSubCategories->where('subParent', $subCategory->categoryId) as $subParentCategory)
                                         <li>
                                         <a href="{{route('category.products', $subParentCategory->categoryId)}}"> {{ $subParentCategory->categoryName }}</a>
                                         </li>
@@ -63,10 +69,62 @@
                         </ul>
                     </div>
                  </li>
+                @endforeach --}}
+                <li><a href="{{url('/')}}">Home</a>
+                    <li><a href="{{route('contact')}}">Contact</a>
+                        @foreach($menu->where('menuType','Header')->sortByDesc('menuOrder')->take(8) as $headerMenu)
+                            <li><a href="{{route('page',$headerMenu->fkpageId)}}">{{$headerMenu->menuName}}</a>
+                        @endforeach
+                @foreach($allCategories as $key => $parentCategory)
+                <li>
+                    <!-- parent category -->
+                    @if(($subCategories->where('parent', $parentCategory->categoryId))->count() > 0 )
+                    <a class="d-block collapsed" data-toggle="collapse" href="#one{{$key}} " role="button" aria-expanded="false" aria-controls="showCategorySubmenu">{{ $parentCategory->categoryName }}
+                        <i class="fa fa-angle-right float-right"></i>
+                    </a>
+                    @else
+                    <a  href="{{route('category.products', $parentCategory->categoryId)}}">{{ $parentCategory->categoryName }}</a>
+                    @endif
+
+                    <!-- sub category -->
+                    <div class="collapse" id="one{{$key}}" style="">
+                        <ul class="ml-3">
+                            @foreach($subCategories->where('parent', $parentCategory->categoryId) as $keyItem => $subCategory)
+                        <li>
+                            @if($subSubCategories->where('subParent', $subCategory->categoryId)->count() > 0)
+                            
+                            <a  href="{{route('category.products', $parentCategory->categoryId)}}" >View All</a>
+                            
+                            <a class="d-block collapsed" data-toggle="collapse" href="#oneTwo{{$keyItem}} " role="button" aria-expanded="false" aria-controls="showCategorySubmenu">{{ $subCategory->categoryName }}
+                               
+                                <i class="fa fa-angle-right float-right"></i>
+                               
+                            </a>
+                            @else
+                            <a  href="{{route('category.products', $subCategory->categoryId)}}" >{{ $subCategory->categoryName }}</a>
+                            @endif
+                            <!-- sub sub category -->
+                            <div class="collapse" id="oneTwo{{$keyItem}}" style="">
+                                <ul class="ml-3">
+                                    @foreach($subSubCategories->where('subParent', $subCategory->categoryId) as $subParentCategory)
+                                    <li>
+                                        <a  href="{{route('category.products', $subCategory->categoryId)}}" >View All</a>
+                                        <a href="{{route('category.products', $subParentCategory->categoryId)}}"> {{ $subParentCategory->categoryName }}</a>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </li>
+                            @endforeach
+
+                        </ul>
+                    </div>
+                </li>
                 @endforeach
 
+
                 <!-- demo category start -->
-                <li>
+                {{-- <li>
                     <!-- parent category -->
                     <a class="d-block collapsed" data-toggle="collapse" href="#one " role="button" aria-expanded="false" aria-controls="showCategorySubmenu">Home Appliances
                       <i class="fa fa-angle-right float-right"></i>
@@ -92,7 +150,7 @@
                         </li>
                         </ul>
                     </div>
-                </li>
+                </li> --}}
                 <!-- demo category end -->
 
             </ul>
@@ -303,11 +361,23 @@
                                       <ul>
                                 @endif
                                         @foreach($allCategories as $parentCategory)
-                                        <li><a href="{{route('category.products', $parentCategory->categoryId)}}">{{ $parentCategory->categoryName }} <i class="fa fa-angle-right float-right"></i></a>
+                                        <li>
+                                           
+                                            <a href="{{route('category.products', $parentCategory->categoryId)}}">{{ $parentCategory->categoryName }} 
+                                                @if($subCategories->where('parent', $parentCategory->categoryId)->count() > 0)
+                                                <i class="fa fa-angle-right float-right"></i>
+                                                @endif
+                                            </a>
                                             @foreach($subCategories->where('parent', $parentCategory->categoryId) as $subCategory)
                                             <ul>
                                                 @foreach($subCategories->where('parent', $parentCategory->categoryId) as $subCategory)
-                                                <li><a href="{{route('category.products', $subCategory->categoryId)}}">{{ $subCategory->categoryName }} </a>
+                                                <li>
+                                                    
+                                                    <a href="{{route('category.products', $subCategory->categoryId)}}">{{ $subCategory->categoryName }}
+                                                        @if($subSubCategories->where('subParent', $subCategory->categoryId)->count() > 0)
+                                                        <i class="fa fa-angle-right float-right"></i>
+                                                        @endif
+                                                    </a>
                                                     @foreach($subSubCategories->where('subParent', $subCategory->categoryId) as $subParentCategory)
                                                     <ul>
                                                         @foreach($subSubCategories->where('subParent', $subCategory->categoryId) as $subParentCategory)

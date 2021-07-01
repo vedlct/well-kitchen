@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\Category;
 use App\Models\Sku;
 use App\Models\VariationDetails;
+use App\Models\Variation;
 use App\Models\Customer;
 use App\Models\Review;
 use App\Models\Rating;
@@ -18,6 +19,8 @@ class ProductController extends Controller
 {
     public function productDetails($id)
     {
+        $parentCategory = null;
+        $subCategory = null;
         // dd(\Request::ip());
         // dd($id);
 
@@ -43,10 +46,27 @@ class ProductController extends Controller
 
         //view product details
         $sku = Sku::with('product', 'variationImages')->findOrfail($id);
+
         $relatedProducts = Product::where('categoryId', $sku->product->categoryId)->where('status', 'active')->pluck('productId');
         $skus = Sku::whereIn('fkproductId', $relatedProducts)->with('product')->get()->unique('fkproductId');
         $product = Product::where('productId', $sku->fkproductId)->with('review.customer.user','category')->first();
+        $skuIds = $product->sku->pluck('skuId');
+
+        $variations = VariationDetails::whereIn('skuId', $skuIds)->get();
+        $variationDatas = VariationDetails::whereIn('skuId', $skuIds)->pluck('variationData');
+        $variationColorIds = Variation::whereIn('variationId', $variationDatas)->where('variationType', 'Color')->get();
+        $variationSizeIds = Variation::whereIn('variationId', $variationDatas)->where('variationType', 'Size')->get();
+        
+        
+        $category = Category::where('categoryId', $product->categoryId)->first();
+        if($category){
+            $categoryId = $category->categoryId;
+            $parentCategory = Category::where('categoryId', $category->parent)->first();
+            $subCategory = Category::where('categoryId', $category->subParent)->first();
+        }
+
         $finalRating = 0;
+
         if(Auth::check()){
             $customer = Customer::where('fkuserId',Auth::user()->userId)->with('user')->first();
             $reviewAll = Review::with('customer.user','getRating')->where('fkproductId',$product->productId)->orderBy('created_at','desc')->limit(10)->get();
@@ -62,7 +82,7 @@ class ProductController extends Controller
                 }
                 $finalRating = ceil($totalRating / $totalCustomer);
             }
-            return view('productDetails', compact('sku', 'product','skus','customer','reviewAll', 'finalRating'));
+            return view('productDetails', compact('sku', 'product','skus','customer','reviewAll', 'finalRating', 'categoryId', 'category', 'variationColorIds', 'variationSizeIds', 'parentCategory', 'subCategory'));
         }else{
             $reviews = Review::where('fkproductId', $sku->fkproductId)->get();
             $review = Review::with('customer.user','getRating')->where('fkproductId',$product->productId)->orderBy('created_at','desc')->limit(10)->get();
@@ -78,7 +98,7 @@ class ProductController extends Controller
                 $finalRating = ceil($totalRating / $totalCustomer);
             }
             $review = Review::with('customer.user','getRating')->where('fkproductId',$product->productId)->orderBy('created_at','desc')->limit(10)->get();
-            return view('productDetails', compact('sku', 'product','skus','review', 'finalRating'));
+            return view('productDetails', compact('sku', 'product','skus','review', 'categoryId', 'category', 'variationColorIds', 'variationSizeIds', 'parentCategory', 'subCategory', 'finalRating'));
         }
 
 

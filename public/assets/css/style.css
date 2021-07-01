@@ -5572,7 +5572,9 @@ margin-bottom: 5px; }
     position: relative;
     overflow: hidden; }
     .product-wrap .product-img img {
-      width: 100%; }
+      width: 100%;
+      height: 270px;
+      object-fit: cover; }
     .product-wrap .product-img span {
       position: absolute;
       top: 12px;
@@ -6858,7 +6860,9 @@ margin-bottom: 5px; }
   .product-wrap-5 .product-img {
     position: relative; }
     .product-wrap-5 .product-img a img {
-      width: 100%; }
+      width: 100%;
+      height: 270px;
+      object-fit: cover; }
     .product-wrap-5 .product-img span {
       position: absolute;
       top: 12px;
@@ -7721,7 +7725,7 @@ margin-bottom: 5px; }
 /*-------- 8. Footer style  -----*/
 .copyright .footer-logo {
   margin-bottom: 12px;
-  margin-top: 41px; }
+  margin-top: 0px; }
   @media only screen and (max-width: 767px) {
     .copyright .footer-logo {
       margin-top: 0px; } }

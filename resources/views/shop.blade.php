@@ -8,9 +8,21 @@
                     <a href="{{route('home')}}">Home</a>
                 </li>
                 <li>
-                    <a href="{{route('category.products')}}">Shop</a>
+                    <a href="{{route('category.products')}}">Category</a>
                 </li>
 
+                @if($subCategory != null)
+                    @if($parentCategory != null)
+                        <li class="active"><a href="{{route('category.products', $parentCategory->categoryId)}}">{{$parentCategory->categoryName}}</a></li>
+                    @endif
+
+                        <li class="active"><a href="{{route('category.products', $subCategory->categoryId)}}">{{$subCategory->categoryName}}</a></li>
+
+                    @else
+                    @if($parentCategory != null)
+                        <li class="active"><a href="{{route('category.products', $parentCategory->categoryId)}}">{{$parentCategory->categoryName}}</a></li>
+                    @endif
+                @endif
                 @if($categoryId != null)
                     <li class="active">{{$category->categoryName}}</li>
                 @endif
@@ -106,12 +118,25 @@
                     </div>
 
                     <div class="sidebar-widget mt-50">
+                        @if($variationColorIds->count() > 0)
                         <h4 class="pro-sidebar-title">Colour </h4>
+                        @endif
                         <div class="sidebar-widget-list mt-20">
                             <ul>
-                                {{-- @dd($skus); --}}
-                                @foreach($skus as $productsku)
-                                {{-- @dd($productsku->variationRelation); --}}
+                               
+                                @foreach($variations->unique('variationData') as $variationRelation)
+                                        @if($variationRelation->variationDetailsdata->variationType == "Color")
+                                            <li>
+                                                <div class="sidebar-widget-list-left">
+                                                    <input type="checkbox" class="colorCheck" value="{{$variationRelation->variationDetailsdata->variationId}}"><a
+                                                        href=""> {{ array_key_exists($variationRelation->variationDetailsdata->variationValue, unserialize(COLOR_CODE)) ? unserialize(COLOR_CODE)[$variationRelation->variationDetailsdata->variationValue] : unserialize(COLOR_CODE)["NOT"]  }}</a>
+                                                    <span style="background: {{$variationRelation->variationDetailsdata->variationValue}}" class="checkmark"></span>
+                                                </div>
+                                            </li>
+                                        @endif
+                                @endforeach
+
+                                {{-- @foreach($skus as $productsku)
                                  @if(isset($productsku->variationRelation))
                                     @foreach($productsku->variationRelation as $variationRelation)
                                         @if($variationRelation->variationDetailsdata->variationType == "Color")
@@ -125,16 +150,29 @@
                                         @endif
                                     @endforeach
                                   @endif
-                                @endforeach
+                                @endforeach --}}
                             </ul>
                         </div>
                     </div>
                     <div class="sidebar-widget mt-40">
+                        @if($variationSizeIds->count() > 0)
                         <h4 class="pro-sidebar-title">Size </h4>
+                        @endif
                         <div class="sidebar-widget-list mt-20">
                             <ul>
-                                {{-- @dd($skus); --}}
-                                @foreach($skus as $productsku)
+                                @foreach($variations->unique('variationData') as $variationRelation)
+                                        @if($variationRelation->variationDetailsdata->variationType == "Size")
+                                            <li>
+                                                <div class="sidebar-widget-list-left">
+                                                    <input type="checkbox" class="sizeCheck" value="{{$variationRelation->variationDetailsdata->variationId}}" ><a
+                                                        href=""> {{ $variationRelation->variationDetailsdata->variationValue }}</a>
+                                                    <span class="checkmark" ></span>
+                                                </div>
+                                            </li>
+                                        @endif
+                                @endforeach
+
+                                {{-- @foreach($skus as $productsku)
                                   @if(isset($productsku->variationRelation))
                                     @foreach($productsku->variationRelation as $variationRelation)
                                         @if($variationRelation->variationDetailsdata->variationType == "Size")
@@ -148,11 +186,11 @@
                                         @endif
                                     @endforeach
                                    @endif
-                                @endforeach
+                                @endforeach --}}
                             </ul>
                         </div>
                     </div>
-                    <div class="sidebar-widget mt-50">
+                    {{-- <div class="sidebar-widget mt-50">
                         <h4 class="pro-sidebar-title">Tag </h4>
                         <div class="sidebar-widget-tag mt-25">
                             <ul>
@@ -161,12 +199,13 @@
                                 @endforeach
                             </ul>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
     </div>
 </div>
+{{-- {{ dd($minmaxPrice->min_price)}} --}}
 <!-- shop area end -->
 
 @endsection
@@ -178,75 +217,38 @@
 
         let sks;
         let  categoryId = {{$categoryId}};
+        let  max = {{$minmaxPrice?$minmaxPrice->max_price:''}}
+        let  min = {{$minmaxPrice?$minmaxPrice->min_price:''}}
+        console.log(min);
+
+
+
+        var sliderrange = $("#slider-range");
+        var amountprice = $("#amount");
+        $(function () {
+          sliderrange.slider({
+            range: true,
+            min: min,
+            max: max,
+            values: [min, max],
+            slide: function (event, ui) {
+              amountprice.val("৳ " + ui.values[0] + " - ৳ " + ui.values[1]);
+            },
+          });
+          amountprice.val(
+            "৳ " +
+              sliderrange.slider("values", 0) +
+              " - ৳ " +
+              sliderrange.slider("values", 1)
+          );
+        });
+
+
+
+
+
         function readyFn() {
-{{--            var categoryId = {{$categoryId}} ;--}}
             filter();
-            {{--$.ajax({--}}
-            {{--    url: "{{route('filter.products')}}",--}}
-            {{--    method: 'POST',--}}
-            {{--    data: {--}}
-            {{--        _token: "{{csrf_token()}}",--}}
-            {{--        categoryId: categoryId--}}
-            {{--    },--}}
-            {{--    success: function (data) {--}}
-            {{--        console.log(data);--}}
-            {{--        sks = data.skuss;--}}
-            {{--        console.log(sks);--}}
-            {{--        $("#productdetails").html(data.html);--}}
-            {{--        $(document).on('click', '.page', function(event){--}}
-            {{--            event.preventDefault();--}}
-            {{--            let page = $(this).data('page_id');--}}
-            {{--            // alert(page);--}}
-            {{--            // console.log(page);--}}
-            {{--            console.log(sks);--}}
-            {{--            $.ajax({--}}
-            {{--                url: "{{route('filter.products')}}",--}}
-            {{--                method: 'POST',--}}
-            {{--                data: {--}}
-            {{--                    _token: "{{csrf_token()}}",--}}
-            {{--                    page : page,--}}
-            {{--                    categoryId: categoryId--}}
-            {{--                    // sks: sks--}}
-            {{--                },--}}
-            {{--                success: function(data) {--}}
-            {{--                    console.log('ffff');--}}
-            {{--                    console.log(data);--}}
-            {{--                    $("#productdetails").html(data.html);--}}
-            {{--                }--}}
-            {{--            });--}}
-            {{--        });--}}
-
-            {{--        $(document).on('click', '.prev,.next', function(event){--}}
-            {{--            event.preventDefault();--}}
-
-            {{--            let container = $(this).closest('.pager');--}}
-            {{--            let page =parseInt(container.find('.active').text());--}}
-            {{--            let clicked_class = $(this).hasClass('prev');--}}
-            {{--            if(clicked_class)--}}
-            {{--            {--}}
-            {{--                --page;--}}
-            {{--            }--}}
-            {{--            else{--}}
-            {{--                page++;--}}
-            {{--            }--}}
-            {{--            $.ajax({--}}
-            {{--                url: "{{route('filter.products')}}",--}}
-            {{--                method: 'POST',--}}
-            {{--                data: {--}}
-            {{--                    _token: "{{csrf_token()}}",--}}
-            {{--                    page : page,--}}
-            {{--                    categoryId: categoryId--}}
-            {{--                },--}}
-            {{--                success: function(data) {--}}
-            {{--                    console.log(data);--}}
-            {{--                    $("#productdetails").html(data.html);--}}
-            {{--                }--}}
-            {{--            });--}}
-            {{--        });--}}
-
-
-            {{--    }--}}
-            {{--});--}}
         };
 
         $(document).ready(readyFn);
@@ -302,7 +304,7 @@
         $(".newCheck").change(function() {
 
             if(this.checked) {
-                newSS.push(this.value);
+                newSS.push(this.value); 
 
             }else{
                 if(jQuery.inArray(this.value, newSS) !== -1){

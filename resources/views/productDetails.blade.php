@@ -8,9 +8,24 @@
                     <a href="{{route('home')}}">Home</a>
                 </li>
                 <li>
-                    <a href="{{route('category.products')}}">Shop</a>
+                    <a href="{{route('category.products')}}">Category</a>
                 </li>
-                <li class="active">{{ $product->productName}}</li>
+                @if($subCategory != null)
+                    @if($parentCategory != null)
+                        <li class="active"><a href="{{route('category.products', $parentCategory->categoryId)}}">{{$parentCategory->categoryName}}</a></li>
+                    @endif
+
+                        <li class="active"><a href="{{route('category.products', $subCategory->categoryId)}}">{{$subCategory->categoryName}}</a></li>
+
+                    @else
+                    @if($parentCategory != null)
+                        <li class="active"><a href="{{route('category.products', $parentCategory->categoryId)}}">{{$parentCategory->categoryName}}</a></li>
+                    @endif
+                @endif
+                @if($categoryId != null)
+                    <li class="active">{{$category->categoryName}}</li>
+                @endif
+                {{-- <li class="active">{{ $product->productName}}</li> --}}
             </ul>
         </div>
     </div>
@@ -96,14 +111,16 @@
 
                     <div class="pro-details-size-color" >
                         <div class="pro-details-color-wrap" id="colors">
-                            @foreach($product->sku as $productsku)
+                            {{-- @foreach($product->sku as $productsku)
                             @foreach($productsku->variationRelation as $variationRelation)
 
-                            @if($variationRelation->variationDetailsdata->variationType == "Color")
+                            @if($variationRelation->variationDetailsdata->variationType == "Color") --}}
+                            @if($variationColorIds->count() > 0)
                             <span>Color</span>
                             @endif
+                            {{-- @endif
                             @endforeach
-                            @endforeach
+                            @endforeach --}}
                             <div class="pro-details-color-content">
                                 <!-- select color -->
                                 @foreach($product->sku as $productsku)
@@ -119,14 +136,16 @@
                             </div>
                         </div>
                         <div class="pro-details-size" id="sizes">
-                            @foreach($product->sku as $productsku)
+                            {{-- @foreach($product->sku as $productsku)
                                 @foreach($productsku->variationRelation as $variationRelation)
 
-                                @if($variationRelation->variationDetailsdata->variationType == "Size")
+                                @if($variationRelation->variationDetailsdata->variationType == "Size") --}}
+                                @if($variationSizeIds->count() > 0)
                             <span>Size</span>
                             @endif
+                            {{-- @endif
                             @endforeach
-                            @endforeach
+                            @endforeach --}}
                             <div class="pro-details-size-content">
                                 <!-- select size -->
                                 @foreach($product->sku as $productsku)
@@ -306,7 +325,7 @@
                                             <div class="col-md-6">
                                                 <div class="rating-form-style mb-10">
                                                     @if(Auth::check())
-                                                    <input placeholder="Name" type="hidden" name="customerId" value="{{$customer->customerId}}">
+                                                    <input placeholder="Name" type="hidden" name="customerId" value="{{$customer?$customer->customerId:''}}">
                                                     <input placeholder="Name" type="text" value="{{Auth::user()->firstName}}" readonly>
                                                     @else
                                                     <input placeholder="Name" type="text" name="customerId" required>
