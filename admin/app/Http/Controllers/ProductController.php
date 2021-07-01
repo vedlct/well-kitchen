@@ -88,6 +88,7 @@ class ProductController extends Controller
     //Temp Variation Store
     public function variationStore(Request $request)
     {
+        // dd($request->all());
         $this->validate($request, [
             'variationType1' => 'required_without:variationType2|different:variationType2',
             'variationType2' => 'required_without:variationType1|different:variationType1',
@@ -104,6 +105,7 @@ class ProductController extends Controller
         $product_variation_temp->variationType2 = $request->variationType2;
         $product_variation_temp->salePrice = $request->salePrice;
         $product_variation_temp->stockAlert = $request->stockAlert;
+        $product_variation_temp->variationDetails = $request->variationDetails;
 
         if ($request->variationValue1) {
             $variation1 = Variation::where('variationId', $request->variationValue1)->first();
@@ -231,6 +233,13 @@ class ProductController extends Controller
                     $sku->stockAlert = $product_variation->stockAlert;
                     $sku->status = $product->status;
                     $sku->save();
+
+                        $productDetails = new ProductDetails();
+                        $productDetails->description = $product_variation->variationDetails;
+                        $productDetails->fabricDetails = null;
+                        $productDetails->productId = $product->productId;
+                        $productDetails->fkskuId = $sku->skuId;
+                        $productDetails->save();
 
                     if ($product_variation->variationValue1) {
                         $variationRelation = new VariationDetails();
@@ -430,6 +439,12 @@ class ProductController extends Controller
             $variationRelation = VariationDetails::where('variationRelationId', $request->variationRelationId2)->first();
             $variationRelation->variationData = $request->variationValue2;
             $variationRelation->save();
+        }
+
+        if($request->variationDetails){
+            $productDetails = ProductDetails::where('fkskuId', $request->skuId)->first();
+            $productDetails->description = $request->variationDetails;
+            $productDetails->save();
         }
 
         if ($request->hasFile('variationImage')) {

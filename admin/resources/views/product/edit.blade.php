@@ -552,6 +552,7 @@ let productImageId;
         $(document).ready(function () {
             CKEDITOR.replace('shortDescription');
             CKEDITOR.replace('productDetails');
+
             @if($product->type == "variation")
             var productId = {{ $product->productId }}
             $("#variationForm").show();

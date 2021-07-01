@@ -40,7 +40,7 @@
 <div class="main-menu menu-fixed menu-light menu-accordion    menu-shadow " data-scroll-to-active="true" data-img="{{url('public/app-assets/images/backgrounds/02.jpg')}}">
     <div class="navbar-header">
         <ul class="nav navbar-nav flex-row">
-            <li class="nav-item mr-auto"><a class="navbar-brand" href="{{url('/')}}"><img class="brand-logo" alt="Chameleon admin logo" src="{{url('public/settingImage/',$setting->imageLink)}}"/>
+            <li class="nav-item mr-auto"><a class="navbar-brand" href="{{url('/')}}"><img class="brand-logo" alt="Wellkitchen admin logo" src="{{url('public/settingImage/',$setting->imageLink)}}"/>
                     <img style="margin-left: -5px" class="brand-text" alt="Suvastu" src="{{url('public/settingImage/',$setting->imageLink)}}"/></a></li>
             <li class="nav-item d-md-none"><a class="nav-link close-navbar"><i class="ft-x"></i></a></li>
         </ul>
