@@ -17,6 +17,7 @@ Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/offers', [HomeController::class, 'offers'])->name('offers');
+Route::get('/offers/product/{id}', [HomeController::class, 'offersProduct'])->name('offers.product');
 // Route::get('/product-details/{id}', [HomeController::class, 'productDetails'])->name('product.details');
 Route::get('/categories/{categoryId?}', [CategoryController::class, 'categoryProducts'])->name('category.products');
 Route::post('filter/products',[CategoryController::class,'filterProducts'])->name('filter.products');

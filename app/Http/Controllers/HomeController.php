@@ -2,23 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use Session;
+use App\Models\Sku;
+use App\Models\Stock;
+use App\Models\Banner;
 use App\Models\Review;
-use Illuminate\Http\Request;
-use App\Models\Category;
-use App\Models\Customer;
 use App\Models\Slider;
 use App\Models\Product;
-use App\Models\Banner;
-use App\Models\Sku;
+use App\Models\Category;
+use App\Models\Customer;
+use App\Models\HotDeals;
 use App\Models\Testimonial;
-use App\Models\Stock;
+use Darryldecode\Cart\Cart;
 use App\Models\ShipmentZone;
+use Illuminate\Http\Request;
+use App\Models\HotDealsProduct;
+// use DB;
 use App\Models\ProductMostViewed;
 use Illuminate\Support\Facades\DB;
-use Darryldecode\Cart\Cart;
 use Illuminate\Support\Facades\Auth;
-// use DB;
-use Session;
 
 class HomeController extends Controller
 {
@@ -60,21 +62,31 @@ class HomeController extends Controller
 
 
     public function offers(){
-        $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first();
-        $oldprice = null;
-        if(empty($hotDeal)){
-            $saleprice = $sku->salePrice ;
-        }
+        $hotDeals = HotDeals::where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->get();
+        // dd($hotDeals);
+        // $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first();
+        // $oldprice = null;
+        // if(empty($hotDeal)){
+        //     $saleprice = $sku->salePrice ;
+        // }
 
-        if(!empty($hotDeal)) {
-             $percentage = $hotDeal->hotdeals->percentage;
-             $afterDiscountPrice = ($sku->salePrice) - (($sku->salePrice) * $percentage) / 100;
+        // if(!empty($hotDeal)) {
+        //      $percentage = $hotDeal->hotdeals->percentage;
+        //      $afterDiscountPrice = ($sku->salePrice) - (($sku->salePrice) * $percentage) / 100;
 
-            $saleprice = $afterDiscountPrice;
-            $oldprice = $sku->salePrice;
-         }
-         dd($hotDeal);
-        return view('offers');
+        //     $saleprice = $afterDiscountPrice;
+        //     $oldprice = $sku->salePrice;
+        //  }
+        //  dd($hotDeal);
+        return view('offers', compact('hotDeals'));
+    }
+
+    public function offersProduct($id){
+        $hotDeals = HotDeals::where('hotDealsId', $id)->first();
+        $hotDealProId = HotDealsProduct::where('fkhotdealsId', $id)->pluck('fkproductId');
+        $skus = Sku::whereIn('fkproductId', $hotDealProId)->get();
+
+        return view('offer_products', compact('skus', 'hotDeals'));
     }
 
 
