@@ -133,11 +133,14 @@ class CheckoutController extends Controller
         $order_status_log->save();
 
         foreach (\Cart::getContent() as $cartData) {
+            // @dd($cartData);
             $q = $cartData['quantity'];
             // dd($q);
             $order_item = new OrderProduct();
             $order_item->fkorderId = $order->orderId;
             $order_item->quiantity = $cartData->quantity;
+            $order_item->price = $cartData->price;
+            $order_item->total = $cartData->price * $cartData->quantity;
             $order_item->fkskuId = $cartData->id;
             $order_item->save();
 
@@ -160,8 +163,8 @@ class CheckoutController extends Controller
 
             $batch = Batch::where('batchId', $batchId)->pluck('batchId')->first();
             $price = Batch::where('batchId', $batchId)->pluck('salePrice')->first();
-            $order_item->price = $price;
-            $order_item->total = $q * $price;
+            // $order_item->price = $price;
+            // $order_item->total = $q * $price;
             $order_item->batch_id = $batch;
             $order_item->save();
 

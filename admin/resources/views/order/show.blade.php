@@ -103,6 +103,7 @@
                                     <tbody>
                                     @foreach ($order->orderedProduct as $key => $item)
                                         <tr>
+                                          {{-- @dd($item); --}}
                                             <td scope="row">{{++$key}}</td>
                                             <td>{{$item->sku->product->productName}}</td>
                                             <td>{{$item->sku->product->type}}</td>
@@ -119,8 +120,10 @@
                                         </tr>  
                                     @endforeach
                                     <tr>
+                                      
                                         <td colspan="7" class="text-right"> <b>Total</b> </td>
-                                        <td>{{$order->orderTotal}}</td>
+                                        {{-- <td>{{$order->orderTotal}}</td> --}}
+                                        <td>{{$order->orderedProduct->sum('total')}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="7" class="text-right"> <b>Delivery Fee</b> </td>
@@ -128,7 +131,7 @@
                                     </tr>
                                     <tr>
                                         <td colspan="7" class="text-right"> <b>Order Total</b> </td>
-                                        <td>{{$order->orderTotal+$order->deliveryFee}}</td>
+                                        <td>{{$order->orderTotal}}</td>
                                     </tr>
                                     </tbody>
                                 </table>
