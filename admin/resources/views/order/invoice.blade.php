@@ -31,7 +31,7 @@
     <tr style="height: 158px;">
 
         <td style="height: 158px;" valign="top">From<br><br>
-            <p><strong>Rodela mudi</strong>TM<br />Dhaka, Bangladesh<br />Phone: (02)55071755,<br />0170000000,<br />Email: info@rodelamudi.com</p>
+            <p><strong>{{$settings->companyName}}</strong><br />{{$settings->address}}<br />Phone: {{$settings->phone}},<br />Email: {{$settings->email}}</p>
         </td>
         <td style="height: 158px;" valign="top">To
             @if (!empty($orderInfo->customer->user->firstName))
@@ -87,7 +87,7 @@
             <td style="width: 50%; font-size: 24px;">&nbsp;Payment Methods:</td>
             <td style="width: 50%; font-size: 24px;">Order Total:</td>
         </tr>
-        <tr>
+        {{-- <tr> @dd($orderInfo->orderedProduct->sum('total')); --}}
             <td style="width: 128px; font-size: 24px;">&nbsp;<strong>@if($orderInfo->paymentType == 'cod')Cash on delivery. @else {{$orderInfo->paymentType}} @endif</strong></td>
             <td style="width: 129px;">
                 <table width="100%">
@@ -96,7 +96,9 @@
                             <p style="font-size: 24px;"><strong>Total:</strong></p>
                         </td>
                         <td width="50%">
+                            {{-- @dd($orderInfo); --}}
                             <p style="font-size: 24px;"><strong>{{number_format($orderInfo->orderedProduct->sum('total'))}}</strong></p>
+                            {{-- <p style="font-size: 24px;"><strong>{{number_format($orderInfo->orderTotal)}}</strong></p> --}}
                         </td>
                     </tr>
                     <tr >
@@ -132,7 +134,7 @@
                             <p style="font-size: 24px;"><strong>Order Total:</strong></p>
                         </td>
                         <td width="50%">
-                            <p style="font-size: 24px;"><strong>{{number_format($orderInfo->orderTotal)}}</strong></p>
+                            <p style="font-size: 24px;"><strong>{{number_format($orderInfo->orderTotal) }}</strong></p>
                         </td>
                     </tr>
                 </table>

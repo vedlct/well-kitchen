@@ -18,6 +18,7 @@
   </div>
   <div class="product-area my-md-5 my-4">
     @foreach (\Cart::getContent() as $item)
+    {{-- @dd($item); --}}
     <div class="d-flex justify-content-between align-items-center border-bottom py-2">
         <div>
             <img src="{{asset('admin/public/featureImage/'.$item->associatedModel->featureImage)}}" alt="" class="product-img">
