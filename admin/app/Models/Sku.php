@@ -25,6 +25,13 @@ class Sku extends Model
     {
         return $this->hasMany('App\Models\VariationDetails', 'skuId', 'skuId');
     }
+    
+    public function variationDetails()
+    {
+        return $this->hasOne('App\Models\ProductDetails', 'fkskuId', 'skuId');
+    }
+
+
 
     public function product()
     {

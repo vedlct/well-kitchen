@@ -184,7 +184,7 @@ class CheckoutController extends Controller
 
         \Cart::clear();
 
-        return back();
+        return redirect('/');
     }
 
     public function OrderStock($quantity, $sku, $order, $order_item){

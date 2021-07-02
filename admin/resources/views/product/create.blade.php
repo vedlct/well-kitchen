@@ -408,6 +408,38 @@
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4 col-lg-4 col-xl-3">
+                                                            <div class="form-group">
+                                                                <br>
+                                                                <button style=" border: 1px solid #cacfe7; margin-top: 7px;  padding: 10px 5px;" class="btn w-100" type="button" data-toggle="collapse" data-target="#varDetails" aria-expanded="false" aria-controls="collapseExample">
+                                                                    Variation Details
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                                            <div class="form-group">
+                                                                <br>
+                                                                <button style=" border: 1px solid #cacfe7; margin-top: 7px;  padding: 10px 5px;" class="btn w-100" type="button" data-toggle="collapse" data-target="#variationshort" aria-expanded="false" aria-controls="collapseExample">
+                                                                    Variation Short des
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div id="varDetails" class="collapse row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label for="">Variation Details</label><span style="color: red;margin-left: 5px;font-weight: bold;">*</span>
+                                                                    <textarea class="form-control" name="variationDetails" id="variationDetails"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="variationshort" class="collapse row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label for="">Variation Short Description</label><span style="color: red;margin-left: 5px;font-weight: bold;">*</span>
+                                                                    <textarea class="form-control " name="variationShortDes" id="variationShortDes"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 col-lg-4 col-xl-3">
                                                             <button  type="submit" style="text-decoration: none; color: #ffffff; line-height: 1.5" class=" mt-2 mb-2 form-control btn btn-info btn-sm">
                                                                 <i class="la la-check"></i> Save</button>
                                                         </div>
@@ -436,6 +468,8 @@
         $(document).ready( function () {
             CKEDITOR.replace('shortDescription');
             CKEDITOR.replace('productDetails');
+            CKEDITOR.replace('variationDetails');
+            CKEDITOR.replace('variationShortDes');
         });
         const loadFile = function(event) {
             var image = document.getElementById('output');
@@ -615,6 +649,9 @@
         // Temp Variation Store
         $( "#variationStore" ).on( "submit", function(e) {
             e.preventDefault();
+            for ( instance in CKEDITOR.instances ) {
+                CKEDITOR.instances[instance].updateElement();
+            }
             $.ajax({
                 type: "POST",
                 url: "{{route('product.variation.store')}}",

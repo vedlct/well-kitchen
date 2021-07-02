@@ -47,7 +47,7 @@
                             <h3>FOLLOW US</h3>
                         </div>
                         <div class="footer-list">
-                            <ul>
+                            <ul class="social-icon">
                                 <li><a href=" {{($setting->facebook)}} "><i class="fa fa-facebook"></i></a></li>
                                 <li><a href=" {{($setting->twitter)}} "><i class="fa fa-twitter"></i></a></li>
                                 <li><a href=" {{$setting->instagram}} "><i class="fa fa-linkedin"></i></a></li>
@@ -361,10 +361,13 @@
               success: function (response) {
                   console.log('res',response);
                   $('#cartPage').empty().html(response.cart)
+                 $('#headerCartBag').load(document.URL + ' #headerCartBag');
+
                   $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
                   toastr.success('Item update successfully')
                   $(".updatereload").load(location.href + " .updatereload");
                   $(".cartTotal").load(location.href + " .cartTotal");
+
                   $(".total").load(location.href + " .total");
                   window.location.reload();
               },
@@ -384,10 +387,13 @@
               },
               success: function (response) {
                   $('#cartPage').empty().html(response.cart);
+                 $('#headerCartBag').load(document.URL + ' #headerCartBag');
+
                   $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br> Cart(${response.cartQuantity})`);
                   toastr.success('Item delete from cart')
                   $(".deletereload").load(" .deletereload");
                   $(".cartTotal").load(".cartTotal");
+
                   $("#cartTable").load(location.href + " #cartTable");
                }
           });

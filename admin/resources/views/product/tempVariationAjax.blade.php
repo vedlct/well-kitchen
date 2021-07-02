@@ -311,6 +311,9 @@
     //Store New Variation on Edit
     $( "#variationAddNew" ).on( "submit", function(e) {
         e.preventDefault();
+        for ( instance in CKEDITOR.instances ) {
+            CKEDITOR.instances[instance].updateElement();
+        }
         $.ajax({
             type: "POST",
             url: "{{route('product.variation.addNew')}}",
