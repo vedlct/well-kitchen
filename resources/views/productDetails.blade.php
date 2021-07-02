@@ -7,9 +7,9 @@
                 <li>
                     <a href="{{route('home')}}">Home</a>
                 </li>
-                <li>
+                {{-- <li>
                     <a href="{{route('category.products')}}">Category</a>
-                </li>
+                </li> --}}
                 @if($subCategory != null)
                     @if($parentCategory != null)
                         <li class="active"><a href="{{route('category.products', $parentCategory->categoryId)}}">{{$parentCategory->categoryName}}</a></li>
