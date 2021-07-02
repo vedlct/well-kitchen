@@ -3,7 +3,7 @@
 <div class="product-area pb-70">
   <div class="container">
       <div class="section-title-6 mb-45 text-center">
-          <h2>{{$hotDeals->hotDeals_name}} Products</h2>
+          <h2>{{ucwords($hotDeals->hotDeals_name)}} Products</h2>
       </div>
       <div class="product-slider-active-2 owl-carousel owl-dot-none">
       @foreach ($skus->unique('fkproductId') as $sku)
