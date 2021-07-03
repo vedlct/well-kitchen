@@ -598,7 +598,6 @@
                                     ->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))
                                     ->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))
                                     ->first();
-
                             @endphp
 
 
