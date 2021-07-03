@@ -189,6 +189,7 @@
     <div class="banner-area pb-50">
         <div class="container">
             <div class="row">
+                
                @foreach ($banners as $item)
                     <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                         <div class="single-banner mb-30">
