@@ -51,13 +51,22 @@ class HomeController extends Controller
         
         if(Auth::check()){
             $mostViewedProducts = ProductMostViewed::where('fkuserId', Auth::user()->userId)->get();
+            $mostViewedProductSkuIds = ProductMostViewed::where('fkuserId', Auth::user()->userId)->pluck('fkskuId');
+            $mostViewskus = Sku::with('product')->whereIn('skuId', $mostViewedProductSkuIds)->whereHas('product', function ($query) {
+                $query->where('status', 'active');
+            })->get();
         }else{
             $mostViewedProducts = ProductMostViewed::where('session_id', \Request::ip())->get();
+            $mostViewedProductSkuIds = ProductMostViewed::where('session_id', \Request::ip())->latest()->pluck('fkskuId');
+            $mostViewskus = Sku::with('product')->whereIn('skuId', $mostViewedProductSkuIds)->whereHas('product', function ($query) {
+                $query->where('status', 'active');
+            })->get();
+            // dd($skus);
         }
         
        
 
-        return view('welcome',compact('categories', 'products', 'skus', 'newArrivals', 'recommendeds', 'testimonials', 'sliders', 'banners', 'mostViewedProducts'));
+        return view('welcome',compact('categories', 'mostViewskus', 'products', 'skus', 'newArrivals', 'recommendeds', 'testimonials', 'sliders', 'banners', 'mostViewedProducts'));
     }
 
 

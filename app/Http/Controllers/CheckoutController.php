@@ -26,7 +26,9 @@ class CheckoutController extends Controller
         if (Auth::check()) {
             $customer = Customer::where('fkuserId', Auth::user()->userId)->with('address', 'order', 'user')->first();
             return view('checkout', compact('customer', 'shipmentZone'));
+
         }
+
         return view('checkout', compact('shipmentZone'));
     }
 
@@ -73,7 +75,13 @@ class CheckoutController extends Controller
             'billingAddress' => 'required',
         ]);
 
-        $customer = Customer::where('phone', $request->phone)->first();
+        if(!Auth::user()){
+            $customer = Customer::where('phone', $request->phone)->first();
+        }
+        if(Auth::user()){
+            $customer = Customer::where('fkuserId', Auth::user()->userId)->first();
+        }
+        
 // dd($customer);
 
             if(!Auth::user() && empty($customer)){
@@ -100,6 +108,7 @@ class CheckoutController extends Controller
 
                 Session::flash('success', 'User Registered & Place Order Successfully complete');
             }else{
+
                 if($request->shipping == 'on'){
                     $address = new Address();
                     $address->billingAddress = $request->billingAddress;
