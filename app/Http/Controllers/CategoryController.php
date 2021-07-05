@@ -52,6 +52,7 @@ class CategoryController extends Controller
     }
 
     public function searchByProducts(Request $request){
+        // dd($request->all());
         $parentCategory = null;
         $subCategory = null;
        $minmaxPrice =  null;

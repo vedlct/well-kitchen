@@ -484,10 +484,23 @@
                                                             <div class="form-group">
                                                                 <label>Stock Alert</label>
                                                                 <input type="number" class="form-control" id="stockAlert" name="stockAlert" placeholder="stock alert">
+                                                                <input type="hidden" class="form-control" name="productId" value="{{$product->productId}}">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4 col-lg-4 col-xl-3">
                                                             <div data-repeater-list="repeater-group">
+                                                                <label>Barcode</label>
+                                                                <div class="input-group mb-1" data-repeater-item>
+                                                                    <input type="text" placeholder="barcode" name="barcode" id="barcodeVariationAdd" class="form-control" id="barcode">
+                                                                    <span class="input-group-append" id="button-addon2">
+                                                                    <a onclick="barcodeGenerateVariationAdd()" style="color: white; font-weight: bold; padding-top: 14px;" class="btn btn-sm btn-danger" data-repeater-delete>
+                                                                      generate
+                                                                    </a>
+                                                                </span>
+                                                                    <div style="color: red" class="mb-2" id="barcodeError"></div>
+                                                                </div>
+                                                            </div>
+                                                            {{--  <div data-repeater-list="repeater-group">
                                                                 <label>Barcode</label>
                                                                 <div class="input-group mb-1" data-repeater-item>
                                                                     <input type="text" placeholder="barcode" name="barcode" id="barcodeVariation" class="form-control" id="barcode">
@@ -498,7 +511,7 @@
                                                                 </span>
                                                                     <div style="color: red" class="mb-2" id="barcodeError"></div>
                                                                 </div>
-                                                            </div>
+                                                            </div>  --}}
                                                         </div>
                                                         <div class="col-md-4 col-lg-4 col-xl-3">
                                                             <div class="form-group">

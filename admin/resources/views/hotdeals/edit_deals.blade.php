@@ -155,6 +155,8 @@
 @endsection
 
 @section('footer.js')
+
+
 <script type="text/javascript" src="{{url('public/files/bower_components/datatables.net/js/jquery.dataTables.min.js')}}"></script>
 <script type="text/javascript" src="{{url('public/files/bower_components/datatables.net-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
 <script src="{{url('public/files/assets/pages/data-table/extensions/autofill/js/dataTables.select.min.js')}}"></script>
@@ -162,5 +164,19 @@
 <script src="{{url('public/files/bower_components/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
 <script src="{{url('public/files/bower_components/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js')}}"></script>
 <script type="text/javascript" src="{{url('public/Datetime/bootstrap-datetimepicker.min.js')}}"></script>
+
+<script>
+    $(function() {
+        $('input[name="daterange"]').daterangepicker({
+            opens: 'left'
+
+        });
+    });
+
+    $(".form_datetime").datetimepicker({
+        format: 'yyyy-mm-dd hh:ii:ss',
+        pickerPosition: "bottom-left"
+    });
+</script>
 
 @endsection

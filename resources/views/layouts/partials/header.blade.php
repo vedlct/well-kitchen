@@ -227,14 +227,15 @@
                         <!-- another all items here -->
                         <div class="header-right-wrap">
                             <div class="same-style header-search d-lg-none">
+                                <form action="{{route('search.product')}}" method="POST">
                                 <a class="search-active" href="#"><i class="pe-7s-search"></i></a>
+                                
                                 <div class="search-content">
-                                    <form action="{{route('search.product')}}" method="POST">
-                                        @csrf
-                                        <input type="text" placeholder="Search " name="allSearch" id="search" value="{{Session::get('search')}}" />
-                                        <button class="button-search"><i class="pe-7s-search"></i></button>
-                                    </form>
+                                   @csrf
+                                        <input type="text" placeholder="Search asdf" name="allSearch" id="search" value="{{Session::get('search')}}" />
+                                        <button class="button-search" type="submit"><i class="pe-7s-search"></i></button>
                                 </div>
+                            </form>
                             </div>
                             <div class="same-style account-satting">
                                 <a class="account-satting-active" href="#"><i class="pe-7s-user-female"></i></a>
@@ -438,9 +439,10 @@
                             <div class="same-style header-search d-none">
                                 <a class="search-active" href="#"><i class="pe-7s-search"></i></a>
                                 <div class="search-content">
-                                    <form action="#">
-                                        <input type="text" placeholder="Search" />
-                                        <button class="button-search"><i class="pe-7s-search"></i></button>
+                                    <form action="{{route('search.product')}}" method="POST">
+                                        @csrf
+                                        <input type="text" placeholder="Search" name="allSearch" id="search" value="{{Session::get('search')}}" />
+                                        <button class="button-search" type="submit"><i class="pe-7s-search"></i></button>
                                     </form>
                                 </div>
                             </div>

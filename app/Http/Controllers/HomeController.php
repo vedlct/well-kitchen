@@ -71,8 +71,7 @@ class HomeController extends Controller
 
 
     public function offers(){
-        $hotDeals = HotDeals::where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s a'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s a'))->get();
-        
+        $hotDeals = HotDeals::where('hotdeals.status', 'Available')->whereDate('hotdeals.startDate', '<=', date('Y-m-d'))->whereDate('hotdeals.endDate', '>=', date('Y-m-d'))->get();
         return view('offers', compact('hotDeals'));
     }
 
