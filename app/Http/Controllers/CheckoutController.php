@@ -26,7 +26,9 @@ class CheckoutController extends Controller
         if (Auth::check()) {
             $customer = Customer::where('fkuserId', Auth::user()->userId)->with('address', 'order', 'user')->first();
             return view('checkout', compact('customer', 'shipmentZone'));
+
         }
+
         return view('checkout', compact('shipmentZone'));
     }
 
@@ -40,16 +42,15 @@ class CheckoutController extends Controller
 
     public function searchUserByPhone(Request $request)
     {
-        // dd($request->phone);
         $phone = $request->phone;
-        $customer = Customer::where('phone', $phone)->with('user', 'address')->get();
-        // dd($customer);
+        $customer = Customer::where('phone', $phone)->first();
         if ($customer != null) {
-            $user = $customer->first();
-            return response()->json(['user' => $user, 'customer' => $customer]);
+            $user = $customer->user()->first();
+            $shippingAddress = $customer->address()->orderBy('addressId', 'DESC')->first();
+            return response()->json(['user' => $user, 'customer' => $customer, 'shippingAddress' => $shippingAddress]);
         }
 
-        return response()->json(['customer' => $customer], 200);
+        return response()->json(['customer' => $customer]);
     }
 
     public function shippingZone(Request $request)
@@ -73,7 +74,13 @@ class CheckoutController extends Controller
             'billingAddress' => 'required',
         ]);
 
-        $customer = Customer::where('phone', $request->phone)->first();
+        if(!Auth::user()){
+            $customer = Customer::where('phone', $request->phone)->first();
+        }
+        if(Auth::user()){
+            $customer = Customer::where('fkuserId', Auth::user()->userId)->first();
+        }
+        
 // dd($customer);
 
             if(!Auth::user() && empty($customer)){
@@ -100,6 +107,7 @@ class CheckoutController extends Controller
 
                 Session::flash('success', 'User Registered & Place Order Successfully complete');
             }else{
+
                 if($request->shipping == 'on'){
                     $address = new Address();
                     $address->billingAddress = $request->billingAddress;

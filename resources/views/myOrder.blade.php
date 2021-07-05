@@ -19,48 +19,31 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                @if($orderedProducts->count() > 0)
+                                @foreach ($orderedProducts as $item)
+                                 @foreach ($item->orderedProduct as $orderitem)
+                                 <tr>
                                     <td class="product-thumbnail">
-                                        <a href="#"><img src="assets/img/cart/cart-1.png" alt=""></a>
+                                        <a href="{{ route('product.details', $orderitem->sku->skuId) }}"><img src="{{asset('admin/public/featureImage/'.$orderitem->sku->product->featureImage)}}" alt=""></a>
                                     </td>
-                                    <td class="product-name"><a href="#">Product Name</a></td>
-                                    <td class="product-price-cart"><span class="amount">$260.00</span></td>
+                                    <td class="product-name"><a href="{{ route('product.details', $orderitem->sku->skuId) }}">{{$orderitem->sku->product->productName}}</a></td>
+                                    <td class="product-price-cart"><span class="amount">&#2547;{{$orderitem->sku->salePrice}}</span></td>
                                     <td class="product-quantity">
-                                        <span class="amount">2</span>
+                                        <span class="amount">{{$orderitem->quiantity}}</span>
                                     </td>
-                                    <td class="product-subtotal">$110.00</td>
+                                    <td class="product-subtotal">&#2547;{{$orderitem->total}}</td>
                                     <td class="product-wishlist-cart">
-                                        <button class="btn btn-success">Delivered</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="product-thumbnail">
-                                        <a href="#"><img src="assets/img/cart/cart-2.png" alt=""></a>
-                                    </td>
-                                    <td class="product-name"><a href="#">Product Name</a></td>
-                                    <td class="product-price-cart"><span class="amount">$150.00</span></td>
-                                    <td class="product-quantity">
-                                        <span class="amount">2</span>
-                                    </td>
-                                    <td class="product-subtotal">$150.00</td>
-                                    <td class="product-wishlist-cart">
+                                        @if (!empty($item->last_status))
+                                        <button class="btn btn-success">{{$item->last_status}}</button>
+                                        @else
                                         <button class="btn btn-warning">Pending</button>
+                                        @endif
+                                        
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td class="product-thumbnail">
-                                        <a href="#"><img src="assets/img/cart/cart-1.png" alt=""></a>
-                                    </td>
-                                    <td class="product-name"><a href="#">Product Name</a></td>
-                                    <td class="product-price-cart"><span class="amount">$170.00</span></td>
-                                    <td class="product-quantity">
-                                        <span class="amount">2</span>
-                                    </td>
-                                    <td class="product-subtotal">$170.00</td>
-                                    <td class="product-wishlist-cart">
-                                        <button class="btn btn-warning">Pending</button>
-                                    </td>
-                                </tr>
+                                @endforeach
+                                @endforeach
+                                @endif
                             </tbody>
                         </table>
                     </div>

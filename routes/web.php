@@ -11,6 +11,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CuponController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MyProfileController;
+use App\Http\Controllers\MyOrderController;
 use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
@@ -68,11 +69,9 @@ Route::post('/search-category-product' ,[CategoryController::class,'searchByProd
     Route::post('search-user',[CheckoutController::class,'searchUserByPhone'])->name('search.user');
 
 
+    Route::get('my-order',[MyOrderController::class,'index'])->name('myOrder')->middleware('auth');
 
 
-Route::get('/my-order', function () {
-    return view('myOrder');
-});
 
 
 

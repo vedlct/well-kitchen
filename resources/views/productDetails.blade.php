@@ -410,15 +410,13 @@
                                    data-target="#exampleModal" data-sku_id="{{ $sku->skuId }}"
                                    class="quickView"><i class="pe-7s-look"></i></a>
                             </div>
-{{--                            <div class="pro-same-action pro-quickview">--}}
-{{--                                <a href="#" data-toggle="modal" data-target="#quickView"><i class="pe-7s-look"></i></a>--}}
-{{--                            </div>--}}
+
                         </div>
                     </div>
                     <div class="product-content text-center">
                         <h3><a href="{{route('product.details',$sku->skuId)}}">{{$sku->product->productName}}</a></h3>
                         <div class="product-price">
-{{--                            <span>৳ {{$sku->salePrice}}</span>--}}
+
                             @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
 
                             @if(empty($hotDeal))
