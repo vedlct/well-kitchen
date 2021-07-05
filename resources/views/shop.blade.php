@@ -221,8 +221,6 @@
         let  min = {{$minmaxPrice?$minmaxPrice->min_price:''}}
         console.log(min);
 
-
-
         var sliderrange = $("#slider-range");
         var amountprice = $("#amount");
         $(function () {
@@ -242,10 +240,6 @@
               sliderrange.slider("values", 1)
           );
         });
-
-
-
-
 
         function readyFn() {
             filter();
