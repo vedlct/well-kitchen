@@ -8,6 +8,7 @@ use App\Models\Hotdeals as ModelsHotdeals;
 use App\Models\Product;
 use App\Models\HotDealsProduct;
 use Illuminate\Http\Request;
+use DB;
 
 class HotDealsController extends Controller
 {
@@ -38,8 +39,8 @@ class HotDealsController extends Controller
     {
         // dd($r->all());
         $this->validate($r,[
-            'startDate' => 'required|date_format:Y-m-d H:i:s|after:today|before:endDate',
-            'endDate' => 'required|date_format:Y-m-d H:i:s|after:startDate',
+            'startDate' => 'required|date_format:Y-m-d H:i:s a|after:today|before:endDate',
+            'endDate' => 'required|date_format:Y-m-d H:i:s a|after:startDate',
             'amount' => 'required|numeric',
             'percentage' => 'required',
             'hotDeals_name' =>'required',
@@ -48,8 +49,8 @@ class HotDealsController extends Controller
         ]);
         $deals = new Hotdeals();
         $deals->hotDeals_name = $r->hotDeals_name;
-        $deals->startDate =date('Y-m-d h:i:s', strtotime($r->startDate));
-        $deals->endDate =date('Y-m-d h:i:s', strtotime($r->endDate));
+        $deals->startDate =date('Y-m-d h:i:s a', strtotime($r->startDate));
+        $deals->endDate =date('Y-m-d h:i:s a', strtotime($r->endDate));
         $deals->amount = $r->amount;
         $deals->percentage = $r->percentage;
         $deals->status = $r->status;
@@ -71,8 +72,8 @@ class HotDealsController extends Controller
         // dd($r->all());
 
         $this->validate($r,[
-            'startDate' => 'required|date_format:Y-m-d H:i:s|after:today|before:endDate',
-            'endDate' => 'required|date_format:Y-m-d H:i:s|after:startDate',
+            'startDate' => 'required|date_format:Y-m-d H:i:s a|after:today|before:endDate',
+            'endDate' => 'required|date_format:Y-m-d H:i:s a|after:startDate',
             'amount' => 'required|numeric',
             'percentage' => 'required',
             'hotdeals_name' =>'required',
@@ -81,8 +82,8 @@ class HotDealsController extends Controller
         ]);
         $deals = Hotdeals::findOrFail($r->id);
         $deals->hotdeals_name = $r->hotdeals_name;
-        $deals->startDate = date('Y-m-d H:i:s', strtotime($r->startDate));
-        $deals->endDate = date('Y-m-d H:i:s', strtotime($r->endDate));
+        $deals->startDate = date('Y-m-d H:i:s a', strtotime($r->startDate));
+        $deals->endDate = date('Y-m-d H:i:s a', strtotime($r->endDate));
         $deals->amount = $r->amount;
         $deals->percentage = $r->percentage;
         $deals->status = $r->status;
@@ -95,7 +96,17 @@ class HotDealsController extends Controller
 
     public function showDeals()
     {
-        $hotDeals = Hotdeals::all();
+        $hotDeals =Hotdeals::select('hotdeals.*', DB::raw('DATE_FORMAT(hotdeals.startDate, "%a, %b %D, %Y. %l: %i %p") as startdate'), 
+                    DB::raw('DATE_FORMAT(hotdeals.endDate, "%a, %b %D, %Y. %l: %i %p") as enddate'));
+        // ->get();
+// dd($hotDeals);
+
+        // $hotDeals = Hotdeals::select('hotdeals.startDate',
+            // DB::raw("date(SUM(CASE WHEN stock_record.type = 'in' AND stock_record.identifier = 'purchase' THEN stock_record.stock END), 0) as totalPurchase"),
+            // DB::raw("date('Y-m-d H:i:s', st) as startdate"),
+        //    );
+        //    dd($hotDeals->get());
+        // $hotDeals = Hotdeals::all();
         return datatables()->of($hotDeals)
             ->addColumn('status', function (Hotdeals $status) {
                 if ($status->status == "Available") {

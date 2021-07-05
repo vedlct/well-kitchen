@@ -27,10 +27,10 @@ class HomeController extends Controller
     public function index(){
         $dateToday = date('Y-m-d h:i:s');
         $sliders = Slider::where('status', 'active')->get();
-        $banners = Banner::with('promotion')->whereHas('promotion', function ($query){
-            $query->where('status', 'active')->where('startDate', '<=', date('Y-m-d H:i:s'))->where('endDate', '>=', date('Y-m-d H:i:s'));
-        })->take(2)->get();
-        
+        // $banners = Banner::with('promotion')->whereHas('promotion', function ($query){
+        //     $query->where('status', 'active')->where('startDate', '<=', date('Y-m-d H:i:s'))->where('endDate', '>=', date('Y-m-d H:i:s'));
+        // })->take(2)->get();
+        $banners = Banner::where('status', 'active')->take(2)->get();
 
         $categories = Category::where('homeShow', 1)->with('products.sku','products.hotdealProducts.hotdeals')->get();
         $products = Product::with('category','sku')->where('status', 'active')->get();
@@ -51,33 +51,28 @@ class HomeController extends Controller
         
         if(Auth::check()){
             $mostViewedProducts = ProductMostViewed::where('fkuserId', Auth::user()->userId)->get();
+            $mostViewedProductSkuIds = ProductMostViewed::where('fkuserId', Auth::user()->userId)->pluck('fkskuId');
+            $mostViewskus = Sku::with('product')->whereIn('skuId', $mostViewedProductSkuIds)->whereHas('product', function ($query) {
+                $query->where('status', 'active');
+            })->get();
         }else{
             $mostViewedProducts = ProductMostViewed::where('session_id', \Request::ip())->get();
+            $mostViewedProductSkuIds = ProductMostViewed::where('session_id', \Request::ip())->latest()->pluck('fkskuId');
+            $mostViewskus = Sku::with('product')->whereIn('skuId', $mostViewedProductSkuIds)->whereHas('product', function ($query) {
+                $query->where('status', 'active');
+            })->get();
+            // dd($skus);
         }
         
        
 
-        return view('welcome',compact('categories', 'products', 'skus', 'newArrivals', 'recommendeds', 'testimonials', 'sliders', 'banners', 'mostViewedProducts'));
+        return view('welcome',compact('categories', 'mostViewskus', 'products', 'skus', 'newArrivals', 'recommendeds', 'testimonials', 'sliders', 'banners', 'mostViewedProducts'));
     }
 
 
     public function offers(){
-        $hotDeals = HotDeals::where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->get();
-        // dd($hotDeals);
-        // $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first();
-        // $oldprice = null;
-        // if(empty($hotDeal)){
-        //     $saleprice = $sku->salePrice ;
-        // }
-
-        // if(!empty($hotDeal)) {
-        //      $percentage = $hotDeal->hotdeals->percentage;
-        //      $afterDiscountPrice = ($sku->salePrice) - (($sku->salePrice) * $percentage) / 100;
-
-        //     $saleprice = $afterDiscountPrice;
-        //     $oldprice = $sku->salePrice;
-        //  }
-        //  dd($hotDeal);
+        $hotDeals = HotDeals::where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s a'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s a'))->get();
+        
         return view('offers', compact('hotDeals'));
     }
 
