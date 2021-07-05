@@ -42,16 +42,15 @@ class CheckoutController extends Controller
 
     public function searchUserByPhone(Request $request)
     {
-        // dd($request->phone);
         $phone = $request->phone;
-        $customer = Customer::where('phone', $phone)->with('user', 'address')->get();
-        // dd($customer);
+        $customer = Customer::where('phone', $phone)->first();
         if ($customer != null) {
-            $user = $customer->first();
-            return response()->json(['user' => $user, 'customer' => $customer]);
+            $user = $customer->user()->first();
+            $shippingAddress = $customer->address()->orderBy('addressId', 'DESC')->first();
+            return response()->json(['user' => $user, 'customer' => $customer, 'shippingAddress' => $shippingAddress]);
         }
 
-        return response()->json(['customer' => $customer], 200);
+        return response()->json(['customer' => $customer]);
     }
 
     public function shippingZone(Request $request)
