@@ -39,6 +39,11 @@
                                                     <span class="text-danger"> <b>{{  $errors->first('titletext') }}</b></span>
                                                 </div>
                                                 <div class="form-group">
+                                                    <label>Page Link</label>
+                                                    <input type="text" class="form-control" placeholder="Page Link" value="{{ $slider->pageLink }}" name="pageLink">
+                                                    <span class="text-danger"> <b>{{  $errors->first('pageLink') }}</b></span>
+                                                </div>
+                                                <div class="form-group">
                                                     <label>Main Text</label>
                                                     <input type="text" class="form-control" placeholder="Main Text" value="{{ $slider->mainText }}" name="mainText">
                                                     <span class="text-danger"> <b>{{  $errors->first('mainText') }}</b></span>
