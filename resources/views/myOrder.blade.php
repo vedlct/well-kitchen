@@ -33,7 +33,12 @@
                                     </td>
                                     <td class="product-subtotal">&#2547;{{$orderitem->total}}</td>
                                     <td class="product-wishlist-cart">
+                                        @if (!empty($item->last_status))
                                         <button class="btn btn-success">{{$item->last_status}}</button>
+                                        @else
+                                        <button class="btn btn-warning">Pending</button>
+                                        @endif
+                                        
                                     </td>
                                 </tr>
                                 @endforeach
