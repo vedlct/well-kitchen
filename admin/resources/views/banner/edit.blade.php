@@ -75,6 +75,13 @@
                                                     <img height="100px" width="100px" src="{{url("public/bannerImage/".$banner->imageLink)}}">
                                                 </div>
                                                 @endif
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 col-form-label">Page Link</label>
+                                                    <div class="col-sm-10">
+                                                    <input type="text" class="form-control" placeholder="Page Link" value="{{ $banner->pageLink }}" name="pageLink">
+                                                    <span class="text-danger"> <b>{{  $errors->first('pageLink') }}</b></span>
+                                                    </div>
+                                                </div>
 
                                                 <div class="form-group row">
                                                     <label class="col-sm-2 col-form-label">banner Type</label>

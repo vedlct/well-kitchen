@@ -39,8 +39,8 @@ class HotDealsController extends Controller
     {
         // dd($r->all());
         $this->validate($r,[
-            'startDate' => 'required|date_format:Y-m-d H:i:s a|after:today|before:endDate',
-            'endDate' => 'required|date_format:Y-m-d H:i:s a|after:startDate',
+            'startDate' => 'required|date_format:Y-m-d H:i:s|after:today|before:endDate',
+            'endDate' => 'required|date_format:Y-m-d H:i:s|after:startDate',
             'amount' => 'required|numeric',
             'percentage' => 'required',
             'hotDeals_name' =>'required',
@@ -49,8 +49,8 @@ class HotDealsController extends Controller
         ]);
         $deals = new Hotdeals();
         $deals->hotDeals_name = $r->hotDeals_name;
-        $deals->startDate =date('Y-m-d h:i:s a', strtotime($r->startDate));
-        $deals->endDate =date('Y-m-d h:i:s a', strtotime($r->endDate));
+        $deals->startDate =date('Y-m-d h:i:s', strtotime($r->startDate));
+        $deals->endDate =date('Y-m-d h:i:s', strtotime($r->endDate));
         $deals->amount = $r->amount;
         $deals->percentage = $r->percentage;
         $deals->status = $r->status;
@@ -72,8 +72,8 @@ class HotDealsController extends Controller
         // dd($r->all());
 
         $this->validate($r,[
-            'startDate' => 'required|date_format:Y-m-d H:i:s a|after:today|before:endDate',
-            'endDate' => 'required|date_format:Y-m-d H:i:s a|after:startDate',
+            'startDate' => 'required|date_format:Y-m-d H:i:s|after:today|before:endDate',
+            'endDate' => 'required|date_format:Y-m-d H:i:s|after:startDate',
             'amount' => 'required|numeric',
             'percentage' => 'required',
             'hotdeals_name' =>'required',
@@ -82,8 +82,8 @@ class HotDealsController extends Controller
         ]);
         $deals = Hotdeals::findOrFail($r->id);
         $deals->hotdeals_name = $r->hotdeals_name;
-        $deals->startDate = date('Y-m-d H:i:s a', strtotime($r->startDate));
-        $deals->endDate = date('Y-m-d H:i:s a', strtotime($r->endDate));
+        $deals->startDate = date('Y-m-d H:i:s', strtotime($r->startDate));
+        $deals->endDate = date('Y-m-d H:i:s', strtotime($r->endDate));
         $deals->amount = $r->amount;
         $deals->percentage = $r->percentage;
         $deals->status = $r->status;

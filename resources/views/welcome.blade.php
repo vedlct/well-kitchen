@@ -5,6 +5,7 @@
     <div class="slider-area">
         <div class="slider-active owl-carousel nav-style-1 owl-dot-none">
             @foreach ($sliders as $slider)
+            <a href="{{$slider->pageLink}}">
                 <div class="single-slider-2 slider-height-20 d-flex align-items-center slider-height-res bg-img"
                     style="background-image:url('{{ 'admin/public/sliderImage/' . $slider->imageLink }}');">
                     <div class="container">
@@ -22,6 +23,7 @@
                         </div>
                     </div>
                 </div>
+            </a>
             @endforeach
         </div>
     </div>
@@ -191,12 +193,14 @@
             <div class="row">
                 
                @foreach ($banners as $item)
+              
                     <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                         <div class="single-banner mb-30">
-                            <a href="#"><img src="{{ asset('admin/public/bannerImage/' . $item->imageLink) }}"
+                            <a href="{{$item->pageLink}}"><img src="{{ asset('admin/public/bannerImage/' . $item->imageLink) }}"
                                     alt=""></a>
                         </div>
                     </div>
+                
                 @endforeach
             </div>
         </div>

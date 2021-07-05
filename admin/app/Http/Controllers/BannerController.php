@@ -86,6 +86,7 @@ class BannerController extends Controller
        $banner = new Banner();
        $banner->status = $r->status;
        $banner->type = $r->type;
+       $banner->pageLink = $r->pageLink;
        if (isset($r->promotion)) {
            $banner->fkPromotionId=$r->promotion;
        }
@@ -123,6 +124,7 @@ class BannerController extends Controller
 
         $banner = Banner::find($r->id);
         $banner->status = $r->status;
+        $banner->pageLink = $r->pageLink;
         $banner->type = $r->type;
         $banner->fkPromotionId=$r->promotion;
         $banner->save();
