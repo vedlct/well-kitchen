@@ -14,11 +14,14 @@ class MyProfileController extends Controller
 {
     public function index(){
         // $user = User::where('userId',Auth::user()->userId)->first();
+        $getCustomerAddress = "";
         $customer = Customer::where('fkuserId',Auth::user()->userId)->with('user')->first();
+        $user = Auth::user();
+        if(!empty($customer)){
         $getCustomerAddress = Address::where('fkcustomerId',$customer->customerId)->first();
-
-        // dd($getCustomerAddress);
-        return view('myAccount',compact('customer','getCustomerAddress'));
+        
+    }
+    return view('myAccount',compact('customer','getCustomerAddress', 'user'));
     }
 
     public function updateUserInfo(Request $request){

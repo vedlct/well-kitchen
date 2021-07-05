@@ -33,6 +33,7 @@
                             <div class="billing-info mb-20">
                                 <label>Phone</label>
                                 <input type="text" name="phone" id="phone" class="searchPhone" required>
+                                <p id="newphone"></p>
                                 @error('phone')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -70,7 +71,7 @@
                        
                         <div class="col-lg-12">
                             <div class="billing-info mb-20">
-                                <label>Street Address</label>
+                                <label>Billing Address</label>
                                 <input class="billing-address" placeholder="billing address" type="text" name="billingAddress" id="billingAddress">
                                 @error('billingAddress')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -97,7 +98,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="billing-info mb-20">
-                                    <label>Street Address</label>
+                                    <label>Shipping Address</label>
                                     <input class="billing-address" placeholder="Shipping address" type="text" name="diffshippingAddress">
                                 </div>
                             </div>
@@ -193,7 +194,7 @@
 @endsection
 
 @section('js')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{{--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  --}}
     <script>
 
 function shippingZone() {
@@ -215,8 +216,8 @@ function shippingZone() {
             });
         }
 
-        $(document).ready(function () {
-        $( ".searchPhone" ).autocomplete({
+   
+        $(".searchPhone" ).autocomplete({
 
             source: function(request, response) {
                 $.ajax({
@@ -236,12 +237,12 @@ function shippingZone() {
                     }
                 });
             },
-            minLength: 1
+            minLength: 0
             });
-        }); 
+        
 
 
-        $("#phone").keydown(function(){
+        $("#phone").keyup(function(){
             let phone = $('#phone').val();
             console.log(phone);
             $.ajax({
@@ -252,17 +253,18 @@ function shippingZone() {
                 phone:phone
             },
             success: function (data) {
-                console.log('res',data);
-                $('#email').val(data.user.user.email);
-                $('#firstName').val(data.user.user.firstName);
-                $('#lastName').val(data.user.user.lastName);
-                $('#billingAddress').val(data.user.address.billingAddress);
-                // $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
-                toastr.success('Customer found with this phone')
-            },
-            error:(response)=>{
-                toastr.error('Customer not found with this phone')
+                if(data.customer != null ) {
+                    $('#firstName').val(data.user.firstName);
+                    $('#lastName').val(data.user.lastName);
+                    $('#email').val(data.user.email);
+                    $('#billingAddress').val(data.shippingAddress.billingAddress);
+                    
+                    document.getElementById("newphone").innerHTML = 'phone number matched and data found';
+                    document.getElementById("newphone").style.color = "green";
+                }
+                
             }
+
         });
             
         });
