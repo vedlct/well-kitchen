@@ -371,11 +371,18 @@ class ProductController extends Controller
         $sku->save();
 
         $productDetails = new ProductDetails();
-        $productDetails->description = $product_variation->variationDetails;
-        $productDetails->fabricDetails = $product_variation->variationShortDes;
-        $productDetails->productId = $product->productId;
+        $productDetails->description = $request->variationDetails;
+        $productDetails->fabricDetails = $request->variationShortDes;
+        $productDetails->productId = $request->productId;
         $productDetails->fkskuId = $sku->skuId;
         $productDetails->save();
+        
+        // $productDetails = new ProductDetails();
+        // $productDetails->description = $product_variation->variationDetails;
+        // $productDetails->fabricDetails = $product_variation->variationShortDes;
+        // $productDetails->productId = $product->productId;
+        // $productDetails->fkskuId = $sku->skuId;
+        // $productDetails->save();
 
         //variation store
         if ($request->variationValue1) {
@@ -461,17 +468,17 @@ class ProductController extends Controller
             $variationRelation->save();
         }
 
-        if($request->variationDetails){
-            $productDetails = ProductDetails::where('fkskuId', $request->skuId)->first();
-            $productDetails->description = $request->variationDetails;
-            $productDetails->save();
-        }
+        // if($request->variationDetails){
+        //     $productDetails = ProductDetails::where('fkskuId', $request->skuId)->first();
+        //     $productDetails->description = $request->variationDetails;
+        //     $productDetails->save();
+        // }
 
-        if($request->variationShortDes){
-            $productDetails = ProductDetails::where('fkskuId', $request->skuId)->first();
-            $productDetails->fabricDetails = $request->variationShortDes;
-            $productDetails->save();
-        }
+        // if($request->variationShortDes){
+        //     $productDetails = ProductDetails::where('fkskuId', $request->skuId)->first();
+        //     $productDetails->fabricDetails = $request->variationShortDes;
+        //     $productDetails->save();
+        // }
 
         if ($request->hasFile('variationImage')) {
             foreach ($request->file('variationImage') as $vimage) {
@@ -493,6 +500,15 @@ class ProductController extends Controller
         $sku->salePrice = $request->salePrice;
         $sku->stockAlert = $request->stockAlert;
         $sku->save();
+
+        
+        $productDetails = ProductDetails::updateOrCreate([
+            'fkskuId'   => $request->skuId,
+        ],[
+            'description'     => $request->variationDetails,
+            'fabricDetails' => $request->variationShortDes,
+            'productId' => $sku->fkproductId,
+        ]);
 
         $products = Product::with('sku', 'sku.variationRelation', 'sku.variationRelation.variationDetailsdata', 'sku.variationImage')->where('productId', $fkproductId)->first();
         $view = view('product.tempVariationAjax', compact('products'))->render();
@@ -545,7 +561,13 @@ class ProductController extends Controller
         // if (!empty($request->featureProduct)) {
         //     $product->isrecommended='1';
         // }
-
+        if ((!empty($request->productDetails) || !empty($request->shortDescription)) && empty($product->details)) {
+            $productDetails = new ProductDetails();
+            $productDetails->description = $request->productDetails;
+            $productDetails->fabricDetails = $request->shortDescription;
+            $productDetails->productId = $productId;
+            $productDetails->save();
+        }
         
         if ($product->type == 'single') {
             $sku = Sku::where('fkproductId', $productId)->first();
