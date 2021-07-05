@@ -40,7 +40,7 @@
                     <div class="select-shoing-wrap">
                         <div class="shop-select">
                             <select class="alphaCheck">
-                                <option value="">Sort by newness</option>
+                                <option value="">Sort by...</option>
                                 <option value="A">A to Z</option>
                                 <option value="Z"> Z to A</option>
                                 <option value="instock">In stock</option>
