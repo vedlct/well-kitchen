@@ -119,6 +119,7 @@
                 @endforeach
                 <li><a href="{{url('/')}}">Home</a>
                     <li><a href="{{route('contact')}}">Contact</a>
+                    <li><a href="{{route('offers')}}">Offers</a>
                         @foreach($menu->where('menuType','Header')->sortByDesc('menuOrder')->take(8) as $headerMenu)
                             <li><a href="{{route('page',$headerMenu->fkpageId)}}">{{$headerMenu->menuName}}</a>
                         @endforeach

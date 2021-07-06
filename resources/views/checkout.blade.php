@@ -142,40 +142,50 @@
                         </div>
                         <div class="payment-method">
                             <div class="payment-accordion element-mrg">
-                                <div class="panel-group" id="accordion">
+                                {{-- <div class="panel-group" id="accordion">
                                     <div class="panel payment-accordion">
                                         <div class="panel-heading" id="method-one">
                                             <h4 class="panel-title">
                                                 <a data-toggle="collapse" data-parent="#accordion" href="#method1">
-                                                    <input id="cod" type="hidden" name="payment" value="dbt" {{ old('payment') == 'dbt' ? 'checked' : '' }} />
+                                                    <input id="cod" type="radio" name="payment" value="dbt" />
                                                     Direct bank transfer
                                                 </a>
                                             </h4>
                                         </div>
-                                        <div id="method1" class="panel-collapse collapse show">
-                                            <div class="panel-body">
-                                                <p>Some notes here.</p>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                     <div class="panel payment-accordion">
                                         <div class="panel-heading" id="method-three">
                                             <h4 class="panel-title">
                                                 <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#method3">
-                                                    <input id="cod" type="hidden" name="payment" value="cod" {{ old('payment') == 'cod' ? 'checked' : '' }} />
+                                                    <input id="cod" type="radio" name="payment" value="cod" />
                                                     Cash on delivery
                                                 </a>
                                             </h4>
                                         </div>
-                                        <div id="method3" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <p>Some notes here.</p>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
-                                </div>
+                                </div> --}}
+
+                               
+
+
                             </div>
                         </div>
+
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="payment" value="dbt" checked>
+                            <label class="form-check-label" for="exampleRadios1">
+                                Direct bank transfer
+                            </label>
+                          </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="payment" value="cod" checked>
+                            <label class="form-check-label" for="exampleRadios1">
+                                Cash on delivery
+                            </label>
+                          </div>
                     </div>
                     <div class="Place-order mt-25">
 

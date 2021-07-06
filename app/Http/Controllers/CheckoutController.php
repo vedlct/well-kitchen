@@ -124,6 +124,7 @@ class CheckoutController extends Controller
         $order->orderTotal = \Cart::getSubTotal() + $deliveryFee;
         // $order->paymentType = 'cod';
         $order->payment_status = 'unpaid';
+        $order->payment_type = $request->payment;
         // $order->delivery_commission_type = 'taka';
         $order->save();
 
