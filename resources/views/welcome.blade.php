@@ -57,7 +57,7 @@
     <!-- all categories mobile end -->
 
     <!-- all categories tab and desktop start -->
-    <div class="collections-area pt-100 pb-95 d-none d-md-block">
+    <div class="collections-area pt-100 pb-40 d-none d-md-block">
         <div class="container">
             <div class="section-title-3 mb-40">
                 <h4>Our Product Categories </h4>
