@@ -88,7 +88,8 @@ class CheckoutController extends Controller
                 $guestUser->firstName = $request->first_name;
                 $guestUser->lastName = $request->last_name;
                 $guestUser->email = $request->email;
-                $guestUser->password = Hash::make('123456');
+                // $guestUser->password = Hash::make('123456');
+                $guestUser->password = bcrypt($request->password);
                 $guestUser->fkuserTypeId = 2;
                 $guestUser->save();
 

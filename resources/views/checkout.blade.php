@@ -68,11 +68,22 @@
                                 @enderror
                             </div>
                         </div>
+                        {{-- @if(!Auth::check()) --}}
+                        <div class="col-lg-12">
+                            <div class="billing-info mb-20">
+                                <label>Password</label>
+                                <input type="password" name="password" id="password">
+                                @error('password')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        {{-- @endif --}}
                        
                         <div class="col-lg-12">
                             <div class="billing-info mb-20">
                                 <label>Billing Address</label>
-                                <input class="billing-address" placeholder="billing address" type="text" @if(Auth::user()->customer->address) value="{{Auth::user()->customer->address->billingAddress}}" @endif name="billingAddress" id="billingAddress">
+                                <input class="billing-address" placeholder="billing address" type="text" @if(Auth::user()) value="{{Auth::user()->customer->address->billingAddress}}" @endif name="billingAddress" id="billingAddress">
                                 @error('billingAddress')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
@@ -99,7 +110,7 @@
                             <div class="col-lg-12">
                                 <div class="billing-info mb-20">
                                     <label>Shipping Address</label>
-                                    <input class="billing-address" placeholder="Shipping address" @if(Auth::user()->customer->address) value="{{Auth::user()->customer->address->shippingAddress}}" @endif type="text" name="diffshippingAddress">
+                                    <input class="billing-address" placeholder="Shipping address" @if(Auth::user()) value="{{Auth::user()->customer->address->shippingAddress}}" @endif type="text" name="diffshippingAddress">
                                 </div>
                             </div>
                         </div>

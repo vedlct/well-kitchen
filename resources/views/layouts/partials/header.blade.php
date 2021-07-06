@@ -188,7 +188,7 @@
                         </div>
                     </div>
                     <div class="header-offer">
-                        <p>Free delivery on order over <span>&#2547;{{$setting->free_delivery_on_order_over_tk}}</span></p>
+                        {{-- <p>Free delivery on order over <span>&#2547;{{$setting->free_delivery_on_order_over_tk}}</span></p> --}}
                     </div>
                 </div>
             </div>

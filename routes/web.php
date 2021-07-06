@@ -12,6 +12,7 @@ use App\Http\Controllers\CuponController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MyProfileController;
 use App\Http\Controllers\MyOrderController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
@@ -41,6 +42,9 @@ Route::post('compare/search',[ProductController::class,'compareSearch'])->name('
 
 
 //Search
+Route::post('password/email' ,[ForgotPasswordController::class,'getUserEmail'])->name('get.user');
+
+
 Route::post('/search-category-product' ,[CategoryController::class,'searchByProducts'])->name('search.product');
 
     Route::get('wish-list',[WishlistController::class,'index'])->name('wishlist');
