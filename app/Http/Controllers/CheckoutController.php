@@ -100,24 +100,17 @@ class CheckoutController extends Controller
 
                 $address = new Address();
                 $address->billingAddress = $request->billingAddress;
-                $address->shippingAddress = $request->billingAddress;
+                if($request->shipping == 'on'){
+                    $address->shippingAddress = $request->diffshippingAddress;
+                }else{
+
+                    $address->shippingAddress = $request->billingAddress;
+                }
                 $address->fkcustomerId  = $customer->customerId;
                 $address->fkshipment_zoneId  = $request->fkshipment_zoneId;
                 $address->save();
 
-                Session::flash('success', 'User Registered & Place Order Successfully complete');
-            }else{
-
-                if($request->shipping == 'on'){
-                    $address = new Address();
-                    $address->billingAddress = $request->billingAddress;
-                    $address->shippingAddress = $request->diffshippingAddress;
-                    $address->fkcustomerId  = $customer->customerId;
-                    $address->fkshipment_zoneId  = $request->fkshipment_zoneId;
-                    $address->save();
-                }
             }
-
 
 
         $deliveryFee = 0;
@@ -194,6 +187,7 @@ class CheckoutController extends Controller
         }
 
         \Cart::clear();
+        Session::flash('success', 'Order placed successfully');
 
         return redirect('/');
     }

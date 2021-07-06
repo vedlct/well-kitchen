@@ -32,7 +32,7 @@
                         <div class="col-lg-12">
                             <div class="billing-info mb-20">
                                 <label>Phone</label>
-                                <input type="text" name="phone" id="phone" class="searchPhone" required>
+                                <input type="text" name="phone" id="phone" @if(Auth::user()) value="{{Auth::user()->customer->phone}}" @endif class="searchPhone" required>
                                 <p id="newphone"></p>
                                 @error('phone')
                                         <span class="invalid-feedback" role="alert">
@@ -44,7 +44,7 @@
                         <div class="col-lg-6 col-md-6">
                             <div class="billing-info mb-20">
                                 <label>First Name</label>
-                                <input type="text" name="first_name" id="firstName">
+                                <input type="text" name="first_name" @if(Auth::user()) value="{{Auth::user()->firstName}}" @endif id="firstName">
                                 @error('first_name')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
@@ -53,7 +53,7 @@
                         <div class="col-lg-6 col-md-6">
                             <div class="billing-info mb-20">
                                 <label>Last Name</label>
-                                <input type="text" name="last_name" id="lastName">
+                                <input type="text" name="last_name" @if(Auth::user()) value="{{Auth::user()->lastName}}" @endif id="lastName">
                                 @error('last_name')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
@@ -62,7 +62,7 @@
                         <div class="col-lg-12">
                             <div class="billing-info mb-20">
                                 <label>Email Address</label>
-                                <input type="text" name="email" id="email">
+                                <input type="text" name="email" @if(Auth::user()) value="{{Auth::user()->email}}" @endif id="email">
                                 @error('email')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
@@ -72,7 +72,7 @@
                         <div class="col-lg-12">
                             <div class="billing-info mb-20">
                                 <label>Billing Address</label>
-                                <input class="billing-address" placeholder="billing address" type="text" name="billingAddress" id="billingAddress">
+                                <input class="billing-address" placeholder="billing address" type="text" @if(Auth::user()->customer->address) value="{{Auth::user()->customer->address->billingAddress}}" @endif name="billingAddress" id="billingAddress">
                                 @error('billingAddress')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
@@ -99,7 +99,7 @@
                             <div class="col-lg-12">
                                 <div class="billing-info mb-20">
                                     <label>Shipping Address</label>
-                                    <input class="billing-address" placeholder="Shipping address" type="text" name="diffshippingAddress">
+                                    <input class="billing-address" placeholder="Shipping address" @if(Auth::user()->customer->address) value="{{Auth::user()->customer->address->shippingAddress}}" @endif type="text" name="diffshippingAddress">
                                 </div>
                             </div>
                         </div>
