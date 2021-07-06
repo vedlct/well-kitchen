@@ -11,4 +11,7 @@ class Address extends Model
     protected $table ='address';
     protected $primaryKey='addressId';
     public $timestamps = false;
+
+    protected $fillable = ['fkcustomerId', 'shippingAddress', 'billingAddress'];
+
 }
