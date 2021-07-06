@@ -34,10 +34,7 @@ class AppServiceProvider extends ServiceProvider
         $subSubCategories = Category::where('parent', '!=', null)->where('subParent', '!=', null)->get();
         $menu=Menu::all();
         $setting = Settings::first();
-        if(Auth::check()){
-            $user = User::where('userId', Auth::user()->userId)->with('userType')->first();
-            view()->share(['allCategories'=>$allCategories, 'subCategories'=>$subCategories, 'subSubCategories'=>$subSubCategories, 'menu'=>$menu, 'user'=>$user, 'setting'=> $setting]);
-        }
+        
         view()->share(['allCategories'=>$allCategories, 'subCategories'=>$subCategories, 'subSubCategories'=>$subSubCategories, 'menu'=>$menu, 'setting'=> $setting]);
     }
 }

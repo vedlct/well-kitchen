@@ -26,12 +26,12 @@ class MyProfileController extends Controller
 
     public function updateUserInfo(Request $request){
         // dd($request->all());
-        // $validated = $request->validate([
-        //     'name' => 'required|max:50',
-        //     'email' => 'required',
-        //     'subject' => 'required',
-        //     'message' => 'required',
-        // ]);
+        $validated = $request->validate([
+            'firstName' => 'required|max:50',
+            'lastName' => 'required',
+            'email' => 'required',
+        
+        ]);
 
 
         $user = User::where('userId',$request->userId)->first();
@@ -41,6 +41,7 @@ class MyProfileController extends Controller
         $user->save();
 
         $customer = Customer::where('fkuserId',$user->userId)->first();
+        // dd($customer);
         $customer->phone = $request->phone;
         $customer->save();
 
