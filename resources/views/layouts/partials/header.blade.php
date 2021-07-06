@@ -245,6 +245,8 @@
                                             <li><a href="{{url('login')}}">Login/Register</a></li>
                                         @else
                                         <li><a href="">Hello,{{Auth::user()->firstName}}</a></li>
+                                        {{-- @dd(Auth::user()->fkuserTypeId); --}}
+                                        {{-- Auth::user()->fkuserTypeId --}}
                                         <li><a href="{{route('myOrder')}}">My Orders</a></li>
                                         <li><a href="{{route('profile')}}">my account</a></li>
                                         @endif
