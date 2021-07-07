@@ -90,7 +90,7 @@
                             </div>
                             <div id="my-account-2" class="panel-collapse collapse">
                                 <div class="panel-body">
-                                 <form method="post" action=" {{route('password.update')}} ">
+                                 <form method="post" action=" {{route('profile.password.update')}} ">
                                     @csrf
                                     <input type="hidden" name="email" value="{{$user->email}}">
                                     <div class="myaccount-info-wrapper">

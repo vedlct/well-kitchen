@@ -42,7 +42,7 @@ Route::post('compare/search',[ProductController::class,'compareSearch'])->name('
 
 
 //Search
-Route::post('password/email' ,[ForgotPasswordController::class,'getUserEmail'])->name('get.user');
+// Route::post('password/email' ,[ForgotPasswordController::class,'sendResetLinkEmail'])->name('password.email');
 
 
 Route::post('/search-category-product' ,[CategoryController::class,'searchByProducts'])->name('search.product');
@@ -82,7 +82,7 @@ Route::post('/search-category-product' ,[CategoryController::class,'searchByProd
 Route::get('/my-account', [MyProfileController::class, 'index'])->name('profile')->middleware('auth');
 Route::post('/user-info-update', [MyProfileController::class, 'updateUserInfo'])->name('userinfo.update')->middleware('auth');
 Route::post('/user-address-update', [MyProfileController::class, 'updateAddressInfo'])->name('address.update')->middleware('auth');
-Route::post('/user-password-update', [MyProfileController::class, 'updatePassword'])->name('password.update')->middleware('auth');
+Route::post('/user-password-update', [MyProfileController::class, 'updatePassword'])->name('profile.password.update')->middleware('auth');
 
 
 

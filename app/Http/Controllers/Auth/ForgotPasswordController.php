@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
 use Illuminate\Http\Request;
-use App\Models\User;
-use Cartalyst\Sentinel\Laravel\Facades\Sentinel;
-
+use Str;
+use DB;
+use Carbon\Carbon;
+use Mail;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Validation\ValidationException;
 class ForgotPasswordController extends Controller
 {
     /*
@@ -23,17 +26,43 @@ class ForgotPasswordController extends Controller
 
     use SendsPasswordResetEmails;
 
-    public function getUserEmail(Request $request) {
-            // dd($request->all());
-            $user =  User::whereEmail($request->email)->first();
-             if($user->count() < 0){
-                return redirect()->back()->with(['error' => 'Email not exist']);
-             }
+    // public function sendResetLinkEmail(Request $request) {
+           
+             
+    //         $request->validate([
+    //             'email' => 'required|email|exists:user',
+    //         ]);
 
-            //  $user = Sentinel::findById($user->userId);
-            //  $reminder = Reminder::exists($user) ? : Reminder::create($user);
-            //  $this->sendEmail($user, $reminder->code);
+    //         $token = Str::random(60);
 
-             return redirect()->back()->with(['success' => 'Reset code sent to your email']);
-    }
+    //         DB::table('password_resets')->insert([
+    //             'email' => $request->email, 'token' => $token, 'created_at' => Carbon::now()
+    //         ]);
+
+    //         Mail::send('auth.passwords.reset',['token' => $token], function($message) use ($request){
+    //             $message->from($request->email);
+    //             $message->to('saikotchondrobd@gmail.com');
+    //             $message->subject('Reset password Notification');
+    //         });
+
+    //         return back()->with(['success' => 'we have emailed your password reset link']);
+
+
+    //         // $status = Password::sendResetLink(
+    //         //     $request->only('email')
+    //         // );
+
+    //         // if($status == Password::RESET_LINK_SENT){
+    //         //     return [
+    //         //         'status' => __($status)
+    //         //     ];
+    //         // }
+
+    //         // throw ValidationException::withMessages([
+    //         //     'email' => [trans($status)],
+    //         // ]);
+
+    //         // return back()->with(['success' => 'we have emailed your password reset link']);
+
+    //     }
 }
