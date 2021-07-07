@@ -387,11 +387,16 @@
                   _sku:id,
               },
               success: function (response) {
-                  console.log(response);
+                //   console.log(response.cart);
+                  toastr.success('Item removed From Cart Successfully');
+                var getTotalQuantity=0;
+                var getSubTotal=0;
+                var cartItems=""
+
                 //   $('#cartPage').empty().html(response.cart);
                 //  $('#headerCartBag').load(document.URL + ' #headerCartBag');
 
-                //   $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br> Cart(${response.cartQuantity})`);
+                  $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br> Cart(${response.cartQuantity})`);
                 //   toastr.success('Item delete from cart')
                 //   $(".deletereload").load(".deletereload");
                 // //   location.reload();
@@ -403,8 +408,69 @@
                   $.each(response.cart,(index,row)=>
                     {
                         console.log('res',row);
+                        getTotalQuantity+=parseFloat(row.quantity)
+                        getSubTotal+=parseFloat(row.price)
+                        cartItems+=`<li>
+                                        <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                                            
+                                            <div class="name-area px-2">
+                                            <h5 class="product-name"><a href="javascript:void(0)"> ${row.name} </a></h5>
+                                            <h6 class="quantity"> ${row.quantity} </h6>
+                                            </div>
+                                            <div class="" onclick="removeItem(${row.id})">
+                                                <i class="fa fa-trash"></i>
+                                            </div>
+                                        </div>
+                                    </li>`
                     })
-               
+                    $('#cart').html('')
+                    $('#cart').append(`
+                        <a href="javascript:void(0)">
+                            <span class="cart-icon-main"></span>
+                            <div class="cart-text">
+                                <div id="item" class="my-cart">${getTotalQuantity} Items</div>
+                            </div>
+                        </a>
+                        <div class="cart-dropdown header-link-dropdown">
+                            <ul id="test" class="cart-list link-dropdown-list">
+                                ${cartItems}
+
+                                ${getSubTotal != 0 ? `<p id="cartTotal" class="cart-sub-totle"> <span class="pull-left" style="font-size: 14px; font-weight: bold; color: #000000">Cart Subtotal</span> <span id="cartSubTotal" class="pull-right"><strong class="price-box">${response.total}</strong></span> </p>
+                                <div class="clearfix"></div>
+                                <div id="cartBtn" class="mt-20">
+                                <a href="{{ route('cart') }}" class="btn-color btn"><i class="fa fa-shopping-cart"></i>Cart</a>
+                                @auth
+                    <a href="{{ route('checkout') }}" class="btn-color btn right-side"><i class="fa fa-share"></i>Checkout</a>
+                                @endauth
+                    @guest
+                    <a href="{{ route('login') }}" class="btn-color btn right-side"><i class="fa fa-share"></i>Checkout</a>
+                                @endguest
+                    </div>` :`<p style="font-weight: bold; font-size: 14px; text-align: center">Cart Is Empty</p>` }
+                                </ul>`
+
+                )
+                    // $('#cart').append(`
+                    //     <a href="javascript:void(0)">
+                            
+                    //     <div class="d-flex justify-content-between">
+                    //         <div>
+                    //             <h5>Total quantity:</h5>
+                    //         </div>
+                    //         <div class="">
+                    //         <h5> ${getTotalQuantity} </h5>
+                    //         </div>
+                    //     </div>
+                    //     ${cartItems}
+                    //     ${getSubTotal != 0 ? `<p id="cartTotal" class="cart-sub-totle"> <span class="pull-left" style="font-size: 14px; font-weight: bold; color: #000000">Cart Subtotal</span> <span id="cartSubTotal" class="pull-right"><strong class="price-box">${data.total}</strong></span> </p>
+                    //     <div class="row my-md-5 my-4">
+                    //         <div class="col-6">
+                    //             <a href="{{route('cart')}}" class="btn btn-secondary w-100">View Cart</a>
+                    //         </div>
+                    //         <div class="col-6">
+                    //             <a href="{{route('checkout.index')}}" class="btn btn-danger w-100">checkout</a>
+                    //         </div>
+                    //     </div>
+                    // `)        
 
             }
           });
