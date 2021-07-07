@@ -378,6 +378,7 @@
       }
 
       function removeItem(id) {
+        
           $.ajax({
               type: "POST",
               url: "{{route('product.cartRemove')}}",
@@ -386,19 +387,29 @@
                   _sku:id,
               },
               success: function (response) {
-                  $('#cartPage').empty().html(response.cart);
-                 $('#headerCartBag').load(document.URL + ' #headerCartBag');
+                  console.log(response);
+                //   $('#cartPage').empty().html(response.cart);
+                //  $('#headerCartBag').load(document.URL + ' #headerCartBag');
 
-                  $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br> Cart(${response.cartQuantity})`);
-                  toastr.success('Item delete from cart')
-                  $(".deletereload").load(" .deletereload");
-                  $(".cartTotal").load(location.href + " .cartTotal");
-                  $(".total").load(location.href + " .total");
+                //   $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br> Cart(${response.cartQuantity})`);
+                //   toastr.success('Item delete from cart')
+                //   $(".deletereload").load(".deletereload");
+                // //   location.reload();
+                //   $(".cartTotal").load(location.href + " .cartTotal");
+                //   $(".total").load(location.href + " .total");
 
-                  $("#cartTable").load(location.href + " #cartTable");
-               }
+                //   $("#cartTable").load(location.href + " #cartTable");
+
+                //   $.each(response.cart,(row)=>
+                //     {
+                //         console.log('res',row.cartQuantity);
+                //     })
+               
+
+            }
           });
       }
+
 </script>
 
 

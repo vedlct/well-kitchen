@@ -211,7 +211,8 @@ class HomeController extends Controller
             \Cart::clear();
             \Cart::clearCartConditions();
         }
-        $cart=view('layouts.partials.cartNav')->render();
+        // $cart=view('layouts.partials.cartNav')->render();
+        $cart=\Cart::getContent();
         $cartQuantity=\Cart::getContent()->count();
 
         return response()->json(['cart'=>$cart,'cartQuantity'=>$cartQuantity],200);
