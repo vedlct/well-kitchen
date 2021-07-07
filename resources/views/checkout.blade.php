@@ -68,7 +68,8 @@
                                 @enderror
                             </div>
                         </div>
-                        {{-- @if(!Auth::check()) --}}
+                        
+                        @if(!Auth::check())
                         <div class="col-lg-12">
                             <div class="billing-info mb-20">
                                 <label>Password</label>
@@ -78,7 +79,7 @@
                                 @enderror
                             </div>
                         </div>
-                        {{-- @endif --}}
+                        @endif
                        
                         <div class="col-lg-12">
                             <div class="billing-info mb-20">

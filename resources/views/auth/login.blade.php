@@ -29,8 +29,8 @@
                                         @enderror
                                         <div class="button-box">
                                             <div class="login-toggle-btn">
-                                                <input type="checkbox">
-                                                <label>Remember me</label>
+                                                {{-- <input type="checkbox">
+                                                <label>Remember me</label> --}}
                                                 <a href=" {{route('password.request')}} ">Forgot Password?</a>
                                             </div>
                                             <button type="submit"><span>Login</span></button>
