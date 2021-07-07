@@ -33,6 +33,7 @@ class HomeController extends Controller
         $banners = Banner::where('status', 'active')->take(2)->get();
 
         $categories = Category::where('homeShow', 1)->with('products.sku','products.hotdealProducts.hotdeals')->get();
+        // $allCategories = Category::where('homeShow', 1)->get();
         $products = Product::with('category','sku')->where('status', 'active')->get();
 
         $skus = Sku::with('product')->whereHas('product', function ($query) {

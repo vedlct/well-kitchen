@@ -84,11 +84,16 @@
             <!-- category img show -->
             <div class="tab-content" id="nav-tabContent">
                 @foreach ($categories as $key => $category)
+                 @php
+                    $catSkus = App\Models\Sku::whereHas('product', function ($query) use ($category) {
+                            $query->where('categoryId', $category->categoryId)->where('status', 'active');
+                        })->take(15)->get();
+                @endphp
                     <div class="tab-pane fade {{ $key == 0 ? 'show active' : '' }}" id="cat{{ $category->categoryId }}"
                         role="tabpanel">
                         <div class="product-slider-active-2 owl-carousel owl-dot-none">
 
-                            @foreach ($skus->unique('fkproductId') as $sku)
+                            @foreach ($catSkus->unique('fkproductId') as $sku)
                                 {{-- @dd($sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()); --}}
                                 @if (!empty($sku->product->hotdealProducts))
                                     @php
@@ -426,8 +431,13 @@
 
     <!-- single product start -->
     @foreach ($categories as $key => $category)
-    {{-- @dd($category->products); --}}
+
     @if($category->products->count() > 0 )
+     @php
+         $catSkus = App\Models\Sku::whereHas('product', function ($query) use ($category) {
+                $query->where('categoryId', $category->categoryId)->where('status', 'active');
+            })->take(15)->get();
+    @endphp
 
         <div class="product-area pb-70">
             <div class="container">
@@ -437,13 +447,11 @@
                 </div>
                 <div class="product-slider-active-2 owl-carousel owl-dot-none owl-loaded owl-drag">
 
-
                     <div class="owl-stage-outer">
                         <div class="owl-stage"
                             style="transform: translate3d(-1200px, 0px, 0px); transition: all 0s ease 0s; width: 3900px;">
 
-
-                            @foreach ($skus->unique('fkproductId') as $sku)
+                            @foreach ($catSkus->unique('fkproductId') as $sku)
                                 @if (!empty($sku->product->hotdealProducts))
                                     @php
                                         $hotDeal = $sku->product->hotdealProducts
