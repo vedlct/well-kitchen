@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Darryldecode\Cart\Cart;
+use Session;
 
 
 class CuponController extends Controller
@@ -45,8 +46,7 @@ class CuponController extends Controller
                                                 $discount = $cartProductData['price'] * ($promotion->percentage/100);
                                             }elseif (is_null($promotion->percentage)){
                                                 if($cartProductData['price'] < $promotion->amount){
-                                                    session()->flash('message','This coupon amount is bigger than product price.');
-                                                    session()->flash('alert-class','alert-warning');
+                                                    Session::flash('warning', 'This coupon amount is bigger than product price.');
                                                     break;
                                                 }else{
                                                     $discount = $promotion->amount;
@@ -62,32 +62,25 @@ class CuponController extends Controller
                                         }
                                     }
                                 }
-                                session()->flash('message','Coupon applied successful.');
-                                session()->flash('alert-class','alert-success');
+                                Session::flash('success', 'Coupon applied successful.');
                             }else{
-                                session()->flash('message','You can not use more than one coupon at a time.');
-                                session()->flash('alert-class','alert-danger');
+                                Session::flash('warning', 'You can not use more than one coupon at a time.');
                             }
                         }else{
-                            session()->flash('message','This coupon is not applicable for your shopping cart.');
-                            session()->flash('alert-class','alert-warning');
+                            Session::flash('warning', 'This coupon is not applicable for your shopping cart');
                         }
 
                     }else{
-                            session()->flash('message','You have reached the this coupon usage limit.');
-                            session()->flash('alert-class','alert-danger');
+                            Session::flash('warning', 'You have reached the this coupon usage limit');
                         }
                 }elseif($promotion->status == 'Inactive'){
-                    session()->flash('message','This coupon is not active now.');
-                    session()->flash('alert-class','alert-danger');
+                    Session::flash('warning', 'This coupon is not active now');    
                 }
             }else{
-                session()->flash('message','This coupon has been expired.');
-                session()->flash('alert-class','alert-danger');
+                Session::flash('warning', 'This coupon has been expired.');
             }
         }else{
-            session()->flash('message','Invalid coupon code.');
-            session()->flash('alert-class','alert-danger');
+            Session::flash('warning', 'Invalid coupon code.');
         }
         // return 'ok';
         return back();

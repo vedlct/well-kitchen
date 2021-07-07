@@ -32,7 +32,7 @@
                         <div class="col-lg-12">
                             <div class="billing-info mb-20">
                                 <label>Phone</label>
-                                <input type="text" name="phone" id="phone" class="searchPhone" required>
+                                <input type="text" name="phone" id="phone" @if(Auth::user()) value="{{Auth::user()->customer->phone}}" @endif class="searchPhone" required>
                                 <p id="newphone"></p>
                                 @error('phone')
                                         <span class="invalid-feedback" role="alert">
@@ -44,7 +44,7 @@
                         <div class="col-lg-6 col-md-6">
                             <div class="billing-info mb-20">
                                 <label>First Name</label>
-                                <input type="text" name="first_name" id="firstName">
+                                <input type="text" name="first_name" @if(Auth::user()) value="{{Auth::user()->firstName}}" @endif id="firstName">
                                 @error('first_name')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
@@ -53,7 +53,7 @@
                         <div class="col-lg-6 col-md-6">
                             <div class="billing-info mb-20">
                                 <label>Last Name</label>
-                                <input type="text" name="last_name" id="lastName">
+                                <input type="text" name="last_name" @if(Auth::user()) value="{{Auth::user()->lastName}}" @endif id="lastName">
                                 @error('last_name')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
@@ -62,17 +62,28 @@
                         <div class="col-lg-12">
                             <div class="billing-info mb-20">
                                 <label>Email Address</label>
-                                <input type="text" name="email" id="email">
+                                <input type="text" name="email" @if(Auth::user()) value="{{Auth::user()->email}}" @endif id="email">
                                 @error('email')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
+                        {{-- @if(!Auth::check()) --}}
+                        <div class="col-lg-12">
+                            <div class="billing-info mb-20">
+                                <label>Password</label>
+                                <input type="password" name="password" id="password">
+                                @error('password')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        {{-- @endif --}}
                        
                         <div class="col-lg-12">
                             <div class="billing-info mb-20">
                                 <label>Billing Address</label>
-                                <input class="billing-address" placeholder="billing address" type="text" name="billingAddress" id="billingAddress">
+                                <input class="billing-address" placeholder="billing address" type="text" @if(Auth::user()) value="{{Auth::user()->customer->address->billingAddress}}" @endif name="billingAddress" id="billingAddress">
                                 @error('billingAddress')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
@@ -99,7 +110,7 @@
                             <div class="col-lg-12">
                                 <div class="billing-info mb-20">
                                     <label>Shipping Address</label>
-                                    <input class="billing-address" placeholder="Shipping address" type="text" name="diffshippingAddress">
+                                    <input class="billing-address" placeholder="Shipping address" @if(Auth::user()) value="{{Auth::user()->customer->address->shippingAddress}}" @endif type="text" name="diffshippingAddress">
                                 </div>
                             </div>
                         </div>
@@ -142,40 +153,50 @@
                         </div>
                         <div class="payment-method">
                             <div class="payment-accordion element-mrg">
-                                <div class="panel-group" id="accordion">
+                                {{-- <div class="panel-group" id="accordion">
                                     <div class="panel payment-accordion">
                                         <div class="panel-heading" id="method-one">
                                             <h4 class="panel-title">
                                                 <a data-toggle="collapse" data-parent="#accordion" href="#method1">
-                                                    <input id="cod" type="hidden" name="payment" value="dbt" {{ old('payment') == 'dbt' ? 'checked' : '' }} />
+                                                    <input id="cod" type="radio" name="payment" value="dbt" />
                                                     Direct bank transfer
                                                 </a>
                                             </h4>
                                         </div>
-                                        <div id="method1" class="panel-collapse collapse show">
-                                            <div class="panel-body">
-                                                <p>Some notes here.</p>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
                                     <div class="panel payment-accordion">
                                         <div class="panel-heading" id="method-three">
                                             <h4 class="panel-title">
                                                 <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#method3">
-                                                    <input id="cod" type="hidden" name="payment" value="cod" {{ old('payment') == 'cod' ? 'checked' : '' }} />
+                                                    <input id="cod" type="radio" name="payment" value="cod" />
                                                     Cash on delivery
                                                 </a>
                                             </h4>
                                         </div>
-                                        <div id="method3" class="panel-collapse collapse">
-                                            <div class="panel-body">
-                                                <p>Some notes here.</p>
-                                            </div>
-                                        </div>
+                                        
                                     </div>
-                                </div>
+                                </div> --}}
+
+                               
+
+
                             </div>
                         </div>
+
+
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="payment" value="dbt" checked>
+                            <label class="form-check-label" for="exampleRadios1">
+                                Direct bank transfer
+                            </label>
+                          </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="payment" value="cod" checked>
+                            <label class="form-check-label" for="exampleRadios1">
+                                Cash on delivery
+                            </label>
+                          </div>
                     </div>
                     <div class="Place-order mt-25">
 

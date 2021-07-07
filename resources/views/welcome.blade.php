@@ -57,7 +57,7 @@
     <!-- all categories mobile end -->
 
     <!-- all categories tab and desktop start -->
-    <div class="collections-area pt-100 pb-95 d-none d-md-block">
+    <div class="collections-area pt-100 pb-40 d-none d-md-block">
         <div class="container">
             <div class="section-title-3 mb-40">
                 <h4>Our Product Categories </h4>
@@ -426,7 +426,7 @@
 
     <!-- single product start -->
     @foreach ($categories as $key => $category)
-
+    {{-- @dd($category->products); --}}
     @if($category->products->count() > 0 )
 
         <div class="product-area pb-70">
@@ -619,10 +619,14 @@
                                         </div>
                                         <div class="pro-same-action pro-cart">
                                             @if($sku->product->type == "single")
-                                                <a title="Add To Cart" href="#" onclick="addTocart({{$sku->skuId}})"><i class="pe-7s-cart">Add to cart</i></a>
+                                                <a title="Add To Cart" href="#"
+                                                            onclick="addTocart({{ $sku->skuId }})"><i
+                                                                class="pe-7s-cart"></i> Add to cart</a>
                                             @endif
                                             @if($sku->product->type == "variation")
-                                                <a title="Add To Cart" href="{{route('product.details',$sku->skuId)}}" ><i class="pe-7s-cart">Add to cart</i></a>
+                                                <a title="Add To Cart"
+                                                                href="{{ route('product.details', $sku->skuId) }}"><i
+                                                                    class="pe-7s-cart"></i> Add to cart</a>
                                             @endif
                                         </div>
                                         <div class="pro-same-action pro-quickview">

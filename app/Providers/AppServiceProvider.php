@@ -5,7 +5,9 @@ namespace App\Providers;
 use App\Models\Category;
 use App\Models\Menu;
 use App\Models\Settings;
+use App\Models\User;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Auth;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -32,6 +34,7 @@ class AppServiceProvider extends ServiceProvider
         $subSubCategories = Category::where('parent', '!=', null)->where('subParent', '!=', null)->get();
         $menu=Menu::all();
         $setting = Settings::first();
+        
         view()->share(['allCategories'=>$allCategories, 'subCategories'=>$subCategories, 'subSubCategories'=>$subSubCategories, 'menu'=>$menu, 'setting'=> $setting]);
     }
 }

@@ -20,7 +20,8 @@
   $(".slider-active").owlCarousel({
     loop: true,
     nav: true,
-    autoplay: false,
+    autoplay: true,
+    autoplayTimeout: 3000,
     navText: [
       '<i class="fa fa-chevron-left"></i>',
       '<i class="fa fa-chevron-right"></i>',

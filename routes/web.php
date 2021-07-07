@@ -12,6 +12,7 @@ use App\Http\Controllers\CuponController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MyProfileController;
 use App\Http\Controllers\MyOrderController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
@@ -41,6 +42,9 @@ Route::post('compare/search',[ProductController::class,'compareSearch'])->name('
 
 
 //Search
+// Route::post('password/email' ,[ForgotPasswordController::class,'sendResetLinkEmail'])->name('password.email');
+
+
 Route::post('/search-category-product' ,[CategoryController::class,'searchByProducts'])->name('search.product');
 
     Route::get('wish-list',[WishlistController::class,'index'])->name('wishlist');
@@ -78,7 +82,7 @@ Route::post('/search-category-product' ,[CategoryController::class,'searchByProd
 Route::get('/my-account', [MyProfileController::class, 'index'])->name('profile')->middleware('auth');
 Route::post('/user-info-update', [MyProfileController::class, 'updateUserInfo'])->name('userinfo.update')->middleware('auth');
 Route::post('/user-address-update', [MyProfileController::class, 'updateAddressInfo'])->name('address.update')->middleware('auth');
-Route::post('/user-password-update', [MyProfileController::class, 'updatePassword'])->name('password.update')->middleware('auth');
+Route::post('/user-password-update', [MyProfileController::class, 'updatePassword'])->name('profile.password.update')->middleware('auth');
 
 
 

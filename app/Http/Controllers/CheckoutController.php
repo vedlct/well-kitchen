@@ -88,7 +88,8 @@ class CheckoutController extends Controller
                 $guestUser->firstName = $request->first_name;
                 $guestUser->lastName = $request->last_name;
                 $guestUser->email = $request->email;
-                $guestUser->password = Hash::make('123456');
+                // $guestUser->password = Hash::make('123456');
+                $guestUser->password = bcrypt($request->password);
                 $guestUser->fkuserTypeId = 2;
                 $guestUser->save();
 
@@ -100,24 +101,17 @@ class CheckoutController extends Controller
 
                 $address = new Address();
                 $address->billingAddress = $request->billingAddress;
-                $address->shippingAddress = $request->billingAddress;
+                if($request->shipping == 'on'){
+                    $address->shippingAddress = $request->diffshippingAddress;
+                }else{
+
+                    $address->shippingAddress = $request->billingAddress;
+                }
                 $address->fkcustomerId  = $customer->customerId;
                 $address->fkshipment_zoneId  = $request->fkshipment_zoneId;
                 $address->save();
 
-                Session::flash('success', 'User Registered & Place Order Successfully complete');
-            }else{
-
-                if($request->shipping == 'on'){
-                    $address = new Address();
-                    $address->billingAddress = $request->billingAddress;
-                    $address->shippingAddress = $request->diffshippingAddress;
-                    $address->fkcustomerId  = $customer->customerId;
-                    $address->fkshipment_zoneId  = $request->fkshipment_zoneId;
-                    $address->save();
-                }
             }
-
 
 
         $deliveryFee = 0;
@@ -131,6 +125,7 @@ class CheckoutController extends Controller
         $order->orderTotal = \Cart::getSubTotal() + $deliveryFee;
         // $order->paymentType = 'cod';
         $order->payment_status = 'unpaid';
+        $order->payment_type = $request->payment;
         // $order->delivery_commission_type = 'taka';
         $order->save();
 
@@ -194,6 +189,7 @@ class CheckoutController extends Controller
         }
 
         \Cart::clear();
+        Session::flash('success', 'Order placed successfully');
 
         return redirect('/');
     }

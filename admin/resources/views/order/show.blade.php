@@ -150,7 +150,8 @@
                                 <h4 class="card-title order-details-heading mb-0">Transaction</h4>
                               </div>
                               <div class="col-md-4 mb-1">
-                                <h4 class="text-warning">Due: {{($order->orderTotal+$order->deliveryFee) - $order->paidAmount()}}</h4>
+                                {{-- <h4 class="text-warning">Due: {{($order->orderTotal+$order->deliveryFee) - $order->paidAmount()}}</h4> --}}
+                                <h4 class="text-warning">Due: {{$order->orderTotal - $order->paidAmount()}}</h4>
                               </div>
                               <div class="col-md-4 mb-1 text-sm-right">
                                 {{-- <button type="button" class="btn btn-danger btn-min-width">Refund</button> --}}

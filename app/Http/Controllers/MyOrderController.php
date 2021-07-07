@@ -10,10 +10,15 @@ use App\Models\Order;
 class MyOrderController extends Controller
 {
     public function index(){
-        $customer = Customer::where('fkuserId',Auth::user()->userId)->with('user')->first();
+        if(Auth::check()){
+            $customer = Customer::where('fkuserId',Auth::user()->userId)->with('user')->first();
         
-        $orderedProducts = Order::where('fkcustomerId', $customer->customerId)->with('orderedProduct.sku.product')->orderBy('created_at', 'desc')->get();
+            $orderedProducts = Order::where('fkcustomerId', $customer->customerId)->with('orderedProduct.sku.product')->orderBy('created_at', 'desc')->get();
+           
+            return view('myOrder',compact('orderedProducts'));
+        } else {
+            return redirect()->route('login');
+        }
        
-        return view('myOrder',compact('orderedProducts'));
     }
 }
