@@ -400,10 +400,10 @@
 
                 //   $("#cartTable").load(location.href + " #cartTable");
 
-                //   $.each(response.cart,(row)=>
-                //     {
-                //         console.log('res',row.cartQuantity);
-                //     })
+                  $.each(response.cart,(index,row)=>
+                    {
+                        console.log('res',row);
+                    })
                
 
             }
