@@ -143,9 +143,9 @@
 @include('layouts.partials.cartNav')
 </div>
 <!-- chat icon start -->
-<div class="chat-icon-area">
-    <i class="fa fa-comment"></i>
-</div>
+{{--<div class="chat-icon-area">--}}
+{{--    <i class="fa fa-comment"></i>--}}
+{{--</div>--}}
 <!-- chat icon end -->
 
 
@@ -168,7 +168,7 @@
   <script>
     $(window).on("load", function(){
       $(".loader_bg").fadeOut("slow");
-      
+
     });
   </script>
 
