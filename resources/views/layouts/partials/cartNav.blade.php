@@ -1,3 +1,4 @@
+<div id="cart">
 <!-- cart button right fixed start -->
 <div class="cart-button-fixed" onclick="showNav()">
     <i class="pe-7s-shopbag"></i>
@@ -52,3 +53,4 @@
     </div>
 </section>
 <!-- right fixed cart end -->
+</div>

@@ -215,8 +215,9 @@ class HomeController extends Controller
         // $cart=view('layouts.partials.cartNav')->render();
         $cart=\Cart::getContent();
         $cartQuantity=\Cart::getContent()->count();
+        $total = number_format(\Cart::getSubTotal());
 
-        return response()->json(['cart'=>$cart,'cartQuantity'=>$cartQuantity],200);
+        return response()->json(['cart'=>$cart,'cartQuantity'=>$cartQuantity, 'total'=>$total],200);
     }
 
     public function cartIndex()
