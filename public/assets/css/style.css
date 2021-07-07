@@ -12274,3 +12274,8 @@ h3.cart-page-title {
   @media only screen and (max-width: 767px) {
     .searchform.mb-50 {
       margin-bottom: 20px; } }
+
+.payment-method input[type=radio] {
+  height: 15px;
+  width: auto;
+}
