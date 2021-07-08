@@ -450,7 +450,7 @@
                                 <div id="cartBtn" class="mt-20">
                                 <a href="{{ route('cart') }}" class="btn-color btn"><i class="fa fa-shopping-cart"></i>Cart</a>
                                 @auth
-                    <a href="{{ route('checkout') }}" class="btn-color btn right-side"><i class="fa fa-share"></i>Checkout</a>
+                    <a href="{{ route('checkout.index') }}" class="btn-color btn right-side"><i class="fa fa-share"></i>Checkout</a>
                                 @endauth
                     @guest
                     <a href="{{ route('login') }}" class="btn-color btn right-side"><i class="fa fa-share"></i>Checkout</a>
