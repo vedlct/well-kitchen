@@ -408,12 +408,15 @@
                   $.each(response.cart,(index,row)=>
                     {
                         console.log('res',row);
-                        getTotalQuantity+=parseFloat(row.quantity)
+                        // getTotalQuantity+=parseFloat(row.quantity)
+                        getTotalQuantity+=response.cartQuantity
+
                         getSubTotal+=parseFloat(row.price)
-                        cartItems+=`<li>
-                                    <div class="product-area my-md-5 my-4">
+                        cartItems+=`<div class="product-area my-md-5 my-4">
                                     <div class="d-flex justify-content-between align-items-center border-bottom py-2">
-                                        
+                                        <div>
+                                            <img src="{{asset('admin/public/featureImage/')}}/${row.attributes.featureImage}" alt="" class="product-img">
+                                        </div>
                                             <div class="name-area px-2">
                                             <h5 class="product-name"><a href="javascript:void(0)">${row.name}</a></h5>
                                             <h6 class="quantity">${row.price}</h6>
@@ -423,8 +426,7 @@
                                                 <i class="fa fa-trash"></i>
                                             </div>
                                         </div>
-                                        </div>
-                                    </li>`
+                                        </div>`
 
                     })
                     $('#cart').html('')
@@ -439,21 +441,19 @@
                             <div>
                                 <h4>Shopping Cart</h4>
                             </div>
-                            <div class="">
-                                <i class="fa fa-times close-icon" onclick="hideNav()"></i>
-                            </div>
+                           
                         </div>
                         ${cartItems}
 
                                 ${getSubTotal != 0 ? `<p id="cartTotal" class="cart-sub-totle"> <span class="pull-left" style="font-size: 14px; font-weight: bold; color: #000000">Cart Subtotal</span> <span id="cartSubTotal" class="pull-right"><strong class="price-box">${response.total}</strong></span> </p>
                                 <div class="clearfix"></div>
                                 <div id="cartBtn" class="mt-20">
-                                <a href="{{ route('cart') }}" class="btn-color btn"><i class="fa fa-shopping-cart"></i>Cart</a>
+                                <a href="{{ route('cart') }}" class="btn btn-secondary w-100">View Cart</a>
                                 @auth
                     <a href="{{ route('checkout.index') }}" class="btn-color btn right-side"><i class="fa fa-share"></i>Checkout</a>
                                 @endauth
                     @guest
-                    <a href="{{ route('login') }}" class="btn-color btn right-side"><i class="fa fa-share"></i>Checkout</a>
+                    <a href="{{ route('login') }}" class="btn btn-danger w-100">Checkout</a>
                                 @endguest
                     </div>` :`<p style="font-weight: bold; font-size: 14px; text-align: center">Cart Is Empty</p>` }
                                 </ul>`
