@@ -168,8 +168,10 @@ class HomeController extends Controller
             ));
 //            dd(\Cart::getContent());
             $cartPage= view('layouts.partials.cartNav')->render();
+            $cart=\Cart::getContent();
             $cartQuantity=\Cart::getContent()->count();
-            return response()->json(['cart'=>$cartPage,'cartQuantity'=>$cartQuantity],200);
+            $total = number_format(\Cart::getSubTotal());
+            return response()->json(['cartPage'=>$cartPage, 'cart'=>$cart, 'cartQuantity'=>$cartQuantity, 'total'=>$total],200);
         } else {
             return response()->json(['Quantity'=>'Stock not available'],400);
         }
@@ -189,9 +191,11 @@ class HomeController extends Controller
                     'value' => $request->_quantity,
                 )
             ]);
-            $cartPage= view('layouts.partials.cartNav')->render();
+            // $cartPage= view('layouts.partials.cartNav')->render();
+            $cartPage=\Cart::getContent();
             $cartQuantity=\Cart::getContent()->count();
-            return response()->json(['cart'=>$cartPage,'cartQuantity'=>$cartQuantity],200);
+            $total = number_format(\Cart::getSubTotal());
+            return response()->json(['cart'=>$cartPage,'cartQuantity'=>$cartQuantity,'total'=>$total],200);
         } else {
             return response()->json(['Quantity'=>'Stock not available'],400);
         }
@@ -212,12 +216,12 @@ class HomeController extends Controller
             \Cart::clear();
             \Cart::clearCartConditions();
         }
-        // $cart=view('layouts.partials.cartNav')->render();
+        $cart=view('layouts.partials.cartNav')->render();
         $cart=\Cart::getContent();
         $cartQuantity=\Cart::getContent()->count();
         $total = number_format(\Cart::getSubTotal());
 
-        return response()->json(['cart'=>$cart,'cartQuantity'=>$cartQuantity, 'total'=>$total],200);
+        return response()->json(['cart'=>$cart, 'cartQuantity'=>$cartQuantity, 'total'=>$total],200);
     }
 
     public function cartIndex()
