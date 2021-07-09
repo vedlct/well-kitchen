@@ -14,6 +14,7 @@
                                     <th>Product Name</th>
                                     <th>Until Price</th>
                                     <th>Qty</th>
+                                    <th>Date</th>
                                     <th>Subtotal</th>
                                     <th>Status</th>
                                 </tr>
@@ -30,6 +31,9 @@
                                     <td class="product-price-cart"><span class="amount">&#2547;{{$orderitem->sku->salePrice}}</span></td>
                                     <td class="product-quantity">
                                         <span class="amount">{{$orderitem->quiantity}}</span>
+                                    </td>
+                                    <td class="product-quantity">
+                                        <span class="amount">{{$item->created_at}}</span>
                                     </td>
                                     <td class="product-subtotal">&#2547;{{$orderitem->total}}</td>
                                     <td class="product-wishlist-cart">
