@@ -310,8 +310,8 @@
                 var cartItems=""
 
                 // $('#cartPage').empty().html(response.cart)
-                //  $('#headerCartBag').load(document.URL + ' #headerCartBag');
-                // $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
+                 $('#headerCartBag').load(document.URL + ' #headerCartBag');
+                $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
                 // toastr.success('Item added to cart')
 
                 $.each(response.cart,(index,row)=>
@@ -322,9 +322,10 @@
                         getSubTotal+=parseFloat(row.price)
                         cartItems+=`<div class="product-area my-md-5 my-4">
                                     <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+
                                         <div>
-                                            <img src="{{asset('admin/public/featureImage/')}}/${row.attributes.featureImage}" alt="" class="product-img">
-                                        </div>
+                                            <img src="{{asset('admin/public/featureImage/')}}/${row.associatedModel.featureImage}" alt="" class="product-img">
+                                           </div>  
                                             <div class="name-area px-2">
                                             <h5 class="product-name"><a href="javascript:void(0)">${row.name}</a></h5>
                                             <h6 class="quantity">${row.quantity} x &#2547; ${row.price}</h6>
@@ -428,11 +429,10 @@
                 var cartItems=""
                 //   console.log('res',response);
                 //   $('#cartPage').empty().html(response.cart)
-                //  $('#headerCartBag').load(document.URL + ' #headerCartBag');
-
-                //   $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
+                 $('#headerCartBag').load(document.URL + ' #headerCartBag');
+                 $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
                 //   toastr.success('Item update successfully')
-                //   $(".updatereload").load(location.href + " .updatereload");
+                  $(".updatereload").load(location.href + " .updatereload");
                 //   $(".cartTotal").load(location.href + " .cartTotal");
 
                 //   $(".total").load(location.href + " .total");
@@ -445,7 +445,7 @@
                         cartItems+=`<div class="product-area my-md-5 my-4">
                                     <div class="d-flex justify-content-between align-items-center border-bottom py-2">
                                         <div>
-                                            <img src="{{asset('admin/public/featureImage/')}}/${row.attributes.featureImage}" alt="" class="product-img">
+                                            <img src="{{asset('admin/public/featureImage/')}}/${row.associatedModel.featureImage}" alt="" class="product-img">
                                         </div>
                                             <div class="name-area px-2">
                                             <h5 class="product-name"><a href="javascript:void(0)">${row.name}</a></h5>
@@ -515,8 +515,8 @@
                 var cartItems=""
 
                 //   $('#cartPage').empty().html(response.cart);
-                //  $('#headerCartBag').load(document.URL + ' #headerCartBag');
-                //   $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br> Cart(${response.cartQuantity})`);
+                 $('#headerCartBag').load(document.URL + ' #headerCartBag');
+                  $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br> Cart(${response.cartQuantity})`);
                 //   toastr.success('Item delete from cart')
                 //   $(".deletereload").load(".deletereload");
                 // //   location.reload();
@@ -532,7 +532,7 @@
                         cartItems+=`<div class="product-area my-md-5 my-4">
                                     <div class="d-flex justify-content-between align-items-center border-bottom py-2">
                                         <div>
-                                            <img src="{{asset('admin/public/featureImage/')}}/${row.attributes.featureImage}" alt="" class="product-img">
+                                            <img src="{{asset('admin/public/featureImage/')}}/${row.associatedModel.featureImage}" alt="" class="product-img">
                                         </div>
                                             <div class="name-area px-2">
                                             <h5 class="product-name"><a href="javascript:void(0)">${row.name}</a></h5>
