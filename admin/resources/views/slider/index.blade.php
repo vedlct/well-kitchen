@@ -70,7 +70,7 @@
                 },
 
                 columns: [
-                    // {title:'ID', data: 'sliderId', name: 'sliderId', class: 'text-center'},
+                    {title:'Serial', data: 'serial', name: 'serial', class: 'text-center'},
                     {title:'Title Text', data: 'titletext', name: 'titletext', class: 'text-center'},
                     {title:'Main Text', data: 'mainText', name: 'mainText', class: 'text-center'},
                     {title:'Sub Text', data: 'subText', name: 'subText', class: 'text-center'},
