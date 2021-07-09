@@ -26,7 +26,8 @@ class HomeController extends Controller
 {
     public function index(){
         $dateToday = date('Y-m-d h:i:s');
-        $sliders = Slider::where('status', 'active')->get();
+        $sliders = Slider::where('status', 'active')->orderBy('serial', 'asc')->get();
+        // dd($sliders);
         // $banners = Banner::with('promotion')->whereHas('promotion', function ($query){
         //     $query->where('status', 'active')->where('startDate', '<=', date('Y-m-d H:i:s'))->where('endDate', '>=', date('Y-m-d H:i:s'));
         // })->take(2)->get();
