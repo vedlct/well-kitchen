@@ -4807,19 +4807,19 @@ margin-bottom: 5px; }
     color: #fff; }
 
 .slider-height-20 {
-  height: 750px; }
+  height: 500px; }
   @media only screen and (min-width: 1200px) and (max-width: 1365px) {
     .slider-height-20 {
-      height: 650px; } }
+      height: 500px; } }
   @media only screen and (min-width: 992px) and (max-width: 1199px) {
     .slider-height-20 {
-      height: 520px; } }
+      height: 450px; } }
   @media only screen and (min-width: 768px) and (max-width: 991px) {
     .slider-height-20 {
-      height: 450px; } }
+      height: 350px; } }
   @media only screen and (max-width: 767px) {
     .slider-height-20 {
-      height: 480px;
+      height: 280px;
       background-position: 70%; } }
   @media only screen and (min-width: 576px) and (max-width: 767px) {
     .slider-height-20 {

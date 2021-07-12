@@ -29,12 +29,12 @@
                                 </div>
                                 <div class="pro-same-action pro-cart">
                                     @if($sku->product()->first()->type == "single")
-                                        <a title="Add To Cart" href="#" onclick="addTocart({{$sku->skuId}})"><i class="pe-7s-cart"></i> Add to cart</a>
+                                        <a title="Add To Cart" href="javascript: void(0)" onclick="addTocart({{$sku->skuId}})"><i class="pe-7s-cart"></i> Add to cart</a>
                                     @endif
                                     @if($sku->product()->first()->type == "variation")
                                         <a title="Add To Cart" href="{{route('product.details',$sku->skuId)}}"><i class="pe-7s-cart"></i> Add to cart</a>
                                     @endif
-                                    {{--                                                    <a title="Add To Cart" href="#"><i class="pe-7s-cart"></i> Add to cart</a>--}}
+                                    {{--                                                    <a title="Add To Cart" href="javascript: void(0)"><i class="pe-7s-cart"></i> Add to cart</a>--}}
                                 </div>
                                 <div class="pro-same-action pro-quickview">
                                     <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a>
