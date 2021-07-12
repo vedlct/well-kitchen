@@ -12273,7 +12273,14 @@ h3.cart-page-title {
       background-color: #000; }
   @media only screen and (max-width: 767px) {
     .searchform.mb-50 {
-      margin-bottom: 20px; } }
+      margin-bottom: 20px; } 
+      .product-wrap-5 .product-img a img {
+        height: 155px !important;
+      }
+      .product-wrap .product-img img {
+        height: 155px !important;
+      }
+  }
 
 .payment-method input[type=radio] {
   height: 15px;
