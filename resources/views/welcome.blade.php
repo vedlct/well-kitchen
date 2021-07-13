@@ -10,7 +10,7 @@
                     style="background-image:url('{{ 'admin/public/sliderImage/' . $slider->imageLink }}');">
                     <div class="container">
                         <div class="row justify-content-center">
-                            <div class="col-11">
+                            <div class="col-md-6 col-11">
                                 <div class="slider-content-20 slider-animated-1">
                                     <h3 class="animated">{{ $slider->titletext }}</h3>
                                     <h1 class="animated">{{ $slider->subText }}</h1>
