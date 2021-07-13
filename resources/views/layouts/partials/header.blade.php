@@ -261,7 +261,10 @@
                                 </div>
                             </div>
                             <div class="same-style header-wishlist">
-                                <a href="{{route('wishlist')}}"><i class="pe-7s-like"></i></a>
+                                <a href="{{route('wishlist')}}"><i class="pe-7s-like"></i>
+                                
+                                    <sup style="font-size: 14px; background-color: #000000; color:#ffffff">@auth {{ $wishlist }} @endauth @guest 0 @endguest</sup>
+                                </a>
                             </div>
 
 
@@ -272,7 +275,7 @@
                             <div class="same-style cart-wrap" >
                                 <button class="icon-cart" id="headerCartBag" onclick="showNav()">
                                     <i class="pe-7s-shopbag"></i>
-                                   <span class="count-style" > {{\Cart::getContent()->count()}}</span>
+                                   <span class="count-style headerCartBag" > {{\Cart::getContent()->count()}}</span>
                                 </button>
                                 <!-- <div class="shopping-cart-content">
                                     <div class="full-wrapper position-relative">

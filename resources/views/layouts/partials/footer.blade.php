@@ -384,88 +384,38 @@
               url: "{{route('product.cartRemove')}}",
               data: {
                   _token:'{{csrf_token()}}',
-                  _sku:id,
+                  skuId:id,
               },
-              success: function (response) {
-                  console.log(response);
+              success: function (data) {
+                  console.log(data);
+                  $(".cart_count").empty().append(data.cartQuantity);
+                  $(".headerCartBag").empty().append(data.cartQuantity);
+
                   toastr.success('Item removed From Cart Successfully');
-                var getTotalQuantity=0;
-                var getSubTotal=0;
-                var cartItems=""
 
-                //   $('#cartPage').empty().html(response.cart);
-                //  $('#headerCartBag').load(document.URL + ' #headerCartBag');
+                  $(".carNavWrapper").empty();
 
-                //   $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br> Cart(${response.cartQuantity})`);
-                //   toastr.success('Item delete from cart')
-                //   $(".deletereload").load(".deletereload");
-                // //   location.reload();
-                //   $(".cartTotal").load(location.href + " .cartTotal");
-                //   $(".total").load(location.href + " .total");
+                  $("#cartPageTableBody").empty();
 
-                //   $("#cartTable").load(location.href + " #cartTable");
+                  $.each(data.cartDatas, function(key, item){
+                       $(".carNavWrapper").append("<div class='d-flex justify-content-between align-items-center border-bottom py-2'><div>"+
+                           "<img src='{{url('admin/public/featureImage/')}}/"+item.associatedModel.featureImage+"' alt='' class='product-img'></div>"+
+                           "<div class='name-area px-2'><h5 class='product-name'><a href='{{route('product.details', '"+item.id+"')}}'>"+item.name+"</a></h5>"+
+                            "<h6 class='quantity'> "+item.price * item.quantity+"</h6></div><div class='' onclick='removeItem("+item.id+")'><i class='fa fa-trash'></i></div></div>")
+                  });
+                  $(".subTotal").empty().append(data.subTotal)
 
-                  $.each(response.cart,(index,row)=>
-                    {
-                        console.log('res',row);
-                        // getTotalQuantity+=parseFloat(row.quantity)
-                        getTotalQuantity+=response.cartQuantity
-
-                        getSubTotal+=parseFloat(row.price)
-                        cartItems+=`<div class="product-area my-md-5 my-4">
-                                    <div class="d-flex justify-content-between align-items-center border-bottom py-2">
-                                        <div>
-                                            <img src="{{asset('admin/public/featureImage/')}}/${row.attributes.featureImage}" alt="" class="product-img">
-                                        </div>
-                                            <div class="name-area px-2">
-                                            <h5 class="product-name"><a href="javascript:void(0)">${row.name}</a></h5>
-                                            <h6 class="quantity">${row.price}</h6>
-                                            <h6 class="quantity">${row.quantity}</h6>
-                                            </div>
-                                            <div class="" onclick="removeItem(${row.id})">
-                                                <i class="fa fa-trash"></i>
-                                            </div>
-                                        </div>
-                                        </div>`
-
-                    })
-                    $('#cart').html('')
-                $('#cart').append(`
-                        <div class="cart-button-fixed" onclick="showNav()">
-                            <i class="pe-7s-shopbag"></i>
-                            <h5 class="mb-0">Cart <span class="cart_count">${getTotalQuantity} </span></h5>
-                        </div>
-                        <div class="full-body-overlay" id="fullBodyOverlay" onclick="hideOverlay()"></div>
-                        <section class="side-cart side-nav px-3 py-md-5 py-3" id="sideNav">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <h4>Shopping Cart</h4>
-                            </div>
-                           
-                        </div>
-                        ${cartItems}
-
-                                ${getSubTotal != 0 ? `<p id="cartTotal" class="cart-sub-totle"> <span class="pull-left" style="font-size: 14px; font-weight: bold; color: #000000">Cart Subtotal</span> <span id="cartSubTotal" class="pull-right"><strong class="price-box">${response.total}</strong></span> </p>
-                                <div class="clearfix"></div>
-                                <div id="cartBtn" class="mt-20">
-                                <a href="{{ route('cart') }}" class="btn btn-secondary w-100">View Cart</a>
-                                @auth
-                    <a href="{{ route('checkout.index') }}" class="btn-color btn right-side"><i class="fa fa-share"></i>Checkout</a>
-                                @endauth
-                    @guest
-                    <a href="{{ route('login') }}" class="btn btn-danger w-100">Checkout</a>
-                                @endguest
-                    </div>` :`<p style="font-weight: bold; font-size: 14px; text-align: center">Cart Is Empty</p>` }
-                                </ul>`
-
-
-                                
-                                
-
-                )
-                     
-
-            }
+                  if(data.cartQuantity > 0){
+                    
+     
+                 }
+                 else{
+                     $(".cartTable").empty();
+                     $(".cartTableBtn").empty();
+                     $(".cartTable").append("<h3> Cart is empty</h3>");
+        
+                 }
+             }
           });
       }
 

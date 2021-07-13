@@ -45,6 +45,11 @@ class HomeController extends Controller
         })->take(15)->get();
         // dd($newArrivalSkus);
 
+        // offer products
+        $hotDeals = HotDeals::where('hotdeals.status', 'Available')->whereDate('hotdeals.startDate', '<=', date('Y-m-d'))->whereDate('hotdeals.endDate', '>=', date('Y-m-d'))->pluck('hotDealsId');
+        $hotDealProId = HotDealsProduct::whereIn('fkhotdealsId', $hotDeals)->pluck('fkproductId');
+        $offerSkus = Sku::whereIn('fkproductId', $hotDealProId)->get();
+
         $recommendeds =  $newArrivalSkus = Sku::with('product')->whereHas('product', function ($query) {
             $query->where('status', 'active')->where('isrecommended', 1);
         })->take(15)->get();
@@ -67,7 +72,7 @@ class HomeController extends Controller
         
        
 
-        return view('welcome',compact('categories', 'mostViewskus', 'products', 'skus', 'newArrivals', 'recommendeds', 'testimonials', 'sliders', 'banners', 'mostViewedProducts'));
+        return view('welcome',compact('categories', 'mostViewskus', 'offerSkus', 'products', 'skus', 'newArrivals', 'recommendeds', 'testimonials', 'sliders', 'banners', 'mostViewedProducts'));
     }
 
 
@@ -197,14 +202,12 @@ class HomeController extends Controller
         }
     }
 
-
     public function removeItem(Request $request){
-
-        \Cart::remove($request->_sku);
+        \Cart::remove($request->skuId);
         $condition=\Cart::getCondition('coupon');
         if(!empty($condition)){
             $conditionSku=$condition->getAttributes();
-            if ($conditionSku['sku'] == $request->_sku) {
+            if ($conditionSku['sku'] == $request->skuId) {
                 \Cart::clearCartConditions();
             }
         }
@@ -212,13 +215,36 @@ class HomeController extends Controller
             \Cart::clear();
             \Cart::clearCartConditions();
         }
-        // $cart=view('layouts.partials.cartNav')->render();
-        $cart=\Cart::getContent();
         $cartQuantity=\Cart::getContent()->count();
-        $total = number_format(\Cart::getSubTotal());
+        $cartDatas=\Cart::getContent();
+        $subTotal =\Cart::getSubTotal();
+        $grandTotal =\Cart::getTotal();
 
-        return response()->json(['cart'=>$cart,'cartQuantity'=>$cartQuantity, 'total'=>$total],200);
+        return response()->json(['cartQuantity'=>$cartQuantity, 'cartDatas'=>$cartDatas, 'subTotal'=>$subTotal, 'grandTotal'=>$grandTotal],200);
     }
+
+
+    // public function removeItem(Request $request){
+
+    //     \Cart::remove($request->_sku);
+    //     $condition=\Cart::getCondition('coupon');
+    //     if(!empty($condition)){
+    //         $conditionSku=$condition->getAttributes();
+    //         if ($conditionSku['sku'] == $request->_sku) {
+    //             \Cart::clearCartConditions();
+    //         }
+    //     }
+    //     if (\Cart::isEmpty()) {
+    //         \Cart::clear();
+    //         \Cart::clearCartConditions();
+    //     }
+    //     // $cart=view('layouts.partials.cartNav')->render();
+    //     $cart=\Cart::getContent();
+    //     $cartQuantity=\Cart::getContent()->count();
+    //     $total = number_format(\Cart::getSubTotal());
+
+    //     return response()->json(['cart'=>$cart,'cartQuantity'=>$cartQuantity, 'total'=>$total],200);
+    // }
 
     public function cartIndex()
     {

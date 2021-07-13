@@ -24,7 +24,7 @@
                                 {{-- @dd($item->associatedModel->sku->skuId); --}}
                                     <tr>
                                         <td class="product-thumbnail">
-                                            <a href="{{route('product.details',$item->associatedModel->sku->first()->skuId)}}"><img src="{{('admin/public/featureImage/').$item->associatedModel->featureImage}}" alt=""></a>
+                                            <a href="{{route('product.details',$item->associatedModel->sku->first()->skuId)}}"><img src="{{url('admin/public/featureImage/').$item->associatedModel->featureImage}}" alt=""></a>
                                         </td>
                                         <td class="product-name"><a href="{{route('product.details',$item->associatedModel->sku->first()->skuId)}}">{{$item->associatedModel->productName}}</a></td>
                                         <td>
