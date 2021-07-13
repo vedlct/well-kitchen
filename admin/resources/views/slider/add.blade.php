@@ -58,6 +58,11 @@
                                                     <span class="text-danger"> <b>{{  $errors->first('sliderImage') }}</b></span>
                                                 </div>
                                                 <div class="form-group">
+                                                    <label>Serial No</label>
+                                                    <input type="text" class="form-control" name="serial">
+                                                    <span class="text-danger"> <b>{{  $errors->first('serial') }}</b></span>
+                                                </div>
+                                                <div class="form-group">
                                                     <label>Status</label>
                                                     <select name="status" class="form-control">
                                                         <option value="" selected>Select Status</option>

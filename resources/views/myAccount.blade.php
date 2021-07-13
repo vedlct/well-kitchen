@@ -41,7 +41,8 @@
                                             <div class="col-lg-6 col-md-6">
                                                 <div class="billing-info">
                                                     <label>Phone</label>
-                                                    <input type="text" name="phone" value="{{$customer?$customer->phone:''}}">
+                                                    {{-- <input type="text" name="phone" value="{{$customer?$customer->phone:''}}"> --}}
+                                                    <input type="text" name="phone" value="{{$user->phone}}">
                                                 </div>
                                             </div>
                                         </div>

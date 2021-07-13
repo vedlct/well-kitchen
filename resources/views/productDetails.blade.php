@@ -172,7 +172,7 @@
 
 
                         {{-- @if ($sku->product->type == 'single')
-                        <a href="#" onclick="addTocart({{$sku->skuId}})">Add To Cart</a>
+                        <a href="javascript: void(0)" onclick="addTocart({{$sku->skuId}})">Add To Cart</a>
                     @endif
                     @if ($sku->product->type == 'variation')
                         <a title="Add To Cart"
@@ -182,7 +182,7 @@
 
                         <div class="pro-details-cart btn-hover addtocartsku">
 
-                            <a href="#" onclick="addTocart({{$sku->product->type == "single" ? $sku->skuId : '0'}})">Add To Cart</a>
+                            <a href="javascript: void(0)" onclick="addTocart({{$sku->product->type == "single" ? $sku->skuId : '0'}})">Add To Cart</a>
                         </div>
                         <div class="pro-details-wishlist">
                             <a href="#" onclick="addToWishList({{$sku->skuId}})"><i class="fa fa-heart-o"></i></a>
@@ -399,7 +399,7 @@
                             </div>
                             <div class="pro-same-action pro-cart">
                                 @if($sku->product->type == "single")
-                                    <a title="Add To Cart" href="#" onclick="addTocart({{$sku->skuId}})"><i class="pe-7s-cart">Add to cart</i></a>
+                                    <a title="Add To Cart" href="javascript: void(0)" onclick="addTocart({{$sku->skuId}})"><i class="pe-7s-cart">Add to cart</i></a>
                                 @endif
                                 @if($sku->product->type == "variation")
                                     <a title="Add To Cart" href="{{route('product.details',$sku->skuId)}}" ><i class="pe-7s-cart">Add to cart</i></a>
@@ -503,7 +503,7 @@
                 if(data.afterDiscountPrice == null) {
                     $('.salePrice').empty().append("<span>" + "৳ " + data.sku.salePrice + "</span>")
                 }
-                $('.addtocartsku').empty().append("<a href='#' onclick='addTocart("+data.sku.skuId+")'>Add To Cart</a>");
+                $('.addtocartsku').empty().append("<a href='javascript: void(0)' onclick='addTocart("+data.sku.skuId+")'>Add To Cart</a>");
                 $.each(data.variationDatas, function (key, val)
                 {
                     if(val.variation_detailsdata.variationType == "Color"){

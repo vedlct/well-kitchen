@@ -82,6 +82,7 @@ class RegisterController extends Controller
 
         $customer = new Customer();
         $customer->fkuserId = $user->userId;
+        $customer->phone = $user->phone;
         $customer->status = 'active';
         $customer->save();
 

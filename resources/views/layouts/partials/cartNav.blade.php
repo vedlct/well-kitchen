@@ -1,6 +1,6 @@
 <div id="cart">
 <!-- cart button right fixed start -->
-<div class="cart-button-fixed" onclick="showNav()">
+<div class="cart-button-fixed" onclick="showNav()" id="cartNav">
     <i class="pe-7s-shopbag"></i>
     <h5 class="mb-0">Cart <span class="cart_count">{{Cart::getContent()->count()}}</span></h5>
 </div>

@@ -26,7 +26,8 @@ class HomeController extends Controller
 {
     public function index(){
         $dateToday = date('Y-m-d h:i:s');
-        $sliders = Slider::where('status', 'active')->get();
+        $sliders = Slider::where('status', 'active')->orderBy('serial', 'asc')->get();
+        // dd($sliders);
         // $banners = Banner::with('promotion')->whereHas('promotion', function ($query){
         //     $query->where('status', 'active')->where('startDate', '<=', date('Y-m-d H:i:s'))->where('endDate', '>=', date('Y-m-d H:i:s'));
         // })->take(2)->get();
@@ -173,8 +174,10 @@ class HomeController extends Controller
             ));
 //            dd(\Cart::getContent());
             $cartPage= view('layouts.partials.cartNav')->render();
+            $cart=\Cart::getContent();
             $cartQuantity=\Cart::getContent()->count();
-            return response()->json(['cart'=>$cartPage,'cartQuantity'=>$cartQuantity],200);
+            $total = number_format(\Cart::getSubTotal());
+            return response()->json(['cartPage'=>$cartPage, 'cart'=>$cart, 'cartQuantity'=>$cartQuantity, 'total'=>$total],200);
         } else {
             return response()->json(['Quantity'=>'Stock not available'],400);
         }
@@ -194,9 +197,11 @@ class HomeController extends Controller
                     'value' => $request->_quantity,
                 )
             ]);
-            $cartPage= view('layouts.partials.cartNav')->render();
+            // $cartPage= view('layouts.partials.cartNav')->render();
+            $cartPage=\Cart::getContent();
             $cartQuantity=\Cart::getContent()->count();
-            return response()->json(['cart'=>$cartPage,'cartQuantity'=>$cartQuantity],200);
+            $total = number_format(\Cart::getSubTotal());
+            return response()->json(['cart'=>$cartPage,'cartQuantity'=>$cartQuantity,'total'=>$total],200);
         } else {
             return response()->json(['Quantity'=>'Stock not available'],400);
         }
