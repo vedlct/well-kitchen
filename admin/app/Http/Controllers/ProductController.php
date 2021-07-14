@@ -105,6 +105,7 @@ class ProductController extends Controller
         $product_variation_temp->variationType2 = $request->variationType2;
         $product_variation_temp->salePrice = $request->salePrice;
         $product_variation_temp->stockAlert = $request->stockAlert;
+        $product_variation_temp->discount = $request->discount;
         $product_variation_temp->variationDetails = $request->variationDetails;
         $product_variation_temp->variationShortDes = $request->variationShortDes;
 
@@ -191,6 +192,7 @@ class ProductController extends Controller
             $sku->salePrice = $request->salePrice;
             $sku->stockAlert = $request->stockAlert;
             $sku->status = $product->status;
+            $sku->discount = $request->discount;
             $sku->save();
 
 
@@ -244,6 +246,7 @@ class ProductController extends Controller
                     $sku->fkproductId = $product->productId;
                     $sku->salePrice = $product_variation->salePrice;
                     $sku->stockAlert = $product_variation->stockAlert;
+                    $sku->discount = $product_variation->discount;
                     $sku->status = $product->status;
                     $sku->save();
 
@@ -499,6 +502,7 @@ class ProductController extends Controller
         $sku->barcode = $request->barcode;
         $sku->salePrice = $request->salePrice;
         $sku->stockAlert = $request->stockAlert;
+        $sku->discount = $request->discount;
         $sku->save();
 
         
@@ -574,6 +578,7 @@ class ProductController extends Controller
             $sku->barcode = $request->barcodeSingle;
             $sku->salePrice = $request->salePrice;
             $sku->stockAlert = $request->stockAlert;
+            $sku->discount = $request->discount;
             $sku->status = $request->status;
             $sku->save();
 
