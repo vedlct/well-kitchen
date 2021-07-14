@@ -166,7 +166,7 @@
                                                         ->first();
                                                 @endphp
 
-                                                @if (empty($hotDeal))
+                                                @if (empty($hotDeal) && empty($sku->discount))
                                                     <span>৳ {{ $sku->salePrice }} </span>
                                                 @endif
 
@@ -179,6 +179,14 @@
                                                     <span>৳ {{ $afterDiscountPrice }}</span>
                                                     <span class="old">৳ {{ $sku->salePrice }}</span>
                                                 @endif
+                                                @if(!empty($sku->discount))
+                                                @php
+                                                    $afterDiscountPrice = ($sku->salePrice) - ($sku->discount);
+                                                @endphp
+            
+                                                <span>৳  {{$afterDiscountPrice}}</span>
+                                                <span class="old">৳  {{$sku->salePrice}}</span>
+                                            @endif
                                             </div>
                                         </div>
                                     </div>
@@ -284,7 +292,7 @@
                                                 ->first();
                                         @endphp
 
-                                        @if (empty($hotDeal))
+                                        @if (empty($hotDeal) && empty($sku->discount))
                                             <span>৳ {{ $sku->salePrice }} </span>
                                         @endif
 
@@ -297,6 +305,15 @@
                                             <span>৳ {{ $afterDiscountPrice }}</span>
                                             <span class="old">৳ {{ $sku->salePrice }}</span>
                                         @endif
+
+                                        @if(!empty($sku->discount))
+                                        @php
+                                            $afterDiscountPrice = ($sku->salePrice) - ($sku->discount);
+                                        @endphp
+    
+                                        <span>৳  {{$afterDiscountPrice}}</span>
+                                        <span class="old">৳  {{$sku->salePrice}}</span>
+                                    @endif
                                     </div>
                                 </div>
                             </div>
@@ -393,7 +410,7 @@
                                                 ->first();
                                         @endphp
 
-                                        @if (empty($hotDeal))
+                                        @if (empty($hotDeal) && empty($sku->discount))
                                             <span>৳ {{ $sku->salePrice }} </span>
                                         @endif
 
@@ -406,6 +423,15 @@
                                             <span>৳ {{ $afterDiscountPrice }}</span>
                                             <span class="old">৳ {{ $sku->salePrice }}</span>
                                         @endif
+
+                                        @if(!empty($sku->discount))
+                                        @php
+                                            $afterDiscountPrice = ($sku->salePrice) - ($sku->discount);
+                                        @endphp
+    
+                                        <span>৳  {{$afterDiscountPrice}}</span>
+                                        <span class="old">৳  {{$sku->salePrice}}</span>
+                                    @endif
                                     </div>
                                 </div>
                             </div>
@@ -505,7 +531,7 @@
                                                 </h3>
 
                                                 <div class="product-price">
-                                                    @if (empty($hotDeal))
+                                                    @if (empty($hotDeal) && empty($sku->discount))
                                                         <span>৳ {{ $sku->salePrice }} </span>
                                                     @endif
 
@@ -518,6 +544,15 @@
                                                         <span>৳ {{ $afterDiscountPrice }}</span>
                                                         <span class="old">৳ {{ $sku->salePrice }}</span>
                                                     @endif
+
+                                                    @if(!empty($sku->discount))
+                                                    @php
+                                                        $afterDiscountPrice = ($sku->salePrice) - ($sku->discount);
+                                                    @endphp
+                
+                                                    <span>৳  {{$afterDiscountPrice}}</span>
+                                                    <span class="old">৳  {{$sku->salePrice}}</span>
+                                                @endif
                                                 </div>
 
                                             </div>
@@ -641,7 +676,7 @@
             
                                         @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
             
-                                        @if(empty($hotDeal))
+                                        @if(empty($hotDeal) && empty($sku->discount))
                                             <span>৳ {{$sku->salePrice}} </span>
                                         @endif
             
@@ -654,6 +689,15 @@
                                             <span>৳  {{$afterDiscountPrice}}</span>
                                             <span class="old">৳  {{$sku->salePrice}}</span>
                                         @endif
+
+                                        @if(!empty($sku->discount))
+                                        @php
+                                            $afterDiscountPrice = ($sku->salePrice) - ($sku->discount);
+                                        @endphp
+    
+                                        <span>৳  {{$afterDiscountPrice}}</span>
+                                        <span class="old">৳  {{$sku->salePrice}}</span>
+                                    @endif
                                     </div>
                                 </div>
                             </div>
@@ -734,7 +778,7 @@
             
                                         @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
             
-                                        @if(empty($hotDeal))
+                                        @if(empty($hotDeal) && empty($sku->discount))
                                             <span>৳ {{$sku->salePrice}} </span>
                                         @endif
             
@@ -747,6 +791,14 @@
                                             <span>৳  {{$afterDiscountPrice}}</span>
                                             <span class="old">৳  {{$sku->salePrice}}</span>
                                         @endif
+                                        @if(!empty($sku->discount))
+                                        @php
+                                            $afterDiscountPrice = ($sku->salePrice) - ($sku->discount);
+                                        @endphp
+    
+                                        <span>৳  {{$afterDiscountPrice}}</span>
+                                        <span class="old">৳  {{$sku->salePrice}}</span>
+                                    @endif
                                     </div>
                                 </div>
                             </div>
