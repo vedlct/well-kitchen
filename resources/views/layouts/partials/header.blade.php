@@ -261,9 +261,23 @@
                                 </div>
                             </div>
                             <div class="same-style header-wishlist">
-                                <a href="{{route('wishlist')}}"><i class="pe-7s-like"></i>
                                 
-                                    <sup style="font-size: 14px; background-color: #000000; color:#ffffff">@auth {{ $wishlist }} @endauth @guest 0 @endguest</sup>
+                                <a href="{{route('wishlist')}}"><i class="pe-7s-like">
+                                    <sup style="
+                                    position: absolute;
+                                    top: -9px;
+                                    right: -12px;
+                                    background-color: #000;
+                                    color: #fff;
+                                    display: inline-block;
+                                    width: 21px;
+                                    height: 21px;
+                                    border-radius: 100%;
+                                    line-height: 21px;
+                                    font-size: 12px;
+                                    text-align: center;
+                                    ">@auth {{ $wishlist }} @endauth @guest 0 @endguest
+                                </sup></i>
                                 </a>
                             </div>
 
