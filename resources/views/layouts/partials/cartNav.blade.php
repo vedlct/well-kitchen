@@ -17,7 +17,7 @@
         <i class="fa fa-times close-icon" onclick="hideNav()"></i>
       </div>
   </div>
-  <div class="product-area my-md-5 my-4">
+  <div class="product-area my-md-5 my-4 carNavWrapper">
     @foreach (\Cart::getContent() as $item)
     {{-- @dd($item); --}}
     <div class="d-flex justify-content-between align-items-center border-bottom py-2">
@@ -35,15 +35,17 @@
    @endforeach
 
   </div>
-  <div class="d-flex justify-content-between">
+  @if(\Cart::getContent()->count() > 0)
+
+  <div class="d-flex justify-content-between cartTable">
         <div>
             <h5>Sub-Total:</h5>
         </div>
         <div class="">
-        <h5>&#2547;{{\Cart::getSubTotal()}}</h5>
+        <h5 class="subTotal">&#2547;{{\Cart::getSubTotal()}}</h5>
         </div>
     </div>
-    <div class="row my-md-5 my-4">
+    <div class="row my-md-5 my-4 cartTableBtn">
         <div class="col-6">
             <a href="{{route('cart')}}" class="btn btn-secondary w-100">View Cart</a>
         </div>
@@ -52,5 +54,8 @@
         </div>
     </div>
 </section>
+@else
+    <h3 class="emptyCart">Cart is empty</h3>
+@endif
 <!-- right fixed cart end -->
 </div>

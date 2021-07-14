@@ -505,78 +505,37 @@
               url: "{{route('product.cartRemove')}}",
               data: {
                   _token:'{{csrf_token()}}',
-                  _sku:id,
+                  skuId:id,
               },
-              success: function (response) {
-                //   console.log(response);
-                  toastr.success('Item removed From Cart');
-                var getTotalQuantity=0;
-                var getSubTotal=0;
-                var cartItems=""
+              success: function (data) {
+                  console.log(data);
+                  $(".cart_count").empty().append(data.cartQuantity);
+                  $(".headerCartBag").empty().append(data.cartQuantity);
 
-                //   $('#cartPage').empty().html(response.cart);
-                 $('#headerCartBag').load(document.URL + ' #headerCartBag');
-                  $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br> Cart(${response.cartQuantity})`);
-                //   toastr.success('Item delete from cart')
-                //   $(".deletereload").load(".deletereload");
-                // //   location.reload();
-                //   $(".cartTotal").load(location.href + " .cartTotal");
-                //   $(".total").load(location.href + " .total");
-                //   $("#cart").load(location.href + " #cart");
+                  toastr.success('Item removed From Cart Successfully');
 
-                  $.each(response.cart,(index,row)=>
-                    {
-                        // console.log('res',row);
-                        getTotalQuantity+=parseFloat(row.quantity)
-                        getSubTotal+=parseFloat(row.price)
-                        cartItems+=`<div class="product-area my-md-5 my-4">
-                                    <div class="d-flex justify-content-between align-items-center border-bottom py-2">
-                                        <div>
-                                            <img src="{{asset('admin/public/featureImage/')}}/${row.associatedModel.featureImage}" alt="" class="product-img">
-                                        </div>
-                                            <div class="name-area px-2">
-                                            <h5 class="product-name"><a href="javascript:void(0)">${row.name}</a></h5>
-                                            <h6 class="quantity">${row.quantity} x &#2547; ${row.price}</h6>
-                                            </div>
-                                            <div class="" onclick="removeItem(${row.id})">
-                                                <i class="fa fa-trash"></i>
-                                            </div>
-                                        </div>
-                                        </div>`
+                  $(".carNavWrapper").empty();
 
-                    })
-                    $('#cart').html('')
-                    $('#cart').append(`
-                        <div class="cart-button-fixed" onclick="showNav()" id="cartNav">
-                            <i class="pe-7s-shopbag"></i>
-                            <h5 class="mb-0">Cart <span class="cart_count">${response.cartQuantity} </span></h5>
-                        </div>
-                        <div class="full-body-overlay" id="fullBodyOverlay" onclick="hideOverlay()"></div>
-                        <section class="side-cart side-nav px-3 py-md-5 py-3" id="sideNav">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <h4>Shopping Cart</h4>
-                            </div>
-                           
-                        </div>
-                        ${cartItems}
+                  $("#cartPageTableBody").empty();
 
-                                ${getSubTotal != 0 ? `<div class="d-flex justify-content-between"><div> <h5>Sub-Total:</h5> </div>
-                                <div class="">
-                                <h5>&#2547;${response.total}</h5>
-                                </div>
-                            </div>
-                            <div class="row my-md-5 my-4">
-                                <div class="col-6">
-                                    <a href="{{route('cart')}}" class="btn btn-secondary w-100">View Cart</a>
-                                </div>
-                                <div class="col-6">
-                                    <a href="{{route('checkout.index')}}" class="btn btn-danger w-100">checkout</a>
-                                </div>
-                            </div>
-                            </div>` :`<p style="font-weight: bold; font-size: 14px; text-align: center">Cart Is Empty</p>` }
-                        </section>`
-                    )
+                  $.each(data.cartDatas, function(key, item){
+                       $(".carNavWrapper").append("<div class='d-flex justify-content-between align-items-center border-bottom py-2'><div>"+
+                           "<img src='{{url('admin/public/featureImage/')}}/"+item.associatedModel.featureImage+"' alt='' class='product-img'></div>"+
+                           "<div class='name-area px-2'><h5 class='product-name'><a href='{{route('product.details', '"+item.id+"')}}'>"+item.name+"</a></h5>"+
+                            "<h6 class='quantity'> "+item.price * item.quantity+"</h6></div><div class='' onclick='removeItem("+item.id+")'><i class='fa fa-trash'></i></div></div>")
+                  });
+                  $(".subTotal").empty().append(data.subTotal)
+
+                  if(data.cartQuantity > 0){
+                    
+     
+                 }
+                 else{
+                     $(".cartTable").empty();
+                     $(".cartTableBtn").empty();
+                     $(".cartTable").append("<h3> Cart is empty</h3>");
+        
+                 }
              }
           });
       }

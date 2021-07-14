@@ -12286,3 +12286,6 @@ h3.cart-page-title {
   height: 15px;
   width: auto;
 }
+.header-right-wrap .same-style .search-active {
+  font-size: 23px;
+}

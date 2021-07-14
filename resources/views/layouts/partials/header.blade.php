@@ -228,15 +228,15 @@
                         <!-- another all items here -->
                         <div class="header-right-wrap">
                             <div class="same-style header-search d-lg-none">
-                                <form action="{{route('search.product')}}" method="POST">
-                                <a class="search-active" href="#"><i class="pe-7s-search"></i></a>
+                            <a class="search-active" href="#"><i class="pe-7s-search"></i></a>
 
-                                <div class="search-content">
-                                   @csrf
-                                        <input type="text" placeholder="Search asdf" name="allSearch" id="search" value="{{Session::get('search')}}" />
-                                        <button class="button-search" type="submit"><i class="pe-7s-search"></i></button>
-                                </div>
-                            </form>
+                            <div class="search-content">
+                                <form action="{{route('search.product')}}" method="POST">
+                                    @csrf
+                                    <input type="text" placeholder="Search asdf" name="allSearch" id="search" value="{{Session::get('search')}}" />
+                                    <button class="button-search" type="submit"><i class="pe-7s-search"></i></button>
+                                </form>
+                            </div>
                             </div>
                             <div class="same-style account-satting">
                                 <a class="account-satting-active" href="#"><i class="pe-7s-user-female"></i></a>
@@ -261,7 +261,10 @@
                                 </div>
                             </div>
                             <div class="same-style header-wishlist">
-                                <a href="{{route('wishlist')}}"><i class="pe-7s-like"></i></a>
+                                <a href="{{route('wishlist')}}"><i class="pe-7s-like"></i>
+                                
+                                    <sup style="font-size: 14px; background-color: #000000; color:#ffffff">@auth {{ $wishlist }} @endauth @guest 0 @endguest</sup>
+                                </a>
                             </div>
 
 
@@ -272,7 +275,7 @@
                             <div class="same-style cart-wrap" >
                                 <button class="icon-cart" id="headerCartBag" onclick="showNav()">
                                     <i class="pe-7s-shopbag"></i>
-                                   <span class="count-style" > {{\Cart::getContent()->count()}}</span>
+                                   <span class="count-style headerCartBag" > {{\Cart::getContent()->count()}}</span>
                                 </button>
                                 <!-- <div class="shopping-cart-content">
                                     <div class="full-wrapper position-relative">
