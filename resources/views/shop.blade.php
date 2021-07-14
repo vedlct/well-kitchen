@@ -378,6 +378,8 @@
                             success: function(data) {
                                 console.log(data);
                                 $("#productdetails").html(data.html);
+                                $(window).scrollTop(0);
+
                             }
                         });
                     });
@@ -413,8 +415,10 @@
                                 categoryId: categoryId
                             },
                             success: function(data) {
-                                console.log(data);
+                                
                                 $("#productdetails").html(data.html);
+                                $(window).scrollTop(0);
+
                             }
                         });
                     });
