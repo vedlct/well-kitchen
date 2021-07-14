@@ -34,7 +34,7 @@
                                     @if($sku->product()->first()->type == "variation")
                                         <a title="Add To Cart" href="{{route('product.details',$sku->skuId)}}"><i class="pe-7s-cart"></i> Add to cart</a>
                                     @endif
-                                    {{--                                                    <a title="Add To Cart" href="javascript: void(0)"><i class="pe-7s-cart"></i> Add to cart</a>--}}
+                                    {{-- <a title="Add To Cart" href="javascript: void(0)"><i class="pe-7s-cart"></i> Add to cart</a>--}}
                                 </div>
                                 <div class="pro-same-action pro-quickview">
                                     <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a>
@@ -47,7 +47,7 @@
 {{--                                <span>৳  {{$sku->salePrice}}</span>--}}
                                 @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
 
-                                @if(empty($hotDeal))
+                                @if(empty($hotDeal) && empty($sku->discount))
                                     <span>৳ {{$sku->salePrice}} </span>
                                 @endif
 
@@ -55,6 +55,14 @@
                                     @php
                                         $percentage = $hotDeal->hotdeals->percentage;
                                         $afterDiscountPrice = ($sku->salePrice) - (($sku->salePrice)*$percentage)/100;
+                                    @endphp
+
+                                    <span>৳  {{$afterDiscountPrice}}</span>
+                                    <span class="old">৳  {{$sku->salePrice}}</span>
+                                @endif
+                                @if(!empty($sku->discount))
+                                    @php
+                                        $afterDiscountPrice = ($sku->salePrice) - ($sku->discount);
                                     @endphp
 
                                     <span>৳  {{$afterDiscountPrice}}</span>

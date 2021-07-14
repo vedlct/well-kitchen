@@ -323,6 +323,12 @@
                                                                     <input type="number" class="form-control" id="stockAlert" name="stockAlert" value="{{ $sku?$sku->stockAlert:'' }}">
                                                                 </div>
                                                             </div>
+                                                            <div id="singleDiscount" class="col-md-4 col-lg-4 col-xl-3">
+                                                                <div class="form-group">
+                                                                    <label>Discount</label>
+                                                                    <input type="number" class="form-control" id="discount" name="discount" value="{{ $sku?$sku->discount:'' }}">
+                                                                </div>
+                                                            </div>
                                                             @endif
 
 
@@ -487,6 +493,14 @@
                                                                 <input type="hidden" class="form-control" name="productId" value="{{$product->productId}}">
                                                             </div>
                                                         </div>
+                                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                                            <div class="form-group">
+                                                                <label>Discount</label>
+                                                                <input type="number" class="form-control" id="discount" name="discount" placeholder="discount">
+                                                            </div>
+                                                        </div>
+                                                        
+
                                                         <div class="col-md-4 col-lg-4 col-xl-3">
                                                             <div data-repeater-list="repeater-group">
                                                                 <label>Barcode</label>
