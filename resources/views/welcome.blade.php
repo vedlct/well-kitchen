@@ -52,7 +52,7 @@
                 </ul>
             </div> -->
 
-    
+
 
         <!-- </div>
     </div> -->
@@ -67,86 +67,13 @@
 
             <div class="row">
 
-
+                @foreach ($catgoriesFirstShow as $key=>$category)
                 <div class="col-img category_image banner-2">
-                    <a href="https://babygleebd.com/category/1" style=""><img src="https://babygleebd.com/admin/public/categoryImage/9170.jpg">
-                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Baby Shoes</p></a>
+                    <a href="{{route('category.products', $category->categoryId)}}" style=""><img src="{{asset('admin/public/categoryImage/'.$category->imageLink)}}">
+                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">{{$category->categoryName}}</p></a>
                 </div>
 
-                <div class="col-img category_image banner-2">
-                    <a href="https://babygleebd.com/category/2" style=""><img src="https://babygleebd.com/admin/public/categoryImage/4770.jpg">
-                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Boy Baby</p></a>
-                </div>
-
-                <div class="col-img category_image banner-2">
-                    <a href="https://babygleebd.com/category/3" style=""><img src="https://babygleebd.com/admin/public/categoryImage/5700.jpg">
-                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Girl Baby</p></a>
-                </div>
-
-                <div class="col-img category_image banner-2">
-                    <a href="https://babygleebd.com/category/4" style=""><img src="https://babygleebd.com/admin/public/categoryImage/3346.jpg">
-                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Baby Unisex</p></a>
-                </div>
-
-                <div class="col-img category_image banner-2">
-                    <a href="https://babygleebd.com/category/5" style=""><img src="https://babygleebd.com/admin/public/categoryImage/54.jpg">
-                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Kids Shoes</p></a>
-                </div>
-
-                <div class="col-img category_image banner-2">
-                    <a href="https://babygleebd.com/category/6" style=""><img src="https://babygleebd.com/admin/public/categoryImage/7253.jpg">
-                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Boy</p></a>
-                </div>
-
-                <div class="col-img category_image banner-2">
-                    <a href="https://babygleebd.com/category/7" style=""><img src="https://babygleebd.com/admin/public/categoryImage/4104.jpg">
-                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Girl</p></a>
-                </div>
-
-                <div class="col-img category_image banner-2">
-                    <a href="https://babygleebd.com/category/8" style=""><img src="https://babygleebd.com/admin/public/categoryImage/770.jpg">
-                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Socks</p></a>
-                </div>
-
-                <div class="col-img category_image banner-2">
-                    <a href="https://babygleebd.com/category/9" style=""><img src="https://babygleebd.com/admin/public/categoryImage/953.jpg">
-                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Clothing</p></a>
-                </div>
-
-                <div class="col-img category_image banner-2">
-                    <a href="https://babygleebd.com/category/10" style=""><img src="https://babygleebd.com/admin/public/categoryImage/9786.jpg">
-                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Baby Safety</p></a>
-                </div>
-
-                <div class="col-img category_image banner-2">
-                    <a href="https://babygleebd.com/category/11" style=""><img src="https://babygleebd.com/admin/public/categoryImage/4507.jpg">
-                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Baby Feeding</p></a>
-                </div>
-
-                <div class="col-img category_image banner-2">
-                    <a href="https://babygleebd.com/category/12" style=""><img src="https://babygleebd.com/admin/public/categoryImage/3898.jpg">
-                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Baby Care</p></a>
-                </div>
-
-                <div class="col-img category_image banner-2">
-                    <a href="https://babygleebd.com/category/13" style=""><img src="https://babygleebd.com/admin/public/categoryImage/7162.jpg">
-                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Activity &amp; Gear</p></a>
-                </div>
-
-                <div class="col-img category_image banner-2">
-                    <a href="https://babygleebd.com/category/14" style=""><img src="https://babygleebd.com/admin/public/categoryImage/5334.jpg">
-                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Boy</p></a>
-                </div>
-
-                <div class="col-img category_image banner-2">
-                    <a href="https://babygleebd.com/category/15" style=""><img src="https://babygleebd.com/admin/public/categoryImage/374.jpg">
-                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Girl</p></a>
-                </div>
-
-                <div class="col-img category_image banner-2">
-                    <a href="https://babygleebd.com/category/16" style=""><img src="https://babygleebd.com/admin/public/categoryImage/294.JPG">
-                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Kids Unisex</p></a>
-                </div>
+                @endforeach
             </div>
 
             <!-- category buttons -->
@@ -270,7 +197,7 @@
                                                 @php
                                                     $afterDiscountPrice = ($sku->salePrice) - ($sku->discount);
                                                 @endphp
-            
+
                                                 <span>৳  {{$afterDiscountPrice}}</span>
                                                 <span class="old">৳  {{$sku->salePrice}}</span>
                                             @endif
@@ -291,16 +218,16 @@
     <div class="banner-area pb-50">
         <div class="container">
             <div class="row">
-                
+
                @foreach ($banners as $item)
-              
+
                     <div class="col-lg-6 col-md-6 col-sm-6 col-12">
                         <div class="single-banner mb-30">
                             <a href="{{$item->pageLink}}"><img src="{{ asset('admin/public/bannerImage/' . $item->imageLink) }}"
                                     alt=""></a>
                         </div>
                     </div>
-                
+
                 @endforeach
             </div>
         </div>
@@ -315,7 +242,7 @@
             </div>
             <div class="row">
                 @foreach ($newArrivals->unique('fkproductId') as $sku)
-                    
+
                         @php
                             $hotDeal = $sku->product->hotdealProducts
                                 ->where('hotdeals.status', 'Available')
@@ -397,7 +324,7 @@
                                         @php
                                             $afterDiscountPrice = ($sku->salePrice) - ($sku->discount);
                                         @endphp
-    
+
                                         <span>৳  {{$afterDiscountPrice}}</span>
                                         <span class="old">৳  {{$sku->salePrice}}</span>
                                     @endif
@@ -405,7 +332,7 @@
                                 </div>
                             </div>
                         </div>
-                    
+
                 @endforeach
 
 
@@ -422,7 +349,7 @@
             </div>
             <div class="row">
                 @foreach ($recommendeds->unique('fkproductId') as $sku)
-                    
+
                         @php
                             $hotDeal = $sku->product->hotdealProducts
                                 ->where('hotdeals.status', 'Available')
@@ -515,7 +442,7 @@
                                         @php
                                             $afterDiscountPrice = ($sku->salePrice) - ($sku->discount);
                                         @endphp
-    
+
                                         <span>৳  {{$afterDiscountPrice}}</span>
                                         <span class="old">৳  {{$sku->salePrice}}</span>
                                     @endif
@@ -523,7 +450,7 @@
                                 </div>
                             </div>
                         </div>
-                    
+
                 @endforeach
 
 
@@ -636,7 +563,7 @@
                                                     @php
                                                         $afterDiscountPrice = ($sku->salePrice) - ($sku->discount);
                                                     @endphp
-                
+
                                                     <span>৳  {{$afterDiscountPrice}}</span>
                                                     <span class="old">৳  {{$sku->salePrice}}</span>
                                                 @endif
@@ -725,11 +652,11 @@
                                     @if($sku->product->newarrived == 1)
                                         <span class="purple">New</span>
                                     @endif
-            
+
                                     @if(!empty($hotDeal))
                                         <span class="blue discount">-{{$hotDeal->hotdeals? $hotDeal->hotdeals->percentage : ''}}%</span>
                                     @endif
-            
+
                                     @if($sku->product->isrecommended == 1)
                                         <span class="pink">Feature</span>
                                     @endif
@@ -754,25 +681,25 @@
                                                data-target="#exampleModal" data-sku_id="{{ $sku->skuId }}"
                                                class="quickView"><i class="pe-7s-look"></i></a>
                                         </div>
-            
+
                                     </div>
                                 </div>
                                 <div class="product-content text-center">
                                     <h3><a href="{{route('product.details',$sku->skuId)}}">{{$sku->product->productName}}</a></h3>
                                     <div class="product-price">
-            
+
                                         @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
-            
+
                                         @if(empty($hotDeal) && empty($sku->discount))
                                             <span>৳ {{$sku->salePrice}} </span>
                                         @endif
-            
+
                                         @if(!empty($hotDeal))
                                             @php
                                                 $percentage = $hotDeal->hotdeals->percentage;
                                                 $afterDiscountPrice = ($sku->salePrice) - (($sku->salePrice)*$percentage)/100;
                                             @endphp
-            
+
                                             <span>৳  {{$afterDiscountPrice}}</span>
                                             <span class="old">৳  {{$sku->salePrice}}</span>
                                         @endif
@@ -781,7 +708,7 @@
                                         @php
                                             $afterDiscountPrice = ($sku->salePrice) - ($sku->discount);
                                         @endphp
-    
+
                                         <span>৳  {{$afterDiscountPrice}}</span>
                                         <span class="old">৳  {{$sku->salePrice}}</span>
                                     @endif
@@ -827,11 +754,11 @@
                                     @if($sku->product->newarrived == 1)
                                         <span class="purple">New</span>
                                     @endif
-            
+
                                     @if(!empty($hotDeal))
                                         <span class="blue discount">-{{$hotDeal->hotdeals? $hotDeal->hotdeals->percentage : ''}}%</span>
                                     @endif
-            
+
                                     @if($sku->product->isrecommended == 1)
                                         <span class="pink">Feature</span>
                                     @endif
@@ -856,25 +783,25 @@
                                                data-target="#exampleModal" data-sku_id="{{ $sku->skuId }}"
                                                class="quickView"><i class="pe-7s-look"></i></a>
                                         </div>
-            
+
                                     </div>
                                 </div>
                                 <div class="product-content text-center">
                                     <h3><a href="{{route('product.details',$sku->skuId)}}">{{$sku->product->productName}}</a></h3>
                                     <div class="product-price">
-            
+
                                         @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
-            
+
                                         @if(empty($hotDeal) && empty($sku->discount))
                                             <span>৳ {{$sku->salePrice}} </span>
                                         @endif
-            
+
                                         @if(!empty($hotDeal))
                                             @php
                                                 $percentage = $hotDeal->hotdeals->percentage;
                                                 $afterDiscountPrice = ($sku->salePrice) - (($sku->salePrice)*$percentage)/100;
                                             @endphp
-            
+
                                             <span>৳  {{$afterDiscountPrice}}</span>
                                             <span class="old">৳  {{$sku->salePrice}}</span>
                                         @endif
@@ -882,7 +809,7 @@
                                         @php
                                             $afterDiscountPrice = ($sku->salePrice) - ($sku->discount);
                                         @endphp
-    
+
                                         <span>৳  {{$afterDiscountPrice}}</span>
                                         <span class="old">৳  {{$sku->salePrice}}</span>
                                     @endif
@@ -964,7 +891,7 @@
                                                 <span>৳ {{ $afterDiscountPrice }}</span>
                                                 <span class="old">৳ {{ $skuProduct->salePrice }}</span>
                                             @endif
-                                            
+
                                         </div>
                                     </div>
                                 </div>
@@ -1019,7 +946,7 @@
 @endsection
 
 @section('js')
-.category-name-slider 
+.category-name-slider
 
 <script>
     $(".category-name-slider .nav-link").click(function(){
