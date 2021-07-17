@@ -49,16 +49,16 @@
 {{--                        <p>Showing 1–12 of 20 result</p>--}}
                     </div>
                     <div class="column-select-area d-none d-md-block">
-                        <a href="#" class="line-item" onclick="showTwoCol()">
+                        <a href="javascript: void(0)" class="line-item" onclick="showTwoCol()">
                             <span class="line-single">|</span>
                             <span class="line-single">|</span>
                         </a>
-                        <a href="#" class="line-item" onclick="showThreeCol()">
+                        <a href="javascript: void(0)" class="line-item" onclick="showThreeCol()">
                             <span class="line-single">|</span>
                             <span class="line-single">|</span>
                             <span class="line-single">|</span>
                         </a>
-                        <a href="#" class="line-item" onclick="showFourCol()">
+                        <a href="javascript: void(0)" class="line-item" onclick="showFourCol()">
                             <span class="line-single">|</span>
                             <span class="line-single">|</span>
                             <span class="line-single">|</span>
@@ -378,6 +378,8 @@
                             success: function(data) {
                                 console.log(data);
                                 $("#productdetails").html(data.html);
+                                $(window).scrollTop(0);
+
                             }
                         });
                     });
@@ -413,8 +415,10 @@
                                 categoryId: categoryId
                             },
                             success: function(data) {
-                                console.log(data);
+                                
                                 $("#productdetails").html(data.html);
+                                $(window).scrollTop(0);
+
                             }
                         });
                     });
