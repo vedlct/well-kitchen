@@ -29,13 +29,13 @@
     </div>
 
     <!-- all categories mobile start -->
-    <div class="collections-area pt-100 pb-95 d-md-none">
+    <!-- <div class="collections-area pt-100 pb-95 d-md-none">
         <div class="container">
             <div class="section-title-3 mb-40">
                 <h4>Our Product Categories</h4>
-            </div>
+            </div> -->
             <!-- category buttons -->
-            <div class="category-buttons">
+            <!-- <div class="category-buttons">
                 <ul class="row nav nav-tabs" id="nav-tab" role="tablist">
                     @foreach ($categories as $key=>$category)
                     <li class="col-md-6 col-lg-3 col-6 mb-3">
@@ -50,20 +50,107 @@
                     </li>
                     @endforeach
                 </ul>
-            </div>
+            </div> -->
 
-        </div>
-    </div>
+    
+
+        <!-- </div>
+    </div> -->
     <!-- all categories mobile end -->
 
     <!-- all categories tab and desktop start -->
-    <div class="collections-area pt-100 pb-40 d-none d-md-block">
+    <div class="collections-area pt-100 pb-80">
         <div class="container">
             <div class="section-title-3 mb-40">
                 <h4>Our Product Categories </h4>
             </div>
+
+            <div class="row">
+
+
+                <div class="col-img category_image banner-2">
+                    <a href="https://babygleebd.com/category/1" style=""><img src="https://babygleebd.com/admin/public/categoryImage/9170.jpg">
+                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Baby Shoes</p></a>
+                </div>
+
+                <div class="col-img category_image banner-2">
+                    <a href="https://babygleebd.com/category/2" style=""><img src="https://babygleebd.com/admin/public/categoryImage/4770.jpg">
+                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Boy Baby</p></a>
+                </div>
+
+                <div class="col-img category_image banner-2">
+                    <a href="https://babygleebd.com/category/3" style=""><img src="https://babygleebd.com/admin/public/categoryImage/5700.jpg">
+                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Girl Baby</p></a>
+                </div>
+
+                <div class="col-img category_image banner-2">
+                    <a href="https://babygleebd.com/category/4" style=""><img src="https://babygleebd.com/admin/public/categoryImage/3346.jpg">
+                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Baby Unisex</p></a>
+                </div>
+
+                <div class="col-img category_image banner-2">
+                    <a href="https://babygleebd.com/category/5" style=""><img src="https://babygleebd.com/admin/public/categoryImage/54.jpg">
+                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Kids Shoes</p></a>
+                </div>
+
+                <div class="col-img category_image banner-2">
+                    <a href="https://babygleebd.com/category/6" style=""><img src="https://babygleebd.com/admin/public/categoryImage/7253.jpg">
+                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Boy</p></a>
+                </div>
+
+                <div class="col-img category_image banner-2">
+                    <a href="https://babygleebd.com/category/7" style=""><img src="https://babygleebd.com/admin/public/categoryImage/4104.jpg">
+                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Girl</p></a>
+                </div>
+
+                <div class="col-img category_image banner-2">
+                    <a href="https://babygleebd.com/category/8" style=""><img src="https://babygleebd.com/admin/public/categoryImage/770.jpg">
+                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Socks</p></a>
+                </div>
+
+                <div class="col-img category_image banner-2">
+                    <a href="https://babygleebd.com/category/9" style=""><img src="https://babygleebd.com/admin/public/categoryImage/953.jpg">
+                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Clothing</p></a>
+                </div>
+
+                <div class="col-img category_image banner-2">
+                    <a href="https://babygleebd.com/category/10" style=""><img src="https://babygleebd.com/admin/public/categoryImage/9786.jpg">
+                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Baby Safety</p></a>
+                </div>
+
+                <div class="col-img category_image banner-2">
+                    <a href="https://babygleebd.com/category/11" style=""><img src="https://babygleebd.com/admin/public/categoryImage/4507.jpg">
+                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Baby Feeding</p></a>
+                </div>
+
+                <div class="col-img category_image banner-2">
+                    <a href="https://babygleebd.com/category/12" style=""><img src="https://babygleebd.com/admin/public/categoryImage/3898.jpg">
+                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Baby Care</p></a>
+                </div>
+
+                <div class="col-img category_image banner-2">
+                    <a href="https://babygleebd.com/category/13" style=""><img src="https://babygleebd.com/admin/public/categoryImage/7162.jpg">
+                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Activity &amp; Gear</p></a>
+                </div>
+
+                <div class="col-img category_image banner-2">
+                    <a href="https://babygleebd.com/category/14" style=""><img src="https://babygleebd.com/admin/public/categoryImage/5334.jpg">
+                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Boy</p></a>
+                </div>
+
+                <div class="col-img category_image banner-2">
+                    <a href="https://babygleebd.com/category/15" style=""><img src="https://babygleebd.com/admin/public/categoryImage/374.jpg">
+                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Girl</p></a>
+                </div>
+
+                <div class="col-img category_image banner-2">
+                    <a href="https://babygleebd.com/category/16" style=""><img src="https://babygleebd.com/admin/public/categoryImage/294.JPG">
+                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Kids Unisex</p></a>
+                </div>
+            </div>
+
             <!-- category buttons -->
-            <div class="category-buttons mb-4">
+            <!-- <div class="category-buttons mb-4">
                 <div class="category-name-slider nav" id="nav-tab" role="tablist">
                     @foreach ($categories as $key => $category)
                         <a class="{{ $key == 0 ? 'active' : '' }} nav-link nav-items" id="cat1-tab{{ $category->categoryId }}" data-toggle="tab"
@@ -79,10 +166,10 @@
                         </a>
                     @endforeach
                 </div>
-            </div>
+            </div> -->
 
             <!-- category img show -->
-            <div class="tab-content" id="nav-tabContent">
+            <!-- <div class="tab-content" id="nav-tabContent">
                 @foreach ($categories as $key => $category)
                  @php
                     $catSkus = App\Models\Sku::whereHas('product', function ($query) use ($category) {
@@ -198,7 +285,7 @@
                         </div>
                     </div>
                 @endforeach
-            </div>
+            </div> -->
         </div>
     </div>
     <!-- all categories tab and desktop end -->

@@ -271,7 +271,8 @@ ul.menuH ul {
 
 .menuH ul ul {
   border-top: 1px solid #DDD;
-  transition: 0s;
+  transition: 0.4s;
+  left: 267px;
 }
 
 .menuH li:hover ul ul,
@@ -611,4 +612,50 @@ input.form-control:focus {
 
 .collections-area .product-slider-active-2 {
   min-width: 100%;
+}
+/* category design */
+.banner-2 {
+  width: 12.5%;
+}
+.col-img {
+  overflow: hidden;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 0px;
+}
+.col-img {
+  overflow: hidden;
+  border-right: 1px solid #e2e2e2;
+  border-bottom: 1px solid #e2e2e2;
+  border-radius: 0px;
+  padding: 10px;
+  margin-bottom: 0px;
+}
+.col-img img {
+  transition: all 300ms ease-in 0s;
+  transform: scale(1);
+  width: 100%;
+  object-fit: cover;
+}
+.category_image img {
+  height: 90px;
+}
+.col-img.category_image.banner-2:hover {
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 25%);
+}
+@media only screen and (min-width: 768px) {
+  .col-img:last-child, .col-img:nth-child(8) {
+    border-right: none;
+  }
+  .col-img:nth-child(n+9):nth-child(-n+16) {
+    border-bottom: none;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .banner-2 {
+    width: 33.3%;
+  }
+  .banner-2 {
+    flex-wrap: wrap;
+  }
 }

@@ -5,7 +5,7 @@
 {{--            {{ dd($sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))) }}--}}
            @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->where('hotdeals.percentage', '>', 0)->first()@endphp
             @if(!empty($sku->product()))
-                <div class="col-6 col-md-4 shop-col-item">
+                <div class="col-6 col-md-3 shop-col-item">
                     <div class="product-wrap mb-25 scroll-zoom">
                         <div class="product-img">
                             <a href="{{route('product.details',$sku->skuId)}}">
