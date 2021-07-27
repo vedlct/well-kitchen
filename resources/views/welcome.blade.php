@@ -67,13 +67,14 @@
 
             <div class="row">
 
-
+                @foreach ($categories as $key=>$category)
                 <div class="col-img category_image banner-2">
-                    <a href="https://babygleebd.com/category/1" style=""><img src="https://babygleebd.com/admin/public/categoryImage/9170.jpg">
-                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">Baby Shoes</p></a>
+                    <a href="{{route('category.products', $category->categoryId)}}" style=""><img src={{url('admin/public/categoryImage/'.$category->imageLink)}}>
+                    <p style="text-align: center; margin-top: 12px; font-weight: 600;">{{$category->categoryName}}</p></a>
                 </div>
+                @endforeach
 
-                <div class="col-img category_image banner-2">
+                {{--  <div class="col-img category_image banner-2">
                     <a href="https://babygleebd.com/category/2" style=""><img src="https://babygleebd.com/admin/public/categoryImage/4770.jpg">
                     <p style="text-align: center; margin-top: 12px; font-weight: 600;">Boy Baby</p></a>
                 </div>
@@ -146,7 +147,7 @@
                 <div class="col-img category_image banner-2">
                     <a href="https://babygleebd.com/category/16" style=""><img src="https://babygleebd.com/admin/public/categoryImage/294.JPG">
                     <p style="text-align: center; margin-top: 12px; font-weight: 600;">Kids Unisex</p></a>
-                </div>
+                </div>  --}}
             </div>
 
             <!-- category buttons -->
