@@ -20,6 +20,7 @@
   $(".slider-active").owlCarousel({
     loop: true,
     nav: true,
+    dots: true,
     autoplay: true,
     autoplayTimeout: 7000,
     navText: [

@@ -125,24 +125,39 @@ class HotDealsController extends Controller
 
     public function delete(Request $r)
     {
-        $deals = Hotdeals::findOrFail($r->hotDealsId);
-        $dealsProduct = HotDealsProduct::where('fkhotdealsId',$r->hotDealsId)->get()
-                                                                            ->map(function($item){
-                                                                                 return $item->fkproductId;
-                                                                            });
-        $product=Product::with('sku')->whereIn('productId',$dealsProduct)->get()
-                        ->map(function($item){
-                            return $item->sku->map(function($i){
-                                return $i->skuId;
-                            });
-                    });
-        if(count( $dealsProduct)>0)
+        $hotdeals = Hotdeals::findOrFail($r->hotDealsId);
+        $dealsProducts = HotDealsProduct::where('fkhotdealsId',$r->hotDealsId)->get();
+        
+      
+        if(count( $dealsProducts)>0)
         {
-            return response()->json(['fail'=> $product]);
+            foreach($dealsProducts as $dealsProduct){
+                $dealsProduct->delete();
+            }
+            $hotdeals->delete();
         }
         else{
-        $deals->delete();
+        $hotdeals->delete();
         }
+        return response()->json();
+        // $deals = Hotdeals::findOrFail($r->hotDealsId);
+        // $dealsProduct = HotDealsProduct::where('fkhotdealsId',$r->hotDealsId)->get()
+        //                                                                     ->map(function($item){
+        //                                                                          return $item->fkproductId;
+        //                                                                     });
+        // $product=Product::with('sku')->whereIn('productId',$dealsProduct)->get()
+        //                 ->map(function($item){
+        //                     return $item->sku->map(function($i){
+        //                         return $i->skuId;
+        //                     });
+        //             });
+        // if(count( $dealsProduct)>0)
+        // {
+        //     return response()->json(['fail'=> $product]);
+        // }
+        // else{
+        // $deals->delete();
+        // }
     }
     public function showDealProduct($id){
         $dealsProduct = HotDealsProduct::with('product','hotdeals')->where('fkhotdealsId',$id)->get();

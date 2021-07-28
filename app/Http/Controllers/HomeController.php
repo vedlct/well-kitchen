@@ -34,7 +34,7 @@ class HomeController extends Controller
         $banners = Banner::where('status', 'active')->take(2)->get();
 
         $categories = Category::where('homeShow', 1)->with('products.sku','products.hotdealProducts.hotdeals')->get();
-        //$allCategories = Category::where('homeShow', 1)->get();
+       // $allCategories = Category::get();
         $catgoriesFirstShow = Category::get();
         $products = Product::with('category','sku')->where('status', 'active')->get();
 
