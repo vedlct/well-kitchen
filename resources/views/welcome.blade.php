@@ -546,10 +546,134 @@
      @php
          $catSkus = App\Models\Sku::whereHas('product', function ($query) use ($category) {
                 $query->where('categoryId', $category->categoryId)->where('status', 'active');
-            })->take(15)->get();
+            })->take(12)->get();
     @endphp
 
+        {{-- remove carosal --}}
+
         <div class="product-area pb-70">
+            <div class="container">
+                <div class="section-title-6 mb-45 text-center">
+                    <h2>{{ $category->categoryName }}</h2>
+                </div>
+                <div class="row">
+                    @foreach ($catSkus->unique('fkproductId') as $sku)
+                        
+                            @php
+                                $hotDeal = $sku->product->hotdealProducts
+                                    ->where('hotdeals.status', 'Available')
+                                    ->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))
+                                    ->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))
+                                    ->where('hotdeals.percentage', '>', 0)
+                                    ->first();
+                            @endphp
+                            <div class="col-6 col-xl-3 col-md-6 col-lg-4 col-sm-6">
+                                <div class="product-wrap-5 mb-25">
+                                    <div class="product-img">
+                                        <a href="{{ route('product.details', $sku->skuId) }}">
+                                            <img src="{{ asset('admin/public/featureImage/' . $sku->product->featureImage) }}"
+                                                alt="">
+                                        </a>
+                                        @if (!empty($hotDeal))
+                                            <span
+                                                class="blue discount">-{{ $hotDeal->hotdeals ? $hotDeal->hotdeals->percentage : '' }}%</span>
+                                        @endif
+    
+                                        @if ($sku->product->isrecommended == 1)
+                                            <span class="pink">Feature</span>
+                                        @endif
+    
+                                        {{-- @php
+                                    $userId = Auth::user()->userId;
+                                    $customer = App\Models\Customer::where('fkuserId', $userId)->pluck('customerId')->first();
+                                    // @dd($customer);
+                                    $wishlist = App\Models\Wishlist::where('fkcustomerId', $customer)->first();
+                                    // @dd($wishlist);
+    
+                                @endphp --}}
+                                        {{-- @dd(Auth::user()->userId); --}}
+    
+                                        <div class="product-action-4">
+                                            <div class="pro-same-action pro-wishlist">
+                                                {{-- <a title="Wishlist" href="{{route('wishlistAdd', $sku->skuId)}}"><i class="pe-7s-like"></i></a> --}}
+                                                <a title="Wishlist" href="#"
+                                                    onclick="addToWishList({{ $sku->skuId }})"><i
+                                                        class="pe-7s-like"></i></a>
+                                            </div>
+                                            <div class="pro-same-action pro-cart">
+                                                @if ($sku->product->type == 'single')
+                                                    <a title="Add To Cart" href="javascript: void(0)"
+                                                        onclick="addTocart({{ $sku->skuId }})"><i
+                                                            class="pe-7s-cart"></i></a>
+                                                @endif
+                                                @if ($sku->product->type == 'variation')
+                                                    <a title="Add To Cart"
+                                                        href="{{ route('product.details', $sku->skuId) }}"><i
+                                                            class="pe-7s-cart"></i></a>
+                                                @endif
+    
+                                            </div>
+                                            <div class="pro-same-action pro-quickview">
+                                                <a title="Quick View" href="#" data-toggle="modal"
+                                                    data-target="#exampleModal" data-sku_id="{{ $sku->skuId }}"
+                                                    class="quickView"><i class="pe-7s-look"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product-content-5 text-center">
+                                        <h3><a
+                                                href="{{ route('product.details', $sku->skuId) }}">{{ $sku->product->productName }}</a>
+                                        </h3>
+                                        <div class="price-5">
+                                            {{-- <span>৳  {{$sku->salePrice}}</span> --}}
+                                            @php
+                                                $hotDeal = $sku->product->hotdealProducts
+                                                    ->where('hotdeals.status', 'Available')
+                                                    ->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))
+                                                    ->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))
+                                                    ->first();
+                                            @endphp
+    
+                                            @if (empty($hotDeal) && empty($sku->discount))
+                                                <span>৳ {{ $sku->salePrice }} </span>
+                                            @endif
+    
+                                            @if (!empty($hotDeal) && !empty($sku->discount))
+                                                @php
+                                                    $percentage = $hotDeal->hotdeals->percentage;
+                                                    $afterDiscountPrice = $sku->salePrice - ($sku->salePrice * $percentage) / 100;
+                                                @endphp
+    
+                                                <span>৳ {{ $afterDiscountPrice }}</span>
+                                                <span class="old">৳ {{ $sku->salePrice }}</span>
+                                            @endif
+    
+                                            @if(empty($hotDeal) && !empty($sku->discount))
+                                            @php
+                                                $afterDiscountPrice = ($sku->salePrice) - ($sku->discount);
+                                            @endphp
+        
+                                            <span>৳  {{$afterDiscountPrice}}</span>
+                                            <span class="old">৳  {{$sku->salePrice}}</span>
+                                        @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                    @endforeach
+    
+    
+                </div>
+                <div class="text-center">
+                    <a href="{{ route('category.products', $category->categoryId) }}" class="btn btn-secondary">View All
+                        Products</a>
+                </div>
+            </div>
+        </div>
+
+
+        {{-- <div class="product-area pb-70">
             <div class="container">
                 <div class="section-title-6 mb-45 text-center">
                     <h2>{{ $category->categoryName }}</h2>
@@ -669,7 +793,7 @@
                         Products</a>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
     @endif
     @endforeach
