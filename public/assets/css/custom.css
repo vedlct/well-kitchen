@@ -659,3 +659,10 @@ input.form-control:focus {
     flex-wrap: wrap;
   }
 }
+.slider-active .owl-dots {
+  text-align: center !important;
+}
+.slider-active .owl-dots .owl-dot {
+  border: 6px solid #998384 !important;
+  border-radius: 50px !important;
+}
