@@ -95,7 +95,7 @@
                                         <th scope="col">Unit Cost</th>
                                         <th scope="col">Total</th>
                                         <th scope="col">Discount</th>
-                                        @if(in_array($currentStatus = $order->orderStatusLogs->where('status','!=',NULL)->last()->status,['Delivered','Return','Complete']))
+                                        @if(in_array($currentStatus = $order->orderStatusLogs->where('status','!=',NULL)->last()->status,['1', 'Created', 'Processing', 'OnDelivery', 'Delivered', 'Return', 'Complete', 'Cancel']))
                                           <th scope="col">Action</th>
                                         @endif
                                     </tr>
@@ -112,7 +112,7 @@
                                             <td>{{$item->price}}</td>
                                             <td>{{$item->total}}</td>
                                             <td>{{$item->discount}}</td>
-                                            @if(in_array($currentStatus,['Delivered','Return','Complete']))
+                                            @if(in_array($currentStatus,['1', 'Created', 'Processing', 'OnDelivery', 'Delivered', 'Return', 'Complete', 'Cancel']))
                                                 <td >
                                                     <a href="#" onclick="returnProduct({{$item->order_itemId}})" title="Return"><i class="ft ft-corner-down-left"></i></a>
                                                 </td>
