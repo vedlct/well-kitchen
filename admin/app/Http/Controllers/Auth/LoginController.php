@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
@@ -37,4 +39,24 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+
+
+    protected function redirectTo()
+    {
+        if(Auth::check()){
+            if(Auth::user()->fkuserTypeId != '1' ){
+                Auth::logout();
+                session()->flash('message','You are not permitted for login.');
+                session()->flash('alert-class','alert-danger');
+                return '/admin/login';
+            }
+        }else{
+            return url('/admin');
+        }
+    }
+
+
+
+
 }

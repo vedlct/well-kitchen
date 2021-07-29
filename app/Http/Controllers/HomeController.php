@@ -34,7 +34,8 @@ class HomeController extends Controller
         $banners = Banner::where('status', 'active')->take(2)->get();
 
         $categories = Category::where('homeShow', 1)->with('products.sku','products.hotdealProducts.hotdeals')->get();
-        // $allCategories = Category::where('homeShow', 1)->get();
+       // $allCategories = Category::get();
+        $catgoriesFirstShow = Category::get();
         $products = Product::with('category','sku')->where('status', 'active')->get();
 
         $skus = Sku::with('product')->whereHas('product', function ($query) {
@@ -55,7 +56,7 @@ class HomeController extends Controller
             $query->where('status', 'active')->where('isrecommended', 1);
         })->take(15)->get();
         $testimonials = Testimonial::where('status', 'active')->where('home',1)->get();
-        
+
         if(Auth::check()){
             $mostViewedProducts = ProductMostViewed::where('fkuserId', Auth::user()->userId)->get();
             $mostViewedProductSkuIds = ProductMostViewed::where('fkuserId', Auth::user()->userId)->pluck('fkskuId');
@@ -70,10 +71,10 @@ class HomeController extends Controller
             })->get();
             // dd($skus);
         }
-        
-       
 
-        return view('welcome',compact('categories', 'mostViewskus', 'offerSkus', 'products', 'skus', 'newArrivals', 'recommendeds', 'testimonials', 'sliders', 'banners', 'mostViewedProducts'));
+
+
+        return view('welcome',compact('categories','catgoriesFirstShow', 'mostViewskus', 'offerSkus', 'products', 'skus', 'newArrivals', 'recommendeds', 'testimonials', 'sliders', 'banners', 'mostViewedProducts'));
     }
 
 
@@ -127,7 +128,7 @@ class HomeController extends Controller
     }
 
     public function addToCart(Request $request){
-     
+
         $stockIn=Stock::where('fkskuId',$request->_sku)->where('type', 'in')->sum('stock');
         $stockOut=Stock::where('fkskuId',$request->_sku)->where('type', 'out')->sum('stock');
         $stockAvailable = $stockIn-$stockOut;

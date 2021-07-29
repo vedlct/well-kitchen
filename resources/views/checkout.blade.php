@@ -7,7 +7,7 @@
             @isset($customer)
             <input type="hidden" name="fkcustomerId" value="{{$customer->customerId}}">
             @endisset
-            
+
         <div class="row">
             <div class="col-lg-7">
                 <div class="billing-info-wrap">
@@ -68,7 +68,7 @@
                                 @enderror
                             </div>
                         </div>
-                        
+
                         @if(!Auth::check())
                         <div class="col-lg-12">
                             <div class="billing-info mb-20">
@@ -80,7 +80,7 @@
                             </div>
                         </div>
                         @endif
-                       
+
                         <div class="col-lg-12">
                             <div class="billing-info mb-20">
                                 <label>Billing Address</label>
@@ -90,8 +90,8 @@
                                 @enderror
                             </div>
                         </div>
-                       
-                        
+
+
                     </div>
 
                     <div class="additional-info-wrap">
@@ -101,7 +101,7 @@
                             <textarea placeholder="Notes about your order, e.g. special notes for delivery. " name="message"></textarea>
                         </div>
                     </div>
-                   
+
                     <div class="checkout-account mt-25">
                         <input class="checkout-toggle" type="checkbox" name="shipping">
                         <span>Ship to a different address?</span>
@@ -154,12 +154,12 @@
                         </div>
 
                         <div class="payment-method">
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" id="dbt" name="payment" value="dbt" checked>
-                                <label class="form-check-label" for="dbt">
-                                    Direct bank transfer
-                                </label>
-                            </div>
+{{--                            <div class="form-check">--}}
+{{--                                <input class="form-check-input" type="radio" id="dbt" name="payment" value="dbt" checked>--}}
+{{--                                <label class="form-check-label" for="dbt">--}}
+{{--                                    Direct bank transfer--}}
+{{--                                </label>--}}
+{{--                            </div>--}}
                             <div class="form-check">
                                 <input class="form-check-input" type="radio" id="cod" name="payment" value="cod">
                                 <label class="form-check-label" for="cod">
@@ -175,9 +175,9 @@
                     </div>
                 </div>
             </div>
-            
+
         </div>
-        
+
     </form>
     </div>
 </div>
@@ -207,7 +207,7 @@ function shippingZone() {
             });
         }
 
-   
+
         $(".searchPhone" ).autocomplete({
 
             source: function(request, response) {
@@ -230,7 +230,7 @@ function shippingZone() {
             },
             minLength: 0
             });
-        
+
 
 
         $("#phone").keyup(function(){
@@ -249,17 +249,17 @@ function shippingZone() {
                     $('#lastName').val(data.user.lastName);
                     $('#email').val(data.user.email);
                     $('#billingAddress').val(data.shippingAddress.billingAddress);
-                    
+
                     document.getElementById("newphone").innerHTML = 'phone number matched and data found';
                     document.getElementById("newphone").style.color = "green";
                 }
-                
+
             }
 
         });
-            
+
         });
-   
-    
+
+
     </script>
 @endsection
