@@ -5575,10 +5575,10 @@ margin-bottom: 5px; }
       width: 100%;
       object-fit: cover; }
       .shop-col-item.col-md-4 .product-wrap .product-img img {
-        height: 270px;
+        height: 270px !important;
       }
       .shop-col-item.col-md-3 .product-wrap .product-img img {
-        height: 210px;
+        height: 210px !important;
       }
       .shop-col-item.col-6 .product-wrap .product-img img {
         height: 350px;
