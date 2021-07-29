@@ -93,6 +93,7 @@ Route::get('/faq', function () {
 
 
 
+
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact-submit', [ContactController::class, 'submitContactInfo'])->name('contact.submit');
 

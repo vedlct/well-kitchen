@@ -222,11 +222,11 @@ class HomeController extends Controller
             \Cart::clearCartConditions();
         }
         $cartQuantity=\Cart::getContent()->count();
-        $cartDatas=\Cart::getContent();
+        $cart=\Cart::getContent();
         $subTotal =\Cart::getSubTotal();
         $grandTotal =\Cart::getTotal();
 
-        return response()->json(['cartQuantity'=>$cartQuantity, 'cartDatas'=>$cartDatas, 'subTotal'=>$subTotal, 'grandTotal'=>$grandTotal],200);
+        return response()->json(['cartQuantity'=>$cartQuantity, 'cart'=>$cart, 'subTotal'=>$subTotal, 'grandTotal'=>$grandTotal],200);
     }
 
 
