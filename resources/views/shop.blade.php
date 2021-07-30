@@ -43,8 +43,8 @@
                             <select name="price" onchange="getPrice(this);">
                               
                                 <option value="">Sort by...</option>
-                                {{-- <option value="A">A to Z</option>
-                                <option value="Z"> Z to A</option> --}}
+                                <option value="A">A to Z</option>
+                                <option value="Z"> Z to A</option>
                                 <option value="High to Low">High to Low</option>
                                 <option value="Low to High">Low to High</option>
                                 <option value="instock">In stock</option>
