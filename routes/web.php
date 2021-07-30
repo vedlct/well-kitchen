@@ -23,6 +23,7 @@ Route::get('/offers/product/{id}', [HomeController::class, 'offersProduct'])->na
 // Route::get('/product-details/{id}', [HomeController::class, 'productDetails'])->name('product.details');
 Route::get('/categories/{categoryId?}', [CategoryController::class, 'categoryProducts'])->name('category.products');
 Route::post('filter/products',[CategoryController::class,'filterProducts'])->name('filter.products');
+Route::post('filter-price/products',[CategoryController::class,'filterProductsPrice'])->name('price.filter');
 
 Route::get('/cart',[HomeController::class,'cartIndex'])->name('cart');
 Route::get('/checkout' ,[HomeController::class,'index'])->name('checkout.index');
@@ -90,6 +91,7 @@ Route::post('/user-password-update', [MyProfileController::class, 'updatePasswor
 Route::get('/faq', function () {
     return view('faq');
 });
+
 
 
 

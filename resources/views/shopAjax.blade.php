@@ -1,5 +1,6 @@
-{{--<div id="" class="tab-pane active">--}}
-    <div class="row">
+{{-- <div id="" class="tab-pane active"> --}}
+<div id="productShorting">
+    <div class="row" id="">
         @foreach ($skuss as $sku)
 {{--            {{dd($sku)}}--}}
 {{--            {{ dd($sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))) }}--}}
@@ -81,7 +82,7 @@
                 {{ $skuss->links('vendor.pagination.custom') }}
             </div>
 
-{{--</div>--}}
+</div>
 
 
 
