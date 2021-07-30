@@ -40,7 +40,7 @@
                     <div class="select-shoing-wrap">
                         <div class="shop-select">
                          
-                            <select name="price" onchange="getPrice(this);">
+                            <select name="price"  class="alphaCheck" onchange="getPrice(this);">
                               
                                 <option value="">Sort by...</option>
                                 <option value="A">A to Z</option>
