@@ -615,7 +615,7 @@ input.form-control:focus {
 }
 /* category design */
 .banner-2 {
-  width: 12.5%;
+  width: 16.66%;
 }
 .col-img {
   overflow: hidden;
@@ -628,7 +628,7 @@ input.form-control:focus {
   border-right: 1px solid #e2e2e2;
   border-bottom: 1px solid #e2e2e2;
   border-radius: 0px;
-  padding: 10px;
+  padding: 20px;
   margin-bottom: 0px;
 }
 .col-img img {
@@ -644,10 +644,10 @@ input.form-control:focus {
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 25%);
 }
 @media only screen and (min-width: 768px) {
-  .col-img:last-child, .col-img:nth-child(8) {
+  .col-img:last-child, .col-img:nth-child(6), .col-img:nth-child(12) {
     border-right: none;
   }
-  .col-img:nth-child(n+9):nth-child(-n+16) {
+  .col-img:nth-child(n+13):nth-child(-n+18) {
     border-bottom: none;
   }
 }
@@ -665,4 +665,66 @@ input.form-control:focus {
 .slider-active .owl-dots .owl-dot {
   border: 6px solid #998384 !important;
   border-radius: 50px !important;
+  margin-right: 5px;
+}
+
+/* update category */
+.category-collapse-new .heading {
+  width: 100%;
+  position: relative;
+  background: #eee;
+  padding: 11px;
+  display: block;
+}
+.category-collapse-new .heading i {
+  font-size: 20px;
+}
+.category-collapse-new .parent-category {
+  position: absolute;
+    top: 60px;
+    left: 15px;
+    width: 270px;
+    z-index: 100;
+    box-shadow: 0px 2px 4px -2px #000;
+    opacity: 0;
+    transition: 0.3s;
+}
+.category-collapse-new:hover .parent-category {
+  opacity: 1;
+  top: 46px;
+}
+.category-collapse-new.if-home .parent-category {
+  opacity: 1;
+  top: 46px;
+}
+.stick .category-collapse-new.if-home .parent-category {
+  opacity: 0;
+  top: 60px;
+}
+.stick .category-collapse-new:hover .parent-category {
+  opacity: 1;
+  top: 46px;
+}
+.category-collapse-new .parent-category .list-group-item {
+  transition: 0.3s;
+}
+.category-collapse-new .parent-category .list-group-item:hover {
+  background: rgb(245, 245, 245);
+}
+.category-collapse-new .has-sub-category {
+  position: relative;
+}
+.category-collapse-new .sub-category {
+  position: absolute;
+  top: 10px;
+  left: 100%;
+  width: 270px;
+  z-index: 100;
+  box-shadow: 0px 2px 4px -2px #000;
+  opacity: 0;
+  transition: 0.3s;
+}
+.category-collapse-new .has-sub-category:hover .sub-category {
+  opacity: 1;
+  top: 1px;
 }

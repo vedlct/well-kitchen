@@ -3,7 +3,7 @@
 
     <!-- banner slider start -->
     <div class="slider-area">
-        <div class="slider-active owl-carousel nav-style-1 owl-dot-none">
+        <div class="slider-active owl-carousel nav-style-1">
             @foreach ($sliders as $slider)
                 <a href="{{$slider->pageLink}}">
                     <div class="single-slider-2 slider-height-20 d-flex align-items-center slider-height-res bg-img"

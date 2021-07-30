@@ -28,8 +28,6 @@
       '<i class="fa fa-chevron-right"></i>',
     ],
     autoplayTimeout: 5000,
-    animateOut: "fadeOut",
-    animateIn: "fadeIn",
     item: 1,
     responsive: {
       0: {

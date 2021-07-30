@@ -35,7 +35,7 @@
 <div class="shop-area pt-60 pb-100">
     <div class="container">
         <div class="row flex-row-reverse">
-            <div class="col-lg-9">
+            <div class="col-lg-12">
                 <div class="shop-top-bar">
                     <div class="select-shoing-wrap">
                         <div class="shop-select">
@@ -80,7 +80,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-3 d-none">
                 <div class="sidebar-style mr-30">
                     <div class="sidebar-widget">
                         <h4 class="pro-sidebar-title">Refine By </h4>
