@@ -223,4 +223,45 @@ class CategoryController extends Controller
         return response()->json(['html'=>$view, 'skuss'=>$skuss]);
 
     }
+
+    public function filterProductsPrice(Request $request){
+        // dd($request->all());
+         // price filter
+         $skuss = Sku::with('product')->whereHas('product', function ($query) {
+            $query->where('status', 'active');
+        });
+
+        if (!empty($request->categoryId)) {
+            $skuss = $skuss->whereHas('product', function ($query) use ($request) {
+                $query->where('categoryId', $request->categoryId);
+            });
+        }
+        // dd($skuss);
+        if(!empty($request->price) && $request->price == 'High to Low') {
+             $skuss = $skuss->orderBy('salePrice', 'DESC')->where('status', 'active')->paginate(6);
+           
+        }
+        if(!empty($request->price) && $request->price == 'Low to High') {
+             $skuss = $skuss->orderBy('salePrice', 'ASC')->where('status', 'active')->paginate(6);
+           
+        }
+
+        if (!empty($request->price) && $request->price == 'instock') {
+            $availableSku = [];
+            foreach($skuss->get() as $sku){
+                $stockIn=Stock::where('fkskuId',$sku->skuId)->where('type', 'in')->sum('stock');
+                $stockOut=Stock::where('fkskuId',$sku->skuId)->where('type', 'out')->sum('stock');
+                $stockAvailable = $stockIn-$stockOut;
+                if($stockAvailable > 0){
+                    $availableSku[] = $sku->skuId;
+                }
+            }
+    
+            $skuss = $skuss->whereIn('skuId', $availableSku)->paginate(6);
+        }
+
+        $view = view('shopAjax', compact('skuss'))->render();
+        return response()->json(['html'=>$view, 'skuss'=>$skuss]);
+        
+    }
 }

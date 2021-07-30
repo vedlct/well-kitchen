@@ -30,12 +30,12 @@
             </div>
             <div class="" onclick="removeItem('{{$item->id}}')">
                 <i class="fa fa-trash"></i>
-              </div>
+            </div>
         </div>
        @endforeach
-    
-      </div>
-      @if(\Cart::getContent()->count() > 0)
+    </div>
+      
+    @if(\Cart::getContent()->count() > 0)
     
       <div class="d-flex justify-content-between cartTable">
             <div>
