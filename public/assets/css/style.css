@@ -5575,13 +5575,13 @@ margin-bottom: 5px; }
       width: 100%;
       object-fit: cover; }
       .shop-col-item.col-md-4 .product-wrap .product-img img {
-        height: 270px !important;
+        height: 370px !important;
       }
       .shop-col-item.col-md-3 .product-wrap .product-img img {
-        height: 210px !important;
+        height: 270px !important;
       }
       .shop-col-item.col-6 .product-wrap .product-img img {
-        height: 420px;
+        height: 560px;
       }
     .product-wrap .product-img span {
       position: absolute;

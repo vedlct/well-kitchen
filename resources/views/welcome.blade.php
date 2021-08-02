@@ -1132,7 +1132,7 @@
 @endsection
 
 @section('js')
-    .category-name-slider
+    <!-- .category-name-slider -->
 
     <script>
         $(".category-name-slider .nav-link").click(function () {

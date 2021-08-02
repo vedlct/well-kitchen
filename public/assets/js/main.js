@@ -198,7 +198,7 @@
     nav: false,
     autoplay: false,
     autoplayTimeout: 5000,
-    item: 4,
+    item: 5,
     margin: 30,
     responsive: {
       0: {
@@ -215,7 +215,7 @@
         items: 3,
       },
       1200: {
-        items: 4,
+        items: 5,
       },
     },
   });
