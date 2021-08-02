@@ -15,6 +15,33 @@
   iconCart.on("click", function () {
     $(".shopping-cart-content").toggleClass("cart-visible");
   });
+  
+
+  // home slider active
+  $(".slider-active").owlCarousel({
+    loop: true,
+    nav: true,
+    dots: true,
+    autoplay: true,
+    autoplayTimeout: 7000,
+    navText: [
+      '<i class="fa fa-chevron-left"></i>',
+      '<i class="fa fa-chevron-right"></i>',
+    ],
+    autoplayTimeout: 5000,
+    item: 1,
+    responsive: {
+      0: {
+        items: 1,
+      },
+      768: {
+        items: 1,
+      },
+      1000: {
+        items: 1,
+      },
+    },
+  });
 
   /* Slider active */
   $(".slider-active").owlCarousel({
@@ -156,6 +183,38 @@
       },
       1000: {
         items: 3,
+      },
+    },
+  });
+
+    /* product-slider active */
+  $(".product-slider-active").owlCarousel({
+    loop: true,
+    nav: true,
+    autoplay: false,
+    navText: [
+      '<i class="fa fa-angle-left"></i>',
+      '<i class="fa fa-angle-right"></i>',
+    ],
+    autoplayTimeout: 5000,
+    item: 4,
+    margin: 30,
+    responsive: {
+      0: {
+        items: 2,
+        autoplay: true,
+      },
+      576: {
+        items: 2,
+      },
+      768: {
+        items: 2,
+      },
+      992: {
+        items: 3,
+      },
+      1200: {
+        items: 4,
       },
     },
   });
@@ -1006,3 +1065,7 @@ function showFourCol() {
     ]
   });
   
+  // remove home slider nav and arrow disabled
+  
+  $(".owl-nav").removeClass("disabled");
+  $(".owl-dots").removeClass("disabled");
