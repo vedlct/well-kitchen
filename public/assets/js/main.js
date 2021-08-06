@@ -258,7 +258,7 @@
     autoplay: false,
     autoplayTimeout: 5000,
     item: 5,
-    margin: 30,
+    margin: 15,
     responsive: {
       0: {
         items: 2,
@@ -1067,5 +1067,5 @@ function showFourCol() {
   
   // remove home slider nav and arrow disabled
   
-  $(".owl-nav").removeClass("disabled");
-  $(".owl-dots").removeClass("disabled");
+  $(".slider-active .owl-nav").removeClass("disabled");
+  $(".slider-active .owl-dots").removeClass("disabled");

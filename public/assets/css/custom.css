@@ -750,3 +750,8 @@ input.form-control:focus {
     max-width: 20%;
   }
 }
+
+.shop-area .col-6, .product-area .col-6 {
+  padding-right: 7px;
+  padding-left: 7px;
+}
