@@ -35,14 +35,18 @@
 <div class="shop-area pt-60 pb-100">
     <div class="container">
         <div class="row flex-row-reverse">
-            <div class="col-lg-9">
+            <div class="col-lg-12">
                 <div class="shop-top-bar">
                     <div class="select-shoing-wrap">
                         <div class="shop-select">
-                            <select class="alphaCheck">
+                         
+                            <select name="price"  class="alphaCheck" onchange="getPrice(this);">
+                              
                                 <option value="">Sort by...</option>
                                 <option value="A">A to Z</option>
                                 <option value="Z"> Z to A</option>
+                                <option value="High to Low">High to Low</option>
+                                <option value="Low to High">Low to High</option>
                                 <option value="instock">In stock</option>
                             </select>
                         </div>
@@ -80,7 +84,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-3 d-none">
                 <div class="sidebar-style mr-30">
                     <div class="sidebar-widget">
                         <h4 class="pro-sidebar-title">Refine By </h4>
@@ -429,6 +433,35 @@
         }
 
 
+        function getPrice(sel)
+	{
+        // console.log('sel',sel.value);
+        price = sel.value;
+		 if(price){
+			// $('#pre-loader').show()
+            $.ajax({
+                type: "POST",
+                url: "{{route('price.filter')}}",
+                data: {
+                    _token:'{{csrf_token()}}',
+                    price:price,
+                    categoryId: categoryId
+                },
+                success: function (response) {
+                    console.log('res',response);
+                    // $('#filteredPackage').html('')
+                    $('#productShorting').html('')
+                    $('#productShorting').html(response.html)
+                    // $('#filteredPackage').html(response.html)
+                    // $('#pre-loader').hide()
+                },
+                error:((error)=>{
+                    console.log(error);
+                })
+            });
+		 }
+		
+	}
 
 
 

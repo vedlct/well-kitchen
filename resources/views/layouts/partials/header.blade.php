@@ -371,8 +371,38 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-3">
+
+                        <div class="category-collapse-new @if(Request::path() == '/') if-home @endif">
+                            <!-- category name -->
+                            <a href="javascript: void(0)" class="heading w-100"><i class="fa fa-bars mr-2"></i> All
+                                Category</a>
+                            <!-- parent category -->
+                            <ul class="parent-category list-group list-group-flush">
+                                @foreach($allCategories as $parentCategory)
+                                    <li class="list-group-item @if($subCategories->where('parent', $parentCategory->categoryId)->count() > 0) has-sub-category @endif">
+                                        <a href="{{route('category.products', $parentCategory->categoryId)}}" class="d-block">
+                                            {{ $parentCategory->categoryName }} 
+                                            @if($subCategories->where('parent', $parentCategory->categoryId)->count() > 0)
+                                                <i class="fa fa-angle-right float-right"></i>
+                                            @endif
+                                        </a>
+                                        <!-- sub category -->
+                                        @foreach($subCategories->where('parent', $parentCategory->categoryId) as $subCategory)
+                                            <ul class="sub-category list-group list-group-flush">
+                                                @foreach($subCategories->where('parent', $parentCategory->categoryId) as $subCategory)
+                                                    <li class="list-group-item">
+                                                        <a href="{{route('category.products', $subCategory->categoryId)}}">{{ $subCategory->categoryName }}</a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @endforeach
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+
                         <!-- category menu items -->
-                        <div class="category-collapse">
+                        <!-- <div class="category-collapse">
                             <ul class="menuH">
                                 <li class="home-nav-category-btn"><a href="#" class="arrow heading w-100"><i class="fa fa-bars mr-2"></i> All
                                         Category</a>
@@ -417,7 +447,7 @@
                                     </ul>
                                 </li>
                             </ul>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="col-lg-6">
                         <!-- main menu for desktop -->
