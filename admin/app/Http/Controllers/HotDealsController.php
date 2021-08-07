@@ -185,6 +185,7 @@ class HotDealsController extends Controller
             $quantity= $hotProducts->first()->quantity ;
         }
         HotDealsProduct::where('fkhotdealsId',$request->id)->delete();
+        if(!empty($request->value)){
         foreach ($request->value as $key => $item) {
             $hotProduct=new HotDealsProduct();
             $hotProduct->fkhotdealsId=$request->id;
@@ -192,6 +193,7 @@ class HotDealsController extends Controller
             $hotProduct->quantity=$quantity ??100;
             $hotProduct->save();
         }
+    }
 
         return response()->json('success',200);
     }

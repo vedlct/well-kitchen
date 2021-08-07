@@ -103,9 +103,10 @@ class ProductController extends Controller
         $product_variation_temp->sessionId = $sessionId;
         $product_variation_temp->variationType1 = $request->variationType1;
         $product_variation_temp->variationType2 = $request->variationType2;
-        $product_variation_temp->salePrice = $request->salePrice;
-        $product_variation_temp->stockAlert = $request->stockAlert;
+        $product_variation_temp->regularPrice = $request->salePrice;
         $product_variation_temp->discount = $request->discount;
+        $product_variation_temp->salePrice = $request->salePrice - $request->discount;
+        $product_variation_temp->stockAlert = $request->stockAlert;
         $product_variation_temp->variationDetails = $request->variationDetails;
         $product_variation_temp->variationShortDes = $request->variationShortDes;
 
@@ -189,10 +190,11 @@ class ProductController extends Controller
             $sku = new Sku();
             $sku->barcode = $request->barcode;
             $sku->fkproductId = $product->productId;
-            $sku->salePrice = $request->salePrice;
+            $sku->regularPrice = $request->salePrice;
+            $sku->discount = $request->discount;
+            $sku->salePrice = $request->salePrice - $request->discount;
             $sku->stockAlert = $request->stockAlert;
             $sku->status = $product->status;
-            $sku->discount = $request->discount;
             $sku->save();
 
 
@@ -244,9 +246,10 @@ class ProductController extends Controller
                     $sku = new Sku();
                     $sku->barcode = $product_variation->barcode;
                     $sku->fkproductId = $product->productId;
-                    $sku->salePrice = $product_variation->salePrice;
-                    $sku->stockAlert = $product_variation->stockAlert;
+                    $sku->regularPrice = $product_variation->salePrice;
                     $sku->discount = $product_variation->discount;
+                    $sku->salePrice = $product_variation->salePrice - $product_variation->discount;
+                    $sku->stockAlert = $product_variation->stockAlert;
                     $sku->status = $product->status;
                     $sku->save();
 
@@ -369,7 +372,9 @@ class ProductController extends Controller
         $sku = new Sku();
         $sku->barcode = $request->barcode;
         $sku->fkproductId = $request->productId;
-        $sku->salePrice = $request->salePrice;
+        $sku->regularPrice = $request->salePrice;
+        $sku->discount = $request->discount;
+        $sku->salePrice = $request->salePrice - $request->discount;
         $sku->stockAlert = $request->stockAlert;
         $sku->save();
 
@@ -500,9 +505,10 @@ class ProductController extends Controller
 
         $fkproductId = $sku->fkproductId;
         $sku->barcode = $request->barcode;
-        $sku->salePrice = $request->salePrice;
-        $sku->stockAlert = $request->stockAlert;
+        $sku->regularPrice = $request->salePrice;
         $sku->discount = $request->discount;
+        $sku->salePrice = $request->salePrice - $request->discount;
+        $sku->stockAlert = $request->stockAlert;
         $sku->save();
 
         
@@ -576,9 +582,10 @@ class ProductController extends Controller
         if ($product->type == 'single') {
             $sku = Sku::where('fkproductId', $productId)->first();
             $sku->barcode = $request->barcodeSingle;
-            $sku->salePrice = $request->salePrice;
-            $sku->stockAlert = $request->stockAlert;
+            $sku->regularPrice = $request->salePrice;
             $sku->discount = $request->discount;
+            $sku->salePrice = $request->salePrice - $request->discount;
+            $sku->stockAlert = $request->stockAlert;
             $sku->status = $request->status;
             $sku->save();
 

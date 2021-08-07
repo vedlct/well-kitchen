@@ -40,21 +40,21 @@ class HomeController extends Controller
 
         $skus = Sku::with('product')->whereHas('product', function ($query) {
             $query->where('status', 'active');
-        })->take(15)->get();
+        })->take(10)->get();
 
         $newArrivals = Sku::with('product')->whereHas('product', function ($query) {
             $query->where('status', 'active')->where('newarrived', 1);
-        })->take(15)->get();
+        })->take(10)->get();
         // dd($newArrivalSkus);
 
         // offer products
         $hotDeals = HotDeals::where('hotdeals.status', 'Available')->whereDate('hotdeals.startDate', '<=', date('Y-m-d'))->whereDate('hotdeals.endDate', '>=', date('Y-m-d'))->pluck('hotDealsId');
         $hotDealProId = HotDealsProduct::whereIn('fkhotdealsId', $hotDeals)->pluck('fkproductId');
-        $offerSkus = Sku::whereIn('fkproductId', $hotDealProId)->get();
+        $offerSkus = Sku::whereIn('fkproductId', $hotDealProId)->take(10)->get();
 
         $recommendeds =  $newArrivalSkus = Sku::with('product')->whereHas('product', function ($query) {
             $query->where('status', 'active')->where('isrecommended', 1);
-        })->take(15)->get();
+        })->take(10)->get();
         $testimonials = Testimonial::where('status', 'active')->where('home',1)->get();
 
         if(Auth::check()){

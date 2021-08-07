@@ -60,8 +60,8 @@
 
             <div class="col-md-4 col-lg-4 col-xl-2">
                 <div class="form-group">
-                    <label>Sale Price</label>
-                    <input type="number" class="salePrice form-control" name="salePrice" value="{{ $sku->salePrice }}" id="salePrice" placeholder="sale price">
+                    <label>Regular Price</label>
+                    <input type="number" class="salePrice form-control" name="salePrice" value="{{ $sku->salePrice }}" id="salePrice" placeholder="regular price">
                 </div>
             </div>
             <div class="col-md-4 col-lg-4 col-xl-2">
@@ -73,7 +73,7 @@
             <div class="col-md-4 col-lg-4 col-xl-2">
                 <div class="form-group">
                     <label>Discount</label>
-                    <input type="number" class="stockAlert form-control" id="discount" value="{{ $sku->stockAlert }}" name="discount" placeholder="discount">
+                    <input type="number" class="stockAlert form-control" id="discount" value="{{ $sku->discount?$sku->discount:'' }}" name="discount" placeholder="discount">
                 </div>
             </div>
         </div>

@@ -36,7 +36,9 @@
                 <th scope="col">Barcode</th>
                 <th scope="col">Type</th>
                 <th scope="col">Value</th>
-                <th scope="col">Saleprice</th>
+                <th scope="col">Regular price</th>
+                <th scope="col">Discount</th>
+                <th scope="col">Sale Price</th>
                 <th scope="col">Stock Alert</th>
                 <th scope="col">Variation Image</th>
                 @if(empty($product_variations))
@@ -64,7 +66,9 @@
                                 {{ $variationRelation->variationDetailsdata ? $variationRelation->variationDetailsdata->variationValue : '' }}@if($key != 1),@endif
                             @endforeach
                         </td>
-                        <td>{{ $sku->salePrice }}</td>
+                        <td>{{ $sku->regularPrice }}</td>
+                        <td>{{ $sku->discount?$sku->discount:'' }}</td>
+                        <td>{{ $sku->salePrice?$sku->salePrice:'' }}</td>
                         <td>{{ $sku->stockAlert }}</td>
                         <td>
                             @foreach ($sku->variationImages as $vimage)
@@ -95,7 +99,9 @@
                         <td>{{ $product_variation->barcode }}</td>
                         <td>{{ $product_variation->variationType1 }}, {{ $product_variation->variationType2 }}</td>
                         <td>{{ $product_variation->variationValue1 }}, {{ $product_variation->variationValue2 }}</td>
-                        <td>{{ $product_variation->salePrice }}</td>
+                        <td>{{ $product_variation->regularPrice }}</td>
+                        <td>{{ $product_variation->discount?$product_variation->discount:'' }}</td>
+                        <td>{{ $product_variation->salePrice?$product_variation->salePrice:'' }}</td>
                         <td>{{ $product_variation->stockAlert }}</td>
                         <td>
                             @if(!empty($product_variation->variationImage))

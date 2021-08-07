@@ -250,8 +250,8 @@
                                                             </div>
                                                             <div id="singleSalePrice" class="col-md-4 col-lg-4 col-xl-3">
                                                                 <div class="form-group">
-                                                                    <label>Sale Price</label>
-                                                                    <input type="text" class="form-control" name="salePrice" id="salePrice" placeholder="sale price">
+                                                                    <label>Regular Price</label>
+                                                                    <input type="text" class="form-control" name="salePrice" id="salePrice" placeholder="regular price">
                                                                 </div>
                                                             </div>
                                                             <div id="singleBarcode" class="col-md-4 col-lg-4 col-xl-3">
@@ -383,8 +383,8 @@
                                                         </div>
                                                         <div class="col-md-4 col-lg-4 col-xl-3">
                                                             <div class="form-group">
-                                                                <label>Sale Price</label>
-                                                                <input type="text" class="form-control" name="salePrice" id="salePrice" placeholder="sale price">
+                                                                <label>Ragular Price</label>
+                                                                <input type="text" class="form-control" name="salePrice" id="salePrice" placeholder="regular price">
                                                                 <div class="divAjaxError" style="color: red" class="mb-2" id="salePriceError"></div>
                                                             </div>
                                                         </div>
@@ -492,6 +492,7 @@
         $("#sub3").hide();
         $("#variationForm").hide();
         $("#singleSalePrice").hide();
+        $("#singleDiscount").hide();
         $("#singleStock").hide();
         $("#singleBarcode").hide();
         $("#productImages").hide();
@@ -569,6 +570,7 @@
             var productType = this.value;
             if(productType == 'variation'){
                 $("#singleSalePrice").hide();
+                $("#singleDiscount").hide();
                 $("#singleStock").hide();
                 $("#singleBarcode").hide();
                 $("#productImages").hide();
@@ -579,6 +581,7 @@
 
             }else if(productType == 'single'){
                 $("#singleSalePrice").show();
+                $("#singleDiscount").show();
                 $("#singleStock").show();
                 $("#singleBarcode").show();
                 $("#productImages").show();
@@ -588,6 +591,7 @@
                 $("#variationForm").hide();
                 $("#submitBtn1").show();
                 $("#singleSalePrice").hide();
+                $("#singleDiscount").hide();
                 $("#singleBarcode").hide();
                 $("#productImages").hide();
                 $("#singleStock").hide();

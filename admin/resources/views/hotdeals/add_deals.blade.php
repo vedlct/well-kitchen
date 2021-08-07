@@ -42,7 +42,7 @@
                                             <div class="form-body">
                                                <div class="form-group">
                                                     <label for="companyName">Hot Deals Name</label>
-                                                    <input type="text" class="form-control" placeholder="Category Name" name="hotDeals_name" id="hotDeals_name">
+                                                    <input type="text" class="form-control" placeholder="Hot Deals Name" name="hotDeals_name" id="hotDeals_name">
                                                     <span class="text-danger hotdeals_name"> <b>{{  $errors->first('hotDeals_name') }}</b></span>
                                                 </div>
                                                 <div class="row">
@@ -146,17 +146,11 @@
 
     $(document).ready(function() {
         var productTable = $('#productTable').DataTable({
-            select: true,
-            processing: true,
-            serverSide: true,
-            bDestroy: true,
-            responsive: true,
-            stateSave: true,
             columnDefs: [{
                 orderable: false,
                 className: 'select-checkbox',
                 targets: 0,
-                preSelect:['22']
+                {{--  preSelect:['22']  --}}
             }],
             select: {
                 style: 'os',
@@ -170,26 +164,29 @@
                     d.promotion = true;
                 }
             },
+            deferRender: true,
             columns: [
                 { data : null, defaultContent: "",orderable :false, searchable:false},
                 { title: 'Product ID', data: 'productId', name: 'productId' ,"className": "text-center", orderable: true, searchable:true},
                 { title: 'Product Name', data: 'productName', name: 'productName' ,"className": "text-center", orderable: true, searchable:true},
-                { title: 'Brand', data: 'brand', name: 'brand.brandName',"className": "text-center", orderable: true, searchable:true},
+                {{-- { title: 'Brand', data: 'brand', name: 'brand.brandName',"className": "text-center", orderable: true, searchable:true}, --}}
                 { title: 'Category Name', data: 'category', name: 'categoryName' ,"className": "text-center", orderable: false, searchable:false},
                 { title: 'Type', data: 'type', name: 'type' ,"className": "text-center", orderable: true, searchable:true},
+            ],
+            rowId: 'extn',
+            select: true,
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    text: 'Reload table',
+                    action: function () {
+                        table.ajax.reload();
+                    }
+                }
             ]
         });
 
-        productTable.on("click", "th.select-checkbox", function () {
-            if ($("th.select-checkbox").hasClass("selected")) {
-                productTable.rows().deselect();
-                $("th.select-checkbox").removeClass("selected");
-            } else {
-                productTable.rows().select();
-                $("th.select-checkbox").addClass("selected");
-            }
-        });
-        
+
 
         $('#submit').click(function () {
             var ids = $.map(productTable.rows('.selected').data(), function (item) {
@@ -238,3 +235,48 @@
         });
 </script>
 @endsection
+
+
+{{--        select: true,
+            processing: true,
+            serverSide: true,
+            bDestroy: true,
+            responsive: true,
+            stateSave: true,
+            columnDefs: [{
+                orderable: false,
+                className: 'select-checkbox',
+                targets: 0,
+                preSelect:['22']
+            }],
+            select: {
+                style: 'os',
+                selector: 'td:first-child'
+            },
+            ajax: {
+                "url": "{!! route('product.list') !!}",
+                "type": "GET",
+                data: function (d) {
+                    d._token = "{{csrf_token()}}";
+                    d.promotion = true;
+                }
+            },
+            columns: [
+                { data : null, defaultContent: "",orderable :false, searchable:false},
+                { title: 'Product ID', data: 'productId', name: 'productId' ,"className": "text-center", orderable: true, searchable:true},
+                { title: 'Product Name', data: 'productName', name: 'productName' ,"className": "text-center", orderable: true, searchable:true},
+                { title: 'Brand', data: 'brand', name: 'brand.brandName',"className": "text-center", orderable: true, searchable:true},
+                { title: 'Category Name', data: 'category', name: 'categoryName' ,"className": "text-center", orderable: false, searchable:false},
+                { title: 'Type', data: 'type', name: 'type' ,"className": "text-center", orderable: true, searchable:true},
+            ]
+        });
+
+        productTable.on("click", "th.select-checkbox", function () {
+            if ($("th.select-checkbox").hasClass("selected")) {
+                productTable.rows().deselect();
+                $("th.select-checkbox").removeClass("selected");
+            } else {
+                productTable.rows().select();
+                $("th.select-checkbox").addClass("selected");
+            }
+        });  --}}
