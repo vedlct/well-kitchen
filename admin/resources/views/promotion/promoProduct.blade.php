@@ -83,6 +83,7 @@
                         d.promotion = true;
                     }
                 },
+                deferRender: true,
                 columns: [
                     { data : null, defaultContent: "",orderable :false, searchable:false},
                     { title: 'Product ID', data: 'productId', name: 'productId' ,"className": "text-center", orderable: true, searchable:true},
