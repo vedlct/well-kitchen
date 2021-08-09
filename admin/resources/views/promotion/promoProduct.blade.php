@@ -65,7 +65,74 @@
     <script>
         $(document).ready(function() {
             var productTable = $('#productTable').DataTable({
+                columnDefs: [{
+                    orderable: false,
+                    className: 'select-checkbox',
+                    targets: 0,
+                    {{--  preSelect:['22']  --}}
+                }],
+                select: {
+                    style: 'os',
+                    selector: 'td:first-child'
+                },
+                ajax:{
+                    "url": "{!! route('product.list') !!}",
+                    "type": "GET",
+                    data:function (d){
+                        d._token = "{{csrf_token()}}";
+                        d.promotion = true;
+                    }
+                },
+                columns: [
+                    { data : null, defaultContent: "",orderable :false, searchable:false},
+                    { title: 'Product ID', data: 'productId', name: 'productId' ,"className": "text-center", orderable: true, searchable:true},
+                    { title: 'Product Name', data: 'productName', name: 'productName' ,"className": "text-center", orderable: true, searchable:true},
+                    {{--  { title: 'Brand', data: 'brand', name: 'brand.brandName',"className": "text-center", orderable: true, searchable:true},  --}}
+                    { title: 'Category Name', data: 'category', name: 'categoryName' ,"className": "text-center", orderable: false, searchable:false},
+                    { title: 'Type', data: 'type', name: 'type' ,"className": "text-center", orderable: true, searchable:true},
+                ],
+                rowId: 'extn',
                 select: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        text: 'Reload table',
+                        action: function () {
+                            table.ajax.reload();
+                        }
+                    }
+                ]
+            });
+
+
+            $('#button').click(function () {
+                var ids = $.map(productTable.rows('.selected').data(), function (item) {
+                    return item['productId'];
+                 });
+                 {{--  console.log(ids);
+                    console.log(promoId);  --}}
+                 var promoId = $("[name='promoid']").val();
+                $.ajax({
+                    url: "{{ route('promotion.productInsert') }}",
+                    method: "POST",
+                    data: {
+                        '_token': '{{csrf_token()}}',
+                        'value': ids,
+                        'id': promoId
+                    },
+                    success: function (data) {
+                        var url = '{{route("promotion") }}';
+                         window.location.href = url;
+                      }
+                });
+             });
+        });
+    </script>
+@endsection
+
+
+{{--  old  --}}
+{{--  select: true,
                 processing: true,
                 serverSide: true,
                 bDestroy: true,
@@ -106,27 +173,4 @@
                     productTable.rows().select();
                     $("th.select-checkbox").addClass("selected");
                 }
-            });
-
-            $('#button').click(function () {
-                var ids = $.map(productTable.rows('.selected').data(), function (item) {
-                    return item['productId'];
-                 });
-                 var promoId = $("[name='promoid']").val();
-                $.ajax({
-                    url: "{{ route('promotion.productInsert') }}",
-                    method: "POST",
-                    data: {
-                        '_token': '{{csrf_token()}}',
-                        'value': ids,
-                        'id': promoId
-                    },
-                    success: function (data) {
-                        var url = '{{route("promotion") }}';
-                         window.location.href = url;
-                      }
-                });
-             });
-        });
-    </script>
-@endsection
+            });  --}}
