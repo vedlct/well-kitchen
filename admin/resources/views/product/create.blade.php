@@ -279,8 +279,8 @@
                                                             
                                                             <div id="singleDiscount" class="col-md-4 col-lg-4 col-xl-3">
                                                                 <div class="form-group">
-                                                                    <label>Discount</label>
-                                                                    <input type="number" class="form-control" id="discount" name="discount" placeholder="discount">
+                                                                    <label>Sale Price</label>
+                                                                    <input type="number" class="form-control" id="discount" name="discount" placeholder="sale price">
                                                                 </div>
                                                             </div>
                                                             <div id="productImages" class="col-md-4 col-lg-4 col-xl-3">
@@ -396,8 +396,8 @@
                                                         </div>
                                                         <div class="col-md-4 col-lg-4 col-xl-3">
                                                             <div class="form-group">
-                                                                <label>Discount</label>
-                                                                <input type="number" class="form-control" id="discount" name="discount" placeholder="discount">
+                                                                <label>Sale Price</label>
+                                                                <input type="number" class="form-control" id="discount" name="discount" placeholder="sale price">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4 col-lg-4 col-xl-3">

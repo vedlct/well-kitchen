@@ -72,8 +72,8 @@
             </div>
             <div class="col-md-4 col-lg-4 col-xl-2">
                 <div class="form-group">
-                    <label>Discount</label>
-                    <input type="number" class="stockAlert form-control" id="discount" value="{{ $sku->discount?$sku->discount:'' }}" name="discount" placeholder="discount">
+                    <label>Sale Price</label>
+                    <input type="number" class="stockAlert form-control" id="discount" value="{{ $sku->discount?$sku->discount:'' }}" name="discount" placeholder="sale price">
                 </div>
             </div>
         </div>
