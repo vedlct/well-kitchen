@@ -307,12 +307,12 @@
                                                                     <input type="number" class="form-control" name="salePrice" id="salePrice" value="{{ $sku?$sku->regularPrice:'' }}">
                                                                 </div>
                                                             </div>
-                                                            <div id="singleNewSalePrice" class="col-md-4 col-lg-4 col-xl-3">
+                                                            {{--  <div id="singleNewSalePrice" class="col-md-4 col-lg-4 col-xl-3">
                                                                 <div class="form-group">
                                                                     <label>Sale Price</label>
                                                                     <input type="text" class="form-control" name="newSalePrice" id="newSalePrice" value="{{ $sku?$sku->salePrice:'' }}">
                                                                 </div>
-                                                            </div>
+                                                            </div>  --}}
                                                             <div id="singleBarcode" class="col-md-4 col-lg-4 col-xl-3">
                                                                 <div data-repeater-list="repeater-group">
                                                                     <label>Barcode</label>

@@ -223,14 +223,34 @@
                             '<img src="{{ URL::asset('/admin/public/productImages') }}/'+v.image+'"></a>');
                 });
 
-                if(data.hotdeal == null){
+
+                if(data.hotdeal != null && data.discount != null){
+                    $('.salePrice').empty().append("<span>"+"৳ "+data.afterDiscountPrice+"</span>")
+                    $('.old').empty().append("<span class='old'>"+"৳ "+data.sku.regularPrice+"</span>")
+                }
+                if(data.hotdeal == null && data.discount != null){
+                    $('.salePrice').empty().append("<span>"+"৳ "+data.sku.salePrice+"</span>")
+                    $('.old').empty().append("<span class='old'>"+"৳ "+data.sku.regularPrice+"</span>")
+                }
+                if(data.hotdeal != null && data.discount == null) {
+                    $('.salePrice').empty().append("<span>"+"৳ "+data.afterDiscountPrice+"</span>")
+                    $('.old').empty().append("<span class='old'>"+"৳ "+data.sku.regularPrice+"</span>")
+                }
+                if(data.hotdeal == null && data.discount == null) {
+                    $('.salePrice').empty().append("<span>"+"৳ "+data.sku.regularPrice+"</span>")
+                    $('.old').empty();
+                }
+
+
+
+                {{--  if(data.hotdeal == null){
                     $(".salePrice").html('৳ '+data.saleprice);
                     $(".oldprice").html('');
                 }
                 else{
                     $(".salePrice").html('৳ '+data.saleprice);
                     $(".oldprice").html('৳ '+data.oldprice);
-                }
+                }  --}}
                 $(".reviewsCount").html(data.revCount);
 
                 if(data.finalRating > 0) {

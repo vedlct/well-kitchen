@@ -8,7 +8,7 @@
       <div class="product-slider-active-2 owl-carousel owl-dot-none">
       @foreach ($skus->unique('fkproductId') as $sku)
       {{-- @dd($sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()); --}}
-      @if (!empty($sku->product->hotdealProducts))
+      {{--  @if (!empty($sku->product->hotdealProducts))
           @php
               $hotDeal = $sku->product->hotdealProducts
                   ->where('hotdeals.status', 'Available')
@@ -17,7 +17,7 @@
                   ->where('hotdeals.percentage', '>', 0)
                   ->first();
           @endphp
-      @endif
+      @endif  --}}
       {{-- @dd($sku->product->newarrived); --}}
       @if (!empty($sku->product))
           <div class="product-wrap mb-25">
@@ -32,10 +32,19 @@
                 <span class="purple">New</span>
             @endif
 
-            @if (!empty($hotDeal))
-                <span
-                    class="blue discount">-{{ $hotDeal->hotdeals ? $hotDeal->hotdeals->percentage : '' }}%</span>
+            @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->where('hotdeals.percentage', '>', 0)->first()@endphp
+                
+            @if (!empty($hotDeal) && !empty($sku->discount))
+            <span class="blue discount">-{{$hotDeal->hotdeals? $hotDeal->hotdeals->percentage : ''}}%</span>
             @endif
+            @if (!empty($hotDeal) && empty($sku->discount))
+            <span class="blue discount">-{{$hotDeal->hotdeals? $hotDeal->hotdeals->percentage : ''}}%</span>
+            @endif
+
+            @if(empty($hotDeal) && !empty($sku->discount))
+            <span class="blue discount">-{{$sku->discount}}%</span>
+        @endif
+
 
             @if ($sku->product->isrecommended == 1)
                 <span class="pink">Feature</span>
@@ -72,37 +81,40 @@
             </h3>
             <div class="product-price">
                 {{-- <span>৳  {{$sku->salePrice}}</span> --}}
-                @php
-                    $hotDeal = $sku->product->hotdealProducts
-                        ->where('hotdeals.status', 'Available')
-                        ->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))
-                        ->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))
-                        ->where('hotdeals.percentage', '>', 0)
-                        ->first();
-                @endphp
+                @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->where('hotdeals.percentage', '>', 0)->first()@endphp
 
-                @if (empty($hotDeal) && empty($sku->discount))
-                <span>৳ {{ $sku->salePrice }} </span>
-            @endif
-
-            @if (!empty($hotDeal) && !empty($sku->discount))
-                @php
-                    $percentage = $hotDeal->hotdeals->percentage;
-                    $afterDiscountPrice = $sku->salePrice - ($sku->salePrice * $percentage) / 100;
-                @endphp
-
-                <span>৳ {{ $afterDiscountPrice }}</span>
-                <span class="old">৳ {{ $sku->salePrice }}</span>
-            @endif
-
-            @if(empty($hotDeal) && !empty($sku->discount))
-            @php
-                $afterDiscountPrice = ($sku->salePrice) - ($sku->discount);
-            @endphp
-
-            <span>৳  {{$afterDiscountPrice}}</span>
-            <span class="old">৳  {{$sku->salePrice}}</span>
-        @endif
+                                @if (empty($hotDeal) && empty($sku->discount))
+                                                    <span class="salePrice">৳ {{ $sku->regularPrice }} </span>
+                                                @endif
+                                
+                                                @if (!empty($hotDeal) && !empty($sku->discount))
+                                                    @php
+                                                        $percentage = $hotDeal->hotdeals->percentage;
+                                                        $afterDiscountPrice = $sku->regularPrice - ($sku->regularPrice * $percentage) / 100;
+                                                    @endphp
+                                
+                                                    <span class="salePrice">৳ {{ $afterDiscountPrice }}</span>
+                                                    <span class="old">৳ {{ $sku->regularPrice }}</span>
+                                                @endif
+                                
+                                                @if (!empty($hotDeal) && empty($sku->discount))
+                                                    @php
+                                                        $percentage = $hotDeal->hotdeals->percentage;
+                                                        $afterDiscountPrice = $sku->regularPrice - ($sku->regularPrice * $percentage) / 100;
+                                                    @endphp
+                                
+                                                    <span class="salePrice">৳ {{ $afterDiscountPrice }}</span>
+                                                    <span class="old">৳ {{ $sku->regularPrice }}</span>
+                                                @endif
+                                
+                                                @if(empty($hotDeal) && !empty($sku->discount))
+                                                @php
+                                                   $afterDiscountPrice = $sku->salePrice;
+                                                @endphp
+                                
+                                                <span class="salePrice">৳  {{$afterDiscountPrice}}</span>
+                                                <span class="old">৳  {{$sku->regularPrice}}</span>
+                                            @endif
             </div>
         </div>
     </div>

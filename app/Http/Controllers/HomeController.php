@@ -48,6 +48,7 @@ class HomeController extends Controller
         // dd($newArrivalSkus);
 
         // offer products
+        // $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->where('hotdeals.percentage', '>', 0)->first()
         $hotDeals = HotDeals::where('hotdeals.status', 'Available')->whereDate('hotdeals.startDate', '<=', date('Y-m-d'))->whereDate('hotdeals.endDate', '>=', date('Y-m-d'))->pluck('hotDealsId');
         $hotDealProId = HotDealsProduct::whereIn('fkhotdealsId', $hotDeals)->pluck('fkproductId');
         $offerSkus = Sku::whereIn('fkproductId', $hotDealProId)->take(10)->get();
@@ -154,18 +155,35 @@ class HomeController extends Controller
                 array_push($variations,$variation->variationDetailsdata);
             }
 
-            $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first();
+            // $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first();
+            $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->where('hotdeals.percentage', '>', 0)->first();
 
             $afterDiscountPrice = null;
-            if(!empty($hotDeal)){
+
+            if (!empty($hotDeal) && !empty($sku->discount)){
                 $percentage = $hotDeal->hotdeals->percentage;
-                $afterDiscountPrice = ($sku->salePrice) - (($sku->salePrice)*$percentage)/100;
+                $afterDiscountPrice = ($sku->regularPrice) - (($sku->regularPrice)*$percentage)/100;
             }
+
+            if (!empty($hotDeal) && empty($sku->discount)){
+                $percentage = $hotDeal->hotdeals->percentage;
+                $afterDiscountPrice = ($sku->regularPrice) - (($sku->regularPrice)*$percentage)/100;
+            }
+
+            if(empty($hotDeal) && !empty($sku->discount)){
+                $afterDiscountPrice = $sku->salePrice;
+            }
+
+
+            // if(!empty($hotDeal)){
+            //     $percentage = $hotDeal->hotdeals->percentage;
+            //     $afterDiscountPrice = ($sku->salePrice) - (($sku->salePrice)*$percentage)/100;
+            // }
 
             \Cart::add(array(
                 'id' => $sku->skuId,
                 'name' => $sku->product->productName,
-                'price' => $afterDiscountPrice ? $afterDiscountPrice : $sku->salePrice ?? '0',
+                'price' => $afterDiscountPrice ? $afterDiscountPrice : $sku->regularPrice ?? '0',
                 'quantity' =>$quantity,
                 'attributes' => array(
                     'batchId'=>$batch,
