@@ -56,8 +56,8 @@ class ProductController extends Controller
         $variationDatas = VariationDetails::whereIn('skuId', $skuIds)->pluck('variationData');
         $variationColorIds = Variation::whereIn('variationId', $variationDatas)->where('variationType', 'Color')->get();
         $variationSizeIds = Variation::whereIn('variationId', $variationDatas)->where('variationType', 'Size')->get();
-        
-        
+
+
         $category = Category::where('categoryId', $product->categoryId)->first();
         if($category){
             $categoryId = $category->categoryId;
@@ -112,12 +112,31 @@ class ProductController extends Controller
         $variationRelation= VariationDetails::where('variationRelationId', $request->variationRelationId)->first();
         $sku = Sku::where('skuId', $variationRelation->skuId)->first();
 
-        $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first();
+
+        $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->where('hotdeals.percentage', '>', 0)->first();
+
         $afterDiscountPrice = null;
-        if(!empty($hotDeal)){
+
+        if (!empty($hotDeal) && !empty($sku->discount)){
             $percentage = $hotDeal->hotdeals->percentage;
-            $afterDiscountPrice = ($sku->salePrice) - (($sku->salePrice)*$percentage)/100;
+            $afterDiscountPrice = ($sku->regularPrice) - (($sku->regularPrice)*$percentage)/100;
         }
+
+        if (!empty($hotDeal) && empty($sku->discount)){
+            $percentage = $hotDeal->hotdeals->percentage;
+            $afterDiscountPrice = ($sku->regularPrice) - (($sku->regularPrice)*$percentage)/100;
+        }
+
+        if(empty($hotDeal) && !empty($sku->discount)){
+            $afterDiscountPrice = $sku->salePrice;
+        }
+
+//        $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first();
+//        $afterDiscountPrice = null;
+//        if(!empty($hotDeal)){
+//            $percentage = $hotDeal->hotdeals->percentage;
+//            $afterDiscountPrice = ($sku->salePrice) - (($sku->salePrice)*$percentage)/100;
+//        }
 
         $otherVariationSameSku = VariationDetails::where('skuId', $variationRelation->skuId)->get()->except($variationRelation->variationRelationId);
         $variationDatas = [];
