@@ -67,7 +67,9 @@ Route::post('/search-category-product' ,[CategoryController::class,'searchByProd
 
 
     //coupon
+
     Route::post('coupon-submit',[CuponController::class,'couponSubmit'])->name('coupon.submit');
+    Route::post('promo-submit',[CuponController::class,'promoSubmit'])->name('promo.submit');
 
 
     Route::get('autocomplete',[CheckoutController::class,'autocomplete']);

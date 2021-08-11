@@ -94,6 +94,7 @@
             <li class="nav-item collection-li"><a href="{{ route('order.add') }}"><i class="ft ft-help-circle"></i><span class="menu-title" data-i18n="">Order Add</span></a></li>
             <li class="nav-item collection-li"><a href="{{ route('due.index') }}"><i class="ft ft-help-circle"></i><span class="menu-title" data-i18n="">Due</span></a></li>
             <li class="nav-item collection-li"><a href="{{ route('hotdeals') }}"><i class="ft ft-help-circle"></i><span class="menu-title" data-i18n="">Hot Deals</span></a></li>
+            <li class="nav-item collection-li"><a href="{{ route('promo') }}"><i class="ft ft-help-circle"></i><span class="menu-title" data-i18n="">Promo</span></a></li>
             <li class="nav-item collection-li"><a href="{{ route('promotion') }}"><i class="ft ft-help-circle"></i><span class="menu-title" data-i18n="">Promotion</span></a></li>
             <li class="nav-item collection-li"><a href="{{ route('banner.show') }}"><i class="ft ft-help-circle"></i><span class="menu-title" data-i18n="">Banner</span></a></li>
             <li class="nav-item collection-li"><a href="{{ route('report.collection') }}"><i class="ft ft-help-circle"></i><span class="menu-title" data-i18n="">Collection</span></a></li>

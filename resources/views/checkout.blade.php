@@ -2,6 +2,21 @@
 @section('container')
 <div class="checkout-area pt-95 pb-100">
     <div class="container">
+        <div id="checkout_coupon" class="coupon-checkout-content" @if($errors->first('couponCode')) style="display: block" @endif>
+            <h3 style="text-align: center;">Have a coupon? <span id="showcoupon">Click here to enter your code</span></h3>
+            <div class="coupon-info" style="text-align: center;" >
+                <form action="{{route('promo.submit')}}" method="post">
+                    @csrf
+                    <p class="checkout-coupon">
+                        <input type="text" class="code form-control" required name="promo_code" placeholder="Promo code" />
+                        <input type="submit" value="Apply Promo" />
+                    @if($errors->has('promo_code'))
+                        <div class="error text-danger"><strong>{{ $errors->first('promo_code') }}</strong></div>
+                        @endif
+                        </p>
+                </form>
+            </div>
+        </div>
           <form method="post" action="{{route('checkout.submit')}}">
             @csrf
             @isset($customer)
@@ -148,7 +163,7 @@
                             <div class="your-order-total">
                                 <ul>
                                     <li class="order-total">Total</li>
-                                    <li id="orderTotal">৳{{number_format(\Cart::getSubTotal())}}</li>
+                                    <li id="orderTotal">৳{{number_format(Session::get('sub'))}}</li>
                                 </ul>
                             </div>
                         </div>

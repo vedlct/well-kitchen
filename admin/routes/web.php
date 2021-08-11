@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\PromoController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DueController;
@@ -100,6 +101,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/promotion/product/{id}', [PromotionController::class,'promoProduct'])->name('promotion.promoProduct');
         Route::post('/promotion-productInsert', [PromotionController::class,'promoProductInsert'])->name('promotion.productInsert');
         Route::get('/promotion/show-product/{id}', [PromotionController::class,'showProduct'])->name('promotion.showProduct');
+
+        //Promo
+        Route::get('/promo',[PromoController::class, 'index'])->name('promo');
+        Route::get('/promo-list', [PromoController::class,'list'])->name('promo.list');
+        Route::get('/promo-create', [PromoController::class, 'create'])->name('promo.create');
+        Route::post('/promo-insert', [PromoController::class, 'store'])->name('promo.insert');
+        Route::post('/promo-update', [PromoController::class, 'store'])->name('promo.update');
+        Route::get('/promo/edit/{id}', [PromoController::class, 'edit'])->name('promo.edit');
 
 
         //Meta data
