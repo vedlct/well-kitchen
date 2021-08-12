@@ -76,6 +76,9 @@
                 </form>
                 <div class="row mt-50">
                     <div class="col-lg-4 col-md-6">
+                        
+                    </div>
+                    <div class="col-lg-4 col-md-6">
                         <div class="cart-tax">
                             <div class="title-wrap">
                                 <h4 class="cart-bottom-title section-bg-gray">Shipping Cost</h4>
@@ -84,24 +87,6 @@
                                 <p>
                                     Shipping in Dhaka is 50 TK and Outside Dhaka 120 TK
                                 </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-6">
-                        <div class="discount-code-wrapper">
-                            <div class="title-wrap">
-                            <h4 class="cart-bottom-title section-bg-gray">Use Coupon Code</h4>
-                            </div>
-                            <div class="discount-code">
-                                <p>Enter your coupon code if you have one.</p>
-                                <form action="{{route('coupon.submit')}}" method="post">
-                                    @csrf
-                                    <input type="text" required="" name="couponCode">
-                                    <button class="cart-btn-2" type="submit">Apply Coupon</button>
-                                    @if($errors->has('couponCode'))
-                                    <div class="error text-danger"><strong>{{ $errors->first('couponCode') }}</strong></div>
-                                    @endif
-                                </form>
                             </div>
                         </div>
                     </div>

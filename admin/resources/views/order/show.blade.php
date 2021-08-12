@@ -117,17 +117,23 @@
                                                     <a href="#" onclick="returnProduct({{$item->order_itemId}})" title="Return"><i class="ft ft-corner-down-left"></i></a>
                                                 </td>
                                             @endif
-                                        </tr>  
+                                        </tr>
                                     @endforeach
                                     <tr>
-                                      
                                         <td colspan="7" class="text-right"> <b>Total</b> </td>
                                         {{-- <td>{{$order->orderTotal}}</td> --}}
                                         <td>{{$order->orderedProduct->sum('total')}}</td>
                                     </tr>
+                                    @if(!empty($order->discount))
+                                    <tr>
+                                        <td colspan="7" class="text-right"> <b>Discount(promo code)</b> </td>
+                                        <td>-{{$order->discount ?? 0}}</td>
+                                    </tr>
+                                    @endif
+
                                     <tr>
                                         <td colspan="7" class="text-right"> <b>Delivery Fee</b> </td>
-                                        <td>{{$order->deliveryFee ?? 0}}</td>
+                                        <td>+{{$order->deliveryFee ?? 0}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="7" class="text-right"> <b>Order Total</b> </td>
@@ -151,7 +157,7 @@
                               </div>
                               <div class="col-md-4 mb-1">
                                 {{-- <h4 class="text-warning">Due: {{($order->orderTotal+$order->deliveryFee) - $order->paidAmount()}}</h4> --}}
-                                <h4 class="text-warning">Due: {{$order->orderTotal - $order->paidAmount()}}</h4>
+                                <h4 class="text-warning">Due: ৳{{$order->orderTotal - $order->paidAmount()}}</h4>
                               </div>
                               <div class="col-md-4 mb-1 text-sm-right">
                                 {{-- <button type="button" class="btn btn-danger btn-min-width">Refund</button> --}}
@@ -301,8 +307,8 @@
                     $('#return-Modal').modal();
                 }
             });
-  }    
+  }
 
-  
+
 </script>
 @endsection

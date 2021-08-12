@@ -88,11 +88,17 @@ class PurchaseController extends Controller
                     return $variation->variationdata;
                 }
             })
+            ->addColumn('stock_available', function($stock_available) {
+                $inStock = Stock::where('batchId', $stock_available->batchId)->where('type', 'in')->sum('stock');
+                $outStock = Stock::where('batchId', $stock_available->batchId)->where('type', 'out')->sum('stock');
+                $stockAvailable = $inStock - $outStock;
+                return $stockAvailable;
+            })
             ->addColumn('action', function($action) {
                 return '<a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="editBatch('.$action->batchId.')" title="Purchase"><i class="ft-edit-3"></i></a>
                         <a href="javascript:void(0)" class="btn btn-warning btn-sm" onclick="returnBatch('.$action->batchId.')" title="Return"><i class="ft-corner-down-left"></i></a>';
             })
-            ->rawColumns(['action','variation'])
+            ->rawColumns(['action','variation','stock_available'])
             ->make(true);
     }
 
@@ -140,16 +146,45 @@ class PurchaseController extends Controller
         $batch->created_at = Carbon::parse($data->purchaseDate)->timestamp;
         $batch->save();
 
-        if(empty($data->batch)){
+        // if(empty($data->batch)){
+        //     $stock = new Stock();
+        // }else{
+        //     $stock = Stock::where('batchId',$data->batch)->first();
+        // }
+        // $stock->fkskuId = $data->sku;
+        // $stock->batchId = $batch->batchId;
+        // $stock->stock = $data->quantity;
+        // $stock->type = 'in';
+        // $stock->identifier = 'purchase';
+        // $stock->save();
+        
+        // return response()->json(array(
+        //     'batchId'=>$batch->batchId,
+        //     'sku'=>$data->sku,
+        //     'quantity'=>$data->quantity,
+        //     'purchasePrice'=>$batch->purchasePrice,
+        //     'store'=> $batch->storeId,
+        //     'success'=>true,
+        // ));
+
+        if(!empty($data->batch)){
+            $batch = Batch::find($data->batch);
+          
             $stock = new Stock();
-        }else{
-            $stock = Stock::where('batchId',$data->batch)->first();
-        }
+            $stock->type = $data->type;
+            $stock->identifier = 'edit';
+        }else{ 
+            $stock = new Stock();
+            $stock->type = 'in';
+            $stock->identifier = 'purchase';
+            
+          }
+    
+       
         $stock->fkskuId = $data->sku;
         $stock->batchId = $batch->batchId;
         $stock->stock = $data->quantity;
-        $stock->type = 'in';
-        $stock->identifier = 'purchase';
+        
         $stock->save();
         
         return response()->json(array(

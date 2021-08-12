@@ -2,22 +2,22 @@
 @section('container')
 <div class="checkout-area pt-95 pb-100">
     <div class="container">
-        <div id="checkout_coupon" class="coupon-checkout-content" @if($errors->first('couponCode')) style="display: block" @endif>
-            <h3 style="text-align: center;">Have a coupon? <span id="showcoupon">Click here to enter your code</span></h3>
-            <div class="coupon-info" style="text-align: center;" >
-                <form action="{{route('promo.submit')}}" method="post">
-                    @csrf
-                    <p class="checkout-coupon">
-                        <input type="text" class="code form-control" required name="promo_code" placeholder="Promo code" />
-                        <input type="submit" value="Apply Promo" />
-                    @if($errors->has('promo_code'))
-                        <div class="error text-danger"><strong>{{ $errors->first('promo_code') }}</strong></div>
-                        @endif
-                        </p>
-                </form>
-            </div>
-        </div>
-          <form method="post" action="{{route('checkout.submit')}}">
+{{--        <div id="checkout_coupon" class="coupon-checkout-content" @if($errors->first('couponCode')) style="display: block" @endif>--}}
+{{--            <h3 style="text-align: center;">Have a coupon? <span id="showcoupon">Click here to enter your code</span></h3>--}}
+{{--            <div class="coupon-info" style="text-align: center;" >--}}
+{{--                <form action="{{route('promo.submit')}}" method="post">--}}
+{{--                    @csrf--}}
+{{--                    <p class="checkout-coupon">--}}
+{{--                        <input type="text" class="code form-control" required name="promo_code" placeholder="Promo code" />--}}
+{{--                        <input type="submit" value="Apply Promo" />--}}
+{{--                    @if($errors->has('promo_code'))--}}
+{{--                        <div class="error text-danger"><strong>{{ $errors->first('promo_code') }}</strong></div>--}}
+{{--                        @endif--}}
+{{--                        </p>--}}
+{{--                </form>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+          <form method="post" class="testCupon" action="{{route('checkout.submit')}}">
             @csrf
             @isset($customer)
             <input type="hidden" name="fkcustomerId" value="{{$customer->customerId}}">
@@ -134,6 +134,19 @@
                 </div>
             </div>
             <div class="col-lg-5">
+                <!-- coupon add area -->
+                <div class="discount-code-wrapper">
+                    <div class="title-wrap">
+                        <h4 class="cart-bottom-title section-bg-gray">Use Coupon Code</h4>
+                    </div>
+                    <div class="discount-code">
+                        <p>Enter your coupon code if you have one.</p>
+
+                        <input type="text" required=""name="promo_code" id="promoCode" placeholder="Promo code">
+                        <a class="cart-btn-2" type="text" onclick="applyPromo()">Apply Cupon</a>
+                    </div>
+                </div>
+
                 <div class="your-order-area">
                     <h3>Your order</h3>
                     <div class="your-order-wrap gray-bg-4">
@@ -154,6 +167,20 @@
                                     @endforeach
                                 </ul>
                             </div>
+
+                                @if(!empty(Session::get('discountAmount')))
+                            <div class="your-order-total">
+                                <ul>
+                                    <li class="order-total">Total</li>
+                                    <li>৳{{number_format(\Cart::getSubTotal())}}</li>
+                                </ul>
+                                <br>
+                                <ul>
+                                    <li class="order-total">Discount</li>
+                                    <li>-৳{{number_format(Session::get('discountAmount')) ? number_format(Session::get('discountAmount')) : 0}}</li>
+                                </ul>
+                            </div>
+                                @endif
                             <div class="your-order-bottom">
                                 <ul>
                                     <li class="your-order-shipping">Shipping</li>
@@ -162,7 +189,7 @@
                             </div>
                             <div class="your-order-total">
                                 <ul>
-                                    <li class="order-total">Total</li>
+                                    <li class="order-total">Grand Total</li>
                                     <li id="orderTotal">৳{{number_format(Session::get('sub')) ? number_format(Session::get('sub')) : number_format(\Cart::getSubTotal())}}</li>
                                 </ul>
                             </div>
@@ -216,8 +243,8 @@ function shippingZone() {
                     console.log(data);
                     var deliveryFee = data['deliveryFee'];
                     var orderTotal = data['orderTotal'];
-                    $('#deliveryFee').empty().append("<th style='padding: 10px; font-weight: bold; font-size: 14px; color: #000000;'>" + "Delivery Fee" + "</th>" + "<td>" + "<span class='total amount'>" + "৳" + deliveryFee + "</span>" + "</td>");
-                    $('#orderTotal').empty().append("<span>" + orderTotal + "</span>");
+                    $('#deliveryFee').empty().append("<th style='padding: 10px; font-weight: bold; font-size: 14px; color: #000000;'>" + "Delivery Fee" + "</th>" + "<td>" + "<span class='total amount'>" + "+৳" + deliveryFee + "</span>" + "</td>");
+                    $('#orderTotal').empty().append("<span>" + "৳" + orderTotal + "</span>");
                 }
             });
         }
@@ -274,6 +301,33 @@ function shippingZone() {
         });
 
         });
+
+        function applyPromo(){
+            let promoCode = $("#promoCode").val();
+            alert(promoCode);
+            $.ajax({
+                url: "{{route('promo.submit')}}",
+                method: 'POST',
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    promo_code: promoCode,
+                },
+                success: function (data) {
+                    console.log(data);
+                    window.location.reload();
+                    // var deliveryFee = data['deliveryFee'];
+                    // var orderTotal = data['orderTotal'];
+                    {{--৳{{number_format(Session::get('sub')) ? number_format(Session::get('sub')) : number_format(\Cart::getSubTotal())}}--}}
+                    // $('#deliveryFee').empty().append("<th style='padding: 10px; font-weight: bold; font-size: 14px; color: #000000;'>" + "Delivery Fee" + "</th>" + "<td>" + "<span class='total amount'>" + "+৳" + deliveryFee + "</span>" + "</td>");
+                    // if(!empty(Session::get('sub'))) {
+                    // $('#orderTotal').empty().append("<span>" + "৳" + orderTotal + "</span>");
+                    // }
+                    // if(empty(Session::get('sub'))){
+                    // $('#orderTotal').empty().append("<span>" + "৳" + orderTotal + "</span>");
+                    // }
+                }
+            });
+        }
 
 
     </script>
