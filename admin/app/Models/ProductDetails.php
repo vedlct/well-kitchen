@@ -12,6 +12,7 @@ class ProductDetails extends Model
     protected $primaryKey = 'product_detailsId';
     public $timestamps = false;
 
+    protected $fillable = ['fkskuId', 'description', 'fabricDetails', 'productId'];
 
     public function product(){
         return $this->hasOne('App\Models\Product', 'productId', 'productId');

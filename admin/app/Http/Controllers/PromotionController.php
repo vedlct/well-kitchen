@@ -102,13 +102,16 @@ class PromotionController extends Controller
    
        public function promoProductInsert(Request $r){
           $length = count($r->value);
+          if($length > 0 ){
            for ($i = 0; $i < $length; $i++) {
                $promoProduct=new PromoProduct();
                $promoProduct->fkpromotionsId=$r->id;
                $promoProduct->fkproductId=$r->value[$i];
                $promoProduct->save();
            }
-           return response()->json(['success'=>'Got Simple Ajax Request.']);
+        }
+        return response()->json('success',200);
+        //    return response()->json(['success'=>'Got Simple Ajax Request.']);
       }
    
    

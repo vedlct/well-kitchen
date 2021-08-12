@@ -15,19 +15,46 @@
   iconCart.on("click", function () {
     $(".shopping-cart-content").toggleClass("cart-visible");
   });
+  
 
-  /* Slider active */
+  // home slider active
   $(".slider-active").owlCarousel({
     loop: true,
     nav: true,
-    autoplay: false,
+    dots: true,
+    autoplay: true,
+    autoplayTimeout: 7000,
     navText: [
       '<i class="fa fa-chevron-left"></i>',
       '<i class="fa fa-chevron-right"></i>',
     ],
     autoplayTimeout: 5000,
-    animateOut: "fadeOut",
-    animateIn: "fadeIn",
+    item: 1,
+    responsive: {
+      0: {
+        items: 1,
+      },
+      768: {
+        items: 1,
+      },
+      1000: {
+        items: 1,
+      },
+    },
+  });
+
+  /* Slider active */
+  $(".slider-active").owlCarousel({
+    loop: true,
+    nav: true,
+    dots: true,
+    autoplay: true,
+    autoplayTimeout: 7000,
+    navText: [
+      '<i class="fa fa-chevron-left"></i>',
+      '<i class="fa fa-chevron-right"></i>',
+    ],
+    autoplayTimeout: 5000,
     item: 1,
     responsive: {
       0: {
@@ -160,6 +187,38 @@
     },
   });
 
+    /* product-slider active */
+  $(".product-slider-active").owlCarousel({
+    loop: true,
+    nav: true,
+    autoplay: false,
+    navText: [
+      '<i class="fa fa-angle-left"></i>',
+      '<i class="fa fa-angle-right"></i>',
+    ],
+    autoplayTimeout: 5000,
+    item: 4,
+    margin: 30,
+    responsive: {
+      0: {
+        items: 2,
+        autoplay: true,
+      },
+      576: {
+        items: 2,
+      },
+      768: {
+        items: 2,
+      },
+      992: {
+        items: 3,
+      },
+      1200: {
+        items: 4,
+      },
+    },
+  });
+
   /* product-slider active */
   $(".product-slider-active").owlCarousel({
     loop: true,
@@ -198,8 +257,8 @@
     nav: false,
     autoplay: false,
     autoplayTimeout: 5000,
-    item: 4,
-    margin: 30,
+    item: 5,
+    margin: 15,
     responsive: {
       0: {
         items: 2,
@@ -215,7 +274,7 @@
         items: 3,
       },
       1200: {
-        items: 4,
+        items: 5,
       },
     },
   });
@@ -423,7 +482,7 @@
   // });
 
   $(".productDetails-slide-active").owlCarousel({
-    loop: true,
+    loop: false,
     navText: [
       "<i class='fa fa-angle-left'></i>",
       "<i class='fa fa-angle-right'></i>",
@@ -534,25 +593,25 @@
   /*---------------------
         Price slider
     --------------------- */
-  var sliderrange = $("#slider-range");
-  var amountprice = $("#amount");
-  $(function () {
-    sliderrange.slider({
-      range: true,
-      min: 0,
-      max: 10000,
-      values: [0, 10000],
-      slide: function (event, ui) {
-        amountprice.val("৳ " + ui.values[0] + " - ৳ " + ui.values[1]);
-      },
-    });
-    amountprice.val(
-      "৳ " +
-        sliderrange.slider("values", 0) +
-        " - ৳ " +
-        sliderrange.slider("values", 1)
-    );
-  });
+  // var sliderrange = $("#slider-range");
+  // var amountprice = $("#amount");
+  // $(function () {
+  //   sliderrange.slider({
+  //     range: true,
+  //     min: 0,
+  //     max: 10000,
+  //     values: [0, 10000],
+  //     slide: function (event, ui) {
+  //       amountprice.val("৳ " + ui.values[0] + " - ৳ " + ui.values[1]);
+  //     },
+  //   });
+  //   amountprice.val(
+  //     "৳ " +
+  //       sliderrange.slider("values", 0) +
+  //       " - ৳ " +
+  //       sliderrange.slider("values", 1)
+  //   );
+  // });
 
   /* Language dropdown */
   $(".language-style a").on("click", function (e) {
@@ -913,6 +972,8 @@
 function showRightNav() {
   var a = document.getElementById("showRightNav");
   a.style.left = "0";
+  var aclose = document.getElementById("rightNavClose");
+  aclose.style.left = "240px";
   document.getElementsByTagName("BODY")[0].style.overflowY = "hidden";
   document.getElementById("darkOverlay").style.display = "block";
 }
@@ -920,12 +981,16 @@ function showRightNav() {
 function hideNav() {
   var b = document.getElementById("showRightNav");
   b.style.left = "-1000px";
+  var bClose = document.getElementById("rightNavClose");
+  bClose.style.left = "-1000px";
   document.getElementsByTagName("BODY")[0].style.overflowY = "visible";
   document.getElementById("darkOverlay").style.display = "none";
 }
 function hideWithDark() {
   var b = document.getElementById("showRightNav");
   b.style.left = "-1000px";
+  var bClose = document.getElementById("rightNavClose");
+  bClose.style.left = "-1000px";
   document.getElementsByTagName("BODY")[0].style.overflowY = "visible";
   document.getElementById("darkOverlay").style.display = "none";
 }
@@ -1000,3 +1065,7 @@ function showFourCol() {
     ]
   });
   
+  // remove home slider nav and arrow disabled
+  
+  $(".slider-active .owl-nav").removeClass("disabled");
+  $(".slider-active .owl-dots").removeClass("disabled");

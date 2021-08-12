@@ -14,21 +14,24 @@ class MyProfileController extends Controller
 {
     public function index(){
         // $user = User::where('userId',Auth::user()->userId)->first();
+        $getCustomerAddress = "";
         $customer = Customer::where('fkuserId',Auth::user()->userId)->with('user')->first();
+        $user = Auth::user();
+        if(!empty($customer)){
         $getCustomerAddress = Address::where('fkcustomerId',$customer->customerId)->first();
-
-        // dd($getCustomerAddress);
-        return view('myAccount',compact('customer','getCustomerAddress'));
+        
+    }
+    return view('myAccount',compact('customer','getCustomerAddress', 'user'));
     }
 
     public function updateUserInfo(Request $request){
         // dd($request->all());
-        // $validated = $request->validate([
-        //     'name' => 'required|max:50',
-        //     'email' => 'required',
-        //     'subject' => 'required',
-        //     'message' => 'required',
-        // ]);
+        $validated = $request->validate([
+            'firstName' => 'required|max:50',
+            'lastName' => 'required',
+            'email' => 'required',
+        
+        ]);
 
 
         $user = User::where('userId',$request->userId)->first();
@@ -38,6 +41,7 @@ class MyProfileController extends Controller
         $user->save();
 
         $customer = Customer::where('fkuserId',$user->userId)->first();
+        // dd($customer);
         $customer->phone = $request->phone;
         $customer->save();
 
@@ -50,10 +54,19 @@ class MyProfileController extends Controller
         // dd($request->all());
         $user = User::where('userId',$request->userId)->first();
         $customer = Customer::where('fkuserId',$user->userId)->first();
-        $address = Address::where('fkcustomerId',$customer->customerId)->first();
-        $address->shippingAddress = $request->shippingAddress;
-        $address->billingAddress = $request->billingAddress;
-        $address->save();
+
+        $address = Address::updateOrCreate([
+            'fkcustomerId'   => $customer->customerId,
+        ],[
+            'shippingAddress'     => $request->shippingAddress,
+            'billingAddress' => $request->billingAddress,
+        ]);
+
+        // $address = Address::where('fkcustomerId',$customer->customerId)->first();
+        // $address->shippingAddress = $request->shippingAddress;
+        // $address->billingAddress = $request->billingAddress;
+
+        // $address->save();
 
         Session::flash('success','User address updated succesfully');
         return back();

@@ -7,7 +7,7 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-12">
                 <form action="#">
                     <div class="table-content table-responsive cart-table-content updatereload">
-                        <table id="cartTable">
+                        <table id="cartTable" class="cartTable">
                             <thead>
                                 <tr>
                                     <th>Image</th>
@@ -24,7 +24,7 @@
                                 {{-- @dd($item->associatedModel->sku->skuId); --}}
                                     <tr>
                                         <td class="product-thumbnail">
-                                            <a href="{{route('product.details',$item->associatedModel->sku->first()->skuId)}}"><img src="{{('admin/public/featureImage/').$item->associatedModel->featureImage}}" alt=""></a>
+                                            <a href="{{route('product.details',$item->associatedModel->sku->first()->skuId)}}"><img src="{{url('admin/public/featureImage/').$item->associatedModel->featureImage}}" alt=""></a>
                                         </td>
                                         <td class="product-name"><a href="{{route('product.details',$item->associatedModel->sku->first()->skuId)}}">{{$item->associatedModel->productName}}</a></td>
                                         <td>
@@ -118,7 +118,7 @@
                                     <li><input type="checkbox"> Express <span>$30.00</span></li>
                                 </ul>
                             </div> --}}
-                            <h4 class="grand-totall-title total">Grand Total  <span>&#2547;{{\Cart::getTotal()}}</span></h4>
+                            <h4 class="grand-totall-title total">Grand Total  <span class="">&#2547;{{\Cart::getTotal()}}</span></h4>
                             {{-- @if(empty($customer)) --}}
                             {{-- <a href="{{route('login')}}">Goto Login</a> --}}
                             

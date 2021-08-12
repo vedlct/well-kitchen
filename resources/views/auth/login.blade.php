@@ -29,9 +29,9 @@
                                         @enderror
                                         <div class="button-box">
                                             <div class="login-toggle-btn">
-                                                <input type="checkbox">
-                                                <label>Remember me</label>
-                                                <a href="#">Forgot Password?</a>
+                                                {{-- <input type="checkbox">
+                                                <label>Remember me</label> --}}
+                                                <a href=" {{route('password.request')}} ">Forgot Password?</a>
                                             </div>
                                             <button type="submit"><span>Login</span></button>
                                         </div>
@@ -46,6 +46,12 @@
                                         @csrf
                                         <input type="text" name="firstName" placeholder="Username">
                                         @error('firstName')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
+                                        <input name="phone" placeholder="phone" type="phone">
+                                        @error('phone')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                         </span>

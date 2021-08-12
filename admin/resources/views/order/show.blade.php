@@ -95,7 +95,7 @@
                                         <th scope="col">Unit Cost</th>
                                         <th scope="col">Total</th>
                                         <th scope="col">Discount</th>
-                                        @if(in_array($currentStatus = $order->orderStatusLogs->where('status','!=',NULL)->last()->status,['Delivered','Return','Complete']))
+                                        @if(in_array($currentStatus = $order->orderStatusLogs->where('status','!=',NULL)->last()->status,['1', 'Created', 'Processing', 'OnDelivery', 'Delivered', 'Return', 'Complete', 'Cancel']))
                                           <th scope="col">Action</th>
                                         @endif
                                     </tr>
@@ -103,6 +103,7 @@
                                     <tbody>
                                     @foreach ($order->orderedProduct as $key => $item)
                                         <tr>
+                                          {{-- @dd($item); --}}
                                             <td scope="row">{{++$key}}</td>
                                             <td>{{$item->sku->product->productName}}</td>
                                             <td>{{$item->sku->product->type}}</td>
@@ -111,7 +112,7 @@
                                             <td>{{$item->price}}</td>
                                             <td>{{$item->total}}</td>
                                             <td>{{$item->discount}}</td>
-                                            @if(in_array($currentStatus,['Delivered','Return','Complete']))
+                                            @if(in_array($currentStatus,['1', 'Created', 'Processing', 'OnDelivery', 'Delivered', 'Return', 'Complete', 'Cancel']))
                                                 <td >
                                                     <a href="#" onclick="returnProduct({{$item->order_itemId}})" title="Return"><i class="ft ft-corner-down-left"></i></a>
                                                 </td>
@@ -119,8 +120,10 @@
                                         </tr>  
                                     @endforeach
                                     <tr>
+                                      
                                         <td colspan="7" class="text-right"> <b>Total</b> </td>
-                                        <td>{{$order->orderTotal}}</td>
+                                        {{-- <td>{{$order->orderTotal}}</td> --}}
+                                        <td>{{$order->orderedProduct->sum('total')}}</td>
                                     </tr>
                                     <tr>
                                         <td colspan="7" class="text-right"> <b>Delivery Fee</b> </td>
@@ -128,7 +131,7 @@
                                     </tr>
                                     <tr>
                                         <td colspan="7" class="text-right"> <b>Order Total</b> </td>
-                                        <td>{{$order->orderTotal+$order->deliveryFee}}</td>
+                                        <td>{{$order->orderTotal}}</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -147,7 +150,8 @@
                                 <h4 class="card-title order-details-heading mb-0">Transaction</h4>
                               </div>
                               <div class="col-md-4 mb-1">
-                                <h4 class="text-warning">Due: {{($order->orderTotal+$order->deliveryFee) - $order->paidAmount()}}</h4>
+                                {{-- <h4 class="text-warning">Due: {{($order->orderTotal+$order->deliveryFee) - $order->paidAmount()}}</h4> --}}
+                                <h4 class="text-warning">Due: {{$order->orderTotal - $order->paidAmount()}}</h4>
                               </div>
                               <div class="col-md-4 mb-1 text-sm-right">
                                 {{-- <button type="button" class="btn btn-danger btn-min-width">Refund</button> --}}

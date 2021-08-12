@@ -39,6 +39,11 @@
                                                     <span class="text-danger"> <b>{{  $errors->first('titletext') }}</b></span>
                                                 </div>
                                                 <div class="form-group">
+                                                    <label>Page Link</label>
+                                                    <input type="text" class="form-control" placeholder="Page Link" value="{{ $slider->pageLink }}" name="pageLink">
+                                                    <span class="text-danger"> <b>{{  $errors->first('pageLink') }}</b></span>
+                                                </div>
+                                                <div class="form-group">
                                                     <label>Main Text</label>
                                                     <input type="text" class="form-control" placeholder="Main Text" value="{{ $slider->mainText }}" name="mainText">
                                                     <span class="text-danger"> <b>{{  $errors->first('mainText') }}</b></span>
@@ -52,6 +57,11 @@
                                                     <label>Slider Iamge</label>
                                                     <input type="file" class="form-control" name="sliderImage">
                                                     <span class="text-danger"> <b>{{  $errors->first('sliderImage') }}</b></span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label> Serial No</label>
+                                                    <input type="number" class="form-control" name="serial" value="{{ $slider->serial }}">
+                                                    <span class="text-danger"> <b>{{  $errors->first('serial') }}</b></span>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Status</label>

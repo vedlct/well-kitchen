@@ -40,7 +40,7 @@
 <div class="main-menu menu-fixed menu-light menu-accordion    menu-shadow " data-scroll-to-active="true" data-img="{{url('public/app-assets/images/backgrounds/02.jpg')}}">
     <div class="navbar-header">
         <ul class="nav navbar-nav flex-row">
-            <li class="nav-item mr-auto"><a class="navbar-brand" href="{{url('/')}}"><img class="brand-logo" alt="Chameleon admin logo" src="{{url('public/settingImage/',$setting->imageLink)}}"/>
+            <li class="nav-item mr-auto"><a class="navbar-brand" href="{{url('/')}}"><img class="brand-logo" alt="Wellkitchen admin logo" src="{{url('public/settingImage/',$setting->imageLink)}}"/>
                     <img style="margin-left: -5px" class="brand-text" alt="Suvastu" src="{{url('public/settingImage/',$setting->imageLink)}}"/></a></li>
             <li class="nav-item d-md-none"><a class="nav-link close-navbar"><i class="ft-x"></i></a></li>
         </ul>
@@ -94,6 +94,7 @@
             <li class="nav-item collection-li"><a href="{{ route('order.add') }}"><i class="ft ft-help-circle"></i><span class="menu-title" data-i18n="">Order Add</span></a></li>
             <li class="nav-item collection-li"><a href="{{ route('due.index') }}"><i class="ft ft-help-circle"></i><span class="menu-title" data-i18n="">Due</span></a></li>
             <li class="nav-item collection-li"><a href="{{ route('hotdeals') }}"><i class="ft ft-help-circle"></i><span class="menu-title" data-i18n="">Hot Deals</span></a></li>
+            <li class="nav-item collection-li"><a href="{{ route('promo') }}"><i class="ft ft-help-circle"></i><span class="menu-title" data-i18n="">Promo</span></a></li>
             <li class="nav-item collection-li"><a href="{{ route('promotion') }}"><i class="ft ft-help-circle"></i><span class="menu-title" data-i18n="">Promotion</span></a></li>
             <li class="nav-item collection-li"><a href="{{ route('banner.show') }}"><i class="ft ft-help-circle"></i><span class="menu-title" data-i18n="">Banner</span></a></li>
             <li class="nav-item collection-li"><a href="{{ route('report.collection') }}"><i class="ft ft-help-circle"></i><span class="menu-title" data-i18n="">Collection</span></a></li>

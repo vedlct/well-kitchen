@@ -38,6 +38,11 @@
                                                     <span class="text-danger"> <b>{{  $errors->first('titletext') }}</b></span>
                                                 </div>
                                                 <div class="form-group">
+                                                    <label>Page Link</label>
+                                                    <input type="text" class="form-control" placeholder="Page Link" value="{{ old('pageLink') }}" name="pageLink">
+                                                    <span class="text-danger"> <b>{{  $errors->first('pageLink') }}</b></span>
+                                                </div>
+                                                <div class="form-group">
                                                     <label>Main Text</label>
                                                     <input type="text" class="form-control" placeholder="Main Text" value="{{ old('mainText') }}" name="mainText">
                                                     <span class="text-danger"> <b>{{  $errors->first('mainText') }}</b></span>
@@ -51,6 +56,11 @@
                                                     <label>Slider Iamge</label>
                                                     <input type="file" class="form-control" name="sliderImage">
                                                     <span class="text-danger"> <b>{{  $errors->first('sliderImage') }}</b></span>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Serial No</label>
+                                                    <input type="text" class="form-control" name="serial">
+                                                    <span class="text-danger"> <b>{{  $errors->first('serial') }}</b></span>
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Status</label>

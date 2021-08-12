@@ -1887,7 +1887,7 @@ margin-bottom: 5px; }
   @media only screen and (max-width: 767px) {
     .header-right-wrap {
       margin-top: 2px;
-      margin-right: 50px; } }
+      margin-right: 20px; } }
   .header-right-wrap .same-style {
     margin-left: 14px;
     position: relative; }
@@ -4807,19 +4807,19 @@ margin-bottom: 5px; }
     color: #fff; }
 
 .slider-height-20 {
-  height: 750px; }
+  height: 400px; }
   @media only screen and (min-width: 1200px) and (max-width: 1365px) {
     .slider-height-20 {
-      height: 650px; } }
+      height: 400px; } }
   @media only screen and (min-width: 992px) and (max-width: 1199px) {
     .slider-height-20 {
-      height: 520px; } }
+      height: 350px; } }
   @media only screen and (min-width: 768px) and (max-width: 991px) {
     .slider-height-20 {
-      height: 450px; } }
+      height: 300px; } }
   @media only screen and (max-width: 767px) {
     .slider-height-20 {
-      height: 480px;
+      height: 280px;
       background-position: 70%; } }
   @media only screen and (min-width: 576px) and (max-width: 767px) {
     .slider-height-20 {
@@ -5572,7 +5572,17 @@ margin-bottom: 5px; }
     position: relative;
     overflow: hidden; }
     .product-wrap .product-img img {
-      width: 100%; }
+      width: 100%;
+      object-fit: cover; }
+      .shop-col-item.col-md-4 .product-wrap .product-img img {
+        height: 370px !important;
+      }
+      .shop-col-item.col-md-3 .product-wrap .product-img img {
+        height: 270px !important;
+      }
+      .shop-col-item.col-6 .product-wrap .product-img img {
+        height: 560px;
+      }
     .product-wrap .product-img span {
       position: absolute;
       top: 12px;
@@ -6858,7 +6868,9 @@ margin-bottom: 5px; }
   .product-wrap-5 .product-img {
     position: relative; }
     .product-wrap-5 .product-img a img {
-      width: 100%; }
+      width: 100%;
+      height: 210px;
+      object-fit: cover; }
     .product-wrap-5 .product-img span {
       position: absolute;
       top: 12px;
@@ -7721,7 +7733,7 @@ margin-bottom: 5px; }
 /*-------- 8. Footer style  -----*/
 .copyright .footer-logo {
   margin-bottom: 12px;
-  margin-top: 41px; }
+  margin-top: 0px; }
   @media only screen and (max-width: 767px) {
     .copyright .footer-logo {
       margin-top: 0px; } }
@@ -12269,4 +12281,19 @@ h3.cart-page-title {
       background-color: #000; }
   @media only screen and (max-width: 767px) {
     .searchform.mb-50 {
-      margin-bottom: 20px; } }
+      margin-bottom: 20px; } 
+      .product-wrap-5 .product-img a img {
+        height: 155px !important;
+      }
+      .product-wrap .product-img img {
+        height: 155px !important;
+      }
+  }
+
+.payment-method input[type=radio] {
+  height: 15px;
+  width: auto;
+}
+.header-right-wrap .same-style .search-active {
+  font-size: 23px;
+}

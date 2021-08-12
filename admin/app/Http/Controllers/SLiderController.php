@@ -45,8 +45,8 @@ class SLiderController extends Controller
         $this->validate($request, [
             // 'mainText' => 'required',
             // 'subText' => 'required',
-            'status' => 'required',
-            'sliderImage' => 'image|required_if:sliderId,null',
+            // 'status' => 'required',
+            // 'sliderImage' => 'image|required_if:sliderId,null',
         ]);
         if (isset($request->sliderId)) {
             $slider = Slider::findOrfail($request->sliderId);
@@ -54,9 +54,11 @@ class SLiderController extends Controller
             $slider = new Slider();
         }
         $slider->titletext = $request->titletext;
+        $slider->pageLink = $request->pageLink;
         $slider->mainText = $request->mainText;
         $slider->subText = $request->subText;
         $slider->status = $request->status;
+        $slider->serial = $request->serial;
         $slider->save();
         if ($request->hasFile('sliderImage')) {
             $img = $request->file('sliderImage');

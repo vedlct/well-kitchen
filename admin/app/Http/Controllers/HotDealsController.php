@@ -8,6 +8,7 @@ use App\Models\Hotdeals as ModelsHotdeals;
 use App\Models\Product;
 use App\Models\HotDealsProduct;
 use Illuminate\Http\Request;
+use DB;
 
 class HotDealsController extends Controller
 {
@@ -95,7 +96,17 @@ class HotDealsController extends Controller
 
     public function showDeals()
     {
-        $hotDeals = Hotdeals::all();
+        $hotDeals =Hotdeals::select('hotdeals.*', DB::raw('DATE_FORMAT(hotdeals.startDate, "%a, %b %D, %Y. %l: %i %p") as startdate'), 
+                    DB::raw('DATE_FORMAT(hotdeals.endDate, "%a, %b %D, %Y. %l: %i %p") as enddate'));
+        // ->get();
+// dd($hotDeals);
+
+        // $hotDeals = Hotdeals::select('hotdeals.startDate',
+            // DB::raw("date(SUM(CASE WHEN stock_record.type = 'in' AND stock_record.identifier = 'purchase' THEN stock_record.stock END), 0) as totalPurchase"),
+            // DB::raw("date('Y-m-d H:i:s', st) as startdate"),
+        //    );
+        //    dd($hotDeals->get());
+        // $hotDeals = Hotdeals::all();
         return datatables()->of($hotDeals)
             ->addColumn('status', function (Hotdeals $status) {
                 if ($status->status == "Available") {
@@ -114,24 +125,39 @@ class HotDealsController extends Controller
 
     public function delete(Request $r)
     {
-        $deals = Hotdeals::findOrFail($r->hotDealsId);
-        $dealsProduct = HotDealsProduct::where('fkhotdealsId',$r->hotDealsId)->get()
-                                                                            ->map(function($item){
-                                                                                 return $item->fkproductId;
-                                                                            });
-        $product=Product::with('sku')->whereIn('productId',$dealsProduct)->get()
-                        ->map(function($item){
-                            return $item->sku->map(function($i){
-                                return $i->skuId;
-                            });
-                    });
-        if(count( $dealsProduct)>0)
+        $hotdeals = Hotdeals::findOrFail($r->hotDealsId);
+        $dealsProducts = HotDealsProduct::where('fkhotdealsId',$r->hotDealsId)->get();
+        
+      
+        if(count( $dealsProducts)>0)
         {
-            return response()->json(['fail'=> $product]);
+            foreach($dealsProducts as $dealsProduct){
+                $dealsProduct->delete();
+            }
+            $hotdeals->delete();
         }
         else{
-        $deals->delete();
+        $hotdeals->delete();
         }
+        return response()->json();
+        // $deals = Hotdeals::findOrFail($r->hotDealsId);
+        // $dealsProduct = HotDealsProduct::where('fkhotdealsId',$r->hotDealsId)->get()
+        //                                                                     ->map(function($item){
+        //                                                                          return $item->fkproductId;
+        //                                                                     });
+        // $product=Product::with('sku')->whereIn('productId',$dealsProduct)->get()
+        //                 ->map(function($item){
+        //                     return $item->sku->map(function($i){
+        //                         return $i->skuId;
+        //                     });
+        //             });
+        // if(count( $dealsProduct)>0)
+        // {
+        //     return response()->json(['fail'=> $product]);
+        // }
+        // else{
+        // $deals->delete();
+        // }
     }
     public function showDealProduct($id){
         $dealsProduct = HotDealsProduct::with('product','hotdeals')->where('fkhotdealsId',$id)->get();
@@ -159,6 +185,7 @@ class HotDealsController extends Controller
             $quantity= $hotProducts->first()->quantity ;
         }
         HotDealsProduct::where('fkhotdealsId',$request->id)->delete();
+        if(!empty($request->value)){
         foreach ($request->value as $key => $item) {
             $hotProduct=new HotDealsProduct();
             $hotProduct->fkhotdealsId=$request->id;
@@ -166,6 +193,7 @@ class HotDealsController extends Controller
             $hotProduct->quantity=$quantity ??100;
             $hotProduct->save();
         }
+    }
 
         return response()->json('success',200);
     }

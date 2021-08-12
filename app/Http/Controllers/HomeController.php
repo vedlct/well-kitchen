@@ -2,66 +2,96 @@
 
 namespace App\Http\Controllers;
 
+use Session;
+use App\Models\Sku;
+use App\Models\Stock;
+use App\Models\Banner;
 use App\Models\Review;
-use Illuminate\Http\Request;
-use App\Models\Category;
-use App\Models\Customer;
 use App\Models\Slider;
 use App\Models\Product;
-use App\Models\Banner;
-use App\Models\Sku;
+use App\Models\Category;
+use App\Models\Customer;
+use App\Models\HotDeals;
 use App\Models\Testimonial;
-use App\Models\Stock;
+use Darryldecode\Cart\Cart;
 use App\Models\ShipmentZone;
+use Illuminate\Http\Request;
+use App\Models\HotDealsProduct;
+// use DB;
 use App\Models\ProductMostViewed;
 use Illuminate\Support\Facades\DB;
-use Darryldecode\Cart\Cart;
 use Illuminate\Support\Facades\Auth;
-// use DB;
 
 class HomeController extends Controller
 {
     public function index(){
         $dateToday = date('Y-m-d h:i:s');
-        $sliders = Slider::where('status', 'active')->get();
-        $banners = Banner::where('status', 'active')->with('promotion')->take(2)->get();
-        // $validPromotion = Promotion::where('promotionsId',$ba)
-        // dd($banners->promotion);
-        // dd($banners);
-        // // foreach($banners as $item){
-        // //     $validPromotion = $item->promotion->where('startDate', '<=', date('Y-m-d H:i:s'))->where('endDate', '>=', date('Y-m-d H:i:s'))->get();
-
-        // // }
-
-        // $mostViewedProduct = ProductMostViewed::select('fkskuId')->count()->groupBy('fkskuId')->get();
-        // dd($mostViewedProduct);
-
-        // $mostViewedProducts = DB::table('product_most_viewed')->select('fkskuId', DB::raw('count(*) as total'))->groupBy('fkskuId')->orderBy('total','DESC')->get();
-
-        // foreach($mostViewedProducts as $item){
-        //     $skuProduct = Sku::where('skuId',$item->fkskuId)->get();
-        // }
+        $sliders = Slider::where('status', 'active')->orderBy('serial', 'asc')->get();
+        // dd($sliders);
+        // $banners = Banner::with('promotion')->whereHas('promotion', function ($query){
+        //     $query->where('status', 'active')->where('startDate', '<=', date('Y-m-d H:i:s'))->where('endDate', '>=', date('Y-m-d H:i:s'));
+        // })->take(2)->get();
+        $banners = Banner::where('status', 'active')->take(2)->get();
 
         $categories = Category::where('homeShow', 1)->with('products.sku','products.hotdealProducts.hotdeals')->get();
+       // $allCategories = Category::get();
+        $catgoriesFirstShow = Category::get();
         $products = Product::with('category','sku')->where('status', 'active')->get();
 
         $skus = Sku::with('product')->whereHas('product', function ($query) {
             $query->where('status', 'active');
-        })->get();
-        $newArrival =  Product::with('sku')->where('status', 'active')->where('newarrived', 1)->get();
-        $recommendedProduct = Product::with('sku')->where('status', 'active')->where('isrecommended', 1)->get();
+        })->take(10)->get();
+
+        $newArrivals = Sku::with('product')->whereHas('product', function ($query) {
+            $query->where('status', 'active')->where('newarrived', 1);
+        })->take(10)->get();
+        // dd($newArrivalSkus);
+
+        // offer products
+        // $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->where('hotdeals.percentage', '>', 0)->first()
+        $hotDeals = HotDeals::where('hotdeals.status', 'Available')->whereDate('hotdeals.startDate', '<=', date('Y-m-d'))->whereDate('hotdeals.endDate', '>=', date('Y-m-d'))->pluck('hotDealsId');
+        $hotDealProId = HotDealsProduct::whereIn('fkhotdealsId', $hotDeals)->pluck('fkproductId');
+        $offerSkus = Sku::whereIn('fkproductId', $hotDealProId)->take(10)->get();
+
+        $recommendeds =  $newArrivalSkus = Sku::with('product')->whereHas('product', function ($query) {
+            $query->where('status', 'active')->where('isrecommended', 1);
+        })->take(10)->get();
         $testimonials = Testimonial::where('status', 'active')->where('home',1)->get();
 
-        $mostViewedProducts = DB::table('product_most_viewed')->select('fkskuId', DB::raw('count(*) as total'))->groupBy('fkskuId')->orderBy('total','DESC')->get();
-        // dd($mostViewedProducts);
-        // foreach($mostViewedProducts as $item){
-            // @dd($item->sku);
-            // $skuProduct = Sku::where('skuId', $item->fkskuId)->with('product')->get();
-            // dd($skuProduct);
-        // }
+        if(Auth::check()){
+            $mostViewedProducts = ProductMostViewed::where('fkuserId', Auth::user()->userId)->get();
+            $mostViewedProductSkuIds = ProductMostViewed::where('fkuserId', Auth::user()->userId)->pluck('fkskuId');
+            $mostViewskus = Sku::with('product')->whereIn('skuId', $mostViewedProductSkuIds)->whereHas('product', function ($query) {
+                $query->where('status', 'active');
+            })->get();
+        }else{
+            $mostViewedProducts = ProductMostViewed::where('session_id', \Request::ip())->get();
+            $mostViewedProductSkuIds = ProductMostViewed::where('session_id', \Request::ip())->latest()->pluck('fkskuId');
+            $mostViewskus = Sku::with('product')->whereIn('skuId', $mostViewedProductSkuIds)->whereHas('product', function ($query) {
+                $query->where('status', 'active');
+            })->get();
+            // dd($skus);
+        }
 
-        return view('welcome',compact('categories','products','skus','newArrival','recommendedProduct','testimonials','sliders','banners','mostViewedProducts'));
+
+
+        return view('welcome',compact('categories','catgoriesFirstShow', 'mostViewskus', 'offerSkus', 'products', 'skus', 'newArrivals', 'recommendeds', 'testimonials', 'sliders', 'banners', 'mostViewedProducts'));
     }
+
+
+    public function offers(){
+        $hotDeals = HotDeals::where('hotdeals.status', 'Available')->whereDate('hotdeals.startDate', '<=', date('Y-m-d'))->whereDate('hotdeals.endDate', '>=', date('Y-m-d'))->get();
+        return view('offers', compact('hotDeals'));
+    }
+
+    public function offersProduct($id){
+        $hotDeals = HotDeals::where('hotDealsId', $id)->first();
+        $hotDealProId = HotDealsProduct::where('fkhotdealsId', $id)->pluck('fkproductId');
+        $skus = Sku::whereIn('fkproductId', $hotDealProId)->get();
+
+        return view('offer_products', compact('skus', 'hotDeals'));
+    }
+
 
     public function quickView(Request $request){
         $sku_id = $request->sku_id;
@@ -99,6 +129,7 @@ class HomeController extends Controller
     }
 
     public function addToCart(Request $request){
+
         $stockIn=Stock::where('fkskuId',$request->_sku)->where('type', 'in')->sum('stock');
         $stockOut=Stock::where('fkskuId',$request->_sku)->where('type', 'out')->sum('stock');
         $stockAvailable = $stockIn-$stockOut;
@@ -124,18 +155,35 @@ class HomeController extends Controller
                 array_push($variations,$variation->variationDetailsdata);
             }
 
-            $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first();
+            // $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first();
+            $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->where('hotdeals.percentage', '>', 0)->first();
 
             $afterDiscountPrice = null;
-            if(!empty($hotDeal)){
+
+            if (!empty($hotDeal) && !empty($sku->discount)){
                 $percentage = $hotDeal->hotdeals->percentage;
-                $afterDiscountPrice = ($sku->salePrice) - (($sku->salePrice)*$percentage)/100;
+                $afterDiscountPrice = ($sku->regularPrice) - (($sku->regularPrice)*$percentage)/100;
             }
+
+            if (!empty($hotDeal) && empty($sku->discount)){
+                $percentage = $hotDeal->hotdeals->percentage;
+                $afterDiscountPrice = ($sku->regularPrice) - (($sku->regularPrice)*$percentage)/100;
+            }
+
+            if(empty($hotDeal) && !empty($sku->discount)){
+                $afterDiscountPrice = $sku->salePrice;
+            }
+
+
+            // if(!empty($hotDeal)){
+            //     $percentage = $hotDeal->hotdeals->percentage;
+            //     $afterDiscountPrice = ($sku->salePrice) - (($sku->salePrice)*$percentage)/100;
+            // }
 
             \Cart::add(array(
                 'id' => $sku->skuId,
                 'name' => $sku->product->productName,
-                'price' => $afterDiscountPrice ? $afterDiscountPrice : $sku->salePrice ?? '0',
+                'price' => $afterDiscountPrice ? $afterDiscountPrice : $sku->regularPrice ?? '0',
                 'quantity' =>$quantity,
                 'attributes' => array(
                     'batchId'=>$batch,
@@ -145,8 +193,10 @@ class HomeController extends Controller
             ));
 //            dd(\Cart::getContent());
             $cartPage= view('layouts.partials.cartNav')->render();
+            $cart=\Cart::getContent();
             $cartQuantity=\Cart::getContent()->count();
-            return response()->json(['cart'=>$cartPage,'cartQuantity'=>$cartQuantity],200);
+            $total = number_format(\Cart::getSubTotal());
+            return response()->json(['cartPage'=>$cartPage, 'cart'=>$cart, 'cartQuantity'=>$cartQuantity, 'total'=>$total],200);
         } else {
             return response()->json(['Quantity'=>'Stock not available'],400);
         }
@@ -166,22 +216,22 @@ class HomeController extends Controller
                     'value' => $request->_quantity,
                 )
             ]);
-            $cartPage= view('layouts.partials.cartNav')->render();
+            // $cartPage= view('layouts.partials.cartNav')->render();
+            $cartPage=\Cart::getContent();
             $cartQuantity=\Cart::getContent()->count();
-            return response()->json(['cart'=>$cartPage,'cartQuantity'=>$cartQuantity],200);
+            $total = number_format(\Cart::getSubTotal());
+            return response()->json(['cart'=>$cartPage,'cartQuantity'=>$cartQuantity,'total'=>$total],200);
         } else {
             return response()->json(['Quantity'=>'Stock not available'],400);
         }
     }
 
-
     public function removeItem(Request $request){
-
-        \Cart::remove($request->_sku);
+        \Cart::remove($request->skuId);
         $condition=\Cart::getCondition('coupon');
         if(!empty($condition)){
             $conditionSku=$condition->getAttributes();
-            if ($conditionSku['sku'] == $request->_sku) {
+            if ($conditionSku['sku'] == $request->skuId) {
                 \Cart::clearCartConditions();
             }
         }
@@ -189,11 +239,36 @@ class HomeController extends Controller
             \Cart::clear();
             \Cart::clearCartConditions();
         }
-        $cart=view('layouts.partials.cartNav')->render();
         $cartQuantity=\Cart::getContent()->count();
+        $cart=\Cart::getContent();
+        $subTotal =\Cart::getSubTotal();
+        $grandTotal =\Cart::getTotal();
 
-        return response()->json(['cart'=>$cart,'cartQuantity'=>$cartQuantity],200);
+        return response()->json(['cartQuantity'=>$cartQuantity, 'cart'=>$cart, 'subTotal'=>$subTotal, 'grandTotal'=>$grandTotal],200);
     }
+
+
+    // public function removeItem(Request $request){
+
+    //     \Cart::remove($request->_sku);
+    //     $condition=\Cart::getCondition('coupon');
+    //     if(!empty($condition)){
+    //         $conditionSku=$condition->getAttributes();
+    //         if ($conditionSku['sku'] == $request->_sku) {
+    //             \Cart::clearCartConditions();
+    //         }
+    //     }
+    //     if (\Cart::isEmpty()) {
+    //         \Cart::clear();
+    //         \Cart::clearCartConditions();
+    //     }
+    //     // $cart=view('layouts.partials.cartNav')->render();
+    //     $cart=\Cart::getContent();
+    //     $cartQuantity=\Cart::getContent()->count();
+    //     $total = number_format(\Cart::getSubTotal());
+
+    //     return response()->json(['cart'=>$cart,'cartQuantity'=>$cartQuantity, 'total'=>$total],200);
+    // }
 
     public function cartIndex()
     {

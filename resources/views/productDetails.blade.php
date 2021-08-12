@@ -5,12 +5,27 @@
         <div class="breadcrumb-content">
             <ul>
                 <li>
-                    <a href="index.html">Shop</a>
+                    <a href="{{route('home')}}">Home</a>
                 </li>
-                <li>
-                    <a href="#">Gadget</a>
-                </li>
-                <li class="active">Watch</li>
+                {{-- <li>
+                    <a href="{{route('category.products')}}">Category</a>
+                </li> --}}
+                @if($subCategory != null)
+                    @if($parentCategory != null)
+                        <li class="active"><a href="{{route('category.products', $parentCategory->categoryId)}}">{{$parentCategory->categoryName}}</a></li>
+                    @endif
+
+                        <li class="active"><a href="{{route('category.products', $subCategory->categoryId)}}">{{$subCategory->categoryName}}</a></li>
+
+                    @else
+                    @if($parentCategory != null)
+                        <li class="active"><a href="{{route('category.products', $parentCategory->categoryId)}}">{{$parentCategory->categoryName}}</a></li>
+                    @endif
+                @endif
+                @if($categoryId != null)
+                    <li class="active">{{$category->categoryName}}</li>
+                @endif
+                {{-- <li class="active">{{ $product->productName}}</li> --}}
             </ul>
         </div>
     </div>
@@ -52,22 +67,40 @@
                 <div class="product-details-content ml-70">
                     <h2>{{$product->productName}}</h2>
                     <div class="product-details-price">
-                        @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
+                        @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->where('hotdeals.percentage', '>', 0)->first()@endphp
 
-                        @if(empty($hotDeal))
-                            <span class="salePrice">৳ {{$sku->salePrice}} </span>
-                        @endif
+                        @if (empty($hotDeal) && empty($sku->discount))
+                                            <span class="salePrice">৳ {{ $sku->regularPrice }} </span>
+                                        @endif
 
-                        @if(!empty($hotDeal))
-                            @php
-                              $percentage = $hotDeal->hotdeals->percentage;
-                              $afterDiscountPrice = ($sku->salePrice) - (($sku->salePrice)*$percentage)/100;
-                            @endphp
-                            <span class="salePrice">৳ {{$afterDiscountPrice}} </span>
-                            <span class="old">৳ {{$sku->salePrice}}</span>
-{{--                            &nbsp;--}}
-                            <p class="ml-3"> -{{$percentage}}% <small style="color: #0ac282; font-weight: bold">Free</small></p>
-                        @endif
+                                        @if (!empty($hotDeal) && !empty($sku->discount))
+                                            @php
+                                                $percentage = $hotDeal->hotdeals->percentage;
+                                                $afterDiscountPrice = $sku->regularPrice - ($sku->regularPrice * $percentage) / 100;
+                                            @endphp
+
+                                            <span class="salePrice">৳ {{ $afterDiscountPrice }}</span>
+                                            <span class="old">৳ {{ $sku->regularPrice }}</span>
+                                        @endif
+
+                                        @if (!empty($hotDeal) && empty($sku->discount))
+                                            @php
+                                                $percentage = $hotDeal->hotdeals->percentage;
+                                                $afterDiscountPrice = $sku->regularPrice - ($sku->regularPrice * $percentage) / 100;
+                                            @endphp
+
+                                            <span class="salePrice">৳ {{ $afterDiscountPrice }}</span>
+                                            <span class="old">৳ {{ $sku->regularPrice }}</span>
+                                        @endif
+
+                                        @if(empty($hotDeal) && !empty($sku->discount))
+                                        @php
+                                           $afterDiscountPrice = $sku->salePrice;
+                                        @endphp
+    
+                                        <span class="salePrice">৳  {{$afterDiscountPrice}}</span>
+                                        <span class="old">৳  {{$sku->regularPrice}}</span>
+                                    @endif
 
                     </div>
                     <div class="pro-details-rating-wrap">
@@ -96,8 +129,16 @@
 
                     <div class="pro-details-size-color" >
                         <div class="pro-details-color-wrap" id="colors">
+                            {{-- @foreach($product->sku as $productsku)
+                            @foreach($productsku->variationRelation as $variationRelation)
 
+                            @if($variationRelation->variationDetailsdata->variationType == "Color") --}}
+                            @if($variationColorIds->count() > 0)
                             <span>Color</span>
+                            @endif
+                            {{-- @endif
+                            @endforeach
+                            @endforeach --}}
                             <div class="pro-details-color-content">
                                 <!-- select color -->
                                 @foreach($product->sku as $productsku)
@@ -113,7 +154,16 @@
                             </div>
                         </div>
                         <div class="pro-details-size" id="sizes">
+                            {{-- @foreach($product->sku as $productsku)
+                                @foreach($productsku->variationRelation as $variationRelation)
+
+                                @if($variationRelation->variationDetailsdata->variationType == "Size") --}}
+                                @if($variationSizeIds->count() > 0)
                             <span>Size</span>
+                            @endif
+                            {{-- @endif
+                            @endforeach
+                            @endforeach --}}
                             <div class="pro-details-size-content">
                                 <!-- select size -->
                                 @foreach($product->sku as $productsku)
@@ -136,8 +186,21 @@
                         <div class="cart-plus-minus">
                             <input class="cart-plus-minus-box" type="text" name="qtybutton" id="quantity" value="1">
                         </div>
+
+
+
+                        {{-- @if ($sku->product->type == 'single')
+                        <a href="javascript: void(0)" onclick="addTocart({{$sku->skuId}})">Add To Cart</a>
+                    @endif
+                    @if ($sku->product->type == 'variation')
+                        <a title="Add To Cart"
+                            href="{{ route('product.details', $sku->skuId) }}"><i
+                                class="pe-7s-cart"></i> Add to cart</a>
+                    @endif --}}
+
                         <div class="pro-details-cart btn-hover addtocartsku">
-                            <a href="#" onclick="addTocart({{$sku->skuId}})">Add To Cart</a>
+
+                            <a href="javascript: void(0)" onclick="addTocart({{$sku->product->type == "single" ? $sku->skuId : '0'}})">Add To Cart</a>
                         </div>
                         <div class="pro-details-wishlist">
                             <a href="#" onclick="addToWishList({{$sku->skuId}})"><i class="fa fa-heart-o"></i></a>
@@ -280,7 +343,7 @@
                                             <div class="col-md-6">
                                                 <div class="rating-form-style mb-10">
                                                     @if(Auth::check())
-                                                    <input placeholder="Name" type="hidden" name="customerId" value="{{$customer->customerId}}">
+                                                    <input placeholder="Name" type="hidden" name="customerId" value="{{$customer?$customer->customerId:''}}">
                                                     <input placeholder="Name" type="text" value="{{Auth::user()->firstName}}" readonly>
                                                     @else
                                                     <input placeholder="Name" type="text" name="customerId" required>
@@ -331,7 +394,7 @@
             {{-- @dd($skus); --}}
             @foreach ($skus as $sku)
                 @if(!empty($sku->product()))
-                @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
+                {{--  @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->where('hotdeals.percentage', '>', 0)->first()@endphp  --}}
                 <div class="product-wrap mb-25">
                     <div class="product-img">
                         <a href="{{route('product.details',$sku->skuId)}}">
@@ -341,9 +404,29 @@
                             <span class="purple">New</span>
                         @endif
 
-                        @if(!empty($hotDeal))
-                            <span class="blue discount">-{{$hotDeal->hotdeals? $hotDeal->hotdeals->percentage : ''}}%</span>
+
+
+
+                        @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->where('hotdeals.percentage', '>', 0)->first()@endphp
+                
+                        @if (!empty($hotDeal) && !empty($sku->discount))
+                        <span class="blue discount">-{{$hotDeal->hotdeals? $hotDeal->hotdeals->percentage : ''}}%</span>
                         @endif
+                        @if (!empty($hotDeal) && empty($sku->discount))
+                        <span class="blue discount">-{{$hotDeal->hotdeals? $hotDeal->hotdeals->percentage : ''}}%</span>
+                        @endif
+
+                        @if(empty($hotDeal) && !empty($sku->discount))
+                        <span class="blue discount">-{{$sku->discount}}%</span>
+                    @endif
+
+
+
+                    
+
+                        {{--  @if(!empty($hotDeal))
+                            <span class="blue discount">-{{$hotDeal->hotdeals? $hotDeal->hotdeals->percentage : ''}}%</span>
+                        @endif  --}}
 
                         @if($sku->product->isrecommended == 1)
                             <span class="pink">Feature</span>
@@ -354,7 +437,7 @@
                             </div>
                             <div class="pro-same-action pro-cart">
                                 @if($sku->product->type == "single")
-                                    <a title="Add To Cart" href="#" onclick="addTocart({{$sku->skuId}})"><i class="pe-7s-cart">Add to cart</i></a>
+                                    <a title="Add To Cart" href="javascript: void(0)" onclick="addTocart({{$sku->skuId}})"><i class="pe-7s-cart">Add to cart</i></a>
                                 @endif
                                 @if($sku->product->type == "variation")
                                     <a title="Add To Cart" href="{{route('product.details',$sku->skuId)}}" ><i class="pe-7s-cart">Add to cart</i></a>
@@ -365,30 +448,47 @@
                                    data-target="#exampleModal" data-sku_id="{{ $sku->skuId }}"
                                    class="quickView"><i class="pe-7s-look"></i></a>
                             </div>
-{{--                            <div class="pro-same-action pro-quickview">--}}
-{{--                                <a href="#" data-toggle="modal" data-target="#quickView"><i class="pe-7s-look"></i></a>--}}
-{{--                            </div>--}}
+
                         </div>
                     </div>
                     <div class="product-content text-center">
                         <h3><a href="{{route('product.details',$sku->skuId)}}">{{$sku->product->productName}}</a></h3>
                         <div class="product-price">
-{{--                            <span>৳ {{$sku->salePrice}}</span>--}}
-                            @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first()@endphp
 
-                            @if(empty($hotDeal))
-                                <span>৳ {{$sku->salePrice}} </span>
-                            @endif
+                            @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->where('hotdeals.percentage', '>', 0)->first()@endphp
 
-                            @if(!empty($hotDeal))
-                                @php
-                                    $percentage = $hotDeal->hotdeals->percentage;
-                                    $afterDiscountPrice = ($sku->salePrice) - (($sku->salePrice)*$percentage)/100;
-                                @endphp
+                        @if (empty($hotDeal) && empty($sku->discount))
+                                            <span>৳ {{ $sku->regularPrice }} </span>
+                                        @endif
 
-                                <span>৳  {{$afterDiscountPrice}}</span>
-                                <span class="old">৳  {{$sku->salePrice}}</span>
-                            @endif
+                                        @if (!empty($hotDeal) && !empty($sku->discount))
+                                            @php
+                                                $percentage = $hotDeal->hotdeals->percentage;
+                                                $afterDiscountPrice = $sku->regularPrice - ($sku->regularPrice * $percentage) / 100;
+                                            @endphp
+
+                                            <span>৳ {{ $afterDiscountPrice }}</span>
+                                            <span class="old">৳ {{ $sku->regularPrice }}</span>
+                                        @endif
+
+                                        @if (!empty($hotDeal) && empty($sku->discount))
+                                            @php
+                                                $percentage = $hotDeal->hotdeals->percentage;
+                                                $afterDiscountPrice = $sku->regularPrice - ($sku->regularPrice * $percentage) / 100;
+                                            @endphp
+
+                                            <span>৳ {{ $afterDiscountPrice }}</span>
+                                            <span class="old">৳ {{ $sku->regularPrice }}</span>
+                                        @endif
+
+                                        @if(empty($hotDeal) && !empty($sku->discount))
+                                        @php
+                                           $afterDiscountPrice = $sku->salePrice;
+                                        @endphp
+    
+                                        <span>৳  {{$afterDiscountPrice}}</span>
+                                        <span class="old">৳  {{$sku->regularPrice}}</span>
+                                    @endif
                         </div>
                     </div>
                 </div>
@@ -453,14 +553,24 @@
             success: function(data){
                 console.log(data);
                 var data = data;
-                if(data.afterDiscountPrice != null){
+                if(data.afterDiscountPrice != null && data.sku.discount != null){
                     $('.salePrice').empty().append("<span>"+"৳ "+data.afterDiscountPrice+"</span>")
-                    $('.old').empty().append("<span class='old'>"+"৳ "+data.sku.salePrice+"</span>")
+                    $('.old').empty().append("<span class='old'>"+"৳ "+data.sku.regularPrice+"</span>")
                 }
-                if(data.afterDiscountPrice == null) {
-                    $('.salePrice').empty().append("<span>" + "৳ " + data.sku.salePrice + "</span>")
+                if(data.afterDiscountPrice == null && data.sku.discount != null){
+                    $('.salePrice').empty().append("<span>"+"৳ "+data.sku.salePrice+"</span>")
+                    $('.old').empty().append("<span class='old'>"+"৳ "+data.sku.regularPrice+"</span>")
                 }
-                $('.addtocartsku').empty().append("<a href='#' onclick='addTocart("+data.sku.skuId+")'>Add To Cart</a>");
+                if(data.afterDiscountPrice != null && data.sku.discount == null) {
+                    $('.salePrice').empty().append("<span>"+"৳ "+data.afterDiscountPrice+"</span>")
+                    $('.old').empty().append("<span class='old'>"+"৳ "+data.sku.regularPrice+"</span>")
+                }
+                if(data.afterDiscountPrice == null && data.sku.discount == null) {
+                    $('.salePrice').empty().append("<span>"+"৳ "+data.sku.regularPrice+"</span>")
+                    $('.old').empty();
+                }
+
+                $('.addtocartsku').empty().append("<a href='javascript: void(0)' onclick='addTocart("+data.sku.skuId+")'>Add To Cart</a>");
                 $.each(data.variationDatas, function (key, val)
                 {
                     if(val.variation_detailsdata.variationType == "Color"){

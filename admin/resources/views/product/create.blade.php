@@ -250,8 +250,8 @@
                                                             </div>
                                                             <div id="singleSalePrice" class="col-md-4 col-lg-4 col-xl-3">
                                                                 <div class="form-group">
-                                                                    <label>Sale Price</label>
-                                                                    <input type="text" class="form-control" name="salePrice" id="salePrice" placeholder="sale price">
+                                                                    <label>Regular Price</label>
+                                                                    <input type="text" class="form-control" name="salePrice" id="salePrice" placeholder="regular price">
                                                                 </div>
                                                             </div>
                                                             <div id="singleBarcode" class="col-md-4 col-lg-4 col-xl-3">
@@ -274,6 +274,13 @@
                                                                 <div class="form-group">
                                                                     <label>Stock Alert</label>
                                                                     <input type="number" class="form-control" id="stockAlert" name="stockAlert" placeholder="stock alert">
+                                                                </div>
+                                                            </div>
+                                                            
+                                                            <div id="singleDiscount" class="col-md-4 col-lg-4 col-xl-3">
+                                                                <div class="form-group">
+                                                                    <label>Sale Price</label>
+                                                                    <input type="number" class="form-control" id="discount" name="discount" placeholder="sale price">
                                                                 </div>
                                                             </div>
                                                             <div id="productImages" class="col-md-4 col-lg-4 col-xl-3">
@@ -330,9 +337,11 @@
                                                                 <label>Variation Type</label>
                                                                 <select name="variationType1" id="variationType1" class="variationType1 form-control">
                                                                     <option value="" selected>Select Type</option>
-                                                                    <option id="color1" value="Color">Color</option>
-                                                                    <option id="size1" value="Size">Size</option>
-                                                                    <option id="other1" value="Other">Other</option>
+                                                                    @foreach($variations->unique('variationType') as $variationType)
+                                                                    <option id="color1" value="{{$variationType->variationType}}">{{$variationType->variationType}}</option>
+                                                                    @endforeach
+                                                                    {{-- <option id="size1" value="Size">Size</option> --}}
+                                                                    {{-- <option id="other1" value="Other">Other</option> --}}
                                                                 </select>
                                                                 <div class="divAjaxError" style="color: red" class="mb-2" id="variationType1Error"></div>
                                                             </div>
@@ -352,9 +361,12 @@
                                                                 <label>Variation Type</label>
                                                                 <select name="variationType2" id="variationType2" class="variationType2 form-control">
                                                                     <option value="" selected>Select Type</option>
-                                                                    <option id="color2" value="Color">Color</option>
+                                                                    @foreach($variations->unique('variationType') as $variationType)
+                                                                    <option id="color1" value="{{$variationType->variationType}}">{{$variationType->variationType}}</option>
+                                                                    @endforeach
+                                                                    {{-- <option id="color2" value="Color">Color</option>
                                                                     <option id="size2" value="Size">Size</option>
-                                                                    <option id="other2" value="Other">Other</option>
+                                                                    <option id="other2" value="Other">Other</option> --}}
                                                                 </select>
                                                                 <div class="divAjaxError" style="color: red" class="mb-2" id="variationType2Error"></div>
 
@@ -371,8 +383,8 @@
                                                         </div>
                                                         <div class="col-md-4 col-lg-4 col-xl-3">
                                                             <div class="form-group">
-                                                                <label>Sale Price</label>
-                                                                <input type="text" class="form-control" name="salePrice" id="salePrice" placeholder="sale price">
+                                                                <label>Ragular Price</label>
+                                                                <input type="text" class="form-control" name="salePrice" id="salePrice" placeholder="regular price">
                                                                 <div class="divAjaxError" style="color: red" class="mb-2" id="salePriceError"></div>
                                                             </div>
                                                         </div>
@@ -380,6 +392,12 @@
                                                             <div class="form-group">
                                                                 <label>Stock Alert</label>
                                                                 <input type="number" class="form-control" id="stockAlert" name="stockAlert" placeholder="stock alert">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                                            <div class="form-group">
+                                                                <label>Sale Price</label>
+                                                                <input type="number" class="form-control" id="discount" name="discount" placeholder="sale price">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4 col-lg-4 col-xl-3">
@@ -400,6 +418,38 @@
                                                             <div class="form-group">
                                                                 <label>Variation Image</label>
                                                                 <input type="file" id="varImage" class="form-control" name="variationImage[]" multiple>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                                            <div class="form-group">
+                                                                <br>
+                                                                <button style=" border: 1px solid #cacfe7; margin-top: 7px;  padding: 10px 5px;" class="btn w-100" type="button" data-toggle="collapse" data-target="#varDetails" aria-expanded="false" aria-controls="collapseExample">
+                                                                    Variation Details
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                                            <div class="form-group">
+                                                                <br>
+                                                                <button style=" border: 1px solid #cacfe7; margin-top: 7px;  padding: 10px 5px;" class="btn w-100" type="button" data-toggle="collapse" data-target="#variationshort" aria-expanded="false" aria-controls="collapseExample">
+                                                                    Variation Short des
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                        <div id="varDetails" class="collapse row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label for="">Variation Details</label><span style="color: red;margin-left: 5px;font-weight: bold;">*</span>
+                                                                    <textarea class="form-control" name="variationDetails" id="variationDetails"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div id="variationshort" class="collapse row">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label for="">Variation Short Description</label><span style="color: red;margin-left: 5px;font-weight: bold;">*</span>
+                                                                    <textarea class="form-control " name="variationShortDes" id="variationShortDes"></textarea>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4 col-lg-4 col-xl-3">
@@ -431,6 +481,8 @@
         $(document).ready( function () {
             CKEDITOR.replace('shortDescription');
             CKEDITOR.replace('productDetails');
+            CKEDITOR.replace('variationDetails');
+            CKEDITOR.replace('variationShortDes');
         });
         const loadFile = function(event) {
             var image = document.getElementById('output');
@@ -440,6 +492,7 @@
         $("#sub3").hide();
         $("#variationForm").hide();
         $("#singleSalePrice").hide();
+        $("#singleDiscount").hide();
         $("#singleStock").hide();
         $("#singleBarcode").hide();
         $("#productImages").hide();
@@ -517,6 +570,7 @@
             var productType = this.value;
             if(productType == 'variation'){
                 $("#singleSalePrice").hide();
+                $("#singleDiscount").hide();
                 $("#singleStock").hide();
                 $("#singleBarcode").hide();
                 $("#productImages").hide();
@@ -527,6 +581,7 @@
 
             }else if(productType == 'single'){
                 $("#singleSalePrice").show();
+                $("#singleDiscount").show();
                 $("#singleStock").show();
                 $("#singleBarcode").show();
                 $("#productImages").show();
@@ -536,6 +591,7 @@
                 $("#variationForm").hide();
                 $("#submitBtn1").show();
                 $("#singleSalePrice").hide();
+                $("#singleDiscount").hide();
                 $("#singleBarcode").hide();
                 $("#productImages").hide();
                 $("#singleStock").hide();
@@ -610,6 +666,9 @@
         // Temp Variation Store
         $( "#variationStore" ).on( "submit", function(e) {
             e.preventDefault();
+            for ( instance in CKEDITOR.instances ) {
+                CKEDITOR.instances[instance].updateElement();
+            }
             $.ajax({
                 type: "POST",
                 url: "{{route('product.variation.store')}}",

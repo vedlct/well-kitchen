@@ -29,12 +29,21 @@
 </head>
 
 <body class="position-relative">
+
+      <!-- preloader start -->
+    <div class="loader_bg">
+        <div class="loader"></div>
+    </div>
+
     <!-- category for mobile start -->
     <div class="dark-overlay" id="darkOverlay" onclick="hideWithDark()"></div>
+    <div class="toggle-nav-cross" id="rightNavClose" onclick="hideWithDark()">
+        <i class="fa fa-times close-icon"></i>
+    </div>
     <section class="right-toogle-nav" id="showRightNav">
         <div class="inner">
             <ul class="list-unstyled all-item">
-                @foreach($allCategories->where('parent',null) as $key => $parentCategory)
+                {{-- @foreach($allCategories->where('parent',null) as $key => $parentCategory)
                 <li>
                     <a class="d-block" data-toggle="collapse" href="#showCategorySubmenu{{$key}} " role="button" aria-expanded="false" aria-controls="showCategorySubmenu">{{ $parentCategory->categoryName }}
                       <i class="fa fa-angle-right float-right"></i>
@@ -48,7 +57,7 @@
 
                                 <div class="collapse" id="showCategorySubmenu{{$keyItem}}">
                                     <ul class="ml-3">
-                                        @foreach($subSubCategories->where('subParent', $subCategory->categoryId) as $subParentCategory)
+                                            @foreach($subSubCategories->where('subParent', $subCategory->categoryId) as $subParentCategory)
                                         <li>
                                         <a href="{{route('category.products', $subParentCategory->categoryId)}}"> {{ $subParentCategory->categoryName }}</a>
                                         </li>
@@ -60,7 +69,91 @@
                         </ul>
                     </div>
                  </li>
+                @endforeach --}}
+
+                @foreach($allCategories as $key => $parentCategory)
+                <li>
+                    <!-- parent category -->
+                    @if(($subCategories->where('parent', $parentCategory->categoryId))->count() > 0 )
+                    <a class="d-block collapsed" data-toggle="collapse" href="#one{{$key}} " role="button" aria-expanded="false" aria-controls="showCategorySubmenu">{{ $parentCategory->categoryName }}
+                        <i class="fa fa-angle-right float-right"></i>
+                    </a>
+                    @else
+                    <a  href="{{route('category.products', $parentCategory->categoryId)}}">{{ $parentCategory->categoryName }}</a>
+                    @endif
+
+                    <!-- sub category -->
+                    <div class="collapse" id="one{{$key}}" style="">
+                        <ul class="ml-3">
+                            @foreach($subCategories->where('parent', $parentCategory->categoryId) as $keyItem => $subCategory)
+                        <li>
+                            @if($subSubCategories->where('subParent', $subCategory->categoryId)->count() > 0)
+
+                            <a  href="{{route('category.products', $parentCategory->categoryId)}}" >View All</a>
+
+                            <a class="d-block collapsed" data-toggle="collapse" href="#oneTwo{{$keyItem}} " role="button" aria-expanded="false" aria-controls="showCategorySubmenu">{{ $subCategory->categoryName }}
+
+                                <i class="fa fa-angle-right float-right"></i>
+
+                            </a>
+                            @else
+                            <a  href="{{route('category.products', $subCategory->categoryId)}}" >{{ $subCategory->categoryName }}</a>
+                            @endif
+                            <!-- sub sub category -->
+                            <div class="collapse" id="oneTwo{{$keyItem}}" style="">
+                                <ul class="ml-3">
+                                    @foreach($subSubCategories->where('subParent', $subCategory->categoryId) as $subParentCategory)
+                                    <li>
+                                        <a  href="{{route('category.products', $subCategory->categoryId)}}" >View All</a>
+                                        <a href="{{route('category.products', $subParentCategory->categoryId)}}"> {{ $subParentCategory->categoryName }}</a>
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </li>
+                            @endforeach
+
+                        </ul>
+                    </div>
+                </li>
                 @endforeach
+                <li><a href="{{url('/')}}">Home</a>
+                    <li><a href="{{route('contact')}}">Contact</a>
+                    <li><a href="{{route('offers')}}">Offers</a>
+                        @foreach($menu->where('menuType','Header')->sortByDesc('menuOrder')->take(8) as $headerMenu)
+                            <li><a href="{{route('page',$headerMenu->fkpageId)}}">{{$headerMenu->menuName}}</a>
+                        @endforeach
+
+                <!-- demo category start -->
+                {{-- <li>
+                    <!-- parent category -->
+                    <a class="d-block collapsed" data-toggle="collapse" href="#one " role="button" aria-expanded="false" aria-controls="showCategorySubmenu">Home Appliances
+                      <i class="fa fa-angle-right float-right"></i>
+                    </a>
+                    <!-- sub category -->
+                    <div class="collapse" id="one" style="">
+                        <ul class="ml-3">
+                        <li>
+                            <a class="d-block collapsed" data-toggle="collapse" href="#oneTwo " role="button" aria-expanded="false" aria-controls="showCategorySubmenu">Home Appliances
+                                <i class="fa fa-angle-right float-right"></i>
+                            </a>
+                            <!-- sub sub category -->
+                            <div class="collapse" id="oneTwo" style="">
+                                <ul class="ml-3">
+                                    <li>
+                                        <a href="http://localhost/well-kitchen/categories/9"> skin powder</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="http://localhost/well-kitchen/categories/9"> skin powder</a>
+                        </li>
+                        </ul>
+                    </div>
+                </li> --}}
+                <!-- demo category end -->
+
             </ul>
             <div class="bottom-area py-3">
                 <div class="fb-page-like p-2 pl-3">
@@ -95,7 +188,7 @@
                         </div>
                     </div>
                     <div class="header-offer">
-                        <p>Free delivery on order over <span>&#2547;500</span></p>
+                        {{-- <p>Free delivery on order over <span>&#2547;{{$setting->free_delivery_on_order_over_tk}}</span></p> --}}
                     </div>
                 </div>
             </div>
@@ -135,14 +228,15 @@
                         <!-- another all items here -->
                         <div class="header-right-wrap">
                             <div class="same-style header-search d-lg-none">
-                                <a class="search-active" href="#"><i class="pe-7s-search"></i></a>
-                                <div class="search-content">
-                                    <form action="{{route('search.product')}}" method="POST">
-                                        @csrf
-                                        <input type="text" placeholder="Search " name="allSearch" id="search" value="{{Session::get('search')}}" />
-                                        <button class="button-search"><i class="pe-7s-search"></i></button>
-                                    </form>
-                                </div>
+                            <a class="search-active" href="#"><i class="pe-7s-search"></i></a>
+
+                            <div class="search-content">
+                                <form action="{{route('search.product')}}" method="POST">
+                                    @csrf
+                                    <input type="text" placeholder="Search asdf" name="allSearch" id="search" value="{{Session::get('search')}}" />
+                                    <button class="button-search" type="submit"><i class="pe-7s-search"></i></button>
+                                </form>
+                            </div>
                             </div>
                             <div class="same-style account-satting">
                                 <a class="account-satting-active" href="#"><i class="pe-7s-user-female"></i></a>
@@ -152,7 +246,9 @@
                                             <li><a href="{{url('login')}}">Login/Register</a></li>
                                         @else
                                         <li><a href="">Hello,{{Auth::user()->firstName}}</a></li>
-                                        <li><a href="{{url('my-order')}}">My Orders</a></li>
+                                        @if(Auth::user()->userType->typeName == 'customer')
+                                        <li><a href="{{route('myOrder')}}">My Orders  </a></li>
+                                        @endif
                                         <li><a href="{{route('profile')}}">my account</a></li>
                                         @endif
                                         @auth
@@ -165,7 +261,24 @@
                                 </div>
                             </div>
                             <div class="same-style header-wishlist">
-                                <a href="{{route('wishlist')}}"><i class="pe-7s-like"></i></a>
+                                
+                                <a href="{{route('wishlist')}}"><i class="pe-7s-like">
+                                    <sup style="
+                                    position: absolute;
+                                    top: -9px;
+                                    right: -12px;
+                                    background-color: #000;
+                                    color: #fff;
+                                    display: inline-block;
+                                    width: 21px;
+                                    height: 21px;
+                                    border-radius: 100%;
+                                    line-height: 21px;
+                                    font-size: 12px;
+                                    text-align: center;
+                                    ">@auth {{ $wishlist }} @endauth @guest 0 @endguest
+                                </sup></i>
+                                </a>
                             </div>
 
 
@@ -174,9 +287,9 @@
                             </div> --}}
 
                             <div class="same-style cart-wrap" >
-                                <button class="icon-cart" onclick="showNav()">
+                                <button class="icon-cart" id="headerCartBag" onclick="showNav()">
                                     <i class="pe-7s-shopbag"></i>
-                                   <span class="count-style" > {{\Cart::getContent()->count()}}</span>
+                                   <span class="count-style headerCartBag" > {{\Cart::getContent()->count()}}</span>
                                 </button>
                                 <!-- <div class="shopping-cart-content">
                                     <div class="full-wrapper position-relative">
@@ -258,8 +371,38 @@
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-3">
+
+                        <div class="category-collapse-new @if(Request::path() == '/') if-home @endif">
+                            <!-- category name -->
+                            <a href="javascript: void(0)" class="heading w-100"><i class="fa fa-bars mr-2"></i> All
+                                Category</a>
+                            <!-- parent category -->
+                            <ul class="parent-category list-group list-group-flush">
+                                @foreach($allCategories as $parentCategory)
+                                    <li class="list-group-item @if($subCategories->where('parent', $parentCategory->categoryId)->count() > 0) has-sub-category @endif">
+                                        <a href="{{route('category.products', $parentCategory->categoryId)}}" class="d-block">
+                                            {{ $parentCategory->categoryName }} 
+                                            @if($subCategories->where('parent', $parentCategory->categoryId)->count() > 0)
+                                                <i class="fa fa-angle-right float-right"></i>
+                                            @endif
+                                        </a>
+                                        <!-- sub category -->
+                                        @foreach($subCategories->where('parent', $parentCategory->categoryId) as $subCategory)
+                                            <ul class="sub-category list-group list-group-flush">
+                                                @foreach($subCategories->where('parent', $parentCategory->categoryId) as $subCategory)
+                                                    <li class="list-group-item">
+                                                        <a href="{{route('category.products', $subCategory->categoryId)}}">{{ $subCategory->categoryName }}</a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @endforeach
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+
                         <!-- category menu items -->
-                        <div class="category-collapse">
+                        <!-- <div class="category-collapse">
                             <ul class="menuH">
                                 <li class="home-nav-category-btn"><a href="#" class="arrow heading w-100"><i class="fa fa-bars mr-2"></i> All
                                         Category</a>
@@ -269,11 +412,23 @@
                                       <ul>
                                 @endif
                                         @foreach($allCategories as $parentCategory)
-                                        <li><a href="{{route('category.products', $parentCategory->categoryId)}}">{{ $parentCategory->categoryName }} <i class="fa fa-angle-right float-right"></i></a>
+                                        <li>
+
+                                            <a href="{{route('category.products', $parentCategory->categoryId)}}">{{ $parentCategory->categoryName }}
+                                                @if($subCategories->where('parent', $parentCategory->categoryId)->count() > 0)
+                                                <i class="fa fa-angle-right float-right"></i>
+                                                @endif
+                                            </a>
                                             @foreach($subCategories->where('parent', $parentCategory->categoryId) as $subCategory)
                                             <ul>
                                                 @foreach($subCategories->where('parent', $parentCategory->categoryId) as $subCategory)
-                                                <li><a href="{{route('category.products', $subCategory->categoryId)}}">{{ $subCategory->categoryName }} </a>
+                                                <li>
+
+                                                    <a href="{{route('category.products', $subCategory->categoryId)}}">{{ $subCategory->categoryName }}
+                                                        @if($subSubCategories->where('subParent', $subCategory->categoryId)->count() > 0)
+                                                        <i class="fa fa-angle-right float-right"></i>
+                                                        @endif
+                                                    </a>
                                                     @foreach($subSubCategories->where('subParent', $subCategory->categoryId) as $subParentCategory)
                                                     <ul>
                                                         @foreach($subSubCategories->where('subParent', $subCategory->categoryId) as $subParentCategory)
@@ -292,7 +447,7 @@
                                     </ul>
                                 </li>
                             </ul>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="col-lg-6">
                         <!-- main menu for desktop -->
@@ -301,6 +456,7 @@
                                 <ul>
                                     <li><a href="{{url('/')}}">Home</a>
                                     <li><a href="{{route('contact')}}">Contact</a>
+                                    <li><a href="{{route('offers')}}">Offers</a>
                                     @foreach($menu->where('menuType','Header')->sortByDesc('menuOrder')->take(8) as $headerMenu)
 
                                     {{-- <li><a href="{{url('/')}}">Home</a>
@@ -333,9 +489,10 @@
                             <div class="same-style header-search d-none">
                                 <a class="search-active" href="#"><i class="pe-7s-search"></i></a>
                                 <div class="search-content">
-                                    <form action="#">
-                                        <input type="text" placeholder="Search" />
-                                        <button class="button-search"><i class="pe-7s-search"></i></button>
+                                    <form action="{{route('search.product')}}" method="POST">
+                                        @csrf
+                                        <input type="text" placeholder="Search" name="allSearch" id="search" value="{{Session::get('search')}}" />
+                                        <button class="button-search" type="submit"><i class="pe-7s-search"></i></button>
                                     </form>
                                 </div>
                             </div>
@@ -356,3 +513,32 @@
     </header>
 
     @yield('header')
+
+
+      <!-- Messenger Chat Plugin Code -->
+      <div id="fb-root"></div>
+
+      <!-- Your Chat Plugin code -->
+      <div id="fb-customer-chat" class="fb-customerchat">
+      </div>
+
+      <script>
+          var chatbox = document.getElementById('fb-customer-chat');
+          chatbox.setAttribute("page_id", "102834201806066");
+          chatbox.setAttribute("attribution", "biz_inbox");
+
+          window.fbAsyncInit = function() {
+              FB.init({
+                  xfbml            : true,
+                  version          : 'v11.0'
+              });
+          };
+
+          (function(d, s, id) {
+              var js, fjs = d.getElementsByTagName(s)[0];
+              if (d.getElementById(id)) return;
+              js = d.createElement(s); js.id = id;
+              js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+              fjs.parentNode.insertBefore(js, fjs);
+          }(document, 'script', 'facebook-jssdk'));
+      </script>

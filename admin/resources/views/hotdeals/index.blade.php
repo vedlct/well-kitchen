@@ -84,8 +84,8 @@
                     {title:'Status',data: 'status', name: 'status', class: 'text-center'},
                     {title:'Action', data: function (data) {
                         return '<a class="btn btn-info btn-sm" data-panel-id="' + data.hotDealsId + '" onclick="editDeals(this)"><i class="ft-edit"></i></a>' +
-                            '<a class="btn btn-warning btn-sm mr-1 ml-1" data-panel-id="'+data.hotDealsId+'" onclick="HotproductDetails(this)"> <i class="ft ft-eye"></i></a>'
-                            // '<button type="button" class="btn btn-danger btn-sm" data-panel-id2="' + data.hotDealsId + '" onclick="deleteDeals(this)"> <i class="fa fa-trash "></i> </button>'
+                            '<a class="btn btn-warning btn-sm mr-1 ml-1" data-panel-id="'+data.hotDealsId+'" onclick="HotproductDetails(this)"> <i class="ft ft-eye"></i></a>'+
+                             '<button type="button" class="btn btn-danger btn-sm" data-panel-id2="' + data.hotDealsId + '" onclick="deleteDeals(this)"> <i class="ft ft-trash "></i> </button>'
                             ;
                     },
                     orderable: false, searchable: false, class: 'text-center'
@@ -118,6 +118,24 @@
         //         }
         //     });
         // }
+
+        function deleteDeals(x){
+            btn = $(x).data('panel-id2');
+            
+            if(!confirm("Delete This Hot-Deal?")){
+                         return false;
+                     }
+                     $.ajax({
+                         type: 'POST',
+                         url: "{!! route('hotdeals.delete') !!}",
+                         cache: false,
+                         data: {_token: "{{csrf_token()}}",'hotDealsId': btn},
+                         success: function (data) {
+                             toastr.success('Hotdeal deleted Successfully');
+                             $('#hotDealsTable').DataTable().clear().draw();
+                         }
+                     });
+        }
 
         function HotproductDetails(x){
             btn = $(x).data('panel-id');

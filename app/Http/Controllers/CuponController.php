@@ -2,16 +2,40 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Promo;
 use Illuminate\Http\Request;
 use App\Models\Promotion;
 use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Support\Facades\Auth;
 use Darryldecode\Cart\Cart;
+use Session;
 
 
 class CuponController extends Controller
 {
+
+    public function promoSubmit(Request $request){
+        $this->validate($request, [
+           'promo_code' => 'required'
+        ]);
+
+        $promo_code = preg_replace('/\s/', '', $request->promo_code);
+
+        $promo= Promo::where('promo_code', $promo_code)->where('status', 'active')->whereDate('start_date', '<=', date('Y-m-d'))->whereDate('end_date', '>=', date('Y-m-d'))->where('discount', '>', 0)->first();
+        $cartTotal = (\Cart::getSubTotal()*$promo->discount)/100;
+        $newTotal = \Cart::getSubTotal() - $cartTotal;
+        Session::put('sub', $newTotal);
+        return back();
+//        dd(Session::get('sub'));
+//        $cartProduct = \Cart::getContent();
+//        foreach ($cartProduct as $cartProductData){
+//            $discount = $cartProductData['price'] * ($promo->percentage/100);
+//        }
+    }
+
+
+
     public function couponSubmit(Request $data){
         $this->validate($data, [
             'couponCode' => 'required'
@@ -20,16 +44,16 @@ class CuponController extends Controller
         $promotion = Promotion::with('promoProduct')->where('promotionCode',$couponCode)->first();
         if(!empty($promotion)){
             if ((date('Y-m-d h:i:s') >= $promotion->startDate) && (date('Y-m-d h:i:s') <= $promotion->endDate)){
-               
+
                 if($promotion->status == 'active'){
-                  
+
                     if(Auth::check()){
                         $customerID = Customer::where('fkuserId',Auth::user()->userId)->first()->customerId;
                     }else{
                         return redirect()->route('login');
                     }
                     // limit
-                
+
                     $usedBefore = Order::where('fkcustomerId',$customerID)->where('discount',$couponCode)->count();
                     // dd($usedBefore);
                     if ($promotion->useLimit > $usedBefore){
@@ -45,8 +69,7 @@ class CuponController extends Controller
                                                 $discount = $cartProductData['price'] * ($promotion->percentage/100);
                                             }elseif (is_null($promotion->percentage)){
                                                 if($cartProductData['price'] < $promotion->amount){
-                                                    session()->flash('message','This coupon amount is bigger than product price.');
-                                                    session()->flash('alert-class','alert-warning');
+                                                    Session::flash('warning', 'This coupon amount is bigger than product price.');
                                                     break;
                                                 }else{
                                                     $discount = $promotion->amount;
@@ -62,32 +85,25 @@ class CuponController extends Controller
                                         }
                                     }
                                 }
-                                session()->flash('message','Coupon applied successful.');
-                                session()->flash('alert-class','alert-success');
+                                Session::flash('success', 'Coupon applied successful.');
                             }else{
-                                session()->flash('message','You can not use more than one coupon at a time.');
-                                session()->flash('alert-class','alert-danger');
+                                Session::flash('warning', 'You can not use more than one coupon at a time.');
                             }
                         }else{
-                            session()->flash('message','This coupon is not applicable for your shopping cart.');
-                            session()->flash('alert-class','alert-warning');
+                            Session::flash('warning', 'This coupon is not applicable for your shopping cart');
                         }
 
                     }else{
-                            session()->flash('message','You have reached the this coupon usage limit.');
-                            session()->flash('alert-class','alert-danger');
+                            Session::flash('warning', 'You have reached the this coupon usage limit');
                         }
                 }elseif($promotion->status == 'Inactive'){
-                    session()->flash('message','This coupon is not active now.');
-                    session()->flash('alert-class','alert-danger');
+                    Session::flash('warning', 'This coupon is not active now');
                 }
             }else{
-                session()->flash('message','This coupon has been expired.');
-                session()->flash('alert-class','alert-danger');
+                Session::flash('warning', 'This coupon has been expired.');
             }
         }else{
-            session()->flash('message','Invalid coupon code.');
-            session()->flash('alert-class','alert-danger');
+            Session::flash('warning', 'Invalid coupon code.');
         }
         // return 'ok';
         return back();

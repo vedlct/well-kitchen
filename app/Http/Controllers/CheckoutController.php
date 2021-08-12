@@ -26,7 +26,9 @@ class CheckoutController extends Controller
         if (Auth::check()) {
             $customer = Customer::where('fkuserId', Auth::user()->userId)->with('address', 'order', 'user')->first();
             return view('checkout', compact('customer', 'shipmentZone'));
+
         }
+
         return view('checkout', compact('shipmentZone'));
     }
 
@@ -40,22 +42,28 @@ class CheckoutController extends Controller
 
     public function searchUserByPhone(Request $request)
     {
-        // dd($request->phone);
         $phone = $request->phone;
-        $customer = Customer::where('phone', $phone)->with('user', 'address')->get();
-        // dd($customer);
+        $customer = Customer::where('phone', $phone)->first();
         if ($customer != null) {
-            $user = $customer->first();
-            return response()->json(['user' => $user, 'customer' => $customer]);
+            $user = $customer->user()->first();
+            $shippingAddress = $customer->address()->orderBy('addressId', 'DESC')->first();
+            return response()->json(['user' => $user, 'customer' => $customer, 'shippingAddress' => $shippingAddress]);
         }
 
-        return response()->json(['customer' => $customer], 200);
+        return response()->json(['customer' => $customer]);
     }
 
     public function shippingZone(Request $request)
     {
         $deliveryFee = Charges::where('fkshipment_zoneId', $request->shipping_zone)->pluck('deliveryFee')->first();
+        if(!empty(Session::get('sub'))){
+        $orderTotal = number_format(Session::get('sub') + $deliveryFee);
+        }
+
+        if(empty(Session::get('sub'))){
         $orderTotal = number_format(\Cart::getSubTotal() + $deliveryFee);
+        }
+
 
         return response()->json(['deliveryFee' => $deliveryFee, 'orderTotal' => $orderTotal]);
     }
@@ -73,7 +81,13 @@ class CheckoutController extends Controller
             'billingAddress' => 'required',
         ]);
 
-        $customer = Customer::where('phone', $request->phone)->first();
+        if(!Auth::user()){
+            $customer = Customer::where('phone', $request->phone)->first();
+        }
+        if(Auth::user()){
+            $customer = Customer::where('fkuserId', Auth::user()->userId)->first();
+        }
+
 // dd($customer);
 
             if(!Auth::user() && empty($customer)){
@@ -81,7 +95,8 @@ class CheckoutController extends Controller
                 $guestUser->firstName = $request->first_name;
                 $guestUser->lastName = $request->last_name;
                 $guestUser->email = $request->email;
-                $guestUser->password = Hash::make('123456');
+                // $guestUser->password = Hash::make('123456');
+                $guestUser->password = bcrypt($request->password);
                 $guestUser->fkuserTypeId = 2;
                 $guestUser->save();
 
@@ -93,23 +108,17 @@ class CheckoutController extends Controller
 
                 $address = new Address();
                 $address->billingAddress = $request->billingAddress;
-                $address->shippingAddress = $request->billingAddress;
+                if($request->shipping == 'on'){
+                    $address->shippingAddress = $request->diffshippingAddress;
+                }else{
+
+                    $address->shippingAddress = $request->billingAddress;
+                }
                 $address->fkcustomerId  = $customer->customerId;
                 $address->fkshipment_zoneId  = $request->fkshipment_zoneId;
                 $address->save();
 
-                Session::flash('success', 'User Registered & Place Order Successfully complete');
-            }else{
-                if($request->shipping == 'on'){
-                    $address = new Address();
-                    $address->billingAddress = $request->billingAddress;
-                    $address->shippingAddress = $request->diffshippingAddress;
-                    $address->fkcustomerId  = $customer->customerId;
-                    $address->fkshipment_zoneId  = $request->fkshipment_zoneId;
-                    $address->save();
-                }
             }
-
 
 
         $deliveryFee = 0;
@@ -120,9 +129,15 @@ class CheckoutController extends Controller
         $order->fkcustomerId = $customer->customerId;
         $order->note = $request->message;
         $order->deliveryFee = $deliveryFee;
-        $order->orderTotal = \Cart::getSubTotal() + $deliveryFee;
+        if(!empty(Session::get('sub'))) {
+            $order->orderTotal = Session::get('sub') + $deliveryFee;
+        }
+        if(empty(Session::get('sub'))){
+            $order->orderTotal = \Cart::getSubTotal() + $deliveryFee;
+        }
         // $order->paymentType = 'cod';
         $order->payment_status = 'unpaid';
+        $order->payment_type = $request->payment;
         // $order->delivery_commission_type = 'taka';
         $order->save();
 
@@ -133,11 +148,14 @@ class CheckoutController extends Controller
         $order_status_log->save();
 
         foreach (\Cart::getContent() as $cartData) {
+            // @dd($cartData);
             $q = $cartData['quantity'];
             // dd($q);
             $order_item = new OrderProduct();
             $order_item->fkorderId = $order->orderId;
             $order_item->quiantity = $cartData->quantity;
+            $order_item->price = $cartData->price;
+            $order_item->total = $cartData->price * $cartData->quantity;
             $order_item->fkskuId = $cartData->id;
             $order_item->save();
 
@@ -160,8 +178,8 @@ class CheckoutController extends Controller
 
             $batch = Batch::where('batchId', $batchId)->pluck('batchId')->first();
             $price = Batch::where('batchId', $batchId)->pluck('salePrice')->first();
-            $order_item->price = $price;
-            $order_item->total = $q * $price;
+            // $order_item->price = $price;
+            // $order_item->total = $q * $price;
             $order_item->batch_id = $batch;
             $order_item->save();
 
@@ -183,8 +201,9 @@ class CheckoutController extends Controller
         }
 
         \Cart::clear();
+        Session::flash('success', 'Order placed successfully');
 
-        return back();
+        return redirect('/');
     }
 
     public function OrderStock($quantity, $sku, $order, $order_item){

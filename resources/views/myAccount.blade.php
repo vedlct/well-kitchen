@@ -14,7 +14,7 @@
                                 <div class="panel-body">
                                 <form action="{{route('userinfo.update')}}" method="post"> 
                                     @csrf
-                                    <input type="hidden" name="userId" value="{{$customer->user->userId}}">
+                                    <input type="hidden" name="userId" value="{{$user->userId}}">
                                     <div class="myaccount-info-wrapper">
                                         <div class="account-info-wrapper">
                                             <h5>Your Personal Details</h5>
@@ -23,25 +23,26 @@
                                             <div class="col-lg-6 col-md-6">
                                                 <div class="billing-info">
                                                     <label>First Name</label>
-                                                    <input type="text" name="firstName" value=" {{$customer->user->firstName}} ">
+                                                    <input type="text" name="firstName" value=" {{$user->firstName}} ">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6">
                                                 <div class="billing-info">
                                                     <label>Last Name</label>
-                                                    <input type="text" name="lastName" value=" {{$customer->user->lastName}}">
+                                                    <input type="text" name="lastName" value=" {{$user->lastName}}">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-12">
                                                 <div class="billing-info">
                                                     <label>Email Address</label>
-                                                    <input type="email" name="email" value=" {{$customer->user->email}}">
+                                                    <input type="email" name="email" value=" {{$user->email}}">
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6">
                                                 <div class="billing-info">
                                                     <label>Phone</label>
-                                                    <input type="text" name="phone" value="{{$customer->phone}}">
+                                                    {{-- <input type="text" name="phone" value="{{$customer?$customer->phone:''}}"> --}}
+                                                    <input type="text" name="phone" value="{{$user->phone}}">
                                                 </div>
                                             </div>
                                         </div>
@@ -54,7 +55,7 @@
                                 </form>
                                 <form method="POST" action=" {{route('address.update')}} ">
                                     @csrf
-                                    <input type="hidden" name="userId" value="{{$customer->user->userId}}">
+                                    <input type="hidden" name="userId" value="{{$user->userId}}">
                                     <div class="myaccount-info-wrapper">
                                         <div class="account-info-wrapper">
                                             <h5>Your Shipping & Billing Address</h5>
@@ -63,14 +64,14 @@
                                             <div class="col-lg-12">
                                                 <div class="billing-info mb-20">
                                                     <label>Shipping Address</label>
-                                                    <input class="billing-address mb-3" placeholder="House number and street name" type="text" name="shippingAddress" value=" {{$getCustomerAddress->shippingAddress}}">
+                                                    <input class="billing-address mb-3" placeholder="House number and street name" type="text" name="shippingAddress" value=" {{$getCustomerAddress? $getCustomerAddress->shippingAddress : ''}}">
                                                     {{-- <input placeholder="Apartment, suite, unit etc." type="text"> --}}
                                                 </div>
                                             </div>
                                             <div class="col-lg-12">
                                                 <div class="billing-info mb-20">
                                                     <label>Billing Address</label>
-                                                    <input type="text" name="billingAddress" value=" {{$getCustomerAddress->billingAddress}}">
+                                                    <input type="text" name="billingAddress" value=" {{$getCustomerAddress?$getCustomerAddress->billingAddress:''}}">
                                                 </div>
                                             </div>
                                         </div>
@@ -90,9 +91,9 @@
                             </div>
                             <div id="my-account-2" class="panel-collapse collapse">
                                 <div class="panel-body">
-                                 <form method="post" action=" {{route('password.update')}} ">
+                                 <form method="post" action=" {{route('profile.password.update')}} ">
                                     @csrf
-                                    <input type="hidden" name="email" value="{{$customer->user->email}}">
+                                    <input type="hidden" name="email" value="{{$user->email}}">
                                     <div class="myaccount-info-wrapper">
                                         <div class="account-info-wrapper">
                                             <h4>Change Password</h4>
@@ -147,13 +148,13 @@
                                                 <div class="col-lg-6 col-md-6 d-flex align-items-center justify-content-center">
                                                     <div class="entries-info text-center">
                                                         <h4>Shipping Address:</h4>
-                                                        <p>{{$getCustomerAddress->shippingAddress}}</p>
+                                                        <p>{{$getCustomerAddress?$getCustomerAddress->shippingAddress:''}}</p>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 d-flex align-items-center justify-content-center">
                                                     <div class="entries-info text-center">
                                                         <h4>Billing Address:</h4>
-                                                        <p>{{$getCustomerAddress->billingAddress}} </p>
+                                                        <p>{{$getCustomerAddress?$getCustomerAddress->billingAddress:''}} </p>
                                                     </div>
                                                 </div>
                                             </div>

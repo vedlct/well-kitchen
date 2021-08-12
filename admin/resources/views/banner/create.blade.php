@@ -38,6 +38,11 @@
                                                     <span class="text-danger"> <b>{{  $errors->first('imageLink') }}</b></span>
                                                 </div>
                                                 <div class="form-group">
+                                                    <label>Page Link</label>
+                                                    <input type="text" class="form-control" placeholder="Page Link" value="{{ old('pageLink') }}" name="pageLink">
+                                                    <span class="text-danger"> <b>{{  $errors->first('pageLink') }}</b></span>
+                                                </div>
+                                                <div class="form-group">
                                                     <label>banner Type</label>
                                                     <select name="type" id="type" class="form-control">
                                                         <option value="">Select</option>

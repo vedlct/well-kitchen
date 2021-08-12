@@ -13,7 +13,7 @@
                         <p>© 2021 <a href="{{route('home')}}">{{$setting->companyName}}</a><br> All Rights Reserved</p>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-4 col-sm-4">
+                {{-- <div class="col-lg-2 col-md-4 col-sm-4">
                     <div class="footer-widget mb-30 ml-30">
                         <div class="footer-title">
                             <h3>ABOUT US</h3>
@@ -26,7 +26,7 @@
                             </ul>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="col-lg-2 col-md-4 col-sm-4">
                     <div class="footer-widget mb-30 ml-50">
                         <div class="footer-title">
@@ -34,9 +34,9 @@
                         </div>
                         <div class="footer-list">
                             <ul>
-                                <li><a href="#">Returns</a></li>
-                                <li><a href="#">Support Policy</a></li>
-                                <li><a href="#">Size guide</a></li>
+                                @foreach($menu->where('menuType','Footer')->sortByDesc('menuOrder')->take(4) as $footerMenu)
+                                <li><a href="{{route('page',$footerMenu->fkpageId)}}">{{$footerMenu->menuName}}</a></li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>
@@ -47,10 +47,10 @@
                             <h3>FOLLOW US</h3>
                         </div>
                         <div class="footer-list">
-                            <ul>
-                                <li><a href="{{$setting->facebook}}">Facebook</a></li>
-                                <li><a href="{{$setting->twitter}}">Twitter</a></li>
-                                <li><a href="{{$setting->instagram}}">Instagram</a></li>
+                            <ul class="social-icon">
+                                <li><a href=" {{($setting->facebook)}} "><i class="fa fa-facebook"></i></a></li>
+                                <li><a href=" {{($setting->twitter)}} "><i class="fa fa-twitter"></i></a></li>
+                                <li><a href=" {{$setting->instagram}} "><i class="fa fa-linkedin"></i></a></li>
                                 {{-- <li><a href="#">Youtube</a></li> --}}
                             </ul>
                         </div>
@@ -139,13 +139,16 @@
     </div>
 </div>
 <!-- Modal end -->
+
+
+
 <div id="cartPage">
 @include('layouts.partials.cartNav')
 </div>
 <!-- chat icon start -->
-<div class="chat-icon-area">
-    <i class="fa fa-comment"></i>
-</div>
+{{--<div class="chat-icon-area">--}}
+{{--    <i class="fa fa-comment"></i>--}}
+{{--</div>--}}
 <!-- chat icon end -->
 
 
@@ -163,6 +166,14 @@
 @yield('js')
 
 {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/js/all.min.js"></script>--}}
+
+  <!-- preloader js -->
+  <script>
+    $(window).on("load", function(){
+      $(".loader_bg").fadeOut("slow");
+
+    });
+  </script>
 
   <script>
       toastr.options.preventDuplicates = true;
@@ -212,14 +223,34 @@
                             '<img src="{{ URL::asset('/admin/public/productImages') }}/'+v.image+'"></a>');
                 });
 
-                if(data.hotdeal == null){
+
+                if(data.hotdeal != null && data.discount != null){
+                    $('.salePrice').empty().append("<span>"+"৳ "+data.afterDiscountPrice+"</span>")
+                    $('.old').empty().append("<span class='old'>"+"৳ "+data.sku.regularPrice+"</span>")
+                }
+                if(data.hotdeal == null && data.discount != null){
+                    $('.salePrice').empty().append("<span>"+"৳ "+data.sku.salePrice+"</span>")
+                    $('.old').empty().append("<span class='old'>"+"৳ "+data.sku.regularPrice+"</span>")
+                }
+                if(data.hotdeal != null && data.discount == null) {
+                    $('.salePrice').empty().append("<span>"+"৳ "+data.afterDiscountPrice+"</span>")
+                    $('.old').empty().append("<span class='old'>"+"৳ "+data.sku.regularPrice+"</span>")
+                }
+                if(data.hotdeal == null && data.discount == null) {
+                    $('.salePrice').empty().append("<span>"+"৳ "+data.sku.regularPrice+"</span>")
+                    $('.old').empty();
+                }
+
+
+
+                {{--  if(data.hotdeal == null){
                     $(".salePrice").html('৳ '+data.saleprice);
                     $(".oldprice").html('');
                 }
                 else{
                     $(".salePrice").html('৳ '+data.saleprice);
                     $(".oldprice").html('৳ '+data.oldprice);
-                }
+                }  --}}
                 $(".reviewsCount").html(data.revCount);
 
                 if(data.finalRating > 0) {
@@ -272,7 +303,13 @@
 
 
 
-    function addTocart(skuId = null) {
+    function addTocart(skuId) {
+
+        if(skuId == 0){
+            toastr.warning('Please Choose a variation');
+        }
+
+        if(skuId != 0){
         let quantity=$('#quantity').val() ;
         if(quantity && quantity >= 1){
             quantity;
@@ -289,15 +326,80 @@
                 _sku:skuId
             },
             success: function (response) {
-                $('#cartPage').empty().html(response.cart)
-                // $('#totalVal').ajax.reload();
+                console.log(response);
+                toastr.success('Item Added to Cart');
+                var getTotalQuantity=0;
+                var getSubTotal=0;
+                var cartItems=""
+
+                // $('#cartPage').empty().html(response.cart)
+                 $('#headerCartBag').load(document.URL + ' #headerCartBag');
                 $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
-                toastr.success('Item added to cart')
+                // toastr.success('Item added to cart')
+
+                $.each(response.cart,(index,row)=>
+                    {
+                        console.log('row',row);
+                        // getTotalQuantity+=response.cartQuantity
+                        getTotalQuantity+=parseFloat(row.quantity)
+                        getSubTotal+=parseFloat(row.price)
+                        cartItems+=`<div class="product-area my-md-5 my-4">
+                                    <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+
+                                        <div>
+                                            <img src="{{asset('admin/public/featureImage/')}}/${row.associatedModel.featureImage}" alt="" class="product-img">
+                                           </div>  
+                                            <div class="name-area px-2">
+                                            <h5 class="product-name"><a href="javascript:void(0)">${row.name}</a></h5>
+                                            <h6 class="quantity">${row.quantity} x &#2547; ${row.price}</h6>
+                                            </div>
+                                            <div class="" onclick="removeItem(${row.id})">
+                                                <i class="fa fa-trash"></i>
+                                            </div>
+                                        </div>
+                                        </div>`
+                    })
+                    $('#cart').html('')
+                    $('#cart').append(`
+                        <div class="cart-button-fixed" onclick="showNav()">
+                            <i class="pe-7s-shopbag"></i>
+                            <h5 class="mb-0">Cart <span class="cart_count">${response.cartQuantity} </span></h5>
+                        </div>
+                        <div class="full-body-overlay" id="fullBodyOverlay" onclick="hideOverlay()"></div>
+                        <section class="side-cart side-nav px-3 py-md-5 py-3" id="sideNav">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4>Shopping Cart</h4>
+                            </div>
+                            <div class="">
+                                <i class="fa fa-times close-icon" onclick="hideNav()"></i>
+                            </div>
+                        </div>
+                        ${cartItems}
+
+                                ${getSubTotal != 0 ? `<div class="d-flex justify-content-between"><div> <h5>Sub-Total:</h5> </div>
+                                <div class="">
+                                <h5>&#2547;${response.total}</h5>
+                                </div>
+                            </div>
+                            <div class="row my-md-5 my-4">
+                                <div class="col-6">
+                                    <a href="{{route('cart')}}" class="btn btn-secondary w-100">View Cart</a>
+                                </div>
+                                <div class="col-6">
+                                    <a href="{{route('checkout.index')}}" class="btn btn-danger w-100">checkout</a>
+                                </div>
+                            </div>
+                            </div>` :`<p style="font-weight: bold; font-size: 14px; text-align: center">Cart Is Empty</p>` }
+                        </section>`
+                )
+
             },
             error:function (response){
-            toastr.error('Stock not available')
+                toastr.error('Stock not available')
             }
         });
+     }
     }
 
     function addToWishList(skuId){
@@ -344,14 +446,76 @@
                   _quantity:qtyvalue,
               },
               success: function (response) {
-                  console.log('res',response);
-                  $('#cartPage').empty().html(response.cart)
-                  $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
-                  toastr.success('Item update successfully')
+                toastr.success('Item removed From Cart');
+                var getTotalQuantity=0;
+                var getSubTotal=0;
+                var cartItems=""
+                //   console.log('res',response);
+                //   $('#cartPage').empty().html(response.cart)
+                 $('#headerCartBag').load(document.URL + ' #headerCartBag');
+                 $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
+                //   toastr.success('Item update successfully')
                   $(".updatereload").load(location.href + " .updatereload");
-                  $(".cartTotal").load(location.href + " .cartTotal");
-                  $(".total").load(location.href + " .total");
-                  window.location.reload();
+                //   $(".cartTotal").load(location.href + " .cartTotal");
+
+                //   $(".total").load(location.href + " .total");
+                //   window.location.reload();
+                $.each(response.cart,(index,row)=>
+                    {
+                        // console.log('res',row);
+                        getTotalQuantity+=parseFloat(row.quantity)
+                        getSubTotal+=parseFloat(row.price)
+                        cartItems+=`<div class="product-area my-md-5 my-4">
+                                    <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                                        <div>
+                                            <img src="{{asset('admin/public/featureImage/')}}/${row.associatedModel.featureImage}" alt="" class="product-img">
+                                        </div>
+                                            <div class="name-area px-2">
+                                            <h5 class="product-name"><a href="javascript:void(0)">${row.name}</a></h5>
+                                            <h6 class="quantity">${row.quantity} x &#2547; ${row.price}</h6>
+                                            </div>
+                                            <div class="" onclick="removeItem(${row.id})">
+                                                <i class="fa fa-trash"></i>
+                                            </div>
+                                        </div>
+                                        </div>`
+
+                    })
+                    $('#cart').html('')
+                    $('#cart').append(`
+                        <div class="cart-button-fixed" onclick="showNav()" id="cartNav">
+                            <i class="pe-7s-shopbag"></i>
+                            <h5 class="mb-0">Cart <span class="cart_count">${response.cartQuantity} </span></h5>
+                        </div>
+                        <div class="full-body-overlay" id="fullBodyOverlay" onclick="hideOverlay()"></div>
+                        <section class="side-cart side-nav px-3 py-md-5 py-3" id="sideNav">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4>Shopping Cart</h4>
+                            </div>
+                            <div class="">
+                                <i class="fa fa-times close-icon" onclick="hideNav()"></i>
+                            </div>
+                        </div>
+                        ${cartItems}
+
+                                ${getSubTotal != 0 ? `<div class="d-flex justify-content-between"><div> <h5>Sub-Total:</h5> </div>
+                                <div class="">
+                                <h5>&#2547;${response.total}</h5>
+                                </div>
+                            </div>
+                            <div class="row my-md-5 my-4">
+                                <div class="col-6">
+                                    <a href="{{route('cart')}}" class="btn btn-secondary w-100">View Cart</a>
+                                </div>
+                                <div class="col-6">
+                                    <a href="{{route('checkout.index')}}" class="btn btn-danger w-100">checkout</a>
+                                </div>
+                            </div>
+                            </div>` :`<p style="font-weight: bold; font-size: 14px; text-align: center">Cart Is Empty</p>` }
+                        </section>`
+                    )
+
               },
               error:function (response){
                   toastr.error('Stock not available')
@@ -359,24 +523,87 @@
           });
       }
 
+
       function removeItem(id) {
-          $.ajax({
-              type: "POST",
-              url: "{{route('product.cartRemove')}}",
-              data: {
-                  _token:'{{csrf_token()}}',
-                  _sku:id,
-              },
-              success: function (response) {
-                  $('#cartPage').empty().html(response.cart);
-                  $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br> Cart(${response.cartQuantity})`);
-                  toastr.success('Item delete from cart')
-                  $(".deletereload").load(" .deletereload");
-                  $(".cartTotal").load(".cartTotal");
-                  $("#cartTable").load(location.href + " #cartTable");
-               }
-          });
-      }
+        
+        $.ajax({
+            type: "POST",
+            url: "{{route('product.cartRemove')}}",
+            data: {
+                _token:'{{csrf_token()}}',
+                skuId:id,
+            },
+            success: function (response) {
+                toastr.success('Item removed From Cart');
+                var getTotalQuantity=0;
+                var getSubTotal=0;
+                var cartItems=""
+
+                $('#headerCartBag').load(document.URL + ' #headerCartBag');
+                $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
+               
+
+                $.each(response.cart,(index,row)=>
+                    {
+                        console.log('row',row);
+                        // getTotalQuantity+=response.cartQuantity
+                        getTotalQuantity+=parseFloat(row.quantity)
+                        getSubTotal+=parseFloat(row.price)
+                        cartItems+=`<div class="product-area my-md-5 my-4">
+                                    <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+                                           <div>
+                                                <img src="{{asset('admin/public/featureImage/')}}/${row.associatedModel.featureImage}" alt="" class="product-img">
+                                           </div>  
+                                            <div class="name-area px-2">
+                                            <h5 class="product-name"><a href="javascript:void(0)">${row.name}</a></h5>
+                                            <h6 class="quantity">${row.quantity} x &#2547; ${row.price}</h6>
+                                            </div>
+                                            <div class="" onclick="removeItem(${row.id})">
+                                                <i class="fa fa-trash"></i>
+                                            </div>
+                                        </div>
+                                        </div>`
+                    })
+                    $('#cart').html('')
+                    $('#cart').append(`
+                        <div id="cart">
+                            <div class="cart-button-fixed" onclick="showNav()">
+                            <i class="pe-7s-shopbag"></i>
+                            <h5 class="mb-0">Cart <span class="cart_count">${response.cartQuantity} </span></h5>
+                        </div>
+                        <div class="full-body-overlay" id="fullBodyOverlay" onclick="hideOverlay()" style="display: block;"></div>
+                        <section class="side-cart side-nav px-3 py-md-5 py-3" id="sideNav" style="right: 0px;">
+                        <div class="d-flex justify-content-between">
+                            <div>
+                                <h4>Shopping Cart</h4>
+                            </div>
+                            <div class="">
+                                <i class="fa fa-times close-icon" onclick="hideNav()"></i>
+                            </div>
+                        </div>
+                        ${cartItems}
+                        ${getSubTotal != 0 ? `<div class="d-flex justify-content-between cartTable"><div> <h5>Sub-Total:</h5> </div>
+                                <div class="">
+                                <h5 class="subTotal">&#2547;${response.subTotal}</h5>
+                                </div>
+                            </div>
+                            <div class="row my-md-5 my-4">
+                                <div class="col-6">
+                                    <a href="{{route('cart')}}" class="btn btn-secondary w-100">View Cart</a>
+                                </div>
+                                <div class="col-6">
+                                    <a href="{{route('checkout.index')}}" class="btn btn-danger w-100">checkout</a>
+                                </div>
+                            </div></section>` :`<h3 class="emptyCart">Cart is empty</h3>` }
+                        </div>`
+                    )
+            },
+              error:function (response){
+                  toastr.error('Stock not available')
+              }
+        });
+    }
+
 </script>
 
 

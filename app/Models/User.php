@@ -49,4 +49,9 @@ class User extends Authenticatable
     {
         return $this->hasOne('App\Models\Customer', 'fkuserId', 'userId');
     }
+    
+    public function userType()
+    {
+        return $this->hasOne('App\Models\UserType', 'userTypeId', 'fkuserTypeId');
+    }
 }

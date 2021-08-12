@@ -11,14 +11,19 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\CuponController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MyProfileController;
+use App\Http\Controllers\MyOrderController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/offers', [HomeController::class, 'offers'])->name('offers');
+Route::get('/offers/product/{id}', [HomeController::class, 'offersProduct'])->name('offers.product');
 // Route::get('/product-details/{id}', [HomeController::class, 'productDetails'])->name('product.details');
 Route::get('/categories/{categoryId?}', [CategoryController::class, 'categoryProducts'])->name('category.products');
 Route::post('filter/products',[CategoryController::class,'filterProducts'])->name('filter.products');
+Route::post('filter-price/products',[CategoryController::class,'filterProductsPrice'])->name('price.filter');
 
 Route::get('/cart',[HomeController::class,'cartIndex'])->name('cart');
 Route::get('/checkout' ,[HomeController::class,'index'])->name('checkout.index');
@@ -38,6 +43,9 @@ Route::post('compare/search',[ProductController::class,'compareSearch'])->name('
 
 
 //Search
+// Route::post('password/email' ,[ForgotPasswordController::class,'sendResetLinkEmail'])->name('password.email');
+
+
 Route::post('/search-category-product' ,[CategoryController::class,'searchByProducts'])->name('search.product');
 
     Route::get('wish-list',[WishlistController::class,'index'])->name('wishlist');
@@ -59,25 +67,25 @@ Route::post('/search-category-product' ,[CategoryController::class,'searchByProd
 
 
     //coupon
+
     Route::post('coupon-submit',[CuponController::class,'couponSubmit'])->name('coupon.submit');
+    Route::post('promo-submit',[CuponController::class,'promoSubmit'])->name('promo.submit');
 
 
     Route::get('autocomplete',[CheckoutController::class,'autocomplete']);
     Route::post('search-user',[CheckoutController::class,'searchUserByPhone'])->name('search.user');
 
 
+    Route::get('my-order',[MyOrderController::class,'index'])->name('myOrder')->middleware('auth');
 
 
-Route::get('/my-order', function () {
-    return view('myOrder');
-});
 
 
 
 Route::get('/my-account', [MyProfileController::class, 'index'])->name('profile')->middleware('auth');
 Route::post('/user-info-update', [MyProfileController::class, 'updateUserInfo'])->name('userinfo.update')->middleware('auth');
 Route::post('/user-address-update', [MyProfileController::class, 'updateAddressInfo'])->name('address.update')->middleware('auth');
-Route::post('/user-password-update', [MyProfileController::class, 'updatePassword'])->name('password.update')->middleware('auth');
+Route::post('/user-password-update', [MyProfileController::class, 'updatePassword'])->name('profile.password.update')->middleware('auth');
 
 
 
@@ -85,6 +93,7 @@ Route::post('/user-password-update', [MyProfileController::class, 'updatePasswor
 Route::get('/faq', function () {
     return view('faq');
 });
+
 
 
 
