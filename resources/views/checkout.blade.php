@@ -134,6 +134,19 @@
                 </div>
             </div>
             <div class="col-lg-5">
+                <!-- coupon add area -->
+                <div class="discount-code-wrapper">
+                    <div class="title-wrap">
+                        <h4 class="cart-bottom-title section-bg-gray">Use Coupon Code</h4> 
+                    </div>
+                    <div class="discount-code">
+                        <p>Enter your coupon code if you have one.</p>
+                        
+                        <input type="text" required="" name="name">
+                        <button class="cart-btn-2" type="submit">Apply Coupon</button>
+                    </div>
+                </div>
+                
                 <div class="your-order-area">
                     <h3>Your order</h3>
                     <div class="your-order-wrap gray-bg-4">
