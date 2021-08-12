@@ -38,7 +38,7 @@
             <p><strong>{{$orderInfo->customer->user->firstName ?? "none".' '.$orderInfo->customer->user->lastName ?? "none"}}</strong><br />{{$orderInfo->customer->address->billingAddress ?? "none"}}
             <br /><br />{{$orderInfo->customer->phone ?? "none"}}<br />{{$orderInfo->customer->user->email ?? "none"}}</p>
             @endif
-            
+
         </td>
         <td style="height: 158px;" valign="top">&nbsp;<strong>Order ID </strong>:#{{$orderInfo->orderId}}<br>
         <hr><strong>Special Instruction :</strong><br>{{$orderInfo->note}} </td>
@@ -88,6 +88,7 @@
             <td style="width: 50%; font-size: 24px;">Order Total:</td>
         </tr>
         {{-- <tr> @dd($orderInfo->orderedProduct->sum('total')); --}}
+        <tr>
             <td style="width: 128px; font-size: 24px;">&nbsp;<strong>@if($orderInfo->paymentType == 'cod')Cash on delivery. @else {{$orderInfo->paymentType}} @endif</strong></td>
             <td style="width: 129px;">
                 <table width="100%">
@@ -103,10 +104,10 @@
                     </tr>
                     <tr >
                         <td width="50%">
-                            <p style="font-size: 24px;"><strong>Discount:</strong></p>
+                            <p style="font-size: 24px;"><strong>Discount(promo code):</strong></p>
                         </td>
                         <td width="50%">
-                            <p style="font-size: 24px;"><strong>{{number_format($orderInfo->discount)}}</strong></p>
+                            <p style="font-size: 24px;"><strong>-{{number_format($orderInfo->discount)}}</strong></p>
                         </td>
                     </tr>
                     <tr >
@@ -123,7 +124,7 @@
                         </td>
                         <hr>
                         <td width="50%">
-                            <p style="font-size: 24px;"><strong>{{number_format($orderInfo->deliveryFee)}}</strong></p>
+                            <p style="font-size: 24px;"><strong>+{{number_format($orderInfo->deliveryFee)}}</strong></p>
                         </td>
                         <hr>
                     </tr>

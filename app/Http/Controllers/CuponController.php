@@ -23,9 +23,19 @@ class CuponController extends Controller
         $promo_code = preg_replace('/\s/', '', $request->promo_code);
 
         $promo= Promo::where('promo_code', $promo_code)->where('status', 'active')->whereDate('start_date', '<=', date('Y-m-d'))->whereDate('end_date', '>=', date('Y-m-d'))->where('discount', '>', 0)->first();
-        $cartTotal = (\Cart::getSubTotal()*$promo->discount)/100;
-        $newTotal = \Cart::getSubTotal() - $cartTotal;
-        Session::put('sub', $newTotal);
+        if(!empty($promo)) {
+            $discountAmount = (\Cart::getSubTotal() * $promo->discount) / 100;
+
+            $newTotal = \Cart::getSubTotal() - $discountAmount;
+            Session::put('sub', $newTotal);
+            Session::put('discountAmount', $discountAmount);
+            Session::flash('success', 'Promo code applied successful.');
+        }
+
+        if(empty($promo)){
+            Session::flash('warning', 'Given promo code expired.');
+        }
+
         return back();
 //        dd(Session::get('sub'));
 //        $cartProduct = \Cart::getContent();

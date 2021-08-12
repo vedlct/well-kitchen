@@ -66,13 +66,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="quantity">Quantity</label><span style="color: red;margin-left: 5px;font-weight: bold;">*</span>
-                                <input type="text" value="{{ $batch->quantity ?? null }}" id="quantity" name="quantity" class="form-control" >
-                            </div>
-                        </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="vatType">Vat Type</label><span style="color: red;margin-left: 5px;font-weight: bold;">*</span>
                                 <select name="vatType" class="form-control" id="vatType">
@@ -81,25 +75,43 @@
                                             @if(isset($batch) && $batch->vatType == '%')
                                             selected="selected"
                                             @endif>%</option>
-                                    <option value="TK"
-                                            @if(isset($batch) && $batch->vatType == 'TK')
+                                    <option value="taka"
+                                            @if(isset($batch) && $batch->vatType == 'taka')
                                             selected="selected"
-                                            @endif>TK</option>
+                                            @endif>taka</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="vat">Vat</label><span style="color: red;margin-left: 5px;font-weight: bold;">*</span>
                                 <input type="text" value="{{ old('vat', $batch->vat ?? null) }}" id="vat" name="vat" class="form-control" >
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="purchaseDate">Date</label>
                                 <input type="text" value="{{ old('purchaseDate', $batch->created_at ?? null) }}" id="purchaseDate" name="purchaseDate" class="form-control" >
                             </div>
                         </div>
+                    </div>
+                    <div class="row ">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="quantity">Quantity</label><span style="color: red;margin-left: 5px;font-weight: bold;">*</span>
+                                <input type="text" value="{{ $batch->quantity ?? null }}" id="quantity" name="quantity" class="form-control" >
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="vatType"> Type</label><span style="color: red;margin-left: 5px;font-weight: bold;">*</span>
+                                <select name="type" class="form-control" id="type">
+                                    <option value="">Select</option>
+                                    <option value="in" >IN</option>
+                                    <option value="out" >Out</option>
+                                </select>
+                            </div>
+                        </div>    
                     </div>
                 </div>
                 <div class="modal-footer">

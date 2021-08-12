@@ -167,6 +167,20 @@
                                     @endforeach
                                 </ul>
                             </div>
+
+                                @if(!empty(Session::get('discountAmount')))
+                            <div class="your-order-total">
+                                <ul>
+                                    <li class="order-total">Total</li>
+                                    <li>৳{{number_format(\Cart::getSubTotal())}}</li>
+                                </ul>
+                                <br>
+                                <ul>
+                                    <li class="order-total">Discount</li>
+                                    <li>-৳{{number_format(Session::get('discountAmount')) ? number_format(Session::get('discountAmount')) : 0}}</li>
+                                </ul>
+                            </div>
+                                @endif
                             <div class="your-order-bottom">
                                 <ul>
                                     <li class="your-order-shipping">Shipping</li>
@@ -175,7 +189,7 @@
                             </div>
                             <div class="your-order-total">
                                 <ul>
-                                    <li class="order-total">Total</li>
+                                    <li class="order-total">Grand Total</li>
                                     <li id="orderTotal">৳{{number_format(Session::get('sub')) ? number_format(Session::get('sub')) : number_format(\Cart::getSubTotal())}}</li>
                                 </ul>
                             </div>
@@ -229,8 +243,8 @@ function shippingZone() {
                     console.log(data);
                     var deliveryFee = data['deliveryFee'];
                     var orderTotal = data['orderTotal'];
-                    $('#deliveryFee').empty().append("<th style='padding: 10px; font-weight: bold; font-size: 14px; color: #000000;'>" + "Delivery Fee" + "</th>" + "<td>" + "<span class='total amount'>" + "৳" + deliveryFee + "</span>" + "</td>");
-                    $('#orderTotal').empty().append("<span>" + orderTotal + "</span>");
+                    $('#deliveryFee').empty().append("<th style='padding: 10px; font-weight: bold; font-size: 14px; color: #000000;'>" + "Delivery Fee" + "</th>" + "<td>" + "<span class='total amount'>" + "+৳" + deliveryFee + "</span>" + "</td>");
+                    $('#orderTotal').empty().append("<span>" + "৳" + orderTotal + "</span>");
                 }
             });
         }
