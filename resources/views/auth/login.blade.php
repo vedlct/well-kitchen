@@ -19,8 +19,8 @@
                                 <div class="login-register-form">
                                     <form method="POST" action="{{ route('login') }}">
                                         @csrf
-                                        <input type="email" name="email" placeholder="Email">
-                                        @error('email')
+                                        <input type="text" name="phone" placeholder="Mobile">
+                                        @error('phone')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                         @enderror
                                         <input type="password" name="password" placeholder="Password">

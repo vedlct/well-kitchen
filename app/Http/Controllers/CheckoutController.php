@@ -129,6 +129,9 @@ class CheckoutController extends Controller
         $order->fkcustomerId = $customer->customerId;
         $order->note = $request->message;
         $order->deliveryFee = $deliveryFee;
+        if(!empty(Session::get('discountAmount'))) {
+            $order->discount = Session::get('discountAmount');
+        }
         if(!empty(Session::get('sub'))) {
             $order->orderTotal = Session::get('sub') + $deliveryFee;
         }
