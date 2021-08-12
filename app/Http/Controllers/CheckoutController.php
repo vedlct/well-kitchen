@@ -56,7 +56,14 @@ class CheckoutController extends Controller
     public function shippingZone(Request $request)
     {
         $deliveryFee = Charges::where('fkshipment_zoneId', $request->shipping_zone)->pluck('deliveryFee')->first();
+        if(!empty(Session::get('sub'))){
         $orderTotal = number_format(Session::get('sub') + $deliveryFee);
+        }
+
+        if(empty(Session::get('sub'))){
+        $orderTotal = number_format(\Cart::getSubTotal() + $deliveryFee);
+        }
+
 
         return response()->json(['deliveryFee' => $deliveryFee, 'orderTotal' => $orderTotal]);
     }
@@ -122,7 +129,12 @@ class CheckoutController extends Controller
         $order->fkcustomerId = $customer->customerId;
         $order->note = $request->message;
         $order->deliveryFee = $deliveryFee;
-        $order->orderTotal = Session::get('sub') + $deliveryFee;
+        if(!empty(Session::get('sub'))) {
+            $order->orderTotal = Session::get('sub') + $deliveryFee;
+        }
+        if(empty(Session::get('sub'))){
+            $order->orderTotal = \Cart::getSubTotal() + $deliveryFee;
+        }
         // $order->paymentType = 'cod';
         $order->payment_status = 'unpaid';
         $order->payment_type = $request->payment;

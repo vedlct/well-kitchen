@@ -22,7 +22,7 @@ class CuponController extends Controller
 
         $promo_code = preg_replace('/\s/', '', $request->promo_code);
 
-        $promo= Promo::where('promo_code', $promo_code)->where('status', 'active')->where('start_date', '<=', date('Y-m-d H:i:s'))->where('end_date', '>=', date('Y-m-d H:i:s'))->where('discount', '>', 0)->first();
+        $promo= Promo::where('promo_code', $promo_code)->where('status', 'active')->whereDate('start_date', '<=', date('Y-m-d'))->whereDate('end_date', '>=', date('Y-m-d'))->where('discount', '>', 0)->first();
         $cartTotal = (\Cart::getSubTotal()*$promo->discount)/100;
         $newTotal = \Cart::getSubTotal() - $cartTotal;
         Session::put('sub', $newTotal);

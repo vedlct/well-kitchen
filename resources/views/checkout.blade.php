@@ -163,7 +163,7 @@
                             <div class="your-order-total">
                                 <ul>
                                     <li class="order-total">Total</li>
-                                    <li id="orderTotal">৳{{number_format(Session::get('sub'))}}</li>
+                                    <li id="orderTotal">৳{{number_format(Session::get('sub')) ? number_format(Session::get('sub')) : number_format(\Cart::getSubTotal())}}</li>
                                 </ul>
                             </div>
                         </div>
