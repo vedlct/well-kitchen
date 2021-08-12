@@ -35,13 +35,7 @@ class CuponController extends Controller
         if(empty($promo)){
             Session::flash('warning', 'Given promo code expired.');
         }
-
-        return back();
-//        dd(Session::get('sub'));
-//        $cartProduct = \Cart::getContent();
-//        foreach ($cartProduct as $cartProductData){
-//            $discount = $cartProductData['price'] * ($promo->percentage/100);
-//        }
+        return response()->json();
     }
 
 

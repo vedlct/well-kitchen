@@ -11192,8 +11192,8 @@ h3.cart-page-title {
       height: 40px;
       margin-bottom: 30px;
       padding-left: 10px; }
-    .cart-tax .discount-code form button.cart-btn-2,
-    .discount-code-wrapper .discount-code button.cart-btn-2 {
+    .cart-tax .discount-code form .cart-btn-2,
+    .discount-code-wrapper .discount-code .cart-btn-2 {
       background-color: #ed1c24;
       border: medium none;
       border-radius: 50px;
@@ -11206,8 +11206,8 @@ h3.cart-page-title {
       -webkit-transition: all 0.3s ease 0s;
       -o-transition: all 0.3s ease 0s;
       transition: all 0.3s ease 0s; }
-      .cart-tax .discount-code form button.cart-btn-2:hover,
-      .discount-code-wrapper .discount-code form button.cart-btn-2:hover {
+      .cart-tax .discount-code form .cart-btn-2:hover,
+      .discount-code-wrapper .discount-code form .cart-btn-2:hover {
         background-color: #333; }
 
 .grand-totall {
@@ -12281,7 +12281,7 @@ h3.cart-page-title {
       background-color: #000; }
   @media only screen and (max-width: 767px) {
     .searchform.mb-50 {
-      margin-bottom: 20px; } 
+      margin-bottom: 20px; }
       .product-wrap-5 .product-img a img {
         height: 155px !important;
       }
