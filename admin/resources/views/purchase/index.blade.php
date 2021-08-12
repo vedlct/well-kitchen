@@ -101,6 +101,7 @@
                         { title: 'Variation', data: 'variation', name: 'variation' ,className: "text-center", orderable: false, searchable:false},
                         { title: 'Vendor', data: 'vendor_shop_name', name: 'vendor.vendor_shop_name' ,className: "text-center", orderable: false, searchable:true},
                         { title: 'Quantity', data: 'Quantity', name: 'stock.stock' ,className: "text-center", orderable: false, searchable:false},
+                        { title: 'stock_available', data: 'stock_available', name: 'stock_available' ,className: "text-center", orderable: false, searchable:false},
                         { title: 'Created', data: 'created_at', name: 'created_at' ,className: "text-center", orderable: true, searchable:true,
                                 render: (data)=> data.split('T')[0]
                             },
