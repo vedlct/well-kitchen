@@ -75,10 +75,10 @@
                                             @if(isset($batch) && $batch->vatType == '%')
                                             selected="selected"
                                             @endif>%</option>
-                                    <option value="TK"
-                                            @if(isset($batch) && $batch->vatType == 'TK')
+                                    <option value="taka"
+                                            @if(isset($batch) && $batch->vatType == 'taka')
                                             selected="selected"
-                                            @endif>TK</option>
+                                            @endif>taka</option>
                                 </select>
                             </div>
                         </div>

@@ -98,7 +98,7 @@ class PurchaseController extends Controller
                 return '<a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="editBatch('.$action->batchId.')" title="Purchase"><i class="ft-edit-3"></i></a>
                         <a href="javascript:void(0)" class="btn btn-warning btn-sm" onclick="returnBatch('.$action->batchId.')" title="Return"><i class="ft-corner-down-left"></i></a>';
             })
-            ->rawColumns(['action','variation'])
+            ->rawColumns(['action','variation','stock_available'])
             ->make(true);
     }
 
