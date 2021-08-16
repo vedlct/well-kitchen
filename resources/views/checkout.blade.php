@@ -142,8 +142,8 @@
                     <div class="discount-code">
                         <p>Enter your coupon code if you have one.</p>
 
-                        <input type="text" required=""name="promo_code" id="promoCode" placeholder="Promo code">
-                        <a class="cart-btn-2" type="text" onclick="applyPromo()">Apply Coupon</a>
+                        <input type="text" required name="promo_code" id="promoCode" placeholder="Promo code">
+                        <a class="cart-btn-2" onclick="applyPromo()">Apply Coupon</a>
                     </div>
                 </div>
 
@@ -304,7 +304,7 @@ function shippingZone() {
 
         function applyPromo(){
             let promoCode = $("#promoCode").val();
-            alert(promoCode);
+
             $.ajax({
                 url: "{{route('promo.submit')}}",
                 method: 'POST',
@@ -315,16 +315,6 @@ function shippingZone() {
                 success: function (data) {
                     console.log(data);
                     window.location.reload();
-                    // var deliveryFee = data['deliveryFee'];
-                    // var orderTotal = data['orderTotal'];
-                    {{--৳{{number_format(Session::get('sub')) ? number_format(Session::get('sub')) : number_format(\Cart::getSubTotal())}}--}}
-                    // $('#deliveryFee').empty().append("<th style='padding: 10px; font-weight: bold; font-size: 14px; color: #000000;'>" + "Delivery Fee" + "</th>" + "<td>" + "<span class='total amount'>" + "+৳" + deliveryFee + "</span>" + "</td>");
-                    // if(!empty(Session::get('sub'))) {
-                    // $('#orderTotal').empty().append("<span>" + "৳" + orderTotal + "</span>");
-                    // }
-                    // if(empty(Session::get('sub'))){
-                    // $('#orderTotal').empty().append("<span>" + "৳" + orderTotal + "</span>");
-                    // }
                 }
             });
         }
