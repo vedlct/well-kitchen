@@ -162,7 +162,7 @@
                                     {{-- @dd(\Cart::getContent()) --}}
                                     @foreach (\Cart::getContent() as $key=>$item)
                                     {{-- @dd($item->associatedModel->productName) --}}
-                                    <li><span class="order-middle-left">{{$item->associatedModel->productName}}  X  {{$item->quantity}}</span> <span class="order-price">${{$item->price * $item->quantity}} </span></li>
+                                    <li><span class="order-middle-left">{{$item->associatedModel->productName}}  X  {{$item->quantity}}</span> <span class="order-price">৳{{$item->price * $item->quantity}} </span></li>
                                     {{-- <li><span class="order-middle-left">Product Name  X  1</span> <span class="order-price">$329 </span></li> --}}
                                     @endforeach
                                 </ul>

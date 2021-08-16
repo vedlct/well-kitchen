@@ -20,14 +20,14 @@
 
 
                             @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->where('hotdeals.percentage', '>', 0)->first()@endphp
-                
+
                             @if (!empty($hotDeal) && !empty($sku->discount))
                             <span class="blue discount">-{{$hotDeal->hotdeals? $hotDeal->hotdeals->percentage : ''}}%</span>
                             @endif
                             @if (!empty($hotDeal) && empty($sku->discount))
                             <span class="blue discount">-{{$hotDeal->hotdeals? $hotDeal->hotdeals->percentage : ''}}%</span>
                             @endif
-    
+
                             @if(empty($hotDeal) && !empty($sku->discount))
                             <span class="blue discount">-{{$sku->discount}}%</span>
                         @endif
@@ -59,7 +59,7 @@
                             </div>
                         </div>
                         <div class="product-content text-center">
-                            <h3><a href="{{route('product.details',$sku->skuId)}}">{{$sku->product()->first()->productName}}</a></h3>
+                            <h3><a href="{{route('product.details',$sku->skuId)}}">{{substr($sku->product()->first()->productName, 0, 20)."..."}}</a></h3>
                             <div class="product-price">
 {{--                                <span>৳  {{$sku->salePrice}}</span>--}}
 
@@ -125,7 +125,7 @@
                                         @php
                                             $afterDiscountPrice = ($sku->salePrice) - ($sku->discount);
                                         @endphp
-    
+
                                         <span>৳  {{$afterDiscountPrice}}</span>
                                         <span class="old">৳  {{$sku->salePrice}}</span>
                                     @endif  --}}
