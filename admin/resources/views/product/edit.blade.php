@@ -307,6 +307,12 @@
                                                                     <input type="number" class="form-control" name="salePrice" id="salePrice" value="{{ $sku?$sku->regularPrice:'' }}">
                                                                 </div>
                                                             </div>
+                                                            <div id="singleDiscount" class="col-md-4 col-lg-4 col-xl-3">
+                                                                <div class="form-group">
+                                                                    <label>Sale Price</label>
+                                                                    <input type="number" class="form-control" id="discount" name="discount" value="{{ $sku?$sku->salePrice:'' }}">
+                                                                </div>
+                                                            </div>
                                                             {{--  <div id="singleNewSalePrice" class="col-md-4 col-lg-4 col-xl-3">
                                                                 <div class="form-group">
                                                                     <label>Sale Price</label>
@@ -335,12 +341,7 @@
                                                                     <input type="number" class="form-control" id="stockAlert" name="stockAlert" value="{{ $sku?$sku->stockAlert:'' }}">
                                                                 </div>
                                                             </div>
-                                                            <div id="singleDiscount" class="col-md-4 col-lg-4 col-xl-3">
-                                                                <div class="form-group">
-                                                                    <label>Sale Price</label>
-                                                                    <input type="number" class="form-control" id="discount" name="discount" value="{{ $sku?$sku->discount:'' }}">
-                                                                </div>
-                                                            </div>
+
                                                             @endif
 
 
@@ -511,7 +512,7 @@
                                                                 <input type="number" class="form-control" id="discount" name="discount" placeholder="sale price">
                                                             </div>
                                                         </div>
-                                                        
+
 
                                                         <div class="col-md-4 col-lg-4 col-xl-3">
                                                             <div data-repeater-list="repeater-group">
@@ -596,7 +597,7 @@
                                                                     @foreach($variations->unique('variationType') as $variationType)
                                                                     <option id="color1" value="{{$variationType->variationType}}">{{$variationType->variationType}}</option>
                                                                     @endforeach
-                                                                   
+
                                                                 </select>
                                                                 <div class="divAjaxError" style="color: red" class="mb-2" id="variationType1Error"></div>
                                                                 <input type="hidden" id="productId" value="{{ $product->productId }}" name="productId">
@@ -620,7 +621,7 @@
                                                                     @foreach($variations->unique('variationType') as $variationType)
                                                                     <option id="color1" value="{{$variationType->variationType}}">{{$variationType->variationType}}</option>
                                                                     @endforeach
-                                                                   
+
                                                                 </select>
                                                                 <div class="divAjaxError" style="color: red" class="mb-2" id="variationType2Error"></div>
                                                             </div>

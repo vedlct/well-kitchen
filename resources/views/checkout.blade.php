@@ -143,7 +143,7 @@
                         <p>Enter your coupon code if you have one.</p>
 
                         <input type="text" required=""name="promo_code" id="promoCode" placeholder="Promo code">
-                        <a class="cart-btn-2" type="text" onclick="applyPromo()">Apply Cupon</a>
+                        <a class="cart-btn-2" type="text" onclick="applyPromo()">Apply Coupon</a>
                     </div>
                 </div>
 

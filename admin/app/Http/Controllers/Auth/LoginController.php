@@ -42,6 +42,7 @@ class LoginController extends Controller
 
 
 
+
     protected function redirectTo()
     {
         if(Auth::check()){
