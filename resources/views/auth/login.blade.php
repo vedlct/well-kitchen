@@ -50,7 +50,7 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                         @enderror
-                                        <input name="phone" placeholder="phone" type="phone">
+                                        <input name="phone" placeholder="phone" required type="phone">
                                         @error('phone')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -62,7 +62,7 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                         @enderror
-                                        <input type="password" name="password" placeholder="Password">
+                                        <input type="password" name="password" required placeholder="Password">
                                         @error('password')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>

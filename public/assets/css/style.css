@@ -12298,3 +12298,6 @@ h3.cart-page-title {
 .header-right-wrap .same-style .search-active {
   font-size: 23px;
 }
+.product-wrap .product-img img {
+  height: 210px;
+}
