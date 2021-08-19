@@ -129,13 +129,14 @@ class CheckoutController extends Controller
         $order->fkcustomerId = $customer->customerId;
         $order->note = $request->message;
         $order->deliveryFee = $deliveryFee;
-        if(!empty(Session::get('discountAmount'))) {
+        if(Session::has('discountAmount')) {
             $order->discount = Session::get('discountAmount');
+
         }
-        if(!empty(Session::get('sub'))) {
+        if(Session::has('sub')) {
             $order->orderTotal = Session::get('sub') + $deliveryFee;
         }
-        if(empty(Session::get('sub'))){
+        if(!Session::has('sub')){
             $order->orderTotal = \Cart::getSubTotal() + $deliveryFee;
         }
         // $order->paymentType = 'cod';
@@ -143,6 +144,7 @@ class CheckoutController extends Controller
         $order->payment_type = $request->payment;
         // $order->delivery_commission_type = 'taka';
         $order->save();
+
 
         $order_status_log = new OrderStatusLog();
         $order_status_log->order_id = $order->orderId;
@@ -204,6 +206,12 @@ class CheckoutController extends Controller
         }
 
         \Cart::clear();
+        if(Session::has('discountAmount')) {
+            Session::forget('discountAmount');
+        }
+        if(Session::has('sub')) {
+            Session::forget('sub');
+        }
         Session::flash('success', 'Order placed successfully');
 
         return redirect('/');

@@ -157,7 +157,7 @@
                               </div>
                               <div class="col-md-4 mb-1">
                                 {{-- <h4 class="text-warning">Due: {{($order->orderTotal+$order->deliveryFee) - $order->paidAmount()}}</h4> --}}
-                                <h4 class="text-warning">Due: ৳{{$order->orderTotal - $order->paidAmount()}}</h4>
+                                <h4 class="text-warning">Due: ৳{{number_format((float)$order->orderTotal - $order->paidAmount(), 2, '.', '')}}</h4>
                               </div>
                               <div class="col-md-4 mb-1 text-sm-right">
                                 {{-- <button type="button" class="btn btn-danger btn-min-width">Refund</button> --}}
@@ -182,7 +182,7 @@
                                     @foreach ($order->transaction as $key=>$item)
                                         <tr>
                                             <td scope="row">{{++$key}}</td>
-                                            <td>{{$item->amount}}</td>
+                                            <td>{{number_format((float)$item->amount, 2, '.', '')}}</td>
                                             <td>{{$item->payment_type}}</td>
                                             <td>{{$item->method}}</td>
                                             <td>{{$item->comment ?? 'Not available'}}</td>

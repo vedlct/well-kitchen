@@ -213,7 +213,12 @@
                     <div class="Place-order mt-25">
 
                         {{-- <a class="btn-hover">  Place Order</a> --}}
+                        @if(Auth::check())
                         <button class="btn-hover"  type="submit">Place Order</button>
+                            @endif
+                        @if(!Auth::check())
+                        <a class="btn-hover" href="{{route('login')}}">Place Order</a>
+                            @endif
                     </div>
                 </div>
             </div>
