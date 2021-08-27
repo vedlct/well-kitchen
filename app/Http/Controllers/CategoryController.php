@@ -183,19 +183,19 @@ class CategoryController extends Controller
             });
         }
 
-        if (!empty($request->alphaOrderSS) && ($request->alphaOrderSS=="A")) {
-           $skuss = $skuss->whereHas('product', function ($query) {
-            $query->orderBy('productId', 'desc');
-            // $q->orderBy('price', $queryParameters['orderBy']);
-            });
-            // dd($skuss->get());
-        }
+        // if (!empty($request->alphaOrderSS) && ($request->alphaOrderSS=="A")) {
+        //    $skuss = $skuss->whereHas('product', function ($query) {
+        //     $query->orderBy('productId', 'desc');
+        //     // $q->orderBy('price', $queryParameters['orderBy']);
+        //     });
+        //     // dd($skuss->get());
+        // }
        
-        if (!empty($request->alphaOrderSS) && ($request->alphaOrderSS=="Z")) {
+        // if (!empty($request->alphaOrderSS) && ($request->alphaOrderSS=="Z")) {
            
-            $skuss = $skuss->whereHas('product', function ($query) use ($request) {
-            })->orderBy('productName', 'desc');
-        }
+        //     $skuss = $skuss->whereHas('product', function ($query) use ($request) {
+        //     })->orderBy('productName', 'desc');
+        // }
 
         if (!empty($request->instockSS) || (!empty($request->alphaOrderSS) && ($request->alphaOrderSS=="instock"))) {
         $availableSku = [];
@@ -245,6 +245,35 @@ class CategoryController extends Controller
              $skuss = $skuss->orderBy('salePrice', 'ASC')->where('status', 'active')->paginate(6);
            
         }
+        
+        // if(!empty($request->price) && $request->price == 'A') {
+        //      dd($skuss)
+        //     $skuss = $skuss->whereHas('product', function ($query) {
+        //         $query->where('status', 'active');
+        //     })->orderBy('product.productName')->paginate(6);
+            
+           
+
+        //     // $skuss = $skuss->whereHas('product', function($query){
+        //     //   dd($query->get());  
+        //     // });
+        //         // dd($skuss->get());
+
+        // }
+        // if(!empty($request->price) && $request->price == 'Z') {
+             
+        //     $skuss =$skuss->whereHas('product', function ($query) {
+        //         $query->orderBy('productName', 'DESC');
+        //     });
+        //     $skuss = $skuss->paginate(6);
+           
+
+        //     // $skuss = $skuss->whereHas('product', function($query){
+        //     //   dd($query->get());  
+        //     // });
+        //         // dd($skuss->get());
+
+        // }
 
         if (!empty($request->price) && $request->price == 'instock') {
             $availableSku = [];

@@ -40,12 +40,12 @@
                     <div class="select-shoing-wrap">
                         <div class="shop-select">
                          
-                            <select name="price"  class="alphaCheck" onchange="getPrice(this);">
+                            <select name="price"  onchange="getPrice(this);">
                               
                                 <option value="">Sort by...</option>
                                 <option value="A">A to Z</option>
                                 <option value="Z"> Z to A</option>
-                                <option value="High to Low">High to Low</option>
+                                <option value="High to Low">High to Low </option>
                                 <option value="Low to High">Low to High</option>
                                 <option value="instock">In stock</option>
                             </select>
@@ -435,7 +435,7 @@
 
         function getPrice(sel)
 	{
-        // console.log('sel',sel.value);
+        console.log('sel',sel.value);
         price = sel.value;
 		 if(price){
 			// $('#pre-loader').show()
@@ -452,6 +452,7 @@
                     // $('#filteredPackage').html('')
                     $('#productShorting').html('')
                     $('#productShorting').html(response.html)
+                    $("#productdetails").html(response.html);
                     // $('#filteredPackage').html(response.html)
                     // $('#pre-loader').hide()
                 },
