@@ -254,6 +254,12 @@
                                                                     <input type="text" class="form-control" name="salePrice" id="salePrice" placeholder="regular price">
                                                                 </div>
                                                             </div>
+                                                            <div id="singleDiscount" class="col-md-4 col-lg-4 col-xl-3">
+                                                                <div class="form-group">
+                                                                    <label>Sale Price</label>
+                                                                    <input type="number" class="form-control" id="discount" name="discount" placeholder="sale price">
+                                                                </div>
+                                                            </div>
                                                             <div id="singleBarcode" class="col-md-4 col-lg-4 col-xl-3">
                                                                 <div data-repeater-list="repeater-group">
                                                                     <label>Barcode</label>
@@ -276,13 +282,8 @@
                                                                     <input type="number" class="form-control" id="stockAlert" name="stockAlert" placeholder="stock alert">
                                                                 </div>
                                                             </div>
-                                                            
-                                                            <div id="singleDiscount" class="col-md-4 col-lg-4 col-xl-3">
-                                                                <div class="form-group">
-                                                                    <label>Sale Price</label>
-                                                                    <input type="number" class="form-control" id="discount" name="discount" placeholder="sale price">
-                                                                </div>
-                                                            </div>
+
+
                                                             <div id="productImages" class="col-md-4 col-lg-4 col-xl-3">
                                                                 <div class="form-group">
                                                                     <label>Product Images</label>
@@ -390,16 +391,17 @@
                                                         </div>
                                                         <div class="col-md-4 col-lg-4 col-xl-3">
                                                             <div class="form-group">
-                                                                <label>Stock Alert</label>
-                                                                <input type="number" class="form-control" id="stockAlert" name="stockAlert" placeholder="stock alert">
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-4 col-lg-4 col-xl-3">
-                                                            <div class="form-group">
                                                                 <label>Sale Price</label>
                                                                 <input type="number" class="form-control" id="discount" name="discount" placeholder="sale price">
                                                             </div>
                                                         </div>
+                                                        <div class="col-md-4 col-lg-4 col-xl-3">
+                                                            <div class="form-group">
+                                                                <label>Stock Alert</label>
+                                                                <input type="number" class="form-control" id="stockAlert" name="stockAlert" placeholder="stock alert">
+                                                            </div>
+                                                        </div>
+
                                                         <div class="col-md-4 col-lg-4 col-xl-3">
                                                             <div data-repeater-list="repeater-group">
                                                                 <label>Barcode</label>

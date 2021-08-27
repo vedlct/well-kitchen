@@ -17,7 +17,8 @@
                         <div id="lg1" class="tab-pane active">
                             <div class="login-form-container">
                                 <div class="login-register-form">
-                                    <form method="POST" action="{{ route('login') }}">
+{{--                                    <form method="POST" action="{{route('login')}}">--}}
+                                    <form method="POST" action="{{route('Login.otp')}}">
                                         @csrf
                                         <input type="text" name="phone" placeholder="Mobile">
                                         @error('phone')
@@ -31,7 +32,8 @@
                                             <div class="login-toggle-btn">
                                                 {{-- <input type="checkbox">
                                                 <label>Remember me</label> --}}
-                                                <a href=" {{route('password.request')}} ">Forgot Password?</a>
+                                                <a href=" {{route('Login.forgotPassword')}} ">Forgot Password?</a>
+{{--                                                <a href=" {{route('password.request')}} ">Forgot Password?</a>--}}
                                             </div>
                                             <button type="submit"><span>Login</span></button>
                                         </div>
@@ -50,7 +52,7 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                         @enderror
-                                        <input name="phone" placeholder="phone" type="phone">
+                                        <input name="phone" placeholder="phone" required type="phone">
                                         @error('phone')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -62,7 +64,7 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                         @enderror
-                                        <input type="password" name="password" placeholder="Password">
+                                        <input type="password" name="password" required placeholder="Password">
                                         @error('password')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>

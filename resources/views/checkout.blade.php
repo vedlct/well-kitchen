@@ -142,8 +142,8 @@
                     <div class="discount-code">
                         <p>Enter your coupon code if you have one.</p>
 
-                        <input type="text" required=""name="promo_code" id="promoCode" placeholder="Promo code">
-                        <a class="cart-btn-2" type="text" onclick="applyPromo()">Apply Coupon</a>
+                        <input type="text" name="promo_code" id="promoCode" placeholder="Promo code">
+                        <a class="cart-btn-2" onclick="applyPromo()">Apply Coupon</a>
                     </div>
                 </div>
 
@@ -162,7 +162,7 @@
                                     {{-- @dd(\Cart::getContent()) --}}
                                     @foreach (\Cart::getContent() as $key=>$item)
                                     {{-- @dd($item->associatedModel->productName) --}}
-                                    <li><span class="order-middle-left">{{$item->associatedModel->productName}}  X  {{$item->quantity}}</span> <span class="order-price">${{$item->price * $item->quantity}} </span></li>
+                                    <li><span class="order-middle-left">{{$item->associatedModel->productName}}  X  {{$item->quantity}}</span> <span class="order-price">৳{{$item->price * $item->quantity}} </span></li>
                                     {{-- <li><span class="order-middle-left">Product Name  X  1</span> <span class="order-price">$329 </span></li> --}}
                                     @endforeach
                                 </ul>
@@ -213,7 +213,12 @@
                     <div class="Place-order mt-25">
 
                         {{-- <a class="btn-hover">  Place Order</a> --}}
+                        @if(Auth::check())
                         <button class="btn-hover"  type="submit">Place Order</button>
+                            @endif
+                        @if(!Auth::check())
+                        <a class="btn-hover" href="{{route('login')}}">Place Order</a>
+                            @endif
                     </div>
                 </div>
             </div>
@@ -304,7 +309,7 @@ function shippingZone() {
 
         function applyPromo(){
             let promoCode = $("#promoCode").val();
-            alert(promoCode);
+
             $.ajax({
                 url: "{{route('promo.submit')}}",
                 method: 'POST',
@@ -315,16 +320,6 @@ function shippingZone() {
                 success: function (data) {
                     console.log(data);
                     window.location.reload();
-                    // var deliveryFee = data['deliveryFee'];
-                    // var orderTotal = data['orderTotal'];
-                    {{--৳{{number_format(Session::get('sub')) ? number_format(Session::get('sub')) : number_format(\Cart::getSubTotal())}}--}}
-                    // $('#deliveryFee').empty().append("<th style='padding: 10px; font-weight: bold; font-size: 14px; color: #000000;'>" + "Delivery Fee" + "</th>" + "<td>" + "<span class='total amount'>" + "+৳" + deliveryFee + "</span>" + "</td>");
-                    // if(!empty(Session::get('sub'))) {
-                    // $('#orderTotal').empty().append("<span>" + "৳" + orderTotal + "</span>");
-                    // }
-                    // if(empty(Session::get('sub'))){
-                    // $('#orderTotal').empty().append("<span>" + "৳" + orderTotal + "</span>");
-                    // }
                 }
             });
         }
