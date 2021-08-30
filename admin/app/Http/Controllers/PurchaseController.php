@@ -95,7 +95,8 @@ class PurchaseController extends Controller
                 return $stockAvailable;
             })
             ->addColumn('action', function($action) {
-                return '<a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="editBatch('.$action->batchId.')" title="Purchase"><i class="ft-edit-3"></i></a>
+                return '<a href="javascript:void(0)" class="btn btn-warning btn-sm" onclick="editStock('.$action->batchId.')" title="EditStock"><i class="ft-edit-3"></i></a>
+                <a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="editBatch('.$action->batchId.')" title="Purchase"><i class="ft-edit-3"></i></a>
                         <a href="javascript:void(0)" class="btn btn-warning btn-sm" onclick="returnBatch('.$action->batchId.')" title="Return"><i class="ft-corner-down-left"></i></a>';
             })
             ->rawColumns(['action','variation','stock_available'])
@@ -116,6 +117,20 @@ class PurchaseController extends Controller
         return view('purchase.modal',compact('data','batch','vendorInfo','store'));
     }
 
+    public function editStock(Request $data){
+        $batch = Batch::with('sku','stock')->find($data->batchId);
+        if ($data->newPurchase == 'true'){
+            $quantity = '0';
+        }else{
+           $quantity = $batch->stock->stock;
+        }
+        data_set($batch, 'quantity', $quantity);
+        data_set($batch, 'newPurchase', $data->newPurchase);
+        $vendorInfo = Vendor::where('status','active')->get();
+        $store = Store::get();
+        return view('purchase.editStock',compact('data','batch','vendorInfo','store'));
+    }
+
     public function store(Request $data)
     {
         // return $data;
@@ -123,7 +138,7 @@ class PurchaseController extends Controller
             'store' => 'required',
             'vendor' => 'required',
             'purchasePrice' => 'required|numeric',
-            'quantity' => 'required_with:batch|numeric',
+            // 'quantity' => 'required_with:batch|numeric',
             'vatType' => 'required',
             'vat' => 'required|numeric',
             'purchaseDate' => 'required',
@@ -168,24 +183,21 @@ class PurchaseController extends Controller
         // ));
 
         if(!empty($data->batch)){
+            // dd($data->all());
             $batch = Batch::find($data->batch);
-          
-            $stock = new Stock();
-            $stock->type = $data->type;
-            $stock->identifier = 'edit';
-        }else{ 
-            $stock = new Stock();
-            $stock->type = 'in';
-            $stock->identifier = 'purchase';
-            
-          }
-    
-       
-        $stock->fkskuId = $data->sku;
-        $stock->batchId = $batch->batchId;
-        $stock->stock = $data->quantity;
-        
-        $stock->save();
+            $batch->skuId = $data->sku;
+            $batch->storeId = $data->store;
+            $batch->vendor = $data->vendor;
+            $batch->purchasePrice = $data->purchasePrice;
+            $batch->salePrice = $data->salePrice;
+            $batch->vatType = $data->vatType;
+            $batch->vat = $data->vat;
+
+            $batch->save();
+            // $stock = new Stock();
+            // $stock->type = $data->type;
+            // $stock->identifier = 'edit';
+        }
         
         return response()->json(array(
             'batchId'=>$batch->batchId,
@@ -201,6 +213,31 @@ class PurchaseController extends Controller
         $vendor=Vendor::all();
         $store=Store::all();
         return view('purchase.add',compact('vendor','store'));
+    }
+
+    public function editStockUpdate(Request $request){
+        // dd($request->all());
+        if(!empty($request->batch)){
+            $batch = Batch::find($request->batch);
+
+            $stock = new Stock();
+            $stock->batchId = $batch->batchId;
+            $stock->type = $request->type;
+            $stock->stock = $request->quantity;
+            $stock->identifier = 'edit';
+            $stock->fkskuId = $request->skuId;
+            $stock->save();
+
+            return response()->json(array(
+                'batchId'=>$batch->batchId,
+                'quantity'=>$request->quantity,
+                'success'=>true,
+            ));
+            // dd($batch);
+        }else{
+            return 'no batch found';
+        }
+        
     }
 
     public function skuWithBatch(Request $r){
