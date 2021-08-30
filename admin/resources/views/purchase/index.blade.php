@@ -138,5 +138,21 @@
                 }
             });
         }
+        function editStock(batchId,newPurchase = false) {
+            // alert(batchId);
+            $.ajax({
+                url: "{!! route('purchase.edit.stock.modal') !!} ",
+                method: 'post',
+                data: {
+                    '_token': '{{csrf_token()}}',
+                    'batchId': batchId,
+                    'newPurchase': newPurchase
+                },
+                success: function (data) {
+                    $('#purchaseModal').html(data);
+                    $('#purchase-Modal').modal('toggle');
+                }
+            });
+        }
 </script>
 @endsection
