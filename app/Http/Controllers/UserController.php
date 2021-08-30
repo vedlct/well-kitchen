@@ -9,6 +9,7 @@ use App\Models\UserType;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Session;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -101,6 +102,30 @@ class UserController extends Controller
 
         return response()->json(['userId' => $customer->fkuserId, 'membership' => $customer->membership]);
     }
+
+    public function registerInsert(Request $request)
+    {
+        $this->validate($request, [
+            'phone' => 'required|numeric|digits:11|unique:user,phone',
+        ]);
+
+        $user = new User();
+        $user->firstName = $request->firstName;
+        $user->phone = $request->phone;
+        $user->email = $request->email;
+
+        $user->fkuserTypeId = '2';
+        if ($request->password) {
+            $user->password = Hash::make($request->password);
+        }
+        $user->save();
+        $this->SendSms($request->phone);
+        Session::put('phone', $request->phone);
+
+        return redirect()->route('Register.otp.index');
+    }
+
+
 
     public function OtpIndex()
     {

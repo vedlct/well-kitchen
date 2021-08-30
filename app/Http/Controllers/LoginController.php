@@ -125,6 +125,6 @@ class LoginController extends Controller
         $user->save();
         Auth::login($user);
         Session::flash('success','Your password changed successfully');
-        return redirect()->route('User.profile');
+        return redirect()->route('profile');
     }
 }
