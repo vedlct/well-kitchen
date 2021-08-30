@@ -17,7 +17,7 @@
                         <div id="lg1" class="tab-pane active">
                             <div class="login-form-container">
                                 <div class="login-register-form">
-{{--                                    <form method="POST" action="{{route('login')}}">--}}
+                                   {{-- <form method="POST" action="{{route('login')}}"> --}}
                                     <form method="POST" action="{{route('Login.otp')}}">
                                         @csrf
                                         <input type="text" name="phone" placeholder="Mobile">
