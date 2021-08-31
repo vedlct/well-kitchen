@@ -195,9 +195,9 @@
 
 
                             <div class="cart-plus-minus"  onclick="quantityUpdate(${row.id})">
-                                <div class="dec qtybutton">-</div>
+                                <div class="dec qtybutton qb${row.id}">-</div>
                                 <input class="cart-plus-minus-box" type="text" name="quantity"  id="qtyBtn${row.id}" value="${row.quantity}">
-                                <div class="inc qtybutton">+</div>
+                                <div class="inc qtybutton qb${row.id}">+</div>
                             </div>
                        `)
                         $('.productSubtotal'+row.id).append(`
@@ -208,7 +208,7 @@
 
 
                     `)
-                        $(".qtybutton").on("click", function () {
+                        $(".qb"+row.id).on("click", function () {
                             var $button = $(this);
                             var oldValue = $button.parent().find("input").val();
                             if ($button.text() === "+") {
