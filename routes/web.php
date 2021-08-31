@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\WishlistController;
@@ -16,6 +18,25 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
+
+//Register
+Route::group(['as'=>'Register.'], function(){
+    Route::get('user-register',[UserController::class, 'register'])->name('index');
+    Route::post('user-register',[UserController::class, 'registerInsert'])->name('insert');
+    Route::get('otp-index',[UserController::class, 'OtpIndex'])->name('otp.index');
+    Route::post('otp-submit',[UserController::class, 'verifyOtp'])->name('otp.submit');
+    Route::post('otp-resend',[UserController::class, 'OtpResend'])->name('otp.resend');
+});
+
+//Login
+Route::group(['as'=>'Login.'], function(){
+    Route::post('normal-login',[LoginController::class, 'NormalLogin'])->name('normal');
+    Route::post('otp-login',[LoginController::class, 'OtpLogin'])->name('otp');
+    Route::get('forgot-password',[LoginController::class, 'ForgotPassword'])->name('forgotPassword');
+    Route::post('forgot-password',[LoginController::class, 'ForgotPasswordSubmit'])->name('forgotPasswordSubmit');
+    Route::get('new-password',[LoginController::class, 'NewPasswordForm'])->name('newPassword');
+    Route::post('new-password',[LoginController::class, 'NewPasswordSubmit'])->name('passwordSave');
+});
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/offers', [HomeController::class, 'offers'])->name('offers');
@@ -58,7 +79,7 @@ Route::post('/search-category-product' ,[CategoryController::class,'searchByProd
 
     Route::post('review-submit',[ReviewController::class,'ReviewSubmit'])->name('review.submit')->middleware('auth');
 
-    Route::get('/checkout' ,[CheckoutController::class,'index'])->name('checkout.index');
+    Route::get('/checkout' ,[CheckoutController::class,'index'])->name('checkout.index')->middleware('auth');
     Route::post('checkout-submit',[CheckoutController::class,'checkoutSubmit'])->name('checkout.submit');
 
     Route::post('order/shippingZone',[CheckoutController::class,'shippingZone'])->name('shippingZone.change');

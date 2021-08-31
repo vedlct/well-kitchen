@@ -140,6 +140,12 @@
                     },
                 },
                 columns: [
+                    { title: 'Action', name: 'action',className: "text-center", orderable: false, searchable:false,
+                        data:(data)=>{
+                            return `<a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="showOrder(${data.orderId})" title="Order show"><i class="ft-eye"></i></a>
+                                    <a href="javascript:void(0)" class="btn btn-info btn-sm" onclick="orderStatus(${data.orderId})" title="Status change"><i class="ft-refresh-cw"></i></a>`
+                        }
+                    },
                     { title: 'OrderID', data: 'orderId', name: 'orderId' ,className: "text-center", orderable: true, searchable:true},
                     { title: 'Phone', data: 'phone', name: 'customer.phone' ,className: "text-center", orderable: true, searchable:true},
                     { title: 'Order Total', data: 'orderTotal', name: 'orderTotal' ,className: "text-center", orderable: true, searchable:false},
@@ -162,13 +168,8 @@
                     { title: 'Updated', data: 'updated_at', name: 'updated_at' ,className: "text-center", orderable: true, searchable:true,
                         render: (data) =>  data.split('T')[0]
 
-                    },
-                    { title: 'Action', name: 'action',className: "text-center", orderable: false, searchable:false,
-                        data:(data)=>{
-                            return `<a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="showOrder(${data.orderId})" title="Order show"><i class="ft-eye"></i></a>
-                                    <a href="javascript:void(0)" class="btn btn-info btn-sm" onclick="orderStatus(${data.orderId})" title="Status change"><i class="ft-refresh-cw"></i></a>`
-                        }
                     }
+
                 ],
             });
         };

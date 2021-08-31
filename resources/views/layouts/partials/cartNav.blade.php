@@ -5,7 +5,7 @@
         <h5 class="mb-0">Cart <span class="cart_count">{{Cart::getContent()->count()}}</span></h5>
     </div>
     <!-- cart button right fixed end -->
-    
+
     <!-- right fixed cart start -->
     <div class="full-body-overlay" id="fullBodyOverlay" onclick="hideOverlay()"></div>
     <section class="side-cart side-nav px-3 py-md-5 py-3" id="sideNav">
@@ -34,9 +34,9 @@
         </div>
        @endforeach
     </div>
-      
+
     @if(\Cart::getContent()->count() > 0)
-    
+
       <div class="d-flex justify-content-between cartTable">
             <div>
                 <h5>Sub-Total:</h5>
@@ -50,7 +50,12 @@
                 <a href="{{route('cart')}}" class="btn btn-secondary w-100">View Cart</a>
             </div>
             <div class="col-6">
+                @if(Auth::check())
                 <a href="{{route('checkout.index')}}" class="btn btn-danger w-100">checkout</a>
+                @endif
+                @if(!Auth::check())
+                <a href="{{route('login')}}" class="btn btn-danger w-100">checkout</a>
+                @endif
             </div>
         </div>
     </section>

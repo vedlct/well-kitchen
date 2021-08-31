@@ -17,7 +17,8 @@
                         <div id="lg1" class="tab-pane active">
                             <div class="login-form-container">
                                 <div class="login-register-form">
-                                    <form method="POST" action="{{ route('login') }}">
+                                    <form method="POST" action="{{route('login')}}">
+{{--                                    <form method="POST" action="{{route('Login.otp')}}">--}}
                                         @csrf
                                         <input type="text" name="phone" placeholder="Mobile">
                                         @error('phone')
@@ -31,7 +32,8 @@
                                             <div class="login-toggle-btn">
                                                 {{-- <input type="checkbox">
                                                 <label>Remember me</label> --}}
-                                                <a href=" {{route('password.request')}} ">Forgot Password?</a>
+                                                <a href=" {{route('Login.forgotPassword')}} ">Forgot Password?</a>
+{{--                                                <a href=" {{route('password.request')}} ">Forgot Password?</a>--}}
                                             </div>
                                             <button type="submit"><span>Login</span></button>
                                         </div>
@@ -42,7 +44,8 @@
                         <div id="lg2" class="tab-pane">
                             <div class="login-form-container">
                                 <div class="login-register-form">
-                                    <form method="POST" action="{{ route('register') }}">
+                                    <form method="POST" action="{{route('Register.insert')}}">
+{{--                                    <form method="POST" action="{{ route('register') }}">--}}
                                         @csrf
                                         <input type="text" name="firstName" placeholder="Username">
                                         @error('firstName')

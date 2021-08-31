@@ -755,3 +755,19 @@ input.form-control:focus {
   padding-right: 7px;
   padding-left: 7px;
 }
+/* 7. verify with otp page start */
+.verify-with-otp-area .main-row {
+	min-height: 30vh;
+}
+.verify-with-otp-area .otp-input {
+	padding: 6px 8px;
+	width: 30px;
+	margin-right: 8px;
+	border: 1px solid #c5c5c5;
+	border-radius: 3px;
+}
+.verify-with-otp-area .otp-input:focus {
+	outline: none;
+	border-color: #8a8a8a;
+}
+/* verify with otp page end */

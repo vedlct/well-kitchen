@@ -219,7 +219,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/add', [PurchaseController::class, 'add'])->name('add');
         Route::post('list', [PurchaseController::class, 'list'])->name('list');
         Route::post('edit', [PurchaseController::class, 'edit'])->name('edit.modal');
+        Route::post('edit-stock', [PurchaseController::class, 'editStock'])->name('edit.stock.modal');
         Route::post('store', [PurchaseController::class, 'store'])->name('store');
+        Route::post('edit-stock-update', [PurchaseController::class, 'editStockUpdate'])->name('editStockUpdate');
         Route::post('batch', [PurchaseController::class, 'skuWithBatch'])->name('batch');
         Route::post('batch-delete', [PurchaseController::class, 'batchDelete'])->name('delete');
         Route::post('batch-edit', [PurchaseController::class, 'editBatch'])->name('editBatch');
