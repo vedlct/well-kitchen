@@ -206,13 +206,14 @@ class CheckoutController extends Controller
         }
 
         \Cart::clear();
+        Session::flash('success', 'Order placed successfully');
         if(Session::has('discountAmount')) {
             Session::forget('discountAmount');
         }
         if(Session::has('sub')) {
             Session::forget('sub');
         }
-        Session::flash('success', 'Order placed successfully');
+//        Session::flash('success', 'Order placed successfully');
 
         return redirect('/');
     }

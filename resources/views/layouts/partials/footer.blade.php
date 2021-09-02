@@ -304,7 +304,6 @@
 
 
     function addTocart(skuId) {
-
         if(skuId == 0){
             toastr.warning('Please Choose a variation');
         }
@@ -348,7 +347,7 @@
 
                                         <div>
                                             <img src="{{asset('admin/public/featureImage/')}}/${row.associatedModel.featureImage}" alt="" class="product-img">
-                                           </div>  
+                                           </div>
                                             <div class="name-area px-2">
                                             <h5 class="product-name"><a href="javascript:void(0)">${row.name}</a></h5>
                                             <h6 class="quantity">${row.quantity} x &#2547; ${row.price}</h6>
@@ -427,105 +426,105 @@
         });
     }
 
-      function quantityUpdate(data){
-        console.log(data);
-        let qtyvalue = $("#qtyBtn"+data).val();
-          if(qtyvalue && qtyvalue >= 1){
-              qtyvalue
-          }
-          if(!qtyvalue || qtyvalue<1){
-              qtyvalue = 1;
-          }
-          console.log(qtyvalue);
-          $.ajax({
-              type: "POST",
-              url: "{{route('product.cartUpdateQuantity')}}",
-              data: {
-                  _token:'{{csrf_token()}}',
-                  _sku:data,
-                  _quantity:qtyvalue,
-              },
-              success: function (response) {
-                toastr.success('Item removed From Cart');
-                var getTotalQuantity=0;
-                var getSubTotal=0;
-                var cartItems=""
-                //   console.log('res',response);
-                //   $('#cartPage').empty().html(response.cart)
-                 $('#headerCartBag').load(document.URL + ' #headerCartBag');
-                 $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
-                //   toastr.success('Item update successfully')
-                  $(".updatereload").load(location.href + " .updatereload");
-                //   $(".cartTotal").load(location.href + " .cartTotal");
+      {{--function quantityUpdate(data){--}}
+      {{--  console.log(data);--}}
+      {{--  let qtyvalue = $("#qtyBtn"+data).val();--}}
+      {{--    if(qtyvalue && qtyvalue >= 1){--}}
+      {{--        qtyvalue--}}
+      {{--    }--}}
+      {{--    if(!qtyvalue || qtyvalue<1){--}}
+      {{--        qtyvalue = 1;--}}
+      {{--    }--}}
+      {{--    console.log(qtyvalue);--}}
+      {{--    $.ajax({--}}
+      {{--        type: "POST",--}}
+      {{--        url: "{{route('product.cartUpdateQuantity')}}",--}}
+      {{--        data: {--}}
+      {{--            _token:'{{csrf_token()}}',--}}
+      {{--            _sku:data,--}}
+      {{--            _quantity:qtyvalue,--}}
+      {{--        },--}}
+      {{--        success: function (response) {--}}
+      {{--          toastr.success('Item removed From Cart');--}}
+      {{--          var getTotalQuantity=0;--}}
+      {{--          var getSubTotal=0;--}}
+      {{--          var cartItems=""--}}
+      {{--          //   console.log('res',response);--}}
+      {{--          //   $('#cartPage').empty().html(response.cart)--}}
+      {{--           $('#headerCartBag').load(document.URL + ' #headerCartBag');--}}
+      {{--           $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);--}}
+      {{--          //   toastr.success('Item update successfully')--}}
+      {{--            $(".updatereload").load(location.href + " .updatereload");--}}
+      {{--          //   $(".cartTotal").load(location.href + " .cartTotal");--}}
 
-                //   $(".total").load(location.href + " .total");
-                //   window.location.reload();
-                $.each(response.cart,(index,row)=>
-                    {
-                        // console.log('res',row);
-                        getTotalQuantity+=parseFloat(row.quantity)
-                        getSubTotal+=parseFloat(row.price)
-                        cartItems+=`<div class="product-area my-md-5 my-4">
-                                    <div class="d-flex justify-content-between align-items-center border-bottom py-2">
-                                        <div>
-                                            <img src="{{asset('admin/public/featureImage/')}}/${row.associatedModel.featureImage}" alt="" class="product-img">
-                                        </div>
-                                            <div class="name-area px-2">
-                                            <h5 class="product-name"><a href="javascript:void(0)">${row.name}</a></h5>
-                                            <h6 class="quantity">${row.quantity} x &#2547; ${row.price}</h6>
-                                            </div>
-                                            <div class="" onclick="removeItem(${row.id})">
-                                                <i class="fa fa-trash"></i>
-                                            </div>
-                                        </div>
-                                        </div>`
+      {{--          //   $(".total").load(location.href + " .total");--}}
+      {{--          //   window.location.reload();--}}
+      {{--          $.each(response.cart,(index,row)=>--}}
+      {{--              {--}}
+      {{--                  // console.log('res',row);--}}
+      {{--                  getTotalQuantity+=parseFloat(row.quantity)--}}
+      {{--                  getSubTotal+=parseFloat(row.price)--}}
+      {{--                  cartItems+=`<div class="product-area my-md-5 my-4">--}}
+      {{--                              <div class="d-flex justify-content-between align-items-center border-bottom py-2">--}}
+      {{--                                  <div>--}}
+      {{--                                      <img src="{{asset('admin/public/featureImage/')}}/${row.associatedModel.featureImage}" alt="" class="product-img">--}}
+      {{--                                  </div>--}}
+      {{--                                      <div class="name-area px-2">--}}
+      {{--                                      <h5 class="product-name"><a href="javascript:void(0)">${row.name}</a></h5>--}}
+      {{--                                      <h6 class="quantity">${row.quantity} x &#2547; ${row.price}</h6>--}}
+      {{--                                      </div>--}}
+      {{--                                      <div class="" onclick="removeItem(${row.id})">--}}
+      {{--                                          <i class="fa fa-trash"></i>--}}
+      {{--                                      </div>--}}
+      {{--                                  </div>--}}
+      {{--                                  </div>`--}}
 
-                    })
-                    $('#cart').html('')
-                    $('#cart').append(`
-                        <div class="cart-button-fixed" onclick="showNav()" id="cartNav">
-                            <i class="pe-7s-shopbag"></i>
-                            <h5 class="mb-0">Cart <span class="cart_count">${response.cartQuantity} </span></h5>
-                        </div>
-                        <div class="full-body-overlay" id="fullBodyOverlay" onclick="hideOverlay()"></div>
-                        <section class="side-cart side-nav px-3 py-md-5 py-3" id="sideNav">
-                        <div class="d-flex justify-content-between">
-                            <div>
-                                <h4>Shopping Cart</h4>
-                            </div>
-                            <div class="">
-                                <i class="fa fa-times close-icon" onclick="hideNav()"></i>
-                            </div>
-                        </div>
-                        ${cartItems}
+      {{--              })--}}
+      {{--              $('#cart').html('')--}}
+      {{--              $('#cart').append(`--}}
+      {{--                  <div class="cart-button-fixed" onclick="showNav()" id="cartNav">--}}
+      {{--                      <i class="pe-7s-shopbag"></i>--}}
+      {{--                      <h5 class="mb-0">Cart <span class="cart_count">${response.cartQuantity} </span></h5>--}}
+      {{--                  </div>--}}
+      {{--                  <div class="full-body-overlay" id="fullBodyOverlay" onclick="hideOverlay()"></div>--}}
+      {{--                  <section class="side-cart side-nav px-3 py-md-5 py-3" id="sideNav">--}}
+      {{--                  <div class="d-flex justify-content-between">--}}
+      {{--                      <div>--}}
+      {{--                          <h4>Shopping Cart</h4>--}}
+      {{--                      </div>--}}
+      {{--                      <div class="">--}}
+      {{--                          <i class="fa fa-times close-icon" onclick="hideNav()"></i>--}}
+      {{--                      </div>--}}
+      {{--                  </div>--}}
+      {{--                  ${cartItems}--}}
 
-                                ${getSubTotal != 0 ? `<div class="d-flex justify-content-between"><div> <h5>Sub-Total:</h5> </div>
-                                <div class="">
-                                <h5>&#2547;${response.total}</h5>
-                                </div>
-                            </div>
-                            <div class="row my-md-5 my-4">
-                                <div class="col-6">
-                                    <a href="{{route('cart')}}" class="btn btn-secondary w-100">View Cart</a>
-                                </div>
-                                <div class="col-6">
-                                    <a href="{{route('checkout.index')}}" class="btn btn-danger w-100">checkout</a>
-                                </div>
-                            </div>
-                            </div>` :`<p style="font-weight: bold; font-size: 14px; text-align: center">Cart Is Empty</p>` }
-                        </section>`
-                    )
+      {{--                          ${getSubTotal != 0 ? `<div class="d-flex justify-content-between"><div> <h5>Sub-Total:</h5> </div>--}}
+      {{--                          <div class="">--}}
+      {{--                          <h5>&#2547;${response.total}</h5>--}}
+      {{--                          </div>--}}
+      {{--                      </div>--}}
+      {{--                      <div class="row my-md-5 my-4">--}}
+      {{--                          <div class="col-6">--}}
+      {{--                              <a href="{{route('cart')}}" class="btn btn-secondary w-100">View Cart</a>--}}
+      {{--                          </div>--}}
+      {{--                          <div class="col-6">--}}
+      {{--                              <a href="{{route('checkout.index')}}" class="btn btn-danger w-100">checkout</a>--}}
+      {{--                          </div>--}}
+      {{--                      </div>--}}
+      {{--                      </div>` :`<p style="font-weight: bold; font-size: 14px; text-align: center">Cart Is Empty</p>` }--}}
+      {{--                  </section>`--}}
+      {{--              )--}}
 
-              },
-              error:function (response){
-                  toastr.error('Stock not available')
-              }
-          });
-      }
+      {{--        },--}}
+      {{--        error:function (response){--}}
+      {{--            toastr.error('Stock not available')--}}
+      {{--        }--}}
+      {{--    });--}}
+      {{--}--}}
 
 
       function removeItem(id) {
-        
+
         $.ajax({
             type: "POST",
             url: "{{route('product.cartRemove')}}",
@@ -540,8 +539,10 @@
                 var cartItems=""
 
                 $('#headerCartBag').load(document.URL + ' #headerCartBag');
+                $(".updatereload").load(location.href + " .updatereload");
+
                 $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
-               
+
 
                 $.each(response.cart,(index,row)=>
                     {
@@ -553,7 +554,7 @@
                                     <div class="d-flex justify-content-between align-items-center border-bottom py-2">
                                            <div>
                                                 <img src="{{asset('admin/public/featureImage/')}}/${row.associatedModel.featureImage}" alt="" class="product-img">
-                                           </div>  
+                                           </div>
                                             <div class="name-area px-2">
                                             <h5 class="product-name"><a href="javascript:void(0)">${row.name}</a></h5>
                                             <h6 class="quantity">${row.quantity} x &#2547; ${row.price}</h6>

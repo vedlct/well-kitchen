@@ -204,6 +204,7 @@ class HomeController extends Controller
     }
 
     public function updateQuantity(Request $request){
+
         $stockIn=Stock::where('fkskuId',$request->_sku)->where('type', 'in')->sum('stock');
         $stockOut=Stock::where('fkskuId',$request->_sku)->where('type', 'out')->sum('stock');
         $stockAvailable = $stockIn-$stockOut;

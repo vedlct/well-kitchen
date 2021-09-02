@@ -9,6 +9,7 @@ use App\Models\UserType;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
 use Session;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -102,6 +103,30 @@ class UserController extends Controller
         return response()->json(['userId' => $customer->fkuserId, 'membership' => $customer->membership]);
     }
 
+    public function registerInsert(Request $request)
+    {
+        $this->validate($request, [
+            'phone' => 'required|numeric|digits:11|unique:user,phone',
+        ]);
+
+        $user = new User();
+        $user->firstName = $request->firstName;
+        $user->phone = $request->phone;
+        $user->email = $request->email;
+
+        $user->fkuserTypeId = '2';
+        if ($request->password) {
+            $user->password = Hash::make($request->password);
+        }
+        $user->save();
+        $this->SendSms($request->phone);
+        Session::put('phone', $request->phone);
+
+        return redirect()->route('Register.otp.index');
+    }
+
+
+
     public function OtpIndex()
     {
         $phone = Session::get('phone');
@@ -111,9 +136,9 @@ class UserController extends Controller
 
     public static function SendSms($phone)
     {
-        $userName = 'zeroesbd';
-        $password = 'zeroesbd@123';
-        $brand = 'ZEROES';
+        $userName = 'wellkitchen';
+        $password = 'wellkitchen@123';
+        $brand = '';
         $arrContextOptions = [
             'ssl' => [
                 'verify_peer' => false,
@@ -127,7 +152,7 @@ class UserController extends Controller
         Session::forget('otp');
         Session::put('otp', $otp);
         $sms = 'প্রিয় গ্রাহক আপনার রেজিস্ট্রেশন ও টি পি: '.str_replace($en, $bn, $otp).' এটি পরবর্তী ৩ ঘন্টার জন্য কার্যকর থাকবে ! ';
-        file_get_contents('https://msms.techcloudltd.com/pages/RequestSMS.php?user_name='.urlencode($userName).'&pass_word='.urlencode($password).'&brand='.urlencode($brand).'&type=1&masking=1&destination='.urlencode($phone).'&sms='.urlencode($sms), false, stream_context_create($arrContextOptions));
+        file_get_contents('https://msms.techcloudltd.com/pages/RequestSMS.php?user_name='.urlencode($userName).'&pass_word='.urlencode($password).'&brand='.urlencode($brand).'&type=1&masking=2&destination='.urlencode($phone).'&sms='.urlencode($sms), false, stream_context_create($arrContextOptions));
     }
 
     public function OtpResend(Request $request)

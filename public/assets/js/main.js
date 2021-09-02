@@ -15,7 +15,7 @@
   iconCart.on("click", function () {
     $(".shopping-cart-content").toggleClass("cart-visible");
   });
-  
+
 
   // home slider active
   $(".slider-active").owlCarousel({
@@ -517,8 +517,8 @@
     	Cart Plus Minus Button
     ------------------------------ */
   var CartPlusMinus = $(".cart-plus-minus");
-  CartPlusMinus.prepend('<div class="dec qtybutton">-</div>');
-  CartPlusMinus.append('<div class="inc qtybutton">+</div>');
+  // CartPlusMinus.prepend('<div class="dec qtybutton">-</div>');
+  // CartPlusMinus.append('<div class="inc qtybutton">+</div>');
   $(".qtybutton").on("click", function () {
     var $button = $(this);
     var oldValue = $button.parent().find("input").val();
@@ -1064,8 +1064,8 @@ function showFourCol() {
       }
     ]
   });
-  
+
   // remove home slider nav and arrow disabled
-  
+
   $(".slider-active .owl-nav").removeClass("disabled");
   $(".slider-active .owl-dots").removeClass("disabled");
