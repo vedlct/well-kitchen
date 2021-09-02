@@ -125,7 +125,7 @@ class CheckoutController extends Controller
         // dd($customer);
 
         $order = new Order();
-        $order->fkcustomerId = $customer->customerId;
+        $order->fkcustomerId = $customer?$customer->customerId:'';
         $order->note = $request->message;
         $order->deliveryFee = $deliveryFee;
         if(Session::has('discountAmount')) {

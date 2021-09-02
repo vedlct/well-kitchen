@@ -120,6 +120,11 @@ class UserController extends Controller
         }
         $user->save();
 
+        $customer = new Customer();
+        $customer->fkuserId = $user->userId;
+        $customer->phone = $user->phone;
+        $customer->save();
+
         $this->SendSms($request->phone);
         Session::put('phone', $request->phone);
 
