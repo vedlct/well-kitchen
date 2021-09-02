@@ -75,7 +75,6 @@ class CheckoutController extends Controller
 
         $validated = $request->validate([
             'first_name' => 'required|max:50',
-            'last_name' => 'required',
 //            'email' => 'required',
             'phone' => 'required',
             'billingAddress' => 'required',
