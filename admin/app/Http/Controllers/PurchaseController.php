@@ -133,7 +133,7 @@ class PurchaseController extends Controller
 
     public function store(Request $data)
     {
-        // return $data;
+   
         $this->validate($data, [
             'store' => 'required',
             'vendor' => 'required',
@@ -161,26 +161,24 @@ class PurchaseController extends Controller
         $batch->created_at = Carbon::parse($data->purchaseDate)->timestamp;
         $batch->save();
 
-        // if(empty($data->batch)){
-        //     $stock = new Stock();
-        // }else{
-        //     $stock = Stock::where('batchId',$data->batch)->first();
-        // }
-        // $stock->fkskuId = $data->sku;
-        // $stock->batchId = $batch->batchId;
-        // $stock->stock = $data->quantity;
-        // $stock->type = 'in';
-        // $stock->identifier = 'purchase';
-        // $stock->save();
-        
-        // return response()->json(array(
-        //     'batchId'=>$batch->batchId,
-        //     'sku'=>$data->sku,
-        //     'quantity'=>$data->quantity,
-        //     'purchasePrice'=>$batch->purchasePrice,
-        //     'store'=> $batch->storeId,
-        //     'success'=>true,
-        // ));
+        if(empty($data->batch)){
+          
+            $stock = new Stock();
+            $stock->fkskuId = $data->sku;
+            $stock->batchId = $batch->batchId;
+            $stock->stock = $data->quantity;
+            $stock->type = 'in';
+            $stock->identifier = 'purchase';
+            $stock->save();
+        }else{
+            $stock = Stock::where('batchId',$data->batch)->first();
+            $stock->fkskuId = $data->sku;
+            $stock->batchId = $batch->batchId;
+            // $stock->stock = $data->quantity;
+            $stock->type = 'in';
+            $stock->identifier = 'purchase';
+            $stock->save();
+        }
 
         if(!empty($data->batch)){
             // dd($data->all());
@@ -194,9 +192,7 @@ class PurchaseController extends Controller
             $batch->vat = $data->vat;
 
             $batch->save();
-            // $stock = new Stock();
-            // $stock->type = $data->type;
-            // $stock->identifier = 'edit';
+           
         }
         
         return response()->json(array(

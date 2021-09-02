@@ -52,7 +52,6 @@ class CategoryController extends Controller
     }
 
     public function searchByProducts(Request $request){
-        // dd($request->all());
         $parentCategory = null;
         $subCategory = null;
        $minmaxPrice =  null;
@@ -75,7 +74,7 @@ class CategoryController extends Controller
             $skus = Sku::with('product')->whereIn('skuId', $skusIds)->whereHas('product', function ($query) {
                 $query->where('status', 'active');
             })->get();
-
+// dd($skus);
 //            foreach($products as $pro){
 //                $skusSingle = Sku::where('fkproductId',$pro->productId)->with('product.category')->first();
 //
