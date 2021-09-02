@@ -75,7 +75,6 @@ class CheckoutController extends Controller
 
         $validated = $request->validate([
             'first_name' => 'required|max:50',
-            'last_name' => 'required',
 //            'email' => 'required',
             'phone' => 'required',
             'billingAddress' => 'required',
@@ -126,7 +125,7 @@ class CheckoutController extends Controller
         // dd($customer);
 
         $order = new Order();
-        $order->fkcustomerId = $customer->customerId;
+        $order->fkcustomerId = $customer?$customer->customerId:'';
         $order->note = $request->message;
         $order->deliveryFee = $deliveryFee;
         if(Session::has('discountAmount')) {

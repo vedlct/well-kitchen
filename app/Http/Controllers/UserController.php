@@ -123,7 +123,6 @@ class UserController extends Controller
         $customer = new Customer();
         $customer->fkuserId = $user->userId;
         $customer->phone = $user->phone;
-        $customer->status = 'active';
         $customer->save();
 
         $this->SendSms($request->phone);
@@ -184,12 +183,16 @@ class UserController extends Controller
                 $user->status = 1;
                 $user->save();
                 $customer = Customer::where('fkuserId', $user->userId)->first();
+
                 if (empty($customer)) {
                     $customer = new Customer();
                     $customer->fkuserId = $user->userId;
                     $customer->phone = $user->phone;
                     $customer->save();
+
+
                 }
+
                 Auth::login($user);
                 Session::flash('success', 'Your registration is completed');
                 if (Session::has('back')) {
