@@ -109,23 +109,26 @@ class UserController extends Controller
             'phone' => 'required|numeric|digits:11|unique:user,phone',
         ]);
 
-        $user = new User();
-        $user->firstName = $request->firstName;
-        $user->phone = $request->phone;
-        $user->email = $request->email;
+//        $user = new User();
+//        $user->firstName = $request->firstName;
+//        $user->phone = $request->phone;
+//        $user->email = $request->email;
+//
+//        $user->fkuserTypeId = '2';
+//        if ($request->password) {
+//            $user->password = Hash::make($request->password);
+//        }
+//        $user->save();
 
-        $user->fkuserTypeId = '2';
-        if ($request->password) {
-            $user->password = Hash::make($request->password);
-        }
-        $user->save();
-
-        $customer = new Customer();
-        $customer->fkuserId = $user->userId;
-        $customer->phone = $user->phone;
-        $customer->save();
+//        $customer = new Customer();
+//        $customer->fkuserId = $user->userId;
+//        $customer->phone = $user->phone;
+//        $customer->save();
 
         $this->SendSms($request->phone);
+        Session::put('firstName', $request->firstName);
+        Session::put('email', $request->email);
+        Session::put('password', $request->password);
         Session::put('phone', $request->phone);
 
         return redirect()->route('Register.otp.index');
@@ -179,9 +182,24 @@ class UserController extends Controller
             if (Session::has('forgotPassword')) {
                 return redirect()->route('Login.newPassword');
             } else {
-                $user = User::where('phone', Session::get('phone'))->first();
+
+                $user = new User();
+                $user->firstName = Session::get('firstName');
+                $user->phone = Session::get('phone');
+                $user->email = Session::get('email');
+
+                $user->fkuserTypeId = '2';
+                if (Session::get('password')) {
+                    $user->password = Hash::make(Session::get('password'));
+                }
                 $user->status = 1;
+
                 $user->save();
+
+//                $user = User::where('phone', Session::get('phone'))->first();
+//                $user->status = 1;
+//                $user->save();
+
                 $customer = Customer::where('fkuserId', $user->userId)->first();
 
                 if (empty($customer)) {
@@ -194,6 +212,7 @@ class UserController extends Controller
                 }
 
                 Auth::login($user);
+
                 Session::flash('success', 'Your registration is completed');
                 if (Session::has('back')) {
                     return redirect(Session::get('back'));

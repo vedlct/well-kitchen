@@ -85,6 +85,7 @@ class CheckoutController extends Controller
         }
         if(Auth::user()){
             $customer = Customer::where('fkuserId', Auth::user()->userId)->first();
+
         }
 
 // dd($customer);
@@ -116,6 +117,24 @@ class CheckoutController extends Controller
                 $address->fkcustomerId  = $customer->customerId;
                 $address->fkshipment_zoneId  = $request->fkshipment_zoneId;
                 $address->save();
+
+            }
+            if(Auth::user() && !empty($customer)){
+                $address = Address::where('fkcustomerId', $customer->customerId)->first();
+
+                if(empty($address)){
+                    $address = new Address();
+                    $address->billingAddress = $request->billingAddress;
+
+                    if($request->shipping == 'on'){
+                        $address->shippingAddress = $request->diffshippingAddress;
+                    }else{
+                        $address->shippingAddress = $request->billingAddress;
+                    }
+                    $address->fkcustomerId  = $customer->customerId;
+                    $address->fkshipment_zoneId  = $request->fkshipment_zoneId;
+                    $address->save();
+                }
 
             }
 

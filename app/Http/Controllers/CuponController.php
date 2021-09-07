@@ -29,7 +29,7 @@ class CuponController extends Controller
             $newTotal = \Cart::getSubTotal() - $discountAmount;
             Session::put('sub', $newTotal);
             Session::put('discountAmount', $discountAmount);
-            Session::flash('success', 'Promo code applied successful.');
+//            Session::flash('success', 'Promo code applied successful.');
         }
 
         if(empty($promo)){

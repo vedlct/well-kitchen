@@ -540,6 +540,7 @@
 
                 $('#headerCartBag').load(document.URL + ' #headerCartBag');
                 $(".updatereload").load(location.href + " .updatereload");
+                // $("#discountValue").load(" #discountValue");
 
                 $('#mobile-cart').html(`<i class="fas fa-shopping-bag"></i> <br>Cart(${response.cartQuantity})`);
 
