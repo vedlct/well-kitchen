@@ -146,8 +146,8 @@
                         <a class="cart-btn-2" onclick="applyPromo()">Apply Coupon</a>
                     </div>
                 </div>
-
-                <div class="your-order-area">
+                @if(\Cart::getContent()->count() > 0)
+                <div class="your-order-area" id="discountValue">
                     <h3>Your order</h3>
                     <div class="your-order-wrap gray-bg-4">
                         <div class="your-order-product-info">
@@ -170,20 +170,31 @@
 
                                 @if(!empty(Session::get('discountAmount')))
                             <div class="your-order-total">
-                                <ul>
+                                <ul id="">
                                     <li class="order-total">Total</li>
                                     <li>৳{{number_format(\Cart::getSubTotal())}}</li>
                                 </ul>
                                 <br>
-                                <ul>
+
+                                <ul id="">
                                     <li class="order-total">Discount</li>
                                     <li>-৳{{number_format(Session::get('discountAmount')) ? number_format(Session::get('discountAmount')) : 0}}</li>
                                 </ul>
+
                             </div>
                                 @endif
+{{--                            <div class="your-order-total" id="hideDefault">--}}
+{{--                                <ul id="discountValue">--}}
+
+{{--                                </ul>--}}
+{{--                                <br>--}}
+{{--                                <ul id="orderTotal">--}}
+
+{{--                                </ul>--}}
+{{--                            </div>--}}
                             <div class="your-order-bottom">
                                 <ul>
-                                    <li class="your-order-shipping">Shipping</li>
+                                    <li class="your-order-shipping shipping"></li>
                                     <li id='deliveryFee'> </li>
                                 </ul>
                             </div>
@@ -221,6 +232,11 @@
                             @endif
                     </div>
                 </div>
+                @else
+                    {{Session::forget('discountAmount')}}
+                    {{Session::forget('sub')}}
+
+                @endif
             </div>
 
         </div>
@@ -248,6 +264,7 @@ function shippingZone() {
                     console.log(data);
                     var deliveryFee = data['deliveryFee'];
                     var orderTotal = data['orderTotal'];
+                    $('.shipping').empty().append('Shipping');
                     $('#deliveryFee').empty().append("<th style='padding: 10px; font-weight: bold; font-size: 14px; color: #000000;'>" + "Delivery Fee" + "</th>" + "<td>" + "<span class='total amount'>" + "+৳" + deliveryFee + "</span>" + "</td>");
                     $('#orderTotal').empty().append("<span>" + "৳" + orderTotal + "</span>");
                 }
@@ -309,7 +326,6 @@ function shippingZone() {
 
         function applyPromo(){
             let promoCode = $("#promoCode").val();
-
             $.ajax({
                 url: "{{route('promo.submit')}}",
                 method: 'POST',
@@ -318,8 +334,10 @@ function shippingZone() {
                     promo_code: promoCode,
                 },
                 success: function (data) {
-                    console.log(data);
-                    window.location.reload();
+                    toastr.success('Promo code applied successful.');
+                    $("#discountValue").load(" #discountValue");
+
+
                 }
             });
         }

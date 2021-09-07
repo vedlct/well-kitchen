@@ -189,7 +189,7 @@ class UserController extends Controller
                 $user->email = Session::get('email');
 
                 $user->fkuserTypeId = '2';
-                if ($request->password) {
+                if (Session::get('password')) {
                     $user->password = Hash::make(Session::get('password'));
                 }
                 $user->status = 1;
