@@ -104,8 +104,11 @@ class ProductController extends Controller
         $product_variation_temp->variationType1 = $request->variationType1;
         $product_variation_temp->variationType2 = $request->variationType2;
         $product_variation_temp->regularPrice = $request->salePrice;
-        if($request->salePrice > 0){
-        $product_variation_temp->discount = 100 - round(($request->discount*100)/$request->salePrice);
+        if($request->discount > 0){
+            $product_variation_temp->discount = 100 - round(($request->discount*100)/$request->salePrice);
+        }
+        if($request->discount <= 0 || $request->discount == null){
+            $product_variation_temp->discount = null;
         }
         $product_variation_temp->salePrice = $request->discount;
         $product_variation_temp->stockAlert = $request->stockAlert;
@@ -147,6 +150,7 @@ class ProductController extends Controller
     //Product Store
     public function store(Request $request)
     {
+        dd($request->all());
         $this->validate($request, [
             'productName' => 'required|unique:product',
             'productCode' => 'required|unique:product',
@@ -193,8 +197,11 @@ class ProductController extends Controller
             $sku->barcode = $request->barcode;
             $sku->fkproductId = $product->productId;
             $sku->regularPrice = $request->salePrice;
-            if($request->salePrice > 0){
-            $sku->discount = 100 - round(($request->discount*100)/$request->salePrice);
+            if($request->discount > 0){
+                $sku->discount = 100 - round(($request->discount*100)/$request->salePrice);
+            }
+            if($request->discount <= 0 || $request->discount == null){
+                $sku->discount = null;
             }
             $sku->salePrice = $request->discount;
             $sku->stockAlert = $request->stockAlert;
@@ -377,8 +384,11 @@ class ProductController extends Controller
         $sku->barcode = $request->barcode;
         $sku->fkproductId = $request->productId;
         $sku->regularPrice = $request->salePrice;
-        if($request->salePrice > 0){
-        $sku->discount = 100 - round(($request->discount*100)/$request->salePrice);
+        if($request->discount > 0){
+            $sku->discount = 100 - round(($request->discount*100)/$request->salePrice);
+        }
+        if($request->discount <= 0 || $request->discount == null){
+            $sku->discount = null;
         }
         $sku->salePrice = $request->discount;
         $sku->stockAlert = $request->stockAlert;
@@ -390,7 +400,7 @@ class ProductController extends Controller
         $productDetails->productId = $request->productId;
         $productDetails->fkskuId = $sku->skuId;
         $productDetails->save();
-        
+
         // $productDetails = new ProductDetails();
         // $productDetails->description = $product_variation->variationDetails;
         // $productDetails->fabricDetails = $product_variation->variationShortDes;
@@ -460,7 +470,7 @@ class ProductController extends Controller
     //Update Variation
     public function variationUpdate(Request $request)
     {
-       
+
         $this->validate($request, [
             'variationType1' => 'required_without:variationType2|different:variationType2',
             'variationType2' => 'required_without:variationType1|different:variationType1',
@@ -512,14 +522,17 @@ class ProductController extends Controller
         $fkproductId = $sku->fkproductId;
         $sku->barcode = $request->barcode;
         $sku->regularPrice = $request->salePrice;
-        if($request->salePrice > 0){
-        $sku->discount = 100 - round(($request->discount*100)/$request->salePrice);
+        if($request->discount > 0){
+            $sku->discount = 100 - round(($request->discount*100)/$request->salePrice);
+        }
+        if($request->discount <= 0 || $request->discount == null){
+            $sku->discount = null;
         }
         $sku->salePrice = $request->discount;
         $sku->stockAlert = $request->stockAlert;
         $sku->save();
 
-        
+
         $productDetails = ProductDetails::updateOrCreate([
             'fkskuId'   => $request->skuId,
         ],[
@@ -554,7 +567,7 @@ class ProductController extends Controller
         $product->fkidproduct_unit = $request->fkidproduct_unit;
         $product->status = $request->status;
 
-        
+
 
         if($request->newArrival == "on"){
 
@@ -586,13 +599,16 @@ class ProductController extends Controller
             $productDetails->productId = $productId;
             $productDetails->save();
         }
-        
+
         if ($product->type == 'single') {
             $sku = Sku::where('fkproductId', $productId)->first();
             $sku->barcode = $request->barcodeSingle;
             $sku->regularPrice = $request->salePrice;
-            if($request->salePrice > 0){
-            $sku->discount = 100 - round(($request->discount*100)/$request->salePrice);
+            if($request->discount > 0){
+                $sku->discount = 100 - round(($request->discount*100)/$request->salePrice);
+            }
+            if($request->discount <= 0 || $request->discount == null){
+                $sku->discount = null;
             }
             $sku->salePrice = $request->discount;
             $sku->stockAlert = $request->stockAlert;
