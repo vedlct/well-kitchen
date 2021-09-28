@@ -88,7 +88,7 @@ class ProductController extends Controller
     //Temp Variation Store
     public function variationStore(Request $request)
     {
-        // dd($request->all());
+
         $this->validate($request, [
             'variationType1' => 'required_without:variationType2|different:variationType2',
             'variationType2' => 'required_without:variationType1|different:variationType1',
@@ -150,7 +150,7 @@ class ProductController extends Controller
     //Product Store
     public function store(Request $request)
     {
-        dd($request->all());
+
         $this->validate($request, [
             'productName' => 'required|unique:product',
             'productCode' => 'required|unique:product',
@@ -549,7 +549,7 @@ class ProductController extends Controller
 
     //Update Product
     public function update(Request $request, $productId){
-// dd($request->all());
+
         $this->validate($request, [
             'productName' => 'required',
             'productCode' => 'required',
