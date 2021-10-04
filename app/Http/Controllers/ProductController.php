@@ -48,7 +48,7 @@ class ProductController extends Controller
         $sku = Sku::with('product', 'variationImages')->findOrfail($id);
 
         $relatedProducts = Product::where('categoryId', $sku->product->categoryId)->where('status', 'active')->pluck('productId');
-        $skus = Sku::whereIn('fkproductId', $relatedProducts)->where('skuId', '!=', $sku->skuId)->with('product')->get()->unique('fkproductId');
+        $skus = Sku::whereIn('fkproductId', $relatedProducts)->where('skuId', '!=', $sku->skuId)->with('product')->take(10)->get()->unique('fkproductId');
         $product = Product::where('productId', $sku->fkproductId)->with('review.customer.user','category')->first();
         $skuIds = $product->sku->pluck('skuId');
 
