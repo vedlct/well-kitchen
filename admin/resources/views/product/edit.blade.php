@@ -360,7 +360,8 @@
                                                         <div id="productImages">
                                                             <div class="form-group">
                                                                 <label>Product Images</label>
-                                                                <input type="file" class="form-control" name="productImages[]" multiple>
+                                                                <input type="file" class="form-control" name="productImages[]" onchange="loadFilesProImages(event)" multiple>
+                                                                <p class="mt-1" id="proImagesPreview"> </p>
                                                             </div>
                                                         </div>
                                                         <div class="row m-0">
@@ -543,7 +544,8 @@
                                                         <div class="col-md-4 col-lg-4 col-xl-3">
                                                             <div class="form-group">
                                                                 <label>Variation Image</label>
-                                                                <input type="file" id="varImage" class="form-control" name="variationImage[]" multiple>
+                                                                <input type="file" id="varImage" class="form-control" name="variationImage[]" onchange="loadFiles(event)" multiple>
+                                                                <p class="mt-1" id="variationImagesPreview"> </p>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4 col-lg-4 col-xl-3">
@@ -703,6 +705,22 @@
             var image = document.getElementById('output');
                 image.src = URL.createObjectURL(event.target.files[0]);
             };
+        const loadFiles = function(event) {
+            var files = event.target.files;
+            $("#variationImagesPreview").empty();
+            $.each(files, function (index, item) {
+                $("#variationImagesPreview").append(`<img src=${URL.createObjectURL(event.target.files[index])} class="ml-1" width="100" />`);
+            });
+
+        };
+        const loadFilesProImages = function(event) {
+            var files = event.target.files;
+            $("#proImagesPreview").empty();
+            $.each(files, function (index, item) {
+                $("#proImagesPreview").append(`<img src=${URL.createObjectURL(event.target.files[index])} class="ml-1" width="100" />`);
+            });
+
+        };
 let productImageId;
         $("#sub2").hide();
         $("#sub3").hide();

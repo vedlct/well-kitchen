@@ -59,7 +59,7 @@
                             </div>
                         </div>
                         <div class="product-content text-center">
-                            <h3><a href="{{route('product.details',$sku->skuId)}}">{{substr($sku->product()->first()->productName, 0, 20)."..."}}</a></h3>
+                            <h3><a href="{{route('product.details',$sku->skuId)}}">{{substr($sku->product()->first()->productName, 0, 16)."..."}}</a></h3>
                             <div class="product-price">
 {{--                                <span>৳  {{$sku->salePrice}}</span>--}}
 

@@ -95,7 +95,8 @@
             <div class="col-md-4 col-lg-4 col-xl-2">
                 <div class="form-group">
                     <label>Variation Image</label>
-                    <input type="file" id="varImage" class="varImage form-control" name="variationImage[]" multiple>
+                    <input type="file" id="varImage" class="varImage form-control" name="variationImage[]" onchange="loadFilesEdit(event)" multiple>
+                    <p class="mt-1" id="variationImagesEditPreview"> </p>
                 </div>
             </div>
             <div class="col-md-4 col-lg-4 col-xl-3">
@@ -143,6 +144,14 @@
 
 
     });
+    const loadFilesEdit = function(event) {
+        var files = event.target.files;
+        $("#variationImagesEditPreview").empty();
+        $.each(files, function (index, item) {
+            $("#variationImagesEditPreview").append(`<img src=${URL.createObjectURL(event.target.files[index])} class="ml-1" width="100" />`);
+        });
+
+    };
     // 1st Variation Type Change
     $(".variationType1").change(function(){
         var variationType = this.value;

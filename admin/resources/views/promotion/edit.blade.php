@@ -46,7 +46,8 @@
                                                 </div>
                                                <div class="form-group">
                                                     <label for="companyName"><b>Promotion Image</b><span class="text-danger">*</span></label>
-                                                    <input type="file" class="form-control"  name="imageLink" id="imageLink">
+                                                    <input type="file" class="form-control"  name="imageLink" id="imageLink" onchange="loadPromotion(event)">
+                                                    <p class="mt-1"><img id="output" width="100" /></p>
                                                     <span class="text-danger imageLink"> <b>{{  $errors->first('imageLink') }}</b></span>
                                                 </div>
                                                <div class="form-group">
@@ -54,7 +55,7 @@
                                                     <input type="text" class="form-control" value="{{$promotion->promotionCode}}" name="promotionCode" id="promotionCode">
                                                     <span class="text-danger promotionCode"> <b>{{  $errors->first('promotionCode') }}</b></span>
                                                 </div>
-                                               
+
                                                 <div class="row">
                                                     <div class='col-sm-12'>
                                                         <label><b>Deals Starts  At</b><span class="text-danger">*</span></label>
@@ -67,7 +68,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                    
+
                                                 <div class="row">
                                                     <div class='col-sm-12'>
                                                         <label><b>Deals End At</b><span class="text-danger">*</span></label>
@@ -94,7 +95,7 @@
                                                          </div>
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div class="form-group" id="percentValueDiv">
                                                     <label for="companyName"><b>Percent value</b><span class="text-danger">*</span></label>
                                                     <input type="text"  class="form-control" name="percentValue" id="percentValue" value="{{ $promotion->percentage }}">
@@ -145,6 +146,10 @@
 <script type="text/javascript" src="{{url('public/Datetime/bootstrap-datetimepicker.min.js')}}"></script>
 
 <script type="text/javascript">
+    const loadPromotion = function(event) {
+        var image = document.getElementById('output');
+        image.src = URL.createObjectURL(event.target.files[0]);
+    };
     $(document).ready(function() {
         @if($errors->first('percentValue') || $promotion->percentage != null)
         $('#percentValueDiv').show();

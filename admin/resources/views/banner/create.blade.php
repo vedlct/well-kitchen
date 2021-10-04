@@ -34,7 +34,8 @@
                                             <div class="form-body">
                                                 <div class="form-group">
                                                     <label>banner Image</label>
-                                                    <input type="file" class="form-control" name="imageLink">
+                                                    <input type="file" class="form-control" name="imageLink" onchange="loadBanner(event)">
+                                                    <p class="mt-1"><img id="output" width="100" /></p>
                                                     <span class="text-danger"> <b>{{  $errors->first('imageLink') }}</b></span>
                                                 </div>
                                                 <div class="form-group">
@@ -51,7 +52,7 @@
                                                     </select>
                                                     <span class="text-danger"> <b>{{  $errors->first('type') }}</b></span>
                                                 </div>
-                                                
+
                                                 <div class="form-group" >
                                                     <label>Select Promotion</label>
                                                     <select name="promotion" id="promotion" class="form-control">
@@ -93,6 +94,9 @@
 
 @section('footer.js')
 <script>
-    
+    const loadBanner = function(event) {
+        var image = document.getElementById('output');
+        image.src = URL.createObjectURL(event.target.files[0]);
+    };
 </script>
 @endsection

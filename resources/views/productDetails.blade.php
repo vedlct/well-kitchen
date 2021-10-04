@@ -452,7 +452,7 @@
                         </div>
                     </div>
                     <div class="product-content text-center">
-                        <h3><a href="{{route('product.details',$sku->skuId)}}">{{ substr($sku->product->productName, 0, 20)."..." }}</a></h3>
+                        <h3><a href="{{route('product.details',$sku->skuId)}}">{{ substr($sku->product->productName, 0, 16)."..." }}</a></h3>
                         <div class="product-price">
 
                             @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->where('hotdeals.percentage', '>', 0)->first()@endphp

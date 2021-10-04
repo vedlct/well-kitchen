@@ -63,7 +63,8 @@
                                                 <div class="form-group row">
                                                     <label class="col-sm-2 col-form-label">Banner Image<span class="text-danger">*</span></label>
                                                     <div class="col-sm-10">
-                                                        <input type="file" class="form-control" name="imageLink">
+                                                        <input type="file" class="form-control" name="imageLink" onchange="loadBanner(event)">
+                                                        <p class="mt-1"><img id="output" width="100" /></p>
                                                         <span class="text-danger"> <b>{{  $errors->first('imageLink') }}</b></span>
                                                     </div>
                                                 </div>
@@ -150,4 +151,13 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('footer.js')
+    <script>
+        const loadBanner = function(event) {
+            var image = document.getElementById('output');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        };
+    </script>
 @endsection
