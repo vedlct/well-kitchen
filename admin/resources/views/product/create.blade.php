@@ -296,7 +296,7 @@
                                                     <div class="col-lg-3 col-md-4">
                                                         <div class="feature-img">
                                                             <div class="form-group">
-                                                                <label>Feature Image</label>
+                                                                <label>Feature Image (Size: 1130 x 950px)</label>
                                                                 <input type="file" class="form-control" name="featureImage" onchange="loadFile(event)">
                                                                 <p class="mt-1"><img id="output" width="100" /></p>
                                                             </div>

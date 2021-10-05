@@ -33,7 +33,7 @@
                                             @csrf
                                             <div class="form-body">
                                                 <div class="form-group">
-                                                    <label>banner Image</label>
+                                                    <label>banner Image (Size: 570 x 301px)</label>
                                                     <input type="file" class="form-control" name="imageLink" onchange="loadBanner(event)">
                                                     <p class="mt-1"><img id="output" width="100" /></p>
                                                     <span class="text-danger"> <b>{{  $errors->first('imageLink') }}</b></span>
