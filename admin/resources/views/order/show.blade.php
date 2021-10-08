@@ -62,10 +62,10 @@
                               <div class="col-md-4 mb-1">
                                 <h5 class="mb-1"><b>Shipping</b></h5>
                                 <p class="details-text">
-                                  <b>Delivey Time:</b> {{$order->deliveryTime ?? "Not availble"}} <br>
-                                  <b>Location:</b> {{$order->delivery->location ?? "Not availble"}} <br>
-                                  <b>Delivery Service:</b> {{$order->delivery->companyName ?? "Not availble"}} <br>
-                                  <b>Courier tracking number:</b> No <br>
+{{--                                  <b>Delivey Time:</b> {{$order->deliveryTime ?? "Not availble"}} <br>--}}
+{{--                                  <b>Location:</b> {{$order->delivery->location ?? "Not availble"}} <br>--}}
+{{--                                  <b>Delivery Service:</b> {{$order->delivery->companyName ?? "Not availble"}} <br>--}}
+{{--                                  <b>Courier tracking number:</b> No <br>--}}
                                   <b>Billing Address:</b> {{$order->customer->address->billingAddress ?? "Not available"}} <br>
                                   <b>Shipping Address:</b> {{$order->customer->address->shippingAddress ?? "Not available"}}
                                 </p>
@@ -93,8 +93,8 @@
                                         <th scope="col">Quantity</th>
                                         <th scope="col">Batch</th>
                                         <th scope="col">Unit Cost</th>
-                                        <th scope="col">Total</th>
                                         <th scope="col">Discount</th>
+                                        <th scope="col">Total</th>
                                         @if(in_array($currentStatus = $order->orderStatusLogs->where('status','!=',NULL)->last()->status,['1', 'Created', 'Processing', 'OnDelivery', 'Delivered', 'Return', 'Complete', 'Cancel']))
                                           <th scope="col">Action</th>
                                         @endif
@@ -110,8 +110,8 @@
                                             <td>{{$item->quiantity}}</td>
                                             <td>{{$item->batch_id}}</td>
                                             <td>{{$item->price}}</td>
-                                            <td>{{$item->total}}</td>
                                             <td>{{$item->discount}}</td>
+                                            <td>{{$item->total}}</td>
                                             @if(in_array($currentStatus,['1', 'Created', 'Processing', 'OnDelivery', 'Delivered', 'Return', 'Complete', 'Cancel']))
                                                 <td >
                                                     <a href="#" onclick="returnProduct({{$item->order_itemId}})" title="Return"><i class="ft ft-corner-down-left"></i></a>
