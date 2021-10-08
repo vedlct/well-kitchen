@@ -184,7 +184,9 @@
                     </div>
                     <div class="pro-details-quality">
                         <div class="cart-plus-minus">
+                            <div class="dec qtybutton">-</div>
                             <input class="cart-plus-minus-box" type="text" name="qtybutton" id="quantity" value="1">
+                            <div class="inc qtybutton">+</div>
                         </div>
 
 
