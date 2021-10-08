@@ -439,10 +439,10 @@
                             </div>
                             <div class="pro-same-action pro-cart">
                                 @if($sku->product->type == "single")
-                                    <a title="Add To Cart" href="javascript: void(0)" onclick="addTocart({{$sku->skuId}})"><i class="pe-7s-cart">Add to cart</i></a>
+                                    <a title="Add To Cart" href="javascript: void(0)" onclick="addTocart({{$sku->skuId}})"><i class="pe-7s-cart"></i>Add to cart</a>
                                 @endif
                                 @if($sku->product->type == "variation")
-                                    <a title="Add To Cart" href="{{route('product.details',$sku->skuId)}}" ><i class="pe-7s-cart">Add to cart</i></a>
+                                    <a title="Add To Cart" href="{{route('product.details',$sku->skuId)}}" ><i class="pe-7s-cart"></i>Add to cart</a>
                                 @endif
                             </div>
                             <div class="pro-same-action pro-quickview">
