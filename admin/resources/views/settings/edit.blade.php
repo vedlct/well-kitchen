@@ -57,7 +57,8 @@
                                             <div class="form-group row">
                                                 <label for="example-search-input" class="col-sm-2 col-form-label">Company Logo</label>
                                                 <div class="col-sm-10">
-                                                    <input class="form-control" type="file" name="imageLink">
+                                                    <input class="form-control" type="file" name="imageLink" onchange="loadSetting(event)">
+                                                    <p class="mt-1"><img id="output" width="100" /></p>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -138,4 +139,13 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('footer.js')
+    <script>
+        const loadSetting = function(event) {
+            var image = document.getElementById('output');
+            image.src = URL.createObjectURL(event.target.files[0]);
+        };
+    </script>
 @endsection

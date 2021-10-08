@@ -287,7 +287,8 @@
                                                             <div id="productImages" class="col-md-4 col-lg-4 col-xl-3">
                                                                 <div class="form-group">
                                                                     <label>Product Images</label>
-                                                                    <input type="file" class="form-control" name="productImages[]" multiple>
+                                                                    <input type="file" class="form-control" name="productImages[]" onchange="loadFilesproImages(event)" multiple>
+                                                                    <p class="mt-1" id="productImagesPre"></p>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -295,7 +296,7 @@
                                                     <div class="col-lg-3 col-md-4">
                                                         <div class="feature-img">
                                                             <div class="form-group">
-                                                                <label>Feature Image</label>
+                                                                <label>Feature Image (Size: 1130 x 950px)</label>
                                                                 <input type="file" class="form-control" name="featureImage" onchange="loadFile(event)">
                                                                 <p class="mt-1"><img id="output" width="100" /></p>
                                                             </div>
@@ -419,7 +420,10 @@
                                                         <div class="col-md-4 col-lg-4 col-xl-3">
                                                             <div class="form-group">
                                                                 <label>Variation Image</label>
-                                                                <input type="file" id="varImage" class="form-control" name="variationImage[]" multiple>
+                                                                <input type="file" id="varImage" class="form-control" name="variationImage[]" onchange="loadFiles(event)" multiple>
+                                                                <p class="mt-1" id="variationImagesPreview">
+
+                                                                </p>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-4 col-lg-4 col-xl-3">
@@ -489,6 +493,22 @@
         const loadFile = function(event) {
             var image = document.getElementById('output');
             image.src = URL.createObjectURL(event.target.files[0]);
+        };
+        const loadFiles = function(event) {
+            var files = event.target.files;
+            $("#variationImagesPreview").empty();
+            $.each(files, function (index, item) {
+                $("#variationImagesPreview").append(`<img src=${URL.createObjectURL(event.target.files[index])} class="ml-1" width="100" />`);
+            });
+
+        };
+        const loadFilesproImages = function(event) {
+            var files = event.target.files;
+            $("#productImagesPre").empty();
+            $.each(files, function (index, item) {
+                $("#productImagesPre").append(`<img src=${URL.createObjectURL(event.target.files[index])} class="ml-1" width="100" />`);
+            });
+
         };
         $("#sub2").hide();
         $("#sub3").hide();

@@ -771,3 +771,8 @@ input.form-control:focus {
 	border-color: #8a8a8a;
 }
 /* verify with otp page end */
+@media (max-width: 767px) {
+  .product-details .zoom img:hover {
+    opacity: 1;
+  }
+}

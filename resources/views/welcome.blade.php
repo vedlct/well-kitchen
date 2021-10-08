@@ -246,7 +246,7 @@
                                         </div>
                                         <div class="product-content text-center">
                                             <h3><a
-                                                    href="{{ route('product.details', $sku->skuId) }}">{{ substr($sku->product->productName, 0, 20)."..." }}</a>
+                                                    href="{{ route('product.details', $sku->skuId) }}">{{ substr($sku->product->productName, 0, 16)."..." }}</a>
                                             </h3>
                                             <div class="product-price">
                                                 {{-- <span>৳  {{$sku->salePrice}}</span> --}}
@@ -375,7 +375,7 @@
                         </div>
                         <div class="product-content-5 text-center">
                             <h3><a
-                                    href="{{ route('product.details', $sku->skuId) }}">{{ substr($sku->product->productName, 0, 20)."..." }}</a>
+                                    href="{{ route('product.details', $sku->skuId) }}">{{ substr($sku->product->productName, 0, 16)."..." }}</a>
                             </h3>
                             <div class="price-5">
                                 {{-- <span>৳  {{$sku->salePrice}}</span> --}}
@@ -488,7 +488,7 @@
                     </div>
                     <div class="product-content text-center">
                         <h3>
-                            <a href="{{route('product.details',$sku->skuId)}}">{{ substr($sku->product->productName, 0, 20)."..." }}</a>
+                            <a href="{{route('product.details',$sku->skuId)}}">{{ substr($sku->product->productName, 0, 16)."..." }}</a>
                         </h3>
                         <div class="product-price">
 
@@ -609,7 +609,7 @@
                         </div>
                         <div class="product-content-5 text-center">
                             <h3><a
-                                    href="{{ route('product.details', $sku->skuId) }}">{{ substr($sku->product->productName, 0, 20)."..." }}</a>
+                                    href="{{ route('product.details', $sku->skuId) }}">{{ substr($sku->product->productName, 0, 16)."..." }}</a>
                             </h3>
                             <div class="price-5">
                                 {{-- <span>৳  {{$sku->salePrice}}</span> --}}
@@ -741,7 +741,7 @@ $query->where('categoryId', $category->categoryId)->where('status', 'active');
                         </div>
                         <div class="product-content-5 text-center">
                             <h3><a
-                                    href="{{ route('product.details', $sku->skuId) }}">{{ substr($sku->product->productName, 0, 20)."..." }}</a>
+                                    href="{{ route('product.details', $sku->skuId) }}">{{ substr($sku->product->productName, 0, 16)."..." }}</a>
                             </h3>
                             <div class="price-5">
                                 {{-- <span>৳  {{$sku->salePrice}}</span> --}}
@@ -1005,7 +1005,7 @@ $query->where('categoryId', $category->categoryId)->where('status', 'active');
                     </div>
                     <div class="product-content text-center">
                         <h3>
-                            <a href="{{route('product.details',$sku->skuId)}}">{{ substr($sku->product->productName, 0, 20)."..." }}</a>
+                            <a href="{{route('product.details',$sku->skuId)}}">{{ substr($sku->product->productName, 0, 16)."..." }}</a>
                         </h3>
                         <div class="product-price">
 
