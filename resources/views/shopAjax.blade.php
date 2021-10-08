@@ -1,7 +1,8 @@
 {{-- <div id="" class="tab-pane active"> --}}
 <div id="productShorting">
     <div class="row" id="">
-        @foreach ($skuss as $sku)
+
+        @foreach ($skuss->unique('fkproductId') as $sku)
 {{--            {{dd($sku)}}--}}
 {{--            {{ dd($sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))) }}--}}
            {{--  @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->where('hotdeals.percentage', '>', 0)->first()@endphp  --}}
