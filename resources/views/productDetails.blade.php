@@ -40,15 +40,15 @@
                     <div class="product-details-img">
                         <div class="tab-content jump mb-4">
                             @foreach ($product->images as $key=>$itemImg)
-                            <div id="shop-details-{{$key}}" class="zoom tab-pane fade {{$key == 0 ? 'active' : '' }} large-img-style" style="background-image: url('{{asset('admin/public/productImages/'.$itemImg->image)}}');">
-                                <img src="{{asset('admin/public/productImages/'.$itemImg->image)}}" alt="">
+                            <div id="shop-details-{{$key}}" class="prod-details-big-img tab-pane fade {{$key == 0 ? 'active' : '' }} large-img-style" style="background-image: url('{{asset('admin/public/productImages/'.$itemImg->image)}}');">
+                                <img class="{{$key == 0 ? 'FrElvZoom' : '' }}" src="{{asset('admin/public/productImages/'.$itemImg->image)}}" alt="">
                             </div>
                             @endforeach
                         </div>
                         <div class="productDetails-slide-active owl-carousel nav nav-style-1">
                             @foreach ($product->images as $key=>$itemImg)
                                 <a class="shop-details-overly {{$key == 0 ? 'active' : '' }}" href="#shop-details-{{$key}}" data-toggle="tab">
-                                    <img src="{{asset('admin/public/productImages/'.$itemImg->image)}}" alt="">
+                                    <img class="prod-details-small-img" src="{{asset('admin/public/productImages/'.$itemImg->image)}}" alt="">
                                 </a>
                             @endforeach
                         </div>
@@ -507,33 +507,61 @@
 
 <script>
         // zoom image
-        if($(window).innerWidth() >= 767) {
-            $(document).ready(function(){
+        // if($(window).innerWidth() >= 767) {
+        //     $(document).ready(function(){
 
-                $(".zoom").mousemove(function(e){
-                    zoom(e);
-                });
+        //         $(".zoom").mousemove(function(e){
+        //             zoom(e);
+        //         });
 
-                function zoom(e){
-                    var x, y;
-                    var zoomer = e.currentTarget;
-                    if(e.offsetX) {
-                        offsetX = e.offsetX;
-                    } else {
-                        offsetX = e.touches[0].pageX;
-                    }
+        //         function zoom(e){
+        //             var x, y;
+        //             var zoomer = e.currentTarget;
+        //             if(e.offsetX) {
+        //                 offsetX = e.offsetX;
+        //             } else {
+        //                 offsetX = e.touches[0].pageX;
+        //             }
 
-                    if(e.offsetY) {
-                        offsetY = e.offsetY;
-                    } else {
-                        offsetX = e.touches[0].pageX;
-                    }
-                    x = offsetX/zoomer.offsetWidth*100;
-                    y = offsetY/zoomer.offsetHeight*100;
-                    zoomer.style.backgroundPosition = x+'% '+y+'%';
-                }
-            });
+        //             if(e.offsetY) {
+        //                 offsetY = e.offsetY;
+        //             } else {
+        //                 offsetX = e.touches[0].pageX;
+        //             }
+        //             x = offsetX/zoomer.offsetWidth*100;
+        //             y = offsetY/zoomer.offsetHeight*100;
+        //             zoomer.style.backgroundPosition = x+'% '+y+'%';
+        //         }
+        //     });
+        // }
+
+        // update zoom image
+        let zoomOptions = {
+            zoomType: "inner",
+            cursor: "crosshair"
+        };
+
+        if ($(window).width() > 300) {
+            $(".FrElvZoom").elevateZoom(zoomOptions);
         }
+
+        $(".prod-details-small-img").click(function(){
+
+            setTimeout(function(){ 
+                $(".prod-details-big-img img").removeClass("elvZoom");
+                $(".prod-details-big-img.active img").addClass("elvZoom");
+                $('.zoomContainer').hide();
+
+                let zoomOptions = {
+                    zoomType: "inner",
+                    cursor: "crosshair"
+                };
+
+                if ($(window).width() > 300) {
+                    $(".elvZoom").elevateZoom(zoomOptions);
+                }
+             }, 500);
+        });
     </script>
 
 <script>
