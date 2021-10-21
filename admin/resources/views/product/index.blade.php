@@ -74,11 +74,11 @@
             $('#productTable').DataTable({
                 processing: true,
                 serverSide: true,
+                stateSave: true,
                 ajax: "{{ url('product/list') }}",
                 columns: [
                     {title: 'Product ID', data: 'productId', name: 'productId', className: "text-center", orderable: true, searchable: true},
                     {title: 'Product Name', data: 'productName', name: 'productName', className: "text-center", orderable: true, searchable: true},
-
                     {title: 'Product Image', data: 'featureImage', name: 'featureImage', className: "text-center", orderable: false, searchable: false},
                     {title: 'Category', data: 'category', name: 'categoryName', className: "text-center", orderable: false, searchable: false},
                     {title: 'Brand', data: 'brand', name: 'brandName', className: "text-center", orderable: false, searchable: false},
