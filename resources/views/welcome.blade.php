@@ -221,7 +221,7 @@
                                             @endif
                         <div class="product-action">
                             <div class="pro-same-action pro-wishlist">
-                                <a title="Wishlist" href="#"
+                                <a title="Wishlist" href="javascript:void(0)"
                                     onclick="addToWishList({{ $sku->skuId }})"><i
                                                             class="pe-7s-like"></i></a>
                                                 </div>
@@ -354,7 +354,7 @@
 
                             <div class="product-action-4">
                                 <div class="pro-same-action pro-wishlist">
-                                    <a title="Wishlist" href="#" onclick="addToWishList({{ $sku->skuId }})"><i
+                                    <a title="Wishlist" href="javascript:void(0)" onclick="addToWishList({{ $sku->skuId }})"><i
                                             class="pe-7s-like"></i></a>
                                 </div>
                                 <div class="pro-same-action pro-cart">
@@ -466,7 +466,7 @@
                         @endif
                         <div class="product-action">
                             <div class="pro-same-action pro-wishlist">
-                                <a title="Wishlist" href="#" onclick="addToWishList({{$sku->skuId}})"><i
+                                <a title="Wishlist" href="javascript:void(0)" onclick="addToWishList({{$sku->skuId}})"><i
                                         class="pe-7s-like"></i></a>
                             </div>
                             <div class="pro-same-action pro-cart">
@@ -587,7 +587,7 @@
                                 <div class="pro-same-action pro-wishlist">
                                     {{-- <a title="Wishlist" href="{{route('wishlistAdd', $sku->skuId)}}"><i
                                         class="pe-7s-like"></i></a> --}}
-                                    <a title="Wishlist" href="#" onclick="addToWishList({{ $sku->skuId }})"><i
+                                    <a title="Wishlist" href="javascript:void(0)" onclick="addToWishList({{ $sku->skuId }})"><i
                                             class="pe-7s-like"></i></a>
                                 </div>
                                 <div class="pro-same-action pro-cart">
@@ -678,10 +678,10 @@ $query->where('categoryId', $category->categoryId)->where('status', 'active');
             <h2>{{ $category->categoryName }}</h2>
         </div>
         <div class="row">
-            @foreach ($catSkus->unique('fkproductId') as $sku)
+            @foreach ($catSkus->unique('fkproductId') as $key => $sku)
 
 
-                <div class="col-6 col-xl-3 col-md-6 col-lg-4 col-sm-6">
+                <div class="col-6 col-xl-3 col-md-6 col-lg-4 col-sm-6 {{ $key>3 ? 'd-none d-md-block' : '' }} ">
                     <div class="product-wrap-5 mb-25">
                         <div class="product-img">
                             <a href="{{ route('product.details', $sku->skuId) }}">
@@ -719,7 +719,7 @@ $query->where('categoryId', $category->categoryId)->where('status', 'active');
                                 <div class="pro-same-action pro-wishlist">
                                     {{-- <a title="Wishlist" href="{{route('wishlistAdd', $sku->skuId)}}"><i
                                         class="pe-7s-like"></i></a> --}}
-                                    <a title="Wishlist" href="#" onclick="addToWishList({{ $sku->skuId }})"><i
+                                    <a title="Wishlist" href="javascript:void(0)" onclick="addToWishList({{ $sku->skuId }})"><i
                                             class="pe-7s-like"></i></a>
                                 </div>
                                 <div class="pro-same-action pro-cart">
@@ -948,7 +948,7 @@ $query->where('categoryId', $category->categoryId)->where('status', 'active');
 <div class="product-area mt-50 pb-70">
     <div class="container">
         <div class="section-title-6 mb-45 text-center">
-            <h2>Most View Products</h2>
+            <h2>Hot Selling Products</h2>
         </div>
         <div class="product-slider-active-2 owl-carousel owl-dot-none">
             @foreach ($mostViewskus->unique('fkproductId') as $sku)
@@ -983,7 +983,7 @@ $query->where('categoryId', $category->categoryId)->where('status', 'active');
                         @endif
                         <div class="product-action">
                             <div class="pro-same-action pro-wishlist">
-                                <a title="Wishlist" href="#" onclick="addToWishList({{$sku->skuId}})"><i
+                                <a title="Wishlist" href="javascript:void(0)" onclick="addToWishList({{$sku->skuId}})"><i
                                         class="pe-7s-like"></i></a>
                             </div>
                             <div class="pro-same-action pro-cart">

@@ -832,7 +832,9 @@ let productImageId;
                     url: "{{ route('product.productImage.delete') }}",
                     data: {'productImageId': productImageId, _token: "{{ csrf_token()}}"},
                     success: function (data) {
+                        window.location.reload();
                         toastr.success('Image Deleted Successfully')
+                        
                     }
                 });
         }
