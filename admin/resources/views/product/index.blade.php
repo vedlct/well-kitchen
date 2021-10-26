@@ -77,20 +77,21 @@
                 stateSave: true,
                 ajax: "{{ url('product/list') }}",
                 columns: [
-                    {title: 'Product ID', data: 'productId', name: 'productId', className: "text-center", orderable: true, searchable: true},
-                    {title: 'Product Name', data: 'productName', name: 'productName', className: "text-center", orderable: true, searchable: true},
-                    {title: 'Product Image', data: 'featureImage', name: 'featureImage', className: "text-center", orderable: false, searchable: false},
-                    {title: 'Category', data: 'category', name: 'categoryName', className: "text-center", orderable: false, searchable: false},
-                    {title: 'Brand', data: 'brand', name: 'brandName', className: "text-center", orderable: false, searchable: false},
-                    {title: 'Product Type', data: 'type', name: 'type', className: "text-center", orderable: false, searchable: false},
-                    {title: 'Status', data: 'status', name: 'status', className: "text-center", orderable: false, searchable: false},
                     {title: 'Action', className: "text-center", data: function (data) {
                             return '<a title="edit" class="btn btn-warning btn-sm" data-panel-id="' + data.productId + '" onclick="editProduct(this)"><i class="ft-edit"></i></a>'+
                                 ' <a title="delete" class="btn btn-danger btn-sm" data-panel-id="' + data.productId + '" onclick="deleteProduct(this)"><i class="ft-trash-2"></i></a>'
                                 ;
                         },
                         orderable: false, searchable: false
-                    }
+                    },
+                    {title: 'Product ID', data: 'productId', name: 'productId', className: "text-center", orderable: true, searchable: true},
+                    {title: 'Product Name', data: 'productName', name: 'productName', className: "text-center", orderable: true, searchable: true},
+                    {title: 'Product Image', data: 'featureImage', name: 'featureImage', className: "text-center", orderable: false, searchable: false},
+                    {title: 'Category', data: 'category', name: 'categoryName', className: "text-center", orderable: false, searchable: false},
+                    {title: 'Brand', data: 'brand', name: 'brandName', className: "text-center", orderable: false, searchable: false},
+                    {title: 'Product Type', data: 'type', name: 'type', className: "text-center", orderable: false, searchable: false},
+                    {title: 'Status', data: 'status', name: 'status', className: "text-center", orderable: false, searchable: false}
+                    
                 ]
             });
         });

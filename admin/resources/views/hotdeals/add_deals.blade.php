@@ -36,7 +36,7 @@
                                 </div>
                                 <div class="card-content collapse show">
                                     <div class="card-body">
-                                        {{-- <form class="form" action="" method="post" > --}}
+                                        
                                             <form class="form" action="" enctype="multipart/form-data" method="POST">
                                                 {{ csrf_field() }}
                                             <div class="form-body">
