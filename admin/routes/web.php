@@ -233,6 +233,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('list', [OrderController::class, 'list'])->name('list');
         Route::post('batch', [OrderController::class, 'addToOrder'])->name('batch');
         Route::post('/remove-item', [OrderController::class, 'removeItem'])->name('remove.item');
+        Route::post('/edit-item', [OrderController::class, 'editItem'])->name('edit.item');
         Route::post('/upadate-quantity', [OrderController::class, 'updateQuantity'])->name('update.quantity');
         Route::post('/discount', [OrderController::class, 'discount'])->name('discount');
         Route::post('/order-submit', [OrderController::class, 'orderInsert'])->name('insert');
@@ -240,6 +241,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/order-list', [OrderController::class, 'list'])->name('list');
         Route::get('/order-details/{id}', [OrderController::class, 'details'])->name('details');
         Route::post('/order-status', [OrderController::class, 'orderStatus'])->name('orderStatus');
+        Route::get('/order-edit/{id}', [OrderController::class, 'orderEdit'])->name('orderEdit');
         Route::post('/order-status-change', [OrderController::class, 'orderStatusChange'])->name('statusChangeSubmit');
         Route::post('/order-return-modal', [OrderController::class, 'returnModal'])->name('returnModal');
         Route::post('/order-return', [OrderController::class, 'singleReturn'])->name('singleReturn');

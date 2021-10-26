@@ -106,6 +106,27 @@ class OrderController extends Controller
         }
     }
 
+    public function editItem(Request $request)
+    {
+        dd($request->all());
+        $orderItem = OrderProduct::where('order_itemId', $request->rowId)->first();
+
+//        if (!empty($r->rowId)) {
+//            \Cart::remove($r->rowId);
+//            $total = $this->cartTotal();
+//            $cart = view('order.orderProduct')->render();
+//
+//            return response()->json(['total' => $total, 'cart' => $cart]);
+//        } else {
+//            \Cart::clear();
+//            $total = $this->cartTotal();
+//            $cart = view('order.orderProduct')->render();
+//
+//            return response()->json(['total' => $total, 'cart' => $cart]);
+//        }
+    }
+
+
     public function updateQuantity(Request $r)
     {
         if ($r->type == 'inc') {
@@ -344,6 +365,58 @@ class OrderController extends Controller
 //                return $Status;
 //            })
             ->make(true);
+    }
+
+    public function orderEdit($id){
+        $order = Order::with('orderedProduct')->where('orderId', $id)->first();
+        return view('order.edit', compact('order'));
+
+//        $order = new Order();
+//        $order->fkcustomerId = $request->customerId;
+//        $order->sale_type = $request->saleType ?? 'online';
+//        $order->delivery_service = $request->delivery_company;
+//        $order->deliveryTime = $request->delivery_date;
+//        $order->deliveryFee = $request->delivery_charge;
+//        $order->orderTotal = $this->cartTotal();
+//        $order->sale_type = $request->saleType ?? 'shop';
+//        $order->print = '1';
+//        $order->note = $request->orderNote ?? null;
+//        if (floatval($request->paid_amount) == $this->cartTotal()) {
+//            $order->payment_status = 'paid';
+//        } elseif (floatval($request->paid_amount) > 0) {
+//            $order->payment_status = 'partial';
+//        } else {
+//            $order->payment_status = 'unpaid';
+//        }
+//        if (!empty($request->saleType) && $request->saleType == 'online') {
+//            $order->last_status = 'Created';
+//        } else {
+//            $order->last_status = 'Delivered';
+//        }
+//        $order->save();
+//
+//        foreach (\Cart::getContent() as $key => $product) {
+//            $orderedProduct = new OrderProduct();
+//            $orderedProduct->fkorderId = $order->orderId;
+//            $orderedProduct->fkskuId = $product->attributes->skuid;
+//            $orderedProduct->batch_id = $product->attributes->batchId;
+//            $orderedProduct->price = $product->price;
+//            $orderedProduct->quiantity = $product->quantity;
+//            $orderedProduct->total = $product->quantity * $product->price - $product->attributes->discount ?? '0';
+//            $orderedProduct->discount = $product->attributes->discount ?? '0';
+//            $orderedProduct->save();
+//
+//            $stockRecordChange = new Stock();
+//            $stockRecordChange->fkskuId = $product->attributes->skuid;
+//            $stockRecordChange->batchId = $product->attributes->batchId;
+//            $stockRecordChange->order_id = $order->orderId;
+//            $stockRecordChange->stock = $product->quantity;
+//            $stockRecordChange->type = 'out';
+//            $stockRecordChange->identifier = 'sale';
+//            $stockRecordChange->save();
+//        }
+
+
     }
 
     public function details(Request $request, $id)
