@@ -419,6 +419,95 @@ class OrderController extends Controller
 
     }
 
+    public function orderUpdate(Request $request){
+        // dd($request->all());
+
+       
+        $orderItem = OrderProduct::where('order_itemId', $request->itemId)->first();
+        $order = Order::where('orderId', $orderItem->fkorderId)->first();
+        // dd($order);
+
+        $itemSkuId = $orderItem->fkskuId;
+        // dd($itemSkuId);
+
+        $stockIn=Stock::where('fkskuId',$itemSkuId)->where('type', 'in')->sum('stock');
+        $stockOut=Stock::where('fkskuId',$itemSkuId)->where('type', 'out')->sum('stock');
+        $stockAvailable = $stockIn-$stockOut;
+        // dd($stockAvailable);
+        $quantity=$request->quantity;
+
+
+
+        if ($stockAvailable >= $quantity) {
+            $sku =Sku::findOrfail($itemSkuId);
+           
+            $batchToOrder = collect(DB::select(DB::raw("SELECT batchId, COALESCE(SUM(CASE WHEN stock_record.type = 'in' THEN stock END), 0) - COALESCE(SUM(CASE WHEN stock_record.type = 'out' THEN stock END), 0) as available
+                            FROM stock_record
+                            LEFT JOIN sku ON sku.skuId = stock_record.fkskuId
+                            LEFT JOIN product ON sku.fkproductId = product.productId
+                            WHERE fkskuId = $itemSkuId
+                            GROUP BY batchId ORDER BY available DESC")));
+
+            $batch = $batchToOrder->pluck('batchId')->first();
+            // dd($batch);
+            // dd($sku->discount);
+            // dd($sku->product->hotdealProducts == null);
+            if($sku->product->hotdealProducts == null){
+                $hotDeal = null;
+            }else{
+                $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first();
+            }
+            // dd($hotDeal);
+            // $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d'))->where('hotdeals.endDate', '>=', date('Y-m-d'))->where('hotdeals.percentage', '>', 0)->first();
+            
+            $afterDiscountPrice = null;
+
+            if (!empty($hotDeal) && !empty($sku->discount)){
+                // dd($hotDeal);
+                $percentage = $hotDeal->hotdeals->percentage;
+                $afterDiscountPrice = ($sku->regularPrice) - (($sku->regularPrice)*$percentage)/100;
+            }
+
+            if (!empty($hotDeal) && empty($sku->discount)){
+                $percentage = $hotDeal->hotdeals->percentage;
+                $afterDiscountPrice = ($sku->regularPrice) - (($sku->regularPrice)*$percentage)/100;
+            }
+
+            if(empty($hotDeal) && !empty($sku->discount)){
+                $afterDiscountPrice = $sku->salePrice;
+            }
+
+// dd($afterDiscountPrice);
+            $orderItem->quiantity = $quantity;
+            $orderItem->price  = $afterDiscountPrice ? $afterDiscountPrice :  $sku->regularPrice ?? '0';
+            $orderItem->total = $afterDiscountPrice ? ($afterDiscountPrice * $quantity) : ($quantity * $sku->regularPrice) ?? '0';
+            $orderItem->save();
+
+            $total = OrderProduct::where('fkorderId',$order->orderId)->pluck('total')->sum();
+            // dd($total);
+           
+            $order->orderTotal = $total;
+            $order->save();
+
+            $stock = new Stock();
+            $stock->fkskuId = $sku->skuId;
+            $stock->batchId = $batch;
+            $stock->order_id = $order->orderId;
+            $stock->stock =  $quantity;
+            $stock->type = $request->getOrderType;
+            $stock->identifier = $request->getOrderIdentifier;
+            $stock->save();
+
+
+            Session::flash('success', 'Order updated successfully');
+            return redirect()->route('order.index');
+            // return response()->json(['success'=>'order updated'],200);
+
+        }else {
+            return response()->json(['Quantity'=>'Stock not available'],400);
+        }
+    }
+
     public function details(Request $request, $id)
     {
         $order = Order::with('customer.user', 'orderedProduct.sku.product', 'orderStatusLogs.author', 'transaction', 'delivery', 'lastStatus')->find($id);

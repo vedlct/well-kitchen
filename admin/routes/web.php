@@ -242,6 +242,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/order-details/{id}', [OrderController::class, 'details'])->name('details');
         Route::post('/order-status', [OrderController::class, 'orderStatus'])->name('orderStatus');
         Route::get('/order-edit/{id}', [OrderController::class, 'orderEdit'])->name('orderEdit');
+        Route::post('/order-update', [OrderController::class, 'orderUpdate'])->name('orderUpdate');
         Route::post('/order-status-change', [OrderController::class, 'orderStatusChange'])->name('statusChangeSubmit');
         Route::post('/order-return-modal', [OrderController::class, 'returnModal'])->name('returnModal');
         Route::post('/order-return', [OrderController::class, 'singleReturn'])->name('singleReturn');
