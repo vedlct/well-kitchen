@@ -237,11 +237,11 @@ class CategoryController extends Controller
         }
         // dd($skuss);
         if(!empty($request->price) && $request->price == 'High to Low') {
-             $skuss = $skuss->orderBy('salePrice', 'DESC')->where('status', 'active')->paginate(6);
+             $skuss = $skuss->orderBy('regularPrice', 'DESC')->where('status', 'active')->paginate(6);
            
         }
         if(!empty($request->price) && $request->price == 'Low to High') {
-             $skuss = $skuss->orderBy('salePrice', 'ASC')->where('status', 'active')->paginate(6);
+             $skuss = $skuss->orderBy('regularPrice', 'ASC')->where('status', 'active')->paginate(6);
            
         }
         
