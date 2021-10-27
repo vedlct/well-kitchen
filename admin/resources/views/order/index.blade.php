@@ -143,7 +143,8 @@
                     { title: 'Action', name: 'action',className: "text-center", orderable: false, searchable:false,
                         data:(data)=>{
                             return `<a href="javascript:void(0)" class="btn btn-primary btn-sm" onclick="showOrder(${data.orderId})" title="Order show"><i class="ft-eye"></i></a>
-                                    <a href="javascript:void(0)" class="btn btn-info btn-sm" onclick="orderStatus(${data.orderId})" title="Status change"><i class="ft-refresh-cw"></i></a>`
+                                    <a href="javascript:void(0)" class="btn btn-info btn-sm" onclick="orderStatus(${data.orderId})" title="Status change"><i class="ft-refresh-cw"></i></a>
+                                    <a href="javascript:void(0)" class="btn btn-warning btn-sm" onclick="orderEdit(${data.orderId})" title="Order Edit"><i class="ft-edit"></i></a>`
                         }
                     },
                     { title: 'OrderID', data: 'orderId', name: 'orderId' ,className: "text-center", orderable: true, searchable:true},
@@ -176,6 +177,12 @@
 
         function showOrder(data){
             window.location.href=`{{route('order.details','')}}/${data}`
+        }
+
+        function orderEdit(data){
+            window.location.href=`{{route('order.orderEdit','')}}/${data}`
+            console.log(data);
+
         }
 
         function orderStatus(data){
