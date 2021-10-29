@@ -261,7 +261,7 @@
                                 </div>
                             </div>
                             <div class="same-style header-wishlist">
-                                
+
                                 <a href="{{route('wishlist')}}"><i class="pe-7s-like">
                                     <sup style="
                                     position: absolute;
@@ -381,7 +381,7 @@
                                 @foreach($allCategories as $parentCategory)
                                     <li class="list-group-item @if($subCategories->where('parent', $parentCategory->categoryId)->count() > 0) has-sub-category @endif">
                                         <a href="{{route('category.products', $parentCategory->categoryId)}}" class="d-block">
-                                            {{ $parentCategory->categoryName }} 
+                                            {{ $parentCategory->categoryName }}
                                             @if($subCategories->where('parent', $parentCategory->categoryId)->count() > 0)
                                                 <i class="fa fa-angle-right float-right"></i>
                                             @endif

@@ -61,7 +61,7 @@
                                                     @endif
                                                 </div> --}}
                                                 <div class="form-group row">
-                                                    <label class="col-sm-2 col-form-label">Banner Image<span class="text-danger">*</span></label>
+                                                    <label class="col-sm-2 col-form-label">Banner Image<span class="text-danger">*<small style="color: red; font-weight: bold">(Image Size: 570x300)</small></span></label>
                                                     <div class="col-sm-10">
                                                         <input type="file" class="form-control" name="imageLink" onchange="loadBanner(event)">
                                                         <p class="mt-1"><img id="output" width="100" /></p>

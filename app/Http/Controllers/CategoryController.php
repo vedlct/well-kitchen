@@ -51,6 +51,14 @@ class CategoryController extends Controller
         return view('shop', compact('newArrived', 'categoryId', 'variations', 'variationColorIds', 'variationSizeIds', 'parentCategory', 'minmaxPrice', 'subCategory', 'category', 'skus'));
     }
 
+    public function featureviewAll(){
+        $recommendeds = Sku::with('product')->whereHas('product', function ($query) {
+            $query->where('status', 'active')->where('isrecommended', 1);
+        })->get();
+        return view('feature',compact('recommendeds'));
+
+    }
+
     public function searchByProducts(Request $request){
         $parentCategory = null;
         $subCategory = null;
@@ -115,7 +123,7 @@ class CategoryController extends Controller
     }
 
     public function filterProducts(Request $request){
-      
+
 
         $skuss = Sku::with('product')->whereHas('product', function ($query) {
                     $query->where('status', 'active');
@@ -173,7 +181,7 @@ class CategoryController extends Controller
             });
         }
 
-        
+
 
         if (!empty($request->instockSS) || (!empty($request->alphaOrderSS) && ($request->alphaOrderSS=="instock"))) {
         $availableSku = [];
@@ -217,11 +225,11 @@ class CategoryController extends Controller
         // dd($skuss);
         if(!empty($request->price) && $request->price == 'High to Low') {
              $skuss = $skuss->orderBy('regularPrice', 'DESC')->where('status', 'active')->get();
-           
+
         }
         if(!empty($request->price) && $request->price == 'Low to High') {
              $skuss = $skuss->orderBy('regularPrice', 'ASC')->where('status', 'active')->get();
-           
+
         }
 
         if(!empty($request->price) && $request->price == 'a-z') {

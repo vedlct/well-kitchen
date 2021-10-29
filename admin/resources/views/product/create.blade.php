@@ -286,7 +286,7 @@
 
                                                             <div id="productImages" class="col-md-4 col-lg-4 col-xl-3">
                                                                 <div class="form-group">
-                                                                    <label>Product Images</label>
+                                                                    <label>Product Images<small style="color: red; font-weight: bold">(Image Size: 550x610)</small></label>
                                                                     <input type="file" class="form-control" name="productImages[]" onchange="loadFilesproImages(event)" multiple>
                                                                     <p class="mt-1" id="productImagesPre"></p>
                                                                 </div>
@@ -296,7 +296,7 @@
                                                     <div class="col-lg-3 col-md-4">
                                                         <div class="feature-img">
                                                             <div class="form-group">
-                                                                <label>Feature Image </label>
+                                                                <label>Feature Image<small style="color: red; font-weight: bold">(Image Size: 550x610)</small> </label>
                                                                 <input type="file" class="form-control" name="featureImage" onchange="loadFile(event)">
                                                                 <p class="mt-1"><img id="output" width="100" /></p>
                                                             </div>
