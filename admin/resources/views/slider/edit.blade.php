@@ -54,7 +54,7 @@
                                                     <span class="text-danger"> <b>{{  $errors->first('subText') }}</b></span>
                                                 </div>
                                                 <div class="form-group">
-                                                    <label>Slider Iamge</label>
+                                                    <label>Slider Iamge<small style="color: red; font-weight: bold">(Image Size:1920x578)</small></label>
                                                     <input type="file" class="form-control" name="sliderImage">
                                                     <span class="text-danger"> <b>{{  $errors->first('sliderImage') }}</b></span>
                                                 </div>

@@ -51,6 +51,14 @@ class CategoryController extends Controller
         return view('shop', compact('newArrived', 'categoryId', 'variations', 'variationColorIds', 'variationSizeIds', 'parentCategory', 'minmaxPrice', 'subCategory', 'category', 'skus'));
     }
 
+    public function featureviewAll(){
+        $recommendeds = Sku::with('product')->whereHas('product', function ($query) {
+            $query->where('status', 'active')->where('isrecommended', 1);
+        })->get();
+        return view('feature',compact('recommendeds'));
+
+    }
+
     public function searchByProducts(Request $request){
         $parentCategory = null;
         $subCategory = null;
@@ -115,16 +123,7 @@ class CategoryController extends Controller
     }
 
     public function filterProducts(Request $request){
-        // dd($request->all());
-        // if(!empty($request->priceMin) && !empty($request->priceMax)) {
-        //     $skuss = Sku::with('product')->where('salePrice', '>=', $request->priceMin)->where('salePrice', '<=', $request->priceMax)->whereHas('product', function ($query) {
-        //         $query->where('status', 'active');
-        //     });
-        // }else {
-        //     $skuss = Sku::with('product')->whereHas('product', function ($query) {
-        //         $query->where('status', 'active');
-        //     });
-        // }
+
 
         $skuss = Sku::with('product')->whereHas('product', function ($query) {
                     $query->where('status', 'active');
@@ -182,19 +181,7 @@ class CategoryController extends Controller
             });
         }
 
-        // if (!empty($request->alphaOrderSS) && ($request->alphaOrderSS=="A")) {
-        //    $skuss = $skuss->whereHas('product', function ($query) {
-        //     $query->orderBy('productId', 'desc');
-        //     // $q->orderBy('price', $queryParameters['orderBy']);
-        //     });
-        //     // dd($skuss->get());
-        // }
 
-        // if (!empty($request->alphaOrderSS) && ($request->alphaOrderSS=="Z")) {
-
-        //     $skuss = $skuss->whereHas('product', function ($query) use ($request) {
-        //     })->orderBy('productName', 'desc');
-        // }
 
         if (!empty($request->instockSS) || (!empty($request->alphaOrderSS) && ($request->alphaOrderSS=="instock"))) {
         $availableSku = [];
@@ -237,40 +224,19 @@ class CategoryController extends Controller
         }
         // dd($skuss);
         if(!empty($request->price) && $request->price == 'High to Low') {
-             $skuss = $skuss->orderBy('regularPrice', 'DESC')->where('status', 'active')->paginate(6);
+             $skuss = $skuss->orderBy('regularPrice', 'DESC')->where('status', 'active')->get();
 
         }
         if(!empty($request->price) && $request->price == 'Low to High') {
-             $skuss = $skuss->orderBy('regularPrice', 'ASC')->where('status', 'active')->paginate(6);
+             $skuss = $skuss->orderBy('regularPrice', 'ASC')->where('status', 'active')->get();
 
         }
 
         if(!empty($request->price) && $request->price == 'a-z') {
-            //  dd($skuss)
-            // $skuss = $skuss->whereHas('product', function ($query) {
-            //     $query->where('status', 'active');
-            // })->orderBy('product.productName')->paginate(6);
-
             $skuss = $skuss->with('product')->get()->sortBy('product.productName');
-            // $skuss = $skuss->paginate(6);
-
-
-
         }
         if(!empty($request->price) && $request->price == 'z-a') {
-
-            // $skuss =$skuss->whereHas('product', function ($query) {
-            //     $query->orderBy('productName', 'DESC');
-            // });
-            // $skuss = $skuss->paginate(6);
             $skuss = $skuss->with('product')->get()->sortByDesc('product.productName');
-            // $skuss = $skuss->paginate(6);
-
-            // $skuss = $skuss->whereHas('product', function($query){
-            //   dd($query->get());
-            // });
-                // dd($skuss->get());
-
         }
 
         if (!empty($request->price) && $request->price == 'instock') {

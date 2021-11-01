@@ -653,8 +653,10 @@
                 </div>
 
                 @endforeach
-
-
+        </div>
+        <div class="text-center">
+            <a href="{{ route('feature.viewAll') }}" class="btn btn-secondary">View All
+                Products</a>
         </div>
     </div>
 </div>
