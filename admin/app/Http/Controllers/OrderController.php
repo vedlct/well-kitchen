@@ -9,7 +9,10 @@ use App\Models\Brand;
 use App\Models\Order;
 use App\Models\Stock;
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\Settings;
+use App\Models\Variation;
+use App\Models\VariationDetails;
 use App\Models\Transaction;
 use Darryldecode\Cart\Cart;
 use Illuminate\Support\Str;
@@ -22,6 +25,7 @@ use App\Models\DeliveryService;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Yajra\DataTables\Facades\DataTables;
 
 class OrderController extends Controller
@@ -65,18 +69,18 @@ class OrderController extends Controller
                     session(['cartSessionKey' => Str::random(40)]);
                 }
                 $cart = \Cart::add([
-                'id' => $r->sku,
-                'name' => $r->product ?? 'null',
-                'price' => $batch->salePrice ?? 100,
-                'quantity' => 1,
-                'attributes' => [
-                    'maxAmount' => $batch->available,
-                    'skuid' => $r->sku,
-                    'batchId' => $batch->batchId,
-                    'discount' => 0,
-                    'subTotal' => $batch->salePrice * 1,
-                ],
-            ]);
+                    'id' => $r->sku,
+                    'name' => $r->product ?? 'null',
+                    'price' => $batch->salePrice ?? 100,
+                    'quantity' => 1,
+                    'attributes' => [
+                        'maxAmount' => $batch->available,
+                        'skuid' => $r->sku,
+                        'batchId' => $batch->batchId,
+                        'discount' => 0,
+                        'subTotal' => $batch->salePrice * 1,
+                    ],
+                ]);
                 $cart = view('order.orderProduct')->render();
                 $total = \Cart::getTotal();
 
@@ -111,19 +115,19 @@ class OrderController extends Controller
         dd($request->all());
         $orderItem = OrderProduct::where('order_itemId', $request->rowId)->first();
 
-//        if (!empty($r->rowId)) {
-//            \Cart::remove($r->rowId);
-//            $total = $this->cartTotal();
-//            $cart = view('order.orderProduct')->render();
-//
-//            return response()->json(['total' => $total, 'cart' => $cart]);
-//        } else {
-//            \Cart::clear();
-//            $total = $this->cartTotal();
-//            $cart = view('order.orderProduct')->render();
-//
-//            return response()->json(['total' => $total, 'cart' => $cart]);
-//        }
+        //        if (!empty($r->rowId)) {
+        //            \Cart::remove($r->rowId);
+        //            $total = $this->cartTotal();
+        //            $cart = view('order.orderProduct')->render();
+        //
+        //            return response()->json(['total' => $total, 'cart' => $cart]);
+        //        } else {
+        //            \Cart::clear();
+        //            $total = $this->cartTotal();
+        //            $cart = view('order.orderProduct')->render();
+        //
+        //            return response()->json(['total' => $total, 'cart' => $cart]);
+        //        }
     }
 
 
@@ -147,7 +151,7 @@ class OrderController extends Controller
             \Cart::clearItemConditions($r->id);
             $cart = \Cart::update($r->id, [
                 'quantity' => -1,
-              ]);
+            ]);
         }
 
         $total = $this->cartTotal();
@@ -189,17 +193,17 @@ class OrderController extends Controller
         // return $r;
         $this->validate($request, [
             // 'billingAddress' => 'required',
-//            'customer' => 'required',
-//            'delivery_charge' => 'required',
-//            'delivery_company' => 'required',
-//            'delivery_date' => 'required',
-//            'delivery_location' => 'required',
-//            'due_amount' => 'nullable|numeric',
-//            'paid_amount' => 'nullable|numeric',
-//            'payment_method' => 'nullable',
-//            'payment_type' => 'nullable',
-//            'shipping_address' => 'required',
-//            'saleLocation' => 'required',
+            //            'customer' => 'required',
+            //            'delivery_charge' => 'required',
+            //            'delivery_company' => 'required',
+            //            'delivery_date' => 'required',
+            //            'delivery_location' => 'required',
+            //            'due_amount' => 'nullable|numeric',
+            //            'paid_amount' => 'nullable|numeric',
+            //            'payment_method' => 'nullable',
+            //            'payment_type' => 'nullable',
+            //            'shipping_address' => 'required',
+            //            'saleLocation' => 'required',
         ]);
 
         $order = new Order();
@@ -315,7 +319,7 @@ class OrderController extends Controller
     public function list(Request $request)
     {
         $order = Order::select('order_info.orderId', 'order_info.last_status', 'customer.phone', 'orderTotal', 'order_info.created_at', 'order_info.updated_at', 'order_info.print')
-       ->leftjoin('customer', 'customerId', 'fkcustomerId')->orderBy('order_info.orderId', 'DESC');
+            ->leftjoin('customer', 'customerId', 'fkcustomerId')->orderBy('order_info.orderId', 'DESC');
 
         if (!empty($request->fromDate) && empty($request->toDate) && empty($request->orderStatus)) {
             $order = $order->whereDate('order_info.created_at', $request->fromDate);
@@ -326,8 +330,8 @@ class OrderController extends Controller
         }
 
         if (!empty($request->fromDate) && !empty($request->toDate) && empty($request->orderStatus)) {
-            $order = $order->where('order_info.created_at', '>=', $request->fromDate.' 12:00:00')
-                ->where('order_info.created_at', '<=', $request->toDate.' 23:59:59');
+            $order = $order->where('order_info.created_at', '>=', $request->fromDate . ' 12:00:00')
+                ->where('order_info.created_at', '<=', $request->toDate . ' 23:59:59');
         }
 
         if (empty($request->fromDate) && empty($request->toDate) && !empty($request->orderStatus)) {
@@ -343,8 +347,8 @@ class OrderController extends Controller
         }
 
         if (!empty($request->fromDate) && !empty($request->toDate) && !empty($request->orderStatus)) {
-            $order = $order->where('order_info.created_at', '>=', $request->fromDate.' 12:00:00')
-                ->where('order_info.created_at', '<=', $request->toDate.' 23:59:59')
+            $order = $order->where('order_info.created_at', '>=', $request->fromDate . ' 12:00:00')
+                ->where('order_info.created_at', '<=', $request->toDate . ' 23:59:59')
                 ->where('order_info.last_status', $request->orderStatus);
         }
 
@@ -360,153 +364,102 @@ class OrderController extends Controller
 
                 return $orderlog;
             })
-//            ->addColumn('Status', function ($status) {
-//                $Status = OrderStatusLog::where('order_id', $status->orderId)->latest('status_log_id')->first()->status ?? 'null';
-//                return $Status;
-//            })
+            //            ->addColumn('Status', function ($status) {
+            //                $Status = OrderStatusLog::where('order_id', $status->orderId)->latest('status_log_id')->first()->status ?? 'null';
+            //                return $Status;
+            //            })
             ->make(true);
     }
 
-    public function orderEdit($id){
+    public function orderEdit($id)
+    {
         $order = Order::with('orderedProduct')->where('orderId', $id)->first();
         return view('order.edit', compact('order'));
-
-//        $order = new Order();
-//        $order->fkcustomerId = $request->customerId;
-//        $order->sale_type = $request->saleType ?? 'online';
-//        $order->delivery_service = $request->delivery_company;
-//        $order->deliveryTime = $request->delivery_date;
-//        $order->deliveryFee = $request->delivery_charge;
-//        $order->orderTotal = $this->cartTotal();
-//        $order->sale_type = $request->saleType ?? 'shop';
-//        $order->print = '1';
-//        $order->note = $request->orderNote ?? null;
-//        if (floatval($request->paid_amount) == $this->cartTotal()) {
-//            $order->payment_status = 'paid';
-//        } elseif (floatval($request->paid_amount) > 0) {
-//            $order->payment_status = 'partial';
-//        } else {
-//            $order->payment_status = 'unpaid';
-//        }
-//        if (!empty($request->saleType) && $request->saleType == 'online') {
-//            $order->last_status = 'Created';
-//        } else {
-//            $order->last_status = 'Delivered';
-//        }
-//        $order->save();
-//
-//        foreach (\Cart::getContent() as $key => $product) {
-//            $orderedProduct = new OrderProduct();
-//            $orderedProduct->fkorderId = $order->orderId;
-//            $orderedProduct->fkskuId = $product->attributes->skuid;
-//            $orderedProduct->batch_id = $product->attributes->batchId;
-//            $orderedProduct->price = $product->price;
-//            $orderedProduct->quiantity = $product->quantity;
-//            $orderedProduct->total = $product->quantity * $product->price - $product->attributes->discount ?? '0';
-//            $orderedProduct->discount = $product->attributes->discount ?? '0';
-//            $orderedProduct->save();
-//
-//            $stockRecordChange = new Stock();
-//            $stockRecordChange->fkskuId = $product->attributes->skuid;
-//            $stockRecordChange->batchId = $product->attributes->batchId;
-//            $stockRecordChange->order_id = $order->orderId;
-//            $stockRecordChange->stock = $product->quantity;
-//            $stockRecordChange->type = 'out';
-//            $stockRecordChange->identifier = 'sale';
-//            $stockRecordChange->save();
-//        }
-
-
     }
 
-    public function orderUpdate(Request $request){
-        // dd($request->all());
+    // public function orderUpdate(Request $request){
+    //     $orderItem = OrderProduct::where('order_itemId', $request->itemId)->first();
+    //     $order = Order::where('orderId', $orderItem->fkorderId)->first();
 
-       
-        $orderItem = OrderProduct::where('order_itemId', $request->itemId)->first();
-        $order = Order::where('orderId', $orderItem->fkorderId)->first();
-        // dd($order);
 
-        $itemSkuId = $orderItem->fkskuId;
-        // dd($itemSkuId);
+    //     $itemSkuId = $orderItem->fkskuId;
 
-        $stockIn=Stock::where('fkskuId',$itemSkuId)->where('type', 'in')->sum('stock');
-        $stockOut=Stock::where('fkskuId',$itemSkuId)->where('type', 'out')->sum('stock');
-        $stockAvailable = $stockIn-$stockOut;
-        // dd($stockAvailable);
-        $quantity=$request->quantity;
+    //     $stockIn=Stock::where('fkskuId',$itemSkuId)->where('type', 'in')->sum('stock');
+    //     $stockOut=Stock::where('fkskuId',$itemSkuId)->where('type', 'out')->sum('stock');
+    //     $stockAvailable = $stockIn-$stockOut;
+
+    //     $quantity=$request->quantity;
 
 
 
-        if ($stockAvailable >= $quantity) {
-            $sku =Sku::findOrfail($itemSkuId);
-           
-            $batchToOrder = collect(DB::select(DB::raw("SELECT batchId, COALESCE(SUM(CASE WHEN stock_record.type = 'in' THEN stock END), 0) - COALESCE(SUM(CASE WHEN stock_record.type = 'out' THEN stock END), 0) as available
-                            FROM stock_record
-                            LEFT JOIN sku ON sku.skuId = stock_record.fkskuId
-                            LEFT JOIN product ON sku.fkproductId = product.productId
-                            WHERE fkskuId = $itemSkuId
-                            GROUP BY batchId ORDER BY available DESC")));
+    //     if ($stockAvailable >= $quantity) {
+    //         $sku =Sku::findOrfail($itemSkuId);
 
-            $batch = $batchToOrder->pluck('batchId')->first();
-            // dd($batch);
-            // dd($sku->discount);
-            // dd($sku->product->hotdealProducts == null);
-            if($sku->product->hotdealProducts == null){
-                $hotDeal = null;
-            }else{
-                $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first();
-            }
-            // dd($hotDeal);
-            // $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d'))->where('hotdeals.endDate', '>=', date('Y-m-d'))->where('hotdeals.percentage', '>', 0)->first();
-            
-            $afterDiscountPrice = null;
+    //         $batchToOrder = collect(DB::select(DB::raw("SELECT batchId, COALESCE(SUM(CASE WHEN stock_record.type = 'in' THEN stock END), 0) - COALESCE(SUM(CASE WHEN stock_record.type = 'out' THEN stock END), 0) as available
+    //                         FROM stock_record
+    //                         LEFT JOIN sku ON sku.skuId = stock_record.fkskuId
+    //                         LEFT JOIN product ON sku.fkproductId = product.productId
+    //                         WHERE fkskuId = $itemSkuId
+    //                         GROUP BY batchId ORDER BY available DESC")));
 
-            if (!empty($hotDeal) && !empty($sku->discount)){
-                // dd($hotDeal);
-                $percentage = $hotDeal->hotdeals->percentage;
-                $afterDiscountPrice = ($sku->regularPrice) - (($sku->regularPrice)*$percentage)/100;
-            }
+    //         $batch = $batchToOrder->pluck('batchId')->first();
+    //         // dd($batch);
+    //         // dd($sku->discount);
+    //         // dd($sku->product->hotdealProducts == null);
+    //         if($sku->product->hotdealProducts == null){
+    //             $hotDeal = null;
+    //         }else{
+    //             $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first();
+    //         }
+    //         // dd($hotDeal);
+    //         // $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d'))->where('hotdeals.endDate', '>=', date('Y-m-d'))->where('hotdeals.percentage', '>', 0)->first();
 
-            if (!empty($hotDeal) && empty($sku->discount)){
-                $percentage = $hotDeal->hotdeals->percentage;
-                $afterDiscountPrice = ($sku->regularPrice) - (($sku->regularPrice)*$percentage)/100;
-            }
+    //         $afterDiscountPrice = null;
 
-            if(empty($hotDeal) && !empty($sku->discount)){
-                $afterDiscountPrice = $sku->salePrice;
-            }
+    //         if (!empty($hotDeal) && !empty($sku->discount)){
+    //             // dd($hotDeal);
+    //             $percentage = $hotDeal->hotdeals->percentage;
+    //             $afterDiscountPrice = ($sku->regularPrice) - (($sku->regularPrice)*$percentage)/100;
+    //         }
 
-// dd($afterDiscountPrice);
-            $orderItem->quiantity = $quantity;
-            $orderItem->price  = $afterDiscountPrice ? $afterDiscountPrice :  $sku->regularPrice ?? '0';
-            $orderItem->total = $afterDiscountPrice ? ($afterDiscountPrice * $quantity) : ($quantity * $sku->regularPrice) ?? '0';
-            $orderItem->save();
+    //         if (!empty($hotDeal) && empty($sku->discount)){
+    //             $percentage = $hotDeal->hotdeals->percentage;
+    //             $afterDiscountPrice = ($sku->regularPrice) - (($sku->regularPrice)*$percentage)/100;
+    //         }
 
-            $total = OrderProduct::where('fkorderId',$order->orderId)->pluck('total')->sum();
-            // dd($total);
-           
-            $order->orderTotal = $total;
-            $order->save();
+    //         if(empty($hotDeal) && !empty($sku->discount)){
+    //             $afterDiscountPrice = $sku->salePrice;
+    //         }
 
-            $stock = new Stock();
-            $stock->fkskuId = $sku->skuId;
-            $stock->batchId = $batch;
-            $stock->order_id = $order->orderId;
-            $stock->stock =  $quantity;
-            $stock->type = $request->getOrderType;
-            $stock->identifier = $request->getOrderIdentifier;
-            $stock->save();
+    //         $orderItem->quiantity = $quantity;
+    //         $orderItem->price  = $afterDiscountPrice ? $afterDiscountPrice :  $sku->regularPrice ?? '0';
+    //         $orderItem->total = $afterDiscountPrice ? ($afterDiscountPrice * $quantity) : ($quantity * $sku->regularPrice) ?? '0';
+    //         $orderItem->save();
+
+    //         $total = OrderProduct::where('fkorderId',$order->orderId)->pluck('total')->sum();
 
 
-            Session::flash('success', 'Order updated successfully');
-            return redirect()->route('order.index');
-            // return response()->json(['success'=>'order updated'],200);
+    //         $order->orderTotal = $total;
+    //         $order->save();
 
-        }else {
-            return response()->json(['Quantity'=>'Stock not available'],400);
-        }
-    }
+    //         $stock = new Stock();
+    //         $stock->fkskuId = $sku->skuId;
+    //         $stock->batchId = $batch;
+    //         $stock->order_id = $order->orderId;
+    //         $stock->stock =  $quantity;
+    //         $stock->type = $request->getOrderType;
+    //         $stock->identifier = $request->getOrderIdentifier;
+    //         $stock->save();
+
+
+    //         Session::flash('success', 'Order updated successfully');
+    //         return redirect()->route('order.index');
+
+
+    //     }else {
+    //         return response()->json(['Quantity'=>'Stock not available'],400);
+    //     }
+    // }
 
     public function details(Request $request, $id)
     {
@@ -686,7 +639,7 @@ class OrderController extends Controller
     {
         try {
             $orderedProduct = OrderProduct::with('order', 'order.orderStatusLogs')->find($data['orderItemId']);
-            DB::transaction(function () use ($data,$orderedProduct) {
+            DB::transaction(function () use ($data, $orderedProduct) {
                 $orderedProduct->quiantity = $data['previousQuantity'] - $data['returnQuantity'];
                 $orderedProduct->total = ($data['returnQuantity'] - $data['returnQuantity']) * $orderedProduct->price;
                 $orderedProduct->returned = $orderedProduct->returned + $data['returnQuantity'];
@@ -715,6 +668,326 @@ class OrderController extends Controller
         return true;
     }
 
+    private function returnOrderedItemUpdateQuantity($data)
+    {
+
+        $message = "";
+
+        // dd($data);
+        try {
+            $orderedProduct = OrderProduct::with('order', 'order.orderStatusLogs')->find($data['orderItemId']);
+            $order = Order::where('orderId', $orderedProduct->fkorderId)->first();
+            $itemSkuId = $orderedProduct->fkskuId;
+
+            $stockIn = Stock::where('fkskuId', $itemSkuId)->where('type', 'in')->sum('stock');
+            $stockOut = Stock::where('fkskuId', $itemSkuId)->where('type', 'out')->sum('stock');
+            $stockAvailable = $stockIn - $stockOut;
+            $quantity = $data['returnQuantity'];
+
+
+
+            if ($stockAvailable >= $quantity) {
+
+
+                $sku = Sku::where('skuId', $itemSkuId)->first();
+
+                $batchToOrder = collect(DB::select(DB::raw("SELECT batchId, COALESCE(SUM(CASE WHEN stock_record.type = 'in' THEN stock END), 0) - COALESCE(SUM(CASE WHEN stock_record.type = 'out' THEN stock END), 0) as available
+                                FROM stock_record
+                                LEFT JOIN sku ON sku.skuId = stock_record.fkskuId
+                                LEFT JOIN product ON sku.fkproductId = product.productId
+                                WHERE fkskuId = $itemSkuId
+                                GROUP BY batchId ORDER BY available DESC")));
+
+                $batch = $batchToOrder->pluck('batchId')->first();
+
+                if ($sku->product->hotdealProducts == null) {
+                    $hotDeal = null;
+                } else {
+                    $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first();
+                }
+
+
+                $afterDiscountPrice = null;
+
+                if (!empty($hotDeal) && !empty($sku->discount)) {
+                    $percentage = $hotDeal->hotdeals->percentage;
+                    $afterDiscountPrice = ($sku->regularPrice) - (($sku->regularPrice) * $percentage) / 100;
+                }
+
+                if (!empty($hotDeal) && empty($sku->discount)) {
+                    $percentage = $hotDeal->hotdeals->percentage;
+                    $afterDiscountPrice = ($sku->regularPrice) - (($sku->regularPrice) * $percentage) / 100;
+                }
+
+                if (empty($hotDeal) && !empty($sku->discount)) {
+                    $afterDiscountPrice = $sku->salePrice;
+                }
+
+
+                DB::transaction(function () use ($data, $orderedProduct, $quantity, $afterDiscountPrice, $sku, $order) {
+
+
+                    $orderedProduct->quiantity = $quantity;
+                    $orderedProduct->price  = $afterDiscountPrice ? $afterDiscountPrice :  $sku->regularPrice ?? '0';
+                    $orderedProduct->total = $afterDiscountPrice ? ($afterDiscountPrice * $quantity) : ($quantity * $sku->regularPrice) ?? '0';
+                    $orderedProduct->save();
+
+                    // $total = OrderProduct::where('fkorderId', $orderedProduct->fkorderId)->pluck('total')->sum();
+                    // $order->orderTotal = $total;
+                    // $order->save();
+
+                    $stock = new Stock();
+                    $stock->fkskuId = $orderedProduct->fkskuId;
+                    $stock->batchId = $orderedProduct->batch_id;
+                    $stock->order_id = $orderedProduct->fkorderId;
+                    $stock->stock = $data['returnQuantity'];
+                    $stock->type = $data['type'];
+                    $stock->identifier = $data['identifier'];
+                    $stock->save();
+
+                    $orderedProduct->order->orderTotal = OrderProduct::where('fkorderId', $orderedProduct->fkorderId)->sum('total');
+                    $orderedProduct->order->save();
+                });
+                return $message = true;
+            } else {
+
+                return $message = false;
+            }
+        } catch (\Exception $e) {
+
+            return $message = false;
+        }
+
+        // return true;
+    }
+
+    public function insertItem(Request $request)
+    {
+        // dd($request->all());
+        if (isset($request->variationId)) {
+            // dd('yes');
+            // dd($request->all);
+            $variation =  VariationDetails::where('variationRelationId', $request->variationId)->first();
+            $sku =  Sku::where('skuId', $variation->skuId)->first();
+
+            $itemSkuId = $sku->skuId;
+
+            $stockIn = Stock::where('fkskuId', $itemSkuId)->where('type', 'in')->sum('stock');
+            $stockOut = Stock::where('fkskuId', $itemSkuId)->where('type', 'out')->sum('stock');
+            $stockAvailable = $stockIn - $stockOut;
+
+            $quantity = $request->rQuantity;
+
+
+            if ($stockAvailable >= $quantity) {
+
+
+                $orderedProduct =  new OrderProduct();
+
+                $batchToOrder = collect(DB::select(DB::raw("SELECT batchId, COALESCE(SUM(CASE WHEN stock_record.type = 'in' THEN stock END), 0) - COALESCE(SUM(CASE WHEN stock_record.type = 'out' THEN stock END), 0) as available
+                                FROM stock_record
+                                LEFT JOIN sku ON sku.skuId = stock_record.fkskuId
+                                LEFT JOIN product ON sku.fkproductId = product.productId
+                                WHERE fkskuId = $itemSkuId
+                                GROUP BY batchId ORDER BY available DESC")));
+
+                $batch = $batchToOrder->pluck('batchId')->first();
+
+                // dd($batch);
+
+                DB::transaction(function () use ($request, $orderedProduct, $quantity, $sku, $batch) {
+
+
+                    $orderedProduct->fkorderId = $request->orderId;
+                    $orderedProduct->fkskuId = $sku->skuId;
+                    $orderedProduct->batch_id = $batch;
+                    $orderedProduct->quiantity = $quantity;
+                    $orderedProduct->price  = $request->salePriceInput;
+                    $orderedProduct->total = $request->salePriceInput * $quantity;
+                    $orderedProduct->save();
+
+                    // $total = OrderProduct::where('fkorderId', $orderedProduct->fkorderId)->pluck('total')->sum();
+                    // $order->orderTotal = $total;
+                    // $order->save();
+
+                    $stock = new Stock();
+                    $stock->fkskuId = $orderedProduct->fkskuId;
+                    $stock->batchId = $orderedProduct->batch_id;
+                    $stock->order_id = $orderedProduct->fkorderId;
+                    $stock->stock = $quantity;
+                    $stock->type = 'in';
+                    $stock->identifier = 'edit';
+                    $stock->save();
+
+                    $orderedProduct->order->orderTotal = OrderProduct::where('fkorderId', $orderedProduct->fkorderId)->sum('total');
+                    $orderedProduct->order->save();
+                });
+                return $message = true;
+            } else {
+
+                return $message = 'stock not available';
+            }
+        } else {
+            
+            $product = Product::where('productId', $request->productId)->with('sku')->first();
+            $sku = $product->sku[0];
+            $itemSkuId = $sku->skuId;
+
+            $stockIn = Stock::where('fkskuId', $itemSkuId)->where('type', 'in')->sum('stock');
+            $stockOut = Stock::where('fkskuId', $itemSkuId)->where('type', 'out')->sum('stock');
+            $stockAvailable = $stockIn - $stockOut;
+
+            $quantity = $request->rQuantity;
+
+
+            if ($stockAvailable >= $quantity) {
+
+
+                $orderedProduct =  new OrderProduct();
+
+                $batchToOrder = collect(DB::select(DB::raw("SELECT batchId, COALESCE(SUM(CASE WHEN stock_record.type = 'in' THEN stock END), 0) - COALESCE(SUM(CASE WHEN stock_record.type = 'out' THEN stock END), 0) as available
+                                FROM stock_record
+                                LEFT JOIN sku ON sku.skuId = stock_record.fkskuId
+                                LEFT JOIN product ON sku.fkproductId = product.productId
+                                WHERE fkskuId = $itemSkuId
+                                GROUP BY batchId ORDER BY available DESC")));
+
+                $batch = $batchToOrder->pluck('batchId')->first();
+
+                // dd($batch);
+
+                DB::transaction(function () use ($request, $orderedProduct, $quantity, $sku, $batch) {
+
+
+                    $orderedProduct->fkorderId = $request->orderId;
+                    $orderedProduct->fkskuId = $sku->skuId;
+                    $orderedProduct->batch_id = $batch;
+                    $orderedProduct->quiantity = $quantity;
+                    $orderedProduct->price  = $request->priceInput;
+                    $orderedProduct->total = $request->priceInput * $quantity;
+                    $orderedProduct->save();
+
+                    // $total = OrderProduct::where('fkorderId', $orderedProduct->fkorderId)->pluck('total')->sum();
+                    // $order->orderTotal = $total;
+                    // $order->save();
+
+                    $stock = new Stock();
+                    $stock->fkskuId = $orderedProduct->fkskuId;
+                    $stock->batchId = $orderedProduct->batch_id;
+                    $stock->order_id = $orderedProduct->fkorderId;
+                    $stock->stock = $quantity;
+                    $stock->type = 'in';
+                    $stock->identifier = 'edit';
+                    $stock->save();
+
+                    $orderedProduct->order->orderTotal = OrderProduct::where('fkorderId', $orderedProduct->fkorderId)->sum('total');
+                    $orderedProduct->order->save();
+                });
+                return $message = true;
+            } else {
+
+                return $message = 'stock not available';
+            }
+        }
+    }
+
+    public function showAddProductModal(Request $request)
+    {
+        $order = Order::where('orderId', $request->orderId)->first();
+        $product = Product::where('status', 'active')->get();
+        return view('order.orderAddProductModal', compact('order', 'product'));
+    }
+
+    public function getProductInfo(Request $request)
+    {
+        // dd($request->all());
+        $product = Product::where('productId', $request->productId)->with('sku.variationRelation.variationDetailsdata')->first();
+        // dd($product);
+        $skuIds = $product->sku->pluck('skuId');
+
+        if ($product->type == 'variation') {
+
+            $variations = VariationDetails::whereIn('skuId', $skuIds)->get();
+            $variationDatas = VariationDetails::whereIn('skuId', $skuIds)->pluck('variationData');
+            $variationColorIds = Variation::whereIn('variationId', $variationDatas)->where('variationType', 'Color')->get();
+            $variationSizeIds = Variation::whereIn('variationId', $variationDatas)->where('variationType', 'Size')->get();
+
+            // $variationRelation = VariationDetails::where('productId', $product->productId)->with('variationDetailsdata')->get();
+            return response()->json(['product' => $product, 'variationColorIds' => $variationColorIds, 'variationSizeIds' => $variationSizeIds,]);
+        } else {
+            return response()->json(['product' => $product]);
+        }
+    }
+
+    public function colorSizeChoose(Request $request)
+    {
+        // dd($request->all());
+        $variationRelation = VariationDetails::where('variationRelationId', $request->variationRelationId)->first();
+        $sku = Sku::where('skuId', $variationRelation->skuId)->first();
+        // dd($sku->product->hotdealProducts->where('hotdeals.status', 'Available')->first());
+        if (empty($sku->product->hotdealProducts)) {
+            $hotDeal = null;
+        } else {
+            $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->where('hotdeals.percentage', '>', 0)->first();
+        }
+
+        $afterDiscountPrice = null;
+
+        if (!empty($hotDeal) && !empty($sku->discount)) {
+            $percentage = $hotDeal->hotdeals->percentage;
+            $afterDiscountPrice = ($sku->regularPrice) - (($sku->regularPrice) * $percentage) / 100;
+        }
+
+        if (!empty($hotDeal) && empty($sku->discount)) {
+            $percentage = $hotDeal->hotdeals->percentage;
+            $afterDiscountPrice = ($sku->regularPrice) - (($sku->regularPrice) * $percentage) / 100;
+        }
+
+        if (empty($hotDeal) && !empty($sku->discount)) {
+            $afterDiscountPrice = $sku->salePrice;
+        }
+        // dd($afterDiscountPrice);
+
+        $otherVariationSameSku = VariationDetails::where('skuId', $variationRelation->skuId)->get()->except($variationRelation->variationRelationId);
+        $variationDatas = [];
+        foreach ($otherVariationSameSku->unique('variationData') as $variationR) {
+            if ($variationR->variationDetailsdata) {
+                $variationDatas[] = $variationR;
+            }
+        }
+
+        return response()->json(['otherVariationSameSku' => $otherVariationSameSku, 'sku' => $sku, 'afterDiscountPrice' => $afterDiscountPrice, 'variationDatas' => $variationDatas]);
+    }
+
+
+
+    public function deleteOrderItem(Request $request)
+    {
+
+        $orderProduct = OrderProduct::where('order_itemId', $request->orderItemId)->with('order')->first();
+        // dd($orderProduct);
+       
+        $order =  Order::where('orderId',$orderProduct->fkorderId)->first();
+        // dd($order);
+        $ordertotal =  $order->orderTotal - $orderProduct->total; 
+
+        $stock = new Stock();
+        $stock->fkskuId = $orderProduct->fkskuId;
+        $stock->batchId = $orderProduct->batch_id;
+        $stock->order_id = $orderProduct->fkorderId;
+        $stock->stock = $orderProduct->quiantity;
+        $stock->type = 'in';
+        $stock->identifier = 'edit';
+        $stock->save();
+        
+
+        $orderProduct->order->orderTotal = $ordertotal;
+        $orderProduct->order->save();
+
+        $orderProduct->delete();
+        return response()->json();
+    }
+
     public function deliveryBalanceAdd($request)
     {
         try {
@@ -741,6 +1014,33 @@ class OrderController extends Controller
         }
     }
 
+    public function editOrderItemQuantity(Request $request)
+    {
+        // dd($request->all());
+        // $order = Order::with('orderedProduct')->where('orderId', $id)->first();
+        $orderedProduct = OrderProduct::find($request->orderItemId);
+
+        return view('order.editOrderItem', compact('orderedProduct'));
+    }
+
+    public function updateItemQuantity(Request $request)
+    {
+        // dd($request->all());
+        $this->validate(
+            $request,
+            [
+                'rQuantity' => 'numeric|min:1',
+            ]
+
+        );
+
+        $request['returnQuantity'] = $request->rQuantity;
+        $returnVal = $this->returnOrderedItemUpdateQuantity($request);
+
+        return response()->json(['returnVal' => $returnVal]);
+    }
+
+
     public function returnModal(Request $request)
     {
         $orderedProduct = OrderProduct::find($request->orderItemId);
@@ -750,12 +1050,15 @@ class OrderController extends Controller
 
     public function singleReturn(Request $request)
     {
-        $this->validate($request, [
-            'rQuantity' => 'numeric|min:1|max:'.$request->previousQuantity,
-        ],
-        [
-            'rQuantity.max' => 'Quantity can be maximum '.$request->previousQuantity,
-        ]);
+        $this->validate(
+            $request,
+            [
+                'rQuantity' => 'numeric|min:1|max:' . $request->previousQuantity,
+            ],
+            [
+                'rQuantity.max' => 'Quantity can be maximum ' . $request->previousQuantity,
+            ]
+        );
 
         $request['returnQuantity'] = $request->rQuantity;
         $this->returnOrder($request);
@@ -771,6 +1074,6 @@ class OrderController extends Controller
         $order->print = '1';
         $order->save();
 
-        return $pdf->download('invoice - '.$order->orderId.'.pdf');
+        return $pdf->download('invoice - ' . $order->orderId . '.pdf');
     }
 }

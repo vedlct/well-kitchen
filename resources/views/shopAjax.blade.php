@@ -43,7 +43,7 @@
 
                             <div class="product-action">
                                 <div class="pro-same-action pro-wishlist">
-                                    <a title="Wishlist" href="#"><i class="pe-7s-like"></i></a>
+                                    <a title="Wishlist" href="javascript: void(0)" onclick="addToWishList({{$sku->skuId}})"><i class="pe-7s-like"></i></a>
                                 </div>
                                 <div class="pro-same-action pro-cart">
                                     @if($sku->product()->first()->type == "single")
