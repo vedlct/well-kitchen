@@ -241,8 +241,18 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/order-list', [OrderController::class, 'list'])->name('list');
         Route::get('/order-details/{id}', [OrderController::class, 'details'])->name('details');
         Route::post('/order-status', [OrderController::class, 'orderStatus'])->name('orderStatus');
-        Route::get('/order-edit/{id}', [OrderController::class, 'orderEdit'])->name('orderEdit');
-        Route::post('/order-update', [OrderController::class, 'orderUpdate'])->name('orderUpdate');
+        // Route::get('/order-edit/{id}', [OrderController::class, 'orderEdit'])->name('orderEdit');
+        // Route::post('/order-update', [OrderController::class, 'orderUpdate'])->name('orderUpdate');
+
+        Route::post('/add-product', [OrderController::class, 'showAddProductModal'])->name('showAddProductModal');
+        Route::post('/get-product-info', [OrderController::class, 'getProductInfo'])->name('getProductInfo');
+        Route::post('variation/color/choose',[OrderController::class,'colorSizeChoose'])->name('colorSizeChoose');
+        Route::post('/insert-order-item', [OrderController::class, 'insertItem'])->name('insertItem');
+
+        Route::post('/edit-ordered-product-quantity', [OrderController::class, 'editOrderItemQuantity'])->name('editOrderItemQuantity');
+        Route::post('/update-order-item-quantity', [OrderController::class, 'updateItemQuantity'])->name('updateItemQuantity');
+        Route::post('delete-order-item', [OrderController::class, 'deleteOrderItem'])->name('deleteItem');
+
         Route::post('/order-status-change', [OrderController::class, 'orderStatusChange'])->name('statusChangeSubmit');
         Route::post('/order-return-modal', [OrderController::class, 'returnModal'])->name('returnModal');
         Route::post('/order-return', [OrderController::class, 'singleReturn'])->name('singleReturn');

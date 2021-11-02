@@ -43,7 +43,9 @@
                             <!-- change status modal -->
                             <div id="statusModal"></div>
                             <div id="paymentModal"></div>
+                            <div id="addProduct"></div>
                             <div id="returnModal"></div>
+                            <div id="editOrderedItemQuantity"></div>
                             <!-- order info -->
                             <div class="row">
                               <div class="col-md-4 mb-1">
@@ -78,9 +80,14 @@
                           </div>
                       </div>
                     </div>
+                    
                     <!-- total table -->
                     @if(!empty($order->orderedProduct))
                         <div class="card">
+                          <div class="mt-2 mr-2 text-sm-right">
+                            {{-- <button type="button" class="btn btn-danger btn-min-width">Refund</button> --}}
+                            <button type="button" class="btn btn-success btn-min-width" onclick="addProduct({{$order->orderId}})">Add Product</button>
+                          </div>    
                         <div class="card-content collapse show">
                             <div class="card-body">
                                 <div class="product-detail-table table-responsive">
@@ -114,7 +121,9 @@
                                             <td>{{$item->total}}</td>
                                             @if(in_array($currentStatus,['1', 'Created', 'Processing', 'OnDelivery', 'Delivered', 'Return', 'Complete', 'Cancel']))
                                                 <td >
-                                                    <a href="#" onclick="returnProduct({{$item->order_itemId}})" title="Return"><i class="ft ft-corner-down-left"></i></a>
+                                                    <a href="#" onclick="returnProduct({{$item->order_itemId}})" class="mr-1" title="Return"><i class="ft ft-corner-down-left"></i></a>
+                                                    <a href="#" onclick="editOrderItem({{$item->order_itemId}})" class="mr-1" title="Edit quantity"><i class="ft ft-edit"></i></a>
+                                                    <a href="#" onclick="delProduct({{$item->order_itemId}})" class="mr-1" title="Remove item"><i class="ft ft-trash-2"></i></a>
                                                 </td>
                                             @endif
                                         </tr>
@@ -277,6 +286,23 @@
                 }
             });
         }
+  function addProduct(data){
+    console.log(data);
+    $.ajax({
+          url: '{{ route('order.showAddProductModal') }}',
+          method: 'post',
+          data: {
+              '_token': '{{csrf_token()}}',
+              'orderId': data,
+          },
+          success: function (data) {
+            // console.log(data);
+            $('#addProduct').html(data);
+            $('#addProduct-Modal').modal();
+          }
+        });
+  }
+  
   function addPayment(data){
     console.log(data);
     $.ajax({
@@ -294,6 +320,22 @@
         });
   }
 
+  function editOrderItem(orderItemId){
+    // alert('clicke');
+    $.ajax({
+                url: '{{ route('order.editOrderItemQuantity') }}',
+                method: 'post',
+                data: {
+                    '_token': '{{csrf_token()}}',
+                    'orderItemId': orderItemId
+                },
+                success: function (data) {
+                    $('#editOrderedItemQuantity').html(data);
+                    $('#edit-Ordered-Item-Quantity').modal();
+                }
+            });
+  }
+
   function returnProduct(orderItemId){
             $.ajax({
                 url: '{{ route('order.returnModal') }}',
@@ -307,6 +349,30 @@
                     $('#return-Modal').modal();
                 }
             });
+  }
+  
+  function delProduct(orderItemId){
+    // alert(orderItemId);
+    if(!confirm("Delete This product?")){
+                return false;
+            }
+            $.ajax({
+                url: '{{ route('order.deleteItem') }}',
+                method: 'post',
+                data: {
+                    '_token': '{{csrf_token()}}',
+                    'orderItemId': orderItemId
+                },
+                success: function (data) {
+                  location.reload();
+                  toastr.success('Product removed from Order Item')
+                    // $('#returnModal').html(data);
+                    // $('#return-Modal').modal();
+                }
+            });
+
+        
+            
   }
 
 
