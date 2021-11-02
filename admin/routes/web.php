@@ -35,6 +35,13 @@ use App\Http\Controllers\TransactionController;
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('index');
+
+    //Profile
+    Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
+        Route::get('admin-profile-edit/{id}', [UserController::class, 'adminProfileEdit'])->name('edit');
+        Route::post('admin-profile-update/{id}', [UserController::class, 'adminProfileUpdate'])->name('update');
+    });
+
     //Brand
     Route::group(['prefix' => 'brand', 'as' => 'brand.'], function () {
         Route::get('/show', [BrandController::class, 'show'])->name('show');
@@ -271,8 +278,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('customer-data', [UserController::class, 'customerData'])->name('customer.data');
         Route::post('customer-store', [UserController::class, 'customerStore'])->name('customer.store');
         Route::get('user', [UserController::class, 'index'])->name('index');
+        Route::get('create-user', [UserController::class, 'create'])->name('create');
+        Route::post('store-user', [UserController::class, 'store'])->name('store');
         Route::post('user-list', [UserController::class, 'userList'])->name('list');
         Route::post('role-change', [UserController::class, 'changeRole'])->name('roleChange');
+        Route::post('password-change', [UserController::class, 'changeUserPassword'])->name('passwordChange');
         Route::get('customer', [UserController::class, 'customer'])->name('customer');
         Route::post('customer-list', [UserController::class, 'customerList'])->name('customer.list');
         Route::post('membership-status', [UserController::class, 'membershipStatus'])->name('customer.membershipStatus');

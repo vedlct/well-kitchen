@@ -43,6 +43,7 @@ Route::get('/offers', [HomeController::class, 'offers'])->name('offers');
 Route::get('/offers/product/{id}', [HomeController::class, 'offersProduct'])->name('offers.product');
 // Route::get('/product-details/{id}', [HomeController::class, 'productDetails'])->name('product.details');
 Route::get('/categories/{categoryId?}', [CategoryController::class, 'categoryProducts'])->name('category.products');
+Route::get('/feature/all/products', [CategoryController::class, 'featureviewAll'])->name('feature.viewAll');
 Route::post('filter/products',[CategoryController::class,'filterProducts'])->name('filter.products');
 Route::post('filter-price/products',[CategoryController::class,'filterProductsPrice'])->name('price.filter');
 

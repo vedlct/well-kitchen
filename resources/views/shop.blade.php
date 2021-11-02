@@ -39,9 +39,9 @@
                 <div class="shop-top-bar">
                     <div class="select-shoing-wrap">
                         <div class="shop-select">
-                         
+
                             <select name="price"  onchange="getPrice(this);">
-                              
+
                                 <option value="">Sort by...</option>
                                 <option value="a-z">A to Z</option>
                                 <option value="z-a"> Z to A</option>
@@ -127,7 +127,7 @@
                         @endif
                         <div class="sidebar-widget-list mt-20">
                             <ul>
-                               
+
                                 @foreach($variations->unique('variationData') as $variationRelation)
                                         @if($variationRelation->variationDetailsdata->variationType == "Color")
                                             <li>
@@ -302,7 +302,7 @@
         $(".newCheck").change(function() {
 
             if(this.checked) {
-                newSS.push(this.value); 
+                newSS.push(this.value);
 
             }else{
                 if(jQuery.inArray(this.value, newSS) !== -1){
@@ -419,7 +419,7 @@
                                 categoryId: categoryId
                             },
                             success: function(data) {
-                                
+
                                 $("#productdetails").html(data.html);
                                 $(window).scrollTop(0);
 
@@ -461,7 +461,7 @@
                 })
             });
 		 }
-		
+
 	}
 
 

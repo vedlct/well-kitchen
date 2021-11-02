@@ -414,6 +414,7 @@
                         toastr.warning('You have already added this item');
                     }
                 if(response.error == null) {
+                    $('.header-wishlist').load(document.URL + ' .header-wishlist');
                         toastr.success('Item added to wishlist');
                     }
                 if(response.error == 'login') {

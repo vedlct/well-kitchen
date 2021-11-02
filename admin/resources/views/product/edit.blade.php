@@ -352,14 +352,14 @@
                                                     <div class="col-lg-3 col-md-4">
                                                         <div class="feature-img mb-1">
                                                             <div class="form-group">
-                                                                <label>Feature Image</label>
+                                                                <label>Feature Image<small style="color: red; font-weight: bold">(Image Size: 550x610)</small></label>
                                                                 <input type="file" class="form-control" name="featureImage" onchange="loadFile(event)">
                                                                 <p class="mt-1"><img id="output" src="{{url('public/featureImage/'.$product->featureImage ?? '')}}" height="100" width="100" /></p>
                                                             </div>
                                                         </div>
                                                         <div id="productImages">
                                                             <div class="form-group">
-                                                                <label>Product Images</label>
+                                                                <label>Product Images<small style="color: red; font-weight: bold">(Image Size: 550x610)</small></label>
                                                                 <input type="file" class="form-control" name="productImages[]" onchange="loadFilesProImages(event)" multiple>
                                                                 <p class="mt-1" id="proImagesPreview"> </p>
                                                             </div>
@@ -834,7 +834,7 @@ let productImageId;
                     success: function (data) {
                         window.location.reload();
                         toastr.success('Image Deleted Successfully')
-                        
+
                     }
                 });
         }

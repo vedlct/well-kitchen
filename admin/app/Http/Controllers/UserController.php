@@ -8,6 +8,10 @@ use App\Models\Customer;
 use App\Models\UserType;
 use Illuminate\Http\Request;
 use Yajra\DataTables\Facades\DataTables;
+use Session;
+use Illuminate\Support\Facades\Hash;
+use Image;
+use Auth;
 
 class UserController extends Controller
 {
@@ -62,6 +66,51 @@ class UserController extends Controller
         return view('user.index',compact('roles'));
     }
 
+    public function create(){
+        $roles = UserType::all();
+        return view('user.create',compact('roles'));
+    }
+
+    public function store(Request $request){
+        $this->validate($request, [
+           'firstName' => 'required',
+           'lastName' => 'required',
+           'email' => 'required|email|unique:user,email',
+           'phone' => 'required|numeric|unique:user,phone',
+           'new_password' => 'required|string|min:8',
+           'confirm_password' => 'required|string|min:8',
+           'role' => 'required',
+        ]);
+
+        $user = new User();
+
+        if ($request->new_password == $request->confirm_password) {
+            $user->password = bcrypt($request->new_password);
+            $user->save();
+        }else{
+            Session::flash('danger', 'Password did not match!');
+            return redirect()->back();
+        }
+
+        $user->firstName = $request->firstName;
+        $user->lastName = $request->lastName ?? null;
+        $user->email = $request->email ?? null;
+        $user->phone = $request->phone ?? null;
+        $user->fkuserTypeId = $request->role;
+        $user->save();
+
+        if($request->fkuserTypeId == 2){
+            $customer = new Customer();
+            $customer->fkuserId = $user->userId;
+            $customer->phone = $request->phone;
+            $customer->status = 'active';
+            $customer->save();
+        }
+
+        Session::flash('success', 'User created successfully!');
+        return redirect()->route('user.index');
+    }
+
     public function userList(Request $r){
         $user=User::with('userType');
         return Datatables::of($user)->make(true);
@@ -98,6 +147,75 @@ class UserController extends Controller
         $customer->save();
 
         return response()->json(['userId' => $customer->fkuserId, 'membership' => $customer->membership]);
+    }
+
+    public function changeUserPassword(Request $request){
+        $this->validate($request, [
+            'new_password' => 'required|string|min:8',
+            'confirm_password' => 'required|string|min:8',
+        ]);
+
+        $user = User::where('userId', $request->userId)->first();
+
+        if ($request->new_password == $request->confirm_password) {
+            $user->password = bcrypt($request->new_password);
+            $user->save();
+            echo 'success';
+        }else{
+            echo 'danger';
+        }
+    }
+
+    public function adminProfileEdit($userId){
+        $user = User::where('userId', $userId)->first();
+        return view('profile.adminProfile', compact('user'));
+    }
+
+    public function adminProfileUpdate(Request $request, $userId){
+        $user = User::where('userId', $userId)->first();
+
+        $user->firstName = $request->firstName;
+        $user->lastName = $request->lastName;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->save();
+        
+        if ($request->hasFile('profile_image')) {
+            $originalExtension = $request->profile_image->getClientOriginalExtension();
+            $uniqueImageName = $user->firstName.rand(100, 999).'.'.$originalExtension;
+            $image = Image::make($request->profile_image);
+            $image->save(public_path().'/userImage/'.$uniqueImageName);
+            $user->profile_image = $uniqueImageName;
+            $user->save();
+        }
+
+        if($request->current_password!=null){
+            $this->validate($request, [
+                'current_password' => 'required|string|min:8',
+                'new_password' => 'required|string|min:8',
+                'confirm_password' => 'required|string|min:8',
+            ]);
+
+            if ($request->current_password != $request->new_password) {
+                if ($request->new_password == $request->confirm_password && Hash::check($request->current_password, Auth::user()->password)) {
+                    $user->password = bcrypt($request->new_password);
+                    $user->save();
+    
+                    Session::flash('success', 'Password updated successfully!');
+                    return redirect()->back();
+                }
+    
+                Session::flash('danger', 'Password did not match!');
+                return redirect()->back();
+            }
+    
+            Session::flash('danger', 'Please enter new password!');
+            return redirect()->back();
+        }
+
+        Session::flash('success', 'Profile updated successfully!');
+        return redirect()->back();
+    
     }
 
 }

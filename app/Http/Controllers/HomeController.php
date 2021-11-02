@@ -53,9 +53,14 @@ class HomeController extends Controller
         $hotDealProId = HotDealsProduct::whereIn('fkhotdealsId', $hotDeals)->pluck('fkproductId');
         $offerSkus = Sku::whereIn('fkproductId', $hotDealProId)->take(10)->get();
 
-        $recommendeds =  $newArrivalSkus = Sku::with('product')->whereHas('product', function ($query) {
+        $recommendeds = Sku::with('product')->whereHas('product', function ($query) {
             $query->where('status', 'active')->where('isrecommended', 1);
         })->take(10)->get();
+
+//        $recommendeds =  $newArrivalSkus = Sku::with('product')->whereHas('product', function ($query) {
+//            $query->where('status', 'active')->where('isrecommended', 1);
+//        })->take(10)->get();
+
         $testimonials = Testimonial::where('status', 'active')->where('home',1)->get();
 
         if(Auth::check()){
