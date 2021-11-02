@@ -147,7 +147,7 @@
                     </div>
                 </div>
                 @if(\Cart::getContent()->count() > 0)
-                <div class="your-order-area" id="discountValue">
+                <div class="your-order-area">
                     <h3>Your order</h3>
                     <div class="your-order-wrap gray-bg-4">
                         <div class="your-order-product-info">
@@ -167,22 +167,26 @@
                                     @endforeach
                                 </ul>
                             </div>
-
+                            <div  id="totalLoad">
                                 @if(!empty(Session::get('discountAmount')))
-                            <div class="your-order-total">
-                                <ul id="">
-                                    <li class="order-total">Total</li>
-                                    <li>৳{{number_format(\Cart::getSubTotal())}}</li>
-                                </ul>
-                                <br>
-
-                                <ul id="">
-                                    <li class="order-total">Discount</li>
-                                    <li>-৳{{number_format(Session::get('discountAmount')) ? number_format(Session::get('discountAmount')) : 0}}</li>
-                                </ul>
-
-                            </div>
+                               
+                                    <div class="your-order-total">
+                                        <ul id="">
+                                            <li class="order-total">Total</li>
+                                            <li>৳{{number_format(\Cart::getSubTotal())}}</li>
+                                        </ul>
+                                        <br>
+        
+                                        <ul id="">
+                                            <li class="order-total">Discount</li>
+                                            <li>-৳{{number_format(Session::get('discountAmount')) ? number_format(Session::get('discountAmount')) : 0}}</li>
+                                        </ul>
+        
+                                    </div>
+                                
+                            
                                 @endif
+                            </div>
 {{--                            <div class="your-order-total" id="hideDefault">--}}
 {{--                                <ul id="discountValue">--}}
 
@@ -198,12 +202,14 @@
                                     <li id='deliveryFee'> </li>
                                 </ul>
                             </div>
+                            <div id="grandLoad">
                             <div class="your-order-total">
-                                <ul>
+                                <ul id="">
                                     <li class="order-total">Grand Total</li>
                                     <li id="orderTotal">৳{{number_format(Session::get('sub')) ? number_format(Session::get('sub')) : number_format(\Cart::getSubTotal())}}</li>
                                 </ul>
                             </div>
+                        </div>
                         </div>
 
                         <div class="payment-method">
@@ -334,8 +340,15 @@ function shippingZone() {
                     promo_code: promoCode,
                 },
                 success: function (data) {
-                    toastr.success('Promo code applied successful.');
-                    $("#discountValue").load(" #discountValue");
+                    // console.log(data);
+                    if(data.msg_success){
+                        toastr.success(data.msg_success);
+                    }
+                    if(data.msg_error){
+                        toastr.error(data.msg_error);
+                    }
+                    $("#totalLoad").load(" #totalLoad");
+                    $("#grandLoad").load(" #grandLoad");
 
 
                 }

@@ -29,13 +29,16 @@ class CuponController extends Controller
             $newTotal = \Cart::getSubTotal() - $discountAmount;
             Session::put('sub', $newTotal);
             Session::put('discountAmount', $discountAmount);
-//            Session::flash('success', 'Promo code applied successful.');
+            $msg_success = 'Promo code applied successful.';
+        return response()->json(['msg_success' => $msg_success]);
+
         }
 
         if(empty($promo)){
-            Session::flash('warning', 'Given promo code expired.');
+            $msg_error = 'Given promo code expired.';
+        return response()->json(['msg_error' => $msg_error]);
+
         }
-        return response()->json();
     }
 
 
