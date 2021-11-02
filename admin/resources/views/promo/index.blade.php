@@ -74,10 +74,10 @@
                     { data: 'end_date', title: 'End Date',"className": "text-center", orderable: true, searchable:true},
                     { data: 'discount', title: 'Discount',"className": "text-center", orderable: true, searchable:true},
                     { data: 'status', title: 'status',"className": "text-center", orderable: true, searchable:true},
-                    // { title: 'Action',"className": "text-center","data": function(data){
-                    //         return '<a class="btn btn-info btn-sm" data-panel-id="' + data.promo_id + '" onclick="promoEdit(this)"><i class="ft-edit"></i></a>';
-                    // },
-                    //     "orderable": false, "searchable":false, "name":"selected_rows" }
+                    { title: 'Action',"className": "text-center","data": function(data){
+                            return '<a class="btn btn-info btn-sm" data-panel-id="' + data.promo_id + '" onclick="promoEdit(this)"><i class="ft-edit"></i></a>';
+                    },
+                        "orderable": false, "searchable":false, "name":"selected_rows" }
                 ]
             });
         });
