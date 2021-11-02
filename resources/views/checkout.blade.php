@@ -169,22 +169,22 @@
                             </div>
                             <div  id="totalLoad">
                                 @if(!empty(Session::get('discountAmount')))
-                               
+
                                     <div class="your-order-total">
                                         <ul id="">
                                             <li class="order-total">Total</li>
                                             <li>৳{{number_format(\Cart::getSubTotal())}}</li>
                                         </ul>
                                         <br>
-        
+
                                         <ul id="">
                                             <li class="order-total">Discount</li>
                                             <li>-৳{{number_format(Session::get('discountAmount')) ? number_format(Session::get('discountAmount')) : 0}}</li>
                                         </ul>
-        
+
                                     </div>
-                                
-                            
+
+
                                 @endif
                             </div>
 {{--                            <div class="your-order-total" id="hideDefault">--}}
@@ -206,7 +206,11 @@
                             <div class="your-order-total">
                                 <ul id="">
                                     <li class="order-total">Grand Total</li>
+                                    @if(Session::has('shipTotal'))
+                                        <li id="orderTotal">৳{{number_format(Session::get('sub')) ? number_format(Session::get('sub')) : number_format(\Cart::getSubTotal())}}</li>
+                                    @else
                                     <li id="orderTotal">৳{{number_format(Session::get('sub')) ? number_format(Session::get('sub')) : number_format(\Cart::getSubTotal())}}</li>
+                                    @endif
                                 </ul>
                             </div>
                         </div>
@@ -340,7 +344,30 @@ function shippingZone() {
                     promo_code: promoCode,
                 },
                 success: function (data) {
-                    // console.log(data);
+                    if($("#zone").val() == ""){
+                    console.log('yes');
+
+                    }
+                    if($("#zone").val() != ""){
+                    console.log('no');
+                        var ship_zone = $("#zone").val();
+                        $.ajax({
+                            url: "{{ route('shippingZone.change') }}",
+                            method: 'POST',
+                            data: {
+                                _token: "{{ csrf_token() }}",
+                                shipping_zone: ship_zone,
+                            },
+                            success: function (data) {
+                                console.log(data);
+                                var deliveryFee = data['deliveryFee'];
+                                var orderTotal = data['orderTotal'];
+                                $('.shipping').empty().append('Shipping');
+                                $('#deliveryFee').empty().append("<th style='padding: 10px; font-weight: bold; font-size: 14px; color: #000000;'>" + "Delivery Fee" + "</th>" + "<td>" + "<span class='total amount'>" + "+৳" + deliveryFee + "</span>" + "</td>");
+                                $('#orderTotal').empty().append("<span>" + "৳" + orderTotal + "</span>");
+                            }
+                        });
+                    }
                     if(data.msg_success){
                         toastr.success(data.msg_success);
                     }
@@ -348,7 +375,7 @@ function shippingZone() {
                         toastr.error(data.msg_error);
                     }
                     $("#totalLoad").load(" #totalLoad");
-                    $("#grandLoad").load(" #grandLoad");
+                    // $("#grandLoad").load(" #grandLoad");
 
 
                 }

@@ -58,10 +58,20 @@ class CheckoutController extends Controller
         $deliveryFee = Charges::where('fkshipment_zoneId', $request->shipping_zone)->pluck('deliveryFee')->first();
         if(!empty(Session::get('sub'))){
         $orderTotal = number_format(Session::get('sub') + $deliveryFee);
+//            Session::forget('shipTotal');
+//
+//            Session::put('shipTotal', $orderTotal);
+//            $orderTotal = Session::get('shipTotal');
         }
 
         if(empty(Session::get('sub'))){
         $orderTotal = number_format(\Cart::getSubTotal() + $deliveryFee);
+//            Session::forget('shipTotal');
+//
+//            Session::put('shipTotal', $orderTotal);
+//            $orderTotal = Session::get('shipTotal');
+
+
         }
 
 
