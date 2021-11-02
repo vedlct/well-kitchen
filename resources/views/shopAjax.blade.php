@@ -139,7 +139,7 @@
         @endforeach
     </div>
             <div class="pro-pagination-style text-center mt-30">
-                {{-- {{ $skuss->links('vendor.pagination.custom') }} --}}
+                 {{ $skuss->links('vendor.pagination.custom') }}
             </div>
 
 </div>
