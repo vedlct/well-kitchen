@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Session;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class MyProfileController extends Controller
 {
@@ -25,25 +26,25 @@ class MyProfileController extends Controller
     }
 
     public function updateUserInfo(Request $request){
-        // dd($request->all());
-        $validated = $request->validate([
+        $this->validate($request, [
             'firstName' => 'required|max:50',
             'lastName' => 'required',
-            'email' => 'required',
-        
+            'email' => 'required|email|unique:user,email,' . Auth::user()->userId . ',userId',
+            'phone' => 'required|unique:user,phone,' . Auth::user()->userId . ',userId|unique:customer,phone,'.Auth::user()->userId.',fkuserId'
         ]);
-
 
         $user = User::where('userId',$request->userId)->first();
         $user->firstName = $request->firstName;
         $user->lastName = $request->lastName;
         $user->email = $request->email;
+        $user->phone = $request->phone;
         $user->save();
 
         $customer = Customer::where('fkuserId',$user->userId)->first();
-        // dd($customer);
-        $customer->phone = $request->phone;
-        $customer->save();
+        if($customer!=null){
+            $customer->phone = $request->phone;
+            $customer->save();
+        }
 
         Session::flash('success','User info updated succesfully');
         return back();

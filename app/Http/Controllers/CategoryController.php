@@ -66,6 +66,7 @@ class CategoryController extends Controller
         // dd($request->all());
         $allSearch = $request->allSearch;
         $products = Product::query()
+        ->where('status', 'active')
         ->where('productName', 'LIKE', "%{$allSearch}%")
         ->orWhere('productCode', 'LIKE', "%{$allSearch}%")
         ->orWhere('tag', 'LIKE', "%{$allSearch}%")

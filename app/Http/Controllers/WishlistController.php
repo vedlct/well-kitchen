@@ -30,7 +30,7 @@ class WishlistController extends Controller
 
    public function AddToWishlist(Request $request)
    {
-   
+//    dd($request->all());
        if (auth()->check()) {
            
             $sku = Sku::where('skuId',$request->_sku)->first();
