@@ -231,71 +231,32 @@ class CategoryController extends Controller
         }
         // dd($skuss);
         if (!empty($request->price) && $request->price == 'High to Low') {
-            $skuss = $skuss->orderBy('regularPrice', 'DESC')->where('status', 'active');
-            $per_paginate = 6;
-            $skip = ($request->page - 1) * $per_paginate;
-            if ($skip < 0) {
-                $skip = 0;
-            }
+            $skuss = $skuss->orderBy('regularPrice', 'DESC')->where('status', 'active')->get();
+            // $per_paginate = 6;
+            // $skip = ($request->page - 1) * $per_paginate;
+            // if ($skip < 0) {
+            //     $skip = 0;
+            // }
     
-            $skuss = $skuss->skip($skip)->paginate($per_paginate);
+            // $skuss = $skuss->skip($skip)->paginate($per_paginate);
         }
         if (!empty($request->price) && $request->price == 'Low to High') {
-            $skuss = $skuss->orderBy('regularPrice', 'ASC')->where('status', 'active');
-            $per_paginate = 6;
-            $skip = ($request->page - 1) * $per_paginate;
-            if ($skip < 0) {
-                $skip = 0;
-            }
+            $skuss = $skuss->orderBy('regularPrice', 'ASC')->where('status', 'active')->get();
+            // $per_paginate = 6;
+            // $skip = ($request->page - 1) * $per_paginate;
+            // if ($skip < 0) {
+            //     $skip = 0;
+            // }
     
-            $skuss = $skuss->skip($skip)->paginate($per_paginate);
+            // $skuss = $skuss->skip($skip)->paginate($per_paginate);
         }
 
         if (!empty($request->price) && $request->price == 'a-z') {
-            
-            // $sorted = $skuss->with('product')->get()->sortBy('product.productName')->pluck('skuId')->toArray();;
-            // $orderedIds = implode(',', $sorted);
-            // // dd($orderedIds);
-            
-            
-            // $skuss = DB::table('sku')
-            //     ->orderByRaw(\DB::raw("FIELD(skuId, " . $orderedIds . " )"))
-            //     ->paginate(10);
-            // dd($result);
-
-            // $skuss = $skuss->paginate(4)->sortBy('product.productName');
-// dd($skuss);
-            // $skuss = $skuss->with('product')->get()->sortBy(function($test)
-            // {
-            //     return $test->product->productName;
-            //     // return $establishment->signatures->count();
-            // })->paginate(15);;
-
-            
-          
-
-            // $skuss = $skuss->whereHas('product', function ($query) use ($request) {
-            //     $query->sortBy('product.productName');
-            // })->paginate();
-            // dd($skuss);
-
-            // $product = Product::where('categoryId', $request->categoryId)->get()->sortBy('productName');
-            // $productIds = Product::where('categoryId', $request->categoryId)->get()->sortBy('productName')->pluck('productId')->toArray();
-            // foreach ($productIds as $productId) {
-
-            //     $skuss = $skuss->whereHas('product', function ($query) use ($productId) {
-            //         $query->where('categoryId', $productId);
-            //     });
-              
-            // }
-            // dd($skuss->get);
-            // $skuss = $skuss->paginate(4);
-  
-
+            $skuss = $skuss->with('product')->get()->sortBy('product.productName');
         }
         if (!empty($request->price) && $request->price == 'z-a') {
             $skuss = $skuss->with('product')->get()->sortByDesc('product.productName');
-            // dd($skuss->paginate(5));
+           
         }
 
         if (!empty($request->price) && $request->price == 'instock') {
@@ -309,7 +270,7 @@ class CategoryController extends Controller
                 }
             }
 
-            $skuss = $skuss->whereIn('skuId', $availableSku)->paginate(6);
+            $skuss = $skuss->whereIn('skuId', $availableSku)->get();
         }
 
         $view = view('shopAjax', compact('skuss'))->render();
