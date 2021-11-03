@@ -11,70 +11,77 @@ use App\Models\Variation;
 use App\Models\VariationDetails;
 use Illuminate\Http\Request;
 use Session;
+use DB;
 
 class CategoryController extends Controller
 {
-    public function categoryProducts($categoryId = null){
+    public function categoryProducts($categoryId = null)
+    {
+        // dd($categoryId);
         $parentCategory = null;
         $subCategory = null;
-       $minmaxPrice =  null;
+        $minmaxPrice =  null;
 
-            $skus = Sku::with('product')->whereHas('product', function ($query) use($categoryId) {
-                $query->where('status', 'active')->where('categoryId', $categoryId);
-            })->get();
+        $skuss = Sku::with('product')->whereHas('product', function ($query) use ($categoryId) {
+            $query->where('status', 'active')->where('categoryId', $categoryId);
+        })->paginate(12);
 
-            $skuIds = Sku::with('product')->whereHas('product', function ($query) use($categoryId) {
-                $query->where('status', 'active')->where('categoryId', $categoryId);
-            })->pluck('skuId');
+        $skuIds = Sku::with('product')->whereHas('product', function ($query) use ($categoryId) {
+            $query->where('status', 'active')->where('categoryId', $categoryId);
+        })->pluck('skuId');
 
-            $variations = VariationDetails::whereIn('skuId', $skuIds)->get();
-            $variationDatas = VariationDetails::whereIn('skuId', $skuIds)->pluck('variationData');
-            $variationColorIds = Variation::whereIn('variationId', $variationDatas)->where('variationType', 'Color')->get();
-            $variationSizeIds = Variation::whereIn('variationId', $variationDatas)->where('variationType', 'Size')->get();
+        $variations = VariationDetails::whereIn('skuId', $skuIds)->get();
+        $variationDatas = VariationDetails::whereIn('skuId', $skuIds)->pluck('variationData');
+        $variationColorIds = Variation::whereIn('variationId', $variationDatas)->where('variationType', 'Color')->get();
+        $variationSizeIds = Variation::whereIn('variationId', $variationDatas)->where('variationType', 'Size')->get();
 
         $newArrived = Product::where('newarrived', 1)->count();
         $category = Category::where('categoryId', $categoryId)->first();
-        if($category){
+        if ($category) {
 
             $parentCategory = Category::where('categoryId', $category->parent)->first();
             $subCategory = Category::where('categoryId', $category->subParent)->first();
 
             $minmaxPrice = \DB::table('product')
-        ->select(\DB::raw("MAX(sku.salePrice) AS max_price"), \DB::raw("MIN(sku.salePrice) AS min_price"))
-        // ->leftJoin('category', 'product.categoryId', '=', 'category.categoryId')
-        ->join('sku', 'product.productId', '=', 'sku.fkproductId')
-        ->where('product.categoryId', $categoryId)
-        ->groupBy('product.categoryId')
-        ->first();
+                ->select(\DB::raw("MAX(sku.salePrice) AS max_price"), \DB::raw("MIN(sku.salePrice) AS min_price"))
+                // ->leftJoin('category', 'product.categoryId', '=', 'category.categoryId')
+                ->join('sku', 'product.productId', '=', 'sku.fkproductId')
+                ->where('product.categoryId', $categoryId)
+                ->groupBy('product.categoryId')
+                ->first();
+
+            // dd($skuss); 
+
         }
 
-        return view('shop', compact('newArrived', 'categoryId', 'variations', 'variationColorIds', 'variationSizeIds', 'parentCategory', 'minmaxPrice', 'subCategory', 'category', 'skus'));
+        return view('shop', compact('newArrived', 'categoryId', 'variations', 'variationColorIds', 'variationSizeIds', 'parentCategory', 'minmaxPrice', 'subCategory', 'category', 'skuss'));
     }
 
-    public function featureviewAll(){
+    public function featureviewAll()
+    {
         $recommendeds = Sku::with('product')->whereHas('product', function ($query) {
             $query->where('status', 'active')->where('isrecommended', 1);
         })->get();
-        return view('feature',compact('recommendeds'));
-
+        return view('feature', compact('recommendeds'));
     }
 
-    public function searchByProducts(Request $request){
+    public function searchByProducts(Request $request)
+    {
         $parentCategory = null;
         $subCategory = null;
-       $minmaxPrice =  null;
+        $minmaxPrice =  null;
         // dd($request->all());
         $allSearch = $request->allSearch;
         $products = Product::query()
-        ->where('productName', 'LIKE', "%{$allSearch}%")
-        ->orWhere('productCode', 'LIKE', "%{$allSearch}%")
-        ->orWhere('tag', 'LIKE', "%{$allSearch}%")
-        ->with('sku')
-        ->get();
+            ->where('productName', 'LIKE', "%{$allSearch}%")
+            ->orWhere('productCode', 'LIKE', "%{$allSearch}%")
+            ->orWhere('tag', 'LIKE', "%{$allSearch}%")
+            ->with('sku')
+            ->get();
         $skusIds = [];
-        if($products->count() > 0 ){
-            foreach($products as $product){
-                foreach($product->sku as $productsku){
+        if ($products->count() > 0) {
+            foreach ($products as $product) {
+                foreach ($product->sku as $productsku) {
                     $skusIds[] = $productsku->skuId;
                 }
             }
@@ -82,18 +89,18 @@ class CategoryController extends Controller
             $skus = Sku::with('product')->whereIn('skuId', $skusIds)->whereHas('product', function ($query) {
                 $query->where('status', 'active');
             })->get();
-// dd($skus);
-//            foreach($products as $pro){
-//                $skusSingle = Sku::where('fkproductId',$pro->productId)->with('product.category')->first();
-//
-//                $categoryId = $skusSingle->product->categoryId;
-//                $category = $skusSingle->product->category;
-//            }
+            // dd($skus);
+            //            foreach($products as $pro){
+            //                $skusSingle = Sku::where('fkproductId',$pro->productId)->with('product.category')->first();
+            //
+            //                $categoryId = $skusSingle->product->categoryId;
+            //                $category = $skusSingle->product->category;
+            //            }
             $categoryId = $skus->first()->product->categoryId;
 
             $category = $skus->first()->product->category;
 
-            $skuIds = Sku::with('product')->whereIn('skuId', $skusIds)->whereHas('product', function ($query) use($category) {
+            $skuIds = Sku::with('product')->whereIn('skuId', $skusIds)->whereHas('product', function ($query) use ($category) {
                 $query->where('status', 'active')->where('categoryId', $category->categoryId);
             })->get();
             $variations = VariationDetails::whereIn('skuId', $skuIds)->get();
@@ -102,34 +109,35 @@ class CategoryController extends Controller
             $variationSizeIds = Variation::whereIn('variationId', $variationDatas)->where('variationType', 'Size')->get();
 
 
-            if($category){
+            if ($category) {
 
                 $parentCategory = Category::where('categoryId', $category->parent)->first();
                 $subCategory = Category::where('categoryId', $category->subParent)->first();
 
                 $minmaxPrice = \DB::table('product')
-            ->select(\DB::raw("MAX(sku.salePrice) AS max_price"), \DB::raw("MIN(sku.salePrice) AS min_price"))
-            // ->leftJoin('category', 'product.categoryId', '=', 'category.categoryId')
-            ->join('sku', 'product.productId', '=', 'sku.fkproductId')
-            ->where('product.categoryId', $categoryId)
-            ->groupBy('product.categoryId')
-            ->first();
+                    ->select(\DB::raw("MAX(sku.salePrice) AS max_price"), \DB::raw("MIN(sku.salePrice) AS min_price"))
+                    // ->leftJoin('category', 'product.categoryId', '=', 'category.categoryId')
+                    ->join('sku', 'product.productId', '=', 'sku.fkproductId')
+                    ->where('product.categoryId', $categoryId)
+                    ->groupBy('product.categoryId')
+                    ->first();
             }
-            return view('shop', compact('products','skus', 'variations', 'variationColorIds', 'variationSizeIds', 'categoryId','category', 'parentCategory', 'minmaxPrice', 'subCategory',));
-        }else{
+            return view('shop', compact('products', 'skus', 'variations', 'variationColorIds', 'variationSizeIds', 'categoryId', 'category', 'parentCategory', 'minmaxPrice', 'subCategory',));
+        } else {
             Session::flash('warning', 'No product matched');
             return redirect('/');
         }
     }
 
-    public function filterProducts(Request $request){
-
+    public function filterProducts(Request $request)
+    {
+        // dd($request->all());
 
         $skuss = Sku::with('product')->whereHas('product', function ($query) {
-                    $query->where('status', 'active');
-                });
+            $query->where('status', 'active');
+        });
 
-        if(!empty($request->priceMin) && !empty($request->priceMax)) {
+        if (!empty($request->priceMin) && !empty($request->priceMax)) {
             $skuss = $skuss->where('salePrice', '>=', $request->priceMin)->where('salePrice', '<=', $request->priceMax);
         }
 
@@ -141,7 +149,7 @@ class CategoryController extends Controller
 
 
 
-        if(!empty($request->products)){
+        if (!empty($request->products)) {
             $skuss = $skuss->whereHas('product', function ($query) use ($request) {
                 $query->whereIn('productId', $request->products);
             });
@@ -153,14 +161,13 @@ class CategoryController extends Controller
             });
         }
 
-        if (!empty($request->colorSS) ) {
+        if (!empty($request->colorSS)) {
             $variation = VariationDetails::whereIn('variationData', $request->colorSS)->pluck('skuId');
             $skuss = $skuss->whereIn('skuId', $variation);
         }
         if (!empty($request->colorSS) && !empty($request->page)) {
             $variation = VariationDetails::whereIn('variationData', $request->colorSS)->pluck('skuId');
             $skuss = $skuss->whereIn('skuId', $variation);
-
         }
 
         if (!empty($request->sizeSS)) {
@@ -183,37 +190,37 @@ class CategoryController extends Controller
 
 
 
-        if (!empty($request->instockSS) || (!empty($request->alphaOrderSS) && ($request->alphaOrderSS=="instock"))) {
-        $availableSku = [];
-        foreach($skuss->get() as $sku){
-            $stockIn=Stock::where('fkskuId',$sku->skuId)->where('type', 'in')->sum('stock');
-            $stockOut=Stock::where('fkskuId',$sku->skuId)->where('type', 'out')->sum('stock');
-            $stockAvailable = $stockIn-$stockOut;
-            if($stockAvailable > 0){
-                $availableSku[] = $sku->skuId;
+        if (!empty($request->instockSS) || (!empty($request->alphaOrderSS) && ($request->alphaOrderSS == "instock"))) {
+            $availableSku = [];
+            foreach ($skuss->get() as $sku) {
+                $stockIn = Stock::where('fkskuId', $sku->skuId)->where('type', 'in')->sum('stock');
+                $stockOut = Stock::where('fkskuId', $sku->skuId)->where('type', 'out')->sum('stock');
+                $stockAvailable = $stockIn - $stockOut;
+                if ($stockAvailable > 0) {
+                    $availableSku[] = $sku->skuId;
+                }
             }
+
+            $skuss = $skuss->whereIn('skuId', $availableSku);
         }
 
-        $skuss = $skuss->whereIn('skuId', $availableSku);
+        $per_paginate = 16;
+        $skip = ($request->page - 1) * $per_paginate;
+        if ($skip < 0) {
+            $skip = 0;
         }
-
-           $per_paginate = 16;
-           $skip = ($request->page - 1) * $per_paginate;
-           if ($skip < 0) {
-               $skip = 0;
-           }
 
         $skuss = $skuss->skip($skip)->paginate($per_paginate);
 
         $view = view('shopAjax', compact('skuss'))->render();
-        return response()->json(['html'=>$view, 'skuss'=>$skuss]);
-
+        return response()->json(['html' => $view, 'skuss' => $skuss]);
     }
 
-    public function filterProductsPrice(Request $request){
+    public function filterProductsPrice(Request $request)
+    {
         // dd($request->all());
-         // price filter
-         $skuss = Sku::with('product')->whereHas('product', function ($query) {
+        // price filter
+        $skuss = Sku::with('product')->whereHas('product', function ($query) {
             $query->where('status', 'active');
         });
 
@@ -223,29 +230,81 @@ class CategoryController extends Controller
             });
         }
         // dd($skuss);
-        if(!empty($request->price) && $request->price == 'High to Low') {
-             $skuss = $skuss->orderBy('regularPrice', 'DESC')->where('status', 'active')->get();
+        if (!empty($request->price) && $request->price == 'High to Low') {
+            $skuss = $skuss->orderBy('regularPrice', 'DESC')->where('status', 'active');
+            $per_paginate = 6;
+            $skip = ($request->page - 1) * $per_paginate;
+            if ($skip < 0) {
+                $skip = 0;
+            }
+    
+            $skuss = $skuss->skip($skip)->paginate($per_paginate);
+        }
+        if (!empty($request->price) && $request->price == 'Low to High') {
+            $skuss = $skuss->orderBy('regularPrice', 'ASC')->where('status', 'active');
+            $per_paginate = 6;
+            $skip = ($request->page - 1) * $per_paginate;
+            if ($skip < 0) {
+                $skip = 0;
+            }
+    
+            $skuss = $skuss->skip($skip)->paginate($per_paginate);
+        }
+
+        if (!empty($request->price) && $request->price == 'a-z') {
+            
+            // $sorted = $skuss->with('product')->get()->sortBy('product.productName')->pluck('skuId')->toArray();;
+            // $orderedIds = implode(',', $sorted);
+            // // dd($orderedIds);
+            
+            
+            // $skuss = DB::table('sku')
+            //     ->orderByRaw(\DB::raw("FIELD(skuId, " . $orderedIds . " )"))
+            //     ->paginate(10);
+            // dd($result);
+
+            // $skuss = $skuss->paginate(4)->sortBy('product.productName');
+// dd($skuss);
+            // $skuss = $skuss->with('product')->get()->sortBy(function($test)
+            // {
+            //     return $test->product->productName;
+            //     // return $establishment->signatures->count();
+            // })->paginate(15);;
+
+            
+          
+
+            // $skuss = $skuss->whereHas('product', function ($query) use ($request) {
+            //     $query->sortBy('product.productName');
+            // })->paginate();
+            // dd($skuss);
+
+            // $product = Product::where('categoryId', $request->categoryId)->get()->sortBy('productName');
+            // $productIds = Product::where('categoryId', $request->categoryId)->get()->sortBy('productName')->pluck('productId')->toArray();
+            // foreach ($productIds as $productId) {
+
+            //     $skuss = $skuss->whereHas('product', function ($query) use ($productId) {
+            //         $query->where('categoryId', $productId);
+            //     });
+              
+            // }
+            // dd($skuss->get);
+            // $skuss = $skuss->paginate(4);
+  
 
         }
-        if(!empty($request->price) && $request->price == 'Low to High') {
-             $skuss = $skuss->orderBy('regularPrice', 'ASC')->where('status', 'active')->get();
-
-        }
-
-        if(!empty($request->price) && $request->price == 'a-z') {
-            $skuss = $skuss->with('product')->get()->sortBy('product.productName');
-        }
-        if(!empty($request->price) && $request->price == 'z-a') {
+        if (!empty($request->price) && $request->price == 'z-a') {
             $skuss = $skuss->with('product')->get()->sortByDesc('product.productName');
+            // dd($skuss->paginate(5));
         }
 
         if (!empty($request->price) && $request->price == 'instock') {
             $availableSku = [];
-            foreach($skuss->get() as $sku){
-                $stockIn=Stock::where('fkskuId',$sku->skuId)->where('type', 'in')->sum('stock');
-                $stockOut=Stock::where('fkskuId',$sku->skuId)->where('type', 'out')->sum('stock');
-                $stockAvailable = $stockIn-$stockOut;
-                if($stockAvailable > 0){
+            foreach ($skuss->get() as $sku) {
+                $stockIn = Stock::where('fkskuId', $sku->skuId)->where('type', 'in')->sum('stock');
+                $stockOut = Stock::where('fkskuId', $sku->skuId)->where('type', 'out')->sum('stock');
+                $stockAvailable = $stockIn - $stockOut;
+                if ($stockAvailable > 0) {
                     $availableSku[] = $sku->skuId;
                 }
             }
@@ -254,7 +313,6 @@ class CategoryController extends Controller
         }
 
         $view = view('shopAjax', compact('skuss'))->render();
-        return response()->json(['html'=>$view, 'skuss'=>$skuss]);
-
+        return response()->json(['html' => $view, 'skuss' => $skuss]);
     }
 }
