@@ -19,7 +19,6 @@ class ProductController extends Controller
 {
     public function productDetails($id)
     {
-        // dd($id);
         $parentCategory = null;
         $subCategory = null;
         // dd(\Request::ip());
@@ -46,12 +45,7 @@ class ProductController extends Controller
                 }
 
         //view product details
-        // $sku = Sku::with('product', 'variationImages')->findOrfail($id);
-        $getSkuId = Sku::with('product', 'variationImages')->findOrfail($id);
-
-        $product = Product::where('productId',$getSkuId->fkproductId)->with('sku')->get();
-        // $sku->fkproductId;
-        // dd($product);
+        $sku = Sku::with('product', 'variationImages')->findOrfail($id);
 
         $relatedProducts = Product::where('categoryId', $sku->product->categoryId)->where('status', 'active')->pluck('productId');
         $skus = Sku::whereIn('fkproductId', $relatedProducts)->where('skuId', '!=', $sku->skuId)->with('product')->take(10)->get()->unique('fkproductId');

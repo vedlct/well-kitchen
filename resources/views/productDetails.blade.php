@@ -141,7 +141,8 @@
                             @endforeach --}}
                             <div class="pro-details-color-content">
                                 <!-- select color -->
-                                @foreach($product->sku as $productsku)
+                                {{-- @dd($product->sku->where('status','active')); --}}
+                                @foreach($product->sku->where('status','active') as $productsku)
                                 @foreach($productsku->variationRelation as $variationRelation)
 
                                 @if($variationRelation->variationDetailsdata->variationType == "Color")
