@@ -481,11 +481,11 @@
       'smtp' => 
       array (
         'transport' => 'smtp',
-        'host' => 'mailhog',
-        'port' => '1025',
-        'encryption' => NULL,
-        'username' => NULL,
-        'password' => NULL,
+        'host' => 'smtp.mailtrap.io',
+        'port' => '2525',
+        'encryption' => 'tls',
+        'username' => 'feb4f04ac71535',
+        'password' => 'b743c933f344cc',
         'timeout' => NULL,
         'auth_mode' => NULL,
       ),
@@ -518,8 +518,8 @@
     ),
     'from' => 
     array (
-      'address' => NULL,
-      'name' => 'Laravel',
+      'address' => 'test@gmail.com',
+      'name' => 'laravel',
     ),
     'markdown' => 
     array (

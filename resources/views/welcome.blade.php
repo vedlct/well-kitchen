@@ -1146,13 +1146,15 @@ $query->where('categoryId', $category->categoryId)->where('status', 'active');
                     <p>Subscribe to our newsletter to receive news on update</p>
                     <div id="mc_embed_signup" class="subscribe-form-3 mt-35">
                         <form id="mc-embedded-subscribe-form" class="validate" novalidate="" target="_blank"
-                            name="subscribe-form" method="post" action="">
+                            name="subscribe-form" method="post" action=" {{ route('subscription') }} ">
+
+                            @csrf
                             <div id="mc_embed_signup_scroll" class="mc-form">
-                                <input class="email" type="email" required="" placeholder="Your Email Address"
-                                    name="EMAIL" value="">
-                                <div class="mc-news" aria-hidden="true">
+                                <input class="email" type="email" id="email" required="" placeholder="Your Email Address"
+                                    name="email" value="">
+                                {{-- <div class="mc-news" aria-hidden="true">
                                     <input type="text" value="" tabindex="-1" name="subscribe">
-                                </div>
+                                </div> --}}
                                 <div class="clear-3">
                                     <input id="mc-embedded-subscribe" class="button" type="submit" name="subscribe"
                                         value="Subscribe">
