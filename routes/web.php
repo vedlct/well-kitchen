@@ -14,8 +14,11 @@ use App\Http\Controllers\CuponController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MyProfileController;
 use App\Http\Controllers\MyOrderController;
+use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\WelcomeMail;
+use Illuminate\Support\Facades\Mail;
 
 Auth::routes();
 
@@ -119,12 +122,15 @@ Route::get('/faq', function () {
 
 
 
+
 Route::get('/contact', [ContactController::class, 'index'])->name('contact');
 Route::post('/contact-submit', [ContactController::class, 'submitContactInfo'])->name('contact.submit');
 
 Route::get('/about', function () {
     return view('about');
 });
+
+Route::post('email-subscription',[SubscriptionController::class,'subscribe'])->name('subscription');
 
 
 
