@@ -123,8 +123,12 @@
                                                         @endif
                                                         {{-- <a title="Add To Cart" href="javascript: void(0)"><i class="pe-7s-cart"></i> Add to cart</a>--}}
                                                     </div>
-                                                    <div class="pro-same-action pro-quickview">
+                                                    {{-- <div class="pro-same-action pro-quickview">
                                                         <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-look"></i></a>
+                                                    </div> --}}
+                                                    <div class="pro-same-action pro-quickview">
+                                                        <a title="Quick View" href="#" data-toggle="modal" data-target="#exampleModal"
+                                                            data-sku_id="{{ $sku->skuId }}" class="quickView"><i class="pe-7s-look"></i></a>
                                                     </div>
                                                 </div>
                                             </div>
