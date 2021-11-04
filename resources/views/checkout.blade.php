@@ -47,7 +47,7 @@
                         <div class="col-lg-12">
                             <div class="billing-info mb-20">
                                 <label>Phone</label>
-                                <input type="text" name="phone" id="phone" @if(Auth::user()) value="{{Auth::user()->phone}}" @endif class="searchPhone" required>
+                                <input type="text" name="phone" id="phone" @if(Auth::user()) value="{{Auth::user()->phone}}" @endif class="searchPhone" required readonly>
                                 <p id="newphone"></p>
                                 @error('phone')
                                         <span class="invalid-feedback" role="alert">
@@ -77,7 +77,7 @@
                         <div class="col-lg-12">
                             <div class="billing-info mb-20">
                                 <label>Email Address</label>
-                                <input type="text" name="email" @if(Auth::user()) value="{{Auth::user()->email}}" @endif id="email">
+                                <input type="text" name="email" @if(Auth::user()) value="{{Auth::user()->email}}" @endif id="email" readonly>
                                 @error('email')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror

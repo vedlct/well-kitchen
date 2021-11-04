@@ -15,7 +15,7 @@
                     </div>
                     <div class="single-contact-info">
                         <div class="contact-icon">
-                            <i class="fa fa-globe"></i>
+                            <i class="fa fa-envelope"></i>
                         </div>
                         <div class="contact-info-dec">
                             <p><a href="#">{{$setting->email}}</a></p>

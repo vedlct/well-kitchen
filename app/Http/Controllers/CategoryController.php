@@ -67,17 +67,19 @@ class CategoryController extends Controller
 
     public function searchByProducts(Request $request)
     {
+        // dd($request->all());
         $parentCategory = null;
         $subCategory = null;
         $minmaxPrice =  null;
         // dd($request->all());
         $allSearch = $request->allSearch;
         $products = Product::query()
-            ->where('productName', 'LIKE', "%{$allSearch}%")
-            ->orWhere('productCode', 'LIKE', "%{$allSearch}%")
-            ->orWhere('tag', 'LIKE', "%{$allSearch}%")
-            ->with('sku')
-            ->get();
+        ->where('status', 'active')
+        ->where('productName', 'LIKE', "%{$allSearch}%")
+        ->orWhere('productCode', 'LIKE', "%{$allSearch}%")
+        ->orWhere('tag', 'LIKE', "%{$allSearch}%")
+        ->with('sku')
+        ->get();
         $skusIds = [];
         if ($products->count() > 0) {
             foreach ($products as $product) {
@@ -86,7 +88,7 @@ class CategoryController extends Controller
                 }
             }
 
-            $skus = Sku::with('product')->whereIn('skuId', $skusIds)->whereHas('product', function ($query) {
+            $skuss = Sku::with('product')->whereIn('skuId', $skusIds)->whereHas('product', function ($query) {
                 $query->where('status', 'active');
             })->get();
             // dd($skus);
@@ -96,9 +98,9 @@ class CategoryController extends Controller
             //                $categoryId = $skusSingle->product->categoryId;
             //                $category = $skusSingle->product->category;
             //            }
-            $categoryId = $skus->first()->product->categoryId;
+            $categoryId = $skuss->first()->product->categoryId;
 
-            $category = $skus->first()->product->category;
+            $category = $skuss->first()->product->category;
 
             $skuIds = Sku::with('product')->whereIn('skuId', $skusIds)->whereHas('product', function ($query) use ($category) {
                 $query->where('status', 'active')->where('categoryId', $category->categoryId);
@@ -122,7 +124,7 @@ class CategoryController extends Controller
                     ->groupBy('product.categoryId')
                     ->first();
             }
-            return view('shop', compact('products', 'skus', 'variations', 'variationColorIds', 'variationSizeIds', 'categoryId', 'category', 'parentCategory', 'minmaxPrice', 'subCategory',));
+            return view('shop', compact('products', 'skuss', 'variations', 'variationColorIds', 'variationSizeIds', 'categoryId', 'category', 'parentCategory', 'minmaxPrice', 'subCategory',));
         } else {
             Session::flash('warning', 'No product matched');
             return redirect('/');

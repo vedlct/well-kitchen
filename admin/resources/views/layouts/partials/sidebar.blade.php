@@ -18,7 +18,7 @@
                                 @if(Auth::user()->profile_image == NULL)
                                     <img src="{{ url('public/app-assets/images/portrait/small/user_avater.png') }}" alt="Avatar"/>
                                 @else
-                                    <img src="{{url('public/userImage/'.Auth::user()->profile_image)}}" alt="avatar">
+                                    <img src="{{url('public/userImage/'.Auth::user()->profile_image)}}" alt="">
                                 @endif
                             </span>
                         </a>
@@ -27,9 +27,9 @@
                                 <a class="dropdown-item" href="#">
                                     <span class="avatar avatar-online">
                                         @if(Auth::user()->profile_image == NULL)
-                                            <img src="{{ url('public/app-assets/images/portrait/small/user_avater.png') }}" alt="Avatar"/>
+                                            <img src="{{ url('public/app-assets/images/portrait/small/user_avater.png') }}" alt=""/>
                                         @else
-                                            <img src="{{url('public/userImage/'.Auth::user()->profile_image)}}" alt="avatar">
+                                            <img src="{{url('public/userImage/'.Auth::user()->profile_image)}}" alt="">
                                         @endif
                                         <span class="user-name text-bold-700 ml-1">{{ Auth::user()->firstName }}</span>
                                     </span>

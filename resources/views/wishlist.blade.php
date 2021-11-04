@@ -30,7 +30,7 @@
                                             <a href=" {{route('product.details',$item->product->sku->first()->skuId)}} "><img src="{{asset('admin/public/featureImage/'.$item->product->featureImage)}}" alt=""></a>
                                         </td>
                                         <td class="product-name"><a href="#">{{$item->product->productName}}</a></td>
-                                        <td class="product-price-cart"><span class="amount">${{$item->product->sku->first()->salePrice}}</span></td>
+                                        <td class="product-price-cart"><span class="amount">৳{{$item->product->sku->first()->regularPrice}}</span></td>
                                         {{-- <td class="product-quantity">
                                             <div class="cart-plus-minus" onclick="quantityUpdate({{$item->id}})">
                                                 <input class="cart-plus-minus-box" type="text" name="qtybutton" value="1">
