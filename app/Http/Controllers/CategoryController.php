@@ -105,7 +105,7 @@ class CategoryController extends Controller
             $skuIds = Sku::with('product')->whereIn('skuId', $skusIds)->whereHas('product', function ($query) use ($category) {
                 $query->where('status', 'active')->where('categoryId', $category->categoryId);
             })->get();
-            $variations = VariationDetails::whereIn('skuId', $skuIds)->get();
+            $variations = VariationDetails::whereIn('skuId', $skuIds)->get(); 
             $variationDatas = VariationDetails::whereIn('skuId', $skuIds)->pluck('variationData');
             $variationColorIds = Variation::whereIn('variationId', $variationDatas)->where('variationType', 'Color')->get();
             $variationSizeIds = Variation::whereIn('variationId', $variationDatas)->where('variationType', 'Size')->get();

@@ -19,8 +19,32 @@ class HotDealsController extends Controller
 
     public function add()
     {
-        $products = Product::all();
-        return view('hotdeals.add_deals', compact('products'));
+        // $products = Product::where('status', 'active')->get();
+        return view('hotdeals.add_deals');
+    }
+
+    public function list()
+    {
+        $product = Product::where('status', 'active')->get();
+        return datatables()->of($product)
+            ->addColumn('category', function ($product) {
+                if ($product->category) {
+                    return $product->category->categoryName;
+                } else {
+                    return 'null';
+                }
+            })
+            ->addColumn('brand', function ($product) {
+                if ($product->brand) {
+                    return $product->brand->brandName;
+                } else {
+                    return 'null';
+                }
+            })
+            ->rawColumns(['category', 'brand'])
+            ->setRowAttr([
+                'align' => 'center',
+            ])->make(true);
     }
 
     public function edit($id)
