@@ -238,7 +238,7 @@
                                                     @endif
                         </div>
                         <div class="pro-same-action pro-quickview">
-                            <a href="#" data-toggle="modal" data-target="#exampleModal"
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#exampleModal"
                                 data-sku_id="{{ $sku->skuId }}" class="quickView"><i
                                                             class="pe-7s-look"></i></a>
                                                 </div>
@@ -368,7 +368,7 @@
                                     @endif
                                 </div>
                                 <div class="pro-same-action pro-quickview">
-                                    <a title="Quick View" href="#" data-toggle="modal" data-target="#exampleModal"
+                                    <a title="Quick View" href="javascript:void(0)" data-toggle="modal" data-target="#exampleModal"
                                         data-sku_id="{{ $sku->skuId }}" class="quickView"><i class="pe-7s-look"></i></a>
                                 </div>
                             </div>
@@ -480,7 +480,7 @@
                                 @endif
                             </div>
                             <div class="pro-same-action pro-quickview">
-                                <a title="Quick View" href="#" data-toggle="modal" data-target="#exampleModal"
+                                <a title="Quick View" href="javascript:void(0)" data-toggle="modal" data-target="#exampleModal"
                                     data-sku_id="{{ $sku->skuId }}" class="quickView"><i class="pe-7s-look"></i></a>
                             </div>
 
@@ -602,7 +602,7 @@
 
                                 </div>
                                 <div class="pro-same-action pro-quickview">
-                                    <a title="Quick View" href="#" data-toggle="modal" data-target="#exampleModal"
+                                    <a title="Quick View" href="javascript:void(0)" data-toggle="modal" data-target="#exampleModal"
                                         data-sku_id="{{ $sku->skuId }}" class="quickView"><i class="pe-7s-look"></i></a>
                                 </div>
                             </div>
@@ -736,7 +736,7 @@ $query->where('categoryId', $category->categoryId)->where('status', 'active');
 
                                 </div>
                                 <div class="pro-same-action pro-quickview">
-                                    <a title="Quick View" href="#" data-toggle="modal" data-target="#exampleModal"
+                                    <a title="Quick View" href="javascript:void(0)" data-toggle="modal" data-target="#exampleModal"
                                         data-sku_id="{{ $sku->skuId }}" class="quickView"><i class="pe-7s-look"></i></a>
                                 </div>
                             </div>
@@ -999,7 +999,7 @@ $query->where('categoryId', $category->categoryId)->where('status', 'active');
                                 @endif
                             </div>
                             <div class="pro-same-action pro-quickview">
-                                <a title="Quick View" href="#" data-toggle="modal" data-target="#exampleModal"
+                                <a title="Quick View" href="javascript:void(0)" data-toggle="modal" data-target="#exampleModal"
                                     data-sku_id="{{ $sku->skuId }}" class="quickView"><i class="pe-7s-look"></i></a>
                             </div>
 
