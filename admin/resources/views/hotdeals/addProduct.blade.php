@@ -77,7 +77,7 @@
                     selector: 'td:first-child'
                 },
                 ajax: {
-                    "url": "{!! route('product.list') !!}",
+                    "url": "{!! route('hotdeals.list') !!}",
                     "type": "GET",
                     data: function (d) {
                         d._token = "{{csrf_token()}}";

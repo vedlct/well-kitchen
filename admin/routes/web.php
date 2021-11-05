@@ -88,6 +88,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         // Route::get('/hotdeals',[HotDealsController::class, 'index'])->name('hotdeals');
         Route::get('/hotdeals-add',[HotDealsController::class,'add'])->name('hotdeals.add');
+        Route::get('/hotdeals-list', [HotDealsController::class, 'list'])->name('hotdeals.list');
         Route::post('/hotdeals-insert', [HotDealsController::class, 'save_deals'])->name('deal.insert');
         Route::post('/dealsShow',[HotDealsController::class,'showDeals'])->name('hotdeals.show');
         Route::get('/dealsEdit/{id}',[HotDealsController::class,'edit'])->name('hotdeals.edit');
