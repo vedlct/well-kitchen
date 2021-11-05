@@ -81,16 +81,16 @@
 
                     </div>
                     <div class="col-lg-4 col-md-6">
-                        <div class="cart-tax">
+                        {{-- <div class="cart-tax">
                             <div class="title-wrap">
                                 <h4 class="cart-bottom-title section-bg-gray">Shipping Cost</h4>
                             </div>
                             <div class="tax-wrapper">
                                 <p>
-                                    Shipping in Dhaka is 50 TK and Outside Dhaka 120 TK
+                                    Shipping in Dhaka is 60 TK and Outside Dhaka 150 TK
                                 </p>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="col-lg-4 col-md-12">
                         <div class="grand-totall">

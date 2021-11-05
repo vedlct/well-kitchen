@@ -24,18 +24,21 @@
                                                 <div class="billing-info">
                                                     <label>First Name</label>
                                                     <input type="text" name="firstName" value=" {{$user->firstName}} ">
+                                                    <span class="text-danger"><b>{{  $errors->first('firstName') }}</b></span>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6">
                                                 <div class="billing-info">
                                                     <label>Last Name</label>
                                                     <input type="text" name="lastName" value=" {{$user->lastName}}">
+                                                    <span class="text-danger"><b>{{  $errors->first('lastName') }}</b></span>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-12">
                                                 <div class="billing-info">
                                                     <label>Email Address</label>
                                                     <input type="email" name="email" value=" {{$user->email}}">
+                                                    <span class="text-danger"><b>{{  $errors->first('email') }}</b></span>
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-6">
@@ -43,6 +46,7 @@
                                                     <label>Phone</label>
                                                     {{-- <input type="text" name="phone" value="{{$customer?$customer->phone:''}}"> --}}
                                                     <input type="text" name="phone" value="{{$user->phone}}">
+                                                    <span class="text-danger"><b>{{  $errors->first('phone') }}</b></span>
                                                 </div>
                                             </div>
                                         </div>

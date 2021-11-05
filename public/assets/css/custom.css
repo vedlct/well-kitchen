@@ -776,3 +776,7 @@ input.form-control:focus {
     opacity: 1;
   }
 }
+
+.share-modal a {
+  font-size: 22px;
+}

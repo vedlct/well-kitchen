@@ -141,7 +141,8 @@
                             @endforeach --}}
                             <div class="pro-details-color-content">
                                 <!-- select color -->
-                                @foreach($product->sku as $productsku)
+                                {{-- @dd($product->sku->where('status','active')); --}}
+                                @foreach($product->sku->where('status','active') as $productsku)
                                 @foreach($productsku->variationRelation as $variationRelation)
 
                                 @if($variationRelation->variationDetailsdata->variationType == "Color")
@@ -210,6 +211,12 @@
                         <div class="pro-details-compare">
                             <a href="{{route('product.compare', $sku->skuId)}}"><i class="pe-7s-shuffle"></i></a>
 {{--                            <a href="#" data-toggle="modal" data-target="#exampleModal"><i class="pe-7s-shuffle"></i></a>--}}
+                        </div>
+                        <div class="pro-details-compare">
+                            {{-- <a href="{{route('product.compare', $sku->skuId)}}"><i class="pe-7s-shuffle"></i></a> --}}
+                            <a href="javascript: void(0)" data-toggle="modal" data-target="#shareModal" title="Share this Product">
+                                <i class="fa fa-share-alt"></i>
+                            </a>
                         </div>
                     </div>
                     <div class="pro-details-meta">
@@ -500,6 +507,46 @@
     </div>
 </div>
 <!-- related product start -->
+
+<!-- share modal start -->
+<div class="share-modal-area">
+    {{-- <p class="text-right">
+        <a type="button" class="text-underline mr-3" data-toggle="modal" data-target="#shareModal" title="Share this Course">
+            <i style="font-size: 40px" class="fas fa-share-alt-square"></i>
+        </a>
+    </p> --}}
+    <!-- Modal -->
+    <div class="modal share-modal fade" id="shareModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">Share with:</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav justify-content-center">
+                        <li class="nav-item">
+                            <a class="nav-link active" target="_blank" href="//www.facebook.com/sharer.php?u={{urlencode(url()->current())}}"><i class="fa fa-facebook-square"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" target="_blank" href="//www.twitter.com/share?url={{urlencode(url()->current())}}&text=Simple Share Buttons&hashtags=simplesharebuttons"><i class="fa fa-twitter-square"></i></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" target="_blank" href="https://api.whatsapp.com/send?text={{urlencode(url()->current()) }}"><i class="fa fa-whatsapp"></i></a>
+                        </li>
+                        {{-- <li class="nav-item">
+                            <a class="nav-link" href="fb-messenger://share/?link={{urlencode(url()->current()) }}&app_id=1005572983575179"><i class="fab fa-facebook-messenger"></i></a> --}}
+                            {{-- <a class="nav-link" href="http://www.facebook.com/dialog/send?app_id=[1005572983575179]&link=https://stackoverflow.com&redirect_uri=https://stackoverflow.com"><i class="fab fa-facebook-messenger"></i></a> --}}
+                        {{-- </li> --}}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- share modal end --> 
 
 @endsection
 

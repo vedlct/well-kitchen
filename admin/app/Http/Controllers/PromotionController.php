@@ -46,7 +46,7 @@ class PromotionController extends Controller
       
         public function store(Request $r){
             $this->validate($r, [
-                'promotionTitle' => 'required|max:10',
+                'promotionTitle' => 'required',
                 'imageLink' => 'image|required_if:promotionsId,null',
                 'promotionCode' => 'required',
                 'startDate' => 'required|date_format:Y-m-d H:i:s|after:today|before:endDate',

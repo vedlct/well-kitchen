@@ -93,7 +93,7 @@ class HomeController extends Controller
         $hotDeals = HotDeals::where('hotDealsId', $id)->first();
         $hotDealProId = HotDealsProduct::where('fkhotdealsId', $id)->pluck('fkproductId');
         $skus = Sku::whereIn('fkproductId', $hotDealProId)->get();
-
+        // dd($skus->first()->product);
         return view('offer_products', compact('skus', 'hotDeals'));
     }
 

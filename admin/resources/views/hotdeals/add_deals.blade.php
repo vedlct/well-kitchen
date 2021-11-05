@@ -86,7 +86,16 @@
                                                         <span class="text-danger status"> <b>{{  $errors->first('status') }}</b></span>
                                                     </div>
                                                 </div>
-                                                
+                                                <div class="row">
+                                                    <div class='col-sm-12'>
+                                                        <label><b>Amount</b><span class="text-danger">*</span></label>
+                                                        <br>
+                                                        <div class="form-group">
+                                                            <input type='text' name="amount" id="amount" class="form-control"/>
+                                                            <span class="text-danger amount"> <b>{{  $errors->first('amount') }}</b></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div class="row">
                                                     <div class='col-sm-12'>
                                                         <label class="mt-3"><b>Select Product</b><span class="text-danger">*</span></label>
@@ -96,17 +105,6 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="row">
-                                                    <div class='col-sm-12'>
-                                                        <label><b>Ammount</b><span class="text-danger">*</span></label>
-                                                        <br>
-                                                        <div class="form-group">
-                                                            <input type='text' name="amount" id="amount" class="form-control"/>
-                                                            <span class="text-danger amount"> <b>{{  $errors->first('amount') }}</b></span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
                                                 
                                             </div>
 
@@ -157,7 +155,7 @@
                 selector: 'td:first-child'
             },
             ajax: {
-                "url": "{!! route('product.list') !!}",
+                "url": "{!! route('hotdeals.list') !!}",
                 "type": "GET",
                 data: function (d) {
                     d._token = "{{csrf_token()}}";

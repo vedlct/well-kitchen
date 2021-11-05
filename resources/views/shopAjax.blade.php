@@ -1,4 +1,3 @@
-{{-- <div id="" class="tab-pane active"> --}}
 <div id="productShorting">
     <div class="row" id="">
 
@@ -103,34 +102,6 @@
 
 
 
-
-
-
-                                {{--  @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->where('hotdeals.percentage', '>', 0)->first()@endphp
-
-                                @if (empty($hotDeal) && empty($sku->discount))
-                                            <span>৳ {{ $sku->salePrice }} </span>
-                                        @endif
-
-                                        @if (!empty($hotDeal) && !empty($sku->discount))
-                                            @php
-                                                $percentage = $hotDeal->hotdeals->percentage;
-                                                $afterDiscountPrice = $sku->salePrice - ($sku->salePrice * $percentage) / 100;
-                                            @endphp
-
-                                            <span>৳ {{ $afterDiscountPrice }}</span>
-                                            <span class="old">৳ {{ $sku->salePrice }}</span>
-                                        @endif
-
-                                        @if(empty($hotDeal) && !empty($sku->discount))
-                                        @php
-                                            $afterDiscountPrice = ($sku->salePrice) - ($sku->discount);
-                                        @endphp
-
-                                        <span>৳  {{$afterDiscountPrice}}</span>
-                                        <span class="old">৳  {{$sku->salePrice}}</span>
-                                    @endif  --}}
-
                             </div>
                         </div>
                     </div>
@@ -139,10 +110,7 @@
         @endforeach
     </div>
             <div class="pro-pagination-style text-center mt-30">
-                 {{ $skuss->links('vendor.pagination.custom') }}
+                 {{-- {{ $skuss->links('vendor.pagination.custom') }} --}}
             </div>
 
 </div>
-
-
-
