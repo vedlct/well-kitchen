@@ -147,7 +147,7 @@
                                     @if(!empty($order->discount))
                                     <tr>
                                         <td colspan="7" class="text-right"> <b>Order Total</b> </td>
-                                        <td>{{($order->orderTotal -$order->discount) + $order->deliveryFee}}</td>
+                                        <td>{{($order->orderTotal + $order->deliveryFee - $order->discount) }}</td>
                                     </tr>
                                     @endif
                                     </tbody>
