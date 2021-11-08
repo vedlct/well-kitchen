@@ -211,9 +211,10 @@
                 // $(".imgtab").load(location.href + " .imgtab");
                 // $(".imgtaball").load(location.href + " .imgtaball");
 
-                console.log(data.sku.discount);
-                console.log(data.sku.salePrice);
-                console.log(data.sku.regularPrice);
+                console.log('sku discount',data.sku.discount);
+                console.log('saleprice',data.sku.salePrice);
+                console.log('regulaprice',data.sku.regularPrice);
+                console.log(data);
                 $(".pname").html(data.sku.product['productName']);
                 $(".productDetail").html(data.sku.product.details['fabricDetails']);
                 $(".productDescription").html(data.sku.product.details['description']);
@@ -227,6 +228,8 @@
 
 
                 if(data.hotdeal != null && data.sku.discount != null){
+                    // console.log('true');
+                    console.log('discount',data.afterDiscountPrice)
                     $('.salePrice').empty().append("<span>"+"৳ "+data.afterDiscountPrice+"</span>")
                     $('.old').empty().append("<span class='old'>"+"৳ "+data.sku.regularPrice+"</span>")
                 }
