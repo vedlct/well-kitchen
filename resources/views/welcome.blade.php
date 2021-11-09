@@ -433,7 +433,7 @@
         <div class="section-title-6 mb-45 text-center">
             <h2>Offer Products</h2>
         </div>
-        <div class="product-slider-active-2 owl-carousel owl-dot-none">
+        <div class="product-slider-active-2 owl-carousel owl-dot-none owl-products-nav">
             @foreach ($offerSkus->unique('fkproductId') as $sku)
 
 
@@ -952,7 +952,7 @@ $query->where('categoryId', $category->categoryId)->where('status', 'active');
         <div class="section-title-6 mb-45 text-center">
             <h2>Hot Selling Products</h2>
         </div>
-        <div class="product-slider-active-2 owl-carousel owl-dot-none">
+        <div class="product-slider-active-2 owl-carousel owl-dot-none owl-products-nav">
             @foreach ($mostViewskus->unique('fkproductId') as $sku)
 
 

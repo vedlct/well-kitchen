@@ -254,7 +254,11 @@
   /* product-slider active 2 */
   $(".product-slider-active-2").owlCarousel({
     loop: true,
-    nav: false,
+    nav: true,
+    navText: [
+      '<i class="fa fa-long-arrow-left"></i>',
+      '<i class="fa fa-long-arrow-right"></i>',
+    ],
     autoplay: false,
     autoplayTimeout: 5000,
     item: 5,
