@@ -28,6 +28,7 @@ class CuponController extends Controller
 
             $newTotal = \Cart::getSubTotal() - $discountAmount;
             Session::put('sub', $newTotal);
+            Session::put('promoCode', $promo->discount);
             Session::put('discountAmount', $discountAmount);
             $msg_success = 'Promo code applied successful.';
         return response()->json(['msg_success' => $msg_success]);
