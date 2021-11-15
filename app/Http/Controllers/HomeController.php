@@ -228,6 +228,7 @@ class HomeController extends Controller
                 )
             ]);
             // $cartPage= view('layouts.partials.cartNav')->render();
+            Session::put('catUpdate', 'update');
             $cartPage=\Cart::getContent();
             $cartQuantity=\Cart::getContent()->count();
             $total = number_format(\Cart::getSubTotal());
