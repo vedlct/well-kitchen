@@ -780,3 +780,19 @@ input.form-control:focus {
 .share-modal a {
   font-size: 22px;
 }
+
+/* owl products  nav */
+.owl-products-nav .owl-nav {
+  position: absolute;
+  top: 40%;
+  width: 100%;
+  display: block !important;
+}
+.owl-products-nav .owl-nav .owl-next {
+  float: right;
+}
+.owl-products-nav .owl-nav i {
+  background: #ffffff91;
+  border-radius: 50px;
+  padding: 10px 10px;
+}

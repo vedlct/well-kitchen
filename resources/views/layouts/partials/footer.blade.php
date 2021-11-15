@@ -211,7 +211,10 @@
                 // $(".imgtab").load(location.href + " .imgtab");
                 // $(".imgtaball").load(location.href + " .imgtaball");
 
-                // console.log(data);
+                console.log('sku discount',data.sku.discount);
+                console.log('saleprice',data.sku.salePrice);
+                console.log('regulaprice',data.sku.regularPrice);
+                console.log(data);
                 $(".pname").html(data.sku.product['productName']);
                 $(".productDetail").html(data.sku.product.details['fabricDetails']);
                 $(".productDescription").html(data.sku.product.details['description']);
@@ -224,33 +227,28 @@
                 });
 
 
-                if(data.hotdeal != null && data.discount != null){
+                if(data.hotdeal != null && data.sku.discount != null){
+                    // console.log('true');
+                    console.log('discount',data.afterDiscountPrice)
                     $('.salePrice').empty().append("<span>"+"৳ "+data.afterDiscountPrice+"</span>")
                     $('.old').empty().append("<span class='old'>"+"৳ "+data.sku.regularPrice+"</span>")
                 }
-                if(data.hotdeal == null && data.discount != null){
+                if(data.hotdeal == null && data.sku.discount != null){
                     $('.salePrice').empty().append("<span>"+"৳ "+data.sku.salePrice+"</span>")
                     $('.old').empty().append("<span class='old'>"+"৳ "+data.sku.regularPrice+"</span>")
                 }
-                if(data.hotdeal != null && data.discount == null) {
+                if(data.hotdeal != null && data.sku.discount == null) {
                     $('.salePrice').empty().append("<span>"+"৳ "+data.afterDiscountPrice+"</span>")
                     $('.old').empty().append("<span class='old'>"+"৳ "+data.sku.regularPrice+"</span>")
                 }
-                if(data.hotdeal == null && data.discount == null) {
+                if(data.hotdeal == null && data.sku.discount == null) {
                     $('.salePrice').empty().append("<span>"+"৳ "+data.sku.regularPrice+"</span>")
                     $('.old').empty();
                 }
 
 
 
-                {{--  if(data.hotdeal == null){
-                    $(".salePrice").html('৳ '+data.saleprice);
-                    $(".oldprice").html('');
-                }
-                else{
-                    $(".salePrice").html('৳ '+data.saleprice);
-                    $(".oldprice").html('৳ '+data.oldprice);
-                }  --}}
+             
                 $(".reviewsCount").html(data.revCount);
 
                 if(data.finalRating > 0) {

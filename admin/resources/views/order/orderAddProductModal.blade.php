@@ -30,8 +30,9 @@
                         <div class="col-lg-6" style="display: none" id="variationdata"> </div>
                         
                         <div class="col-lg-6" id="price"> </div>
-                        <div class="col-lg-6" style="display: none" id="salePrice"> </div>
+                        
                         <div class="col-lg-6" style="display: none" id="oldPrice"> </div>
+                        <div class="col-lg-6" style="display: none" id="salePrice"> </div>
                         <input type="hidden" id="priceInput" name="priceInput" value="" >
                         <input type="hidden" id="salePriceInput" name="salePriceInput" value="" >
                         

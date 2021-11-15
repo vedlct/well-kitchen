@@ -25,7 +25,18 @@ class HotDealsController extends Controller
 
     public function list()
     {
-        $product = Product::where('status', 'active')->get();
+
+        $hotdealsProduct = HotDealsProduct::with('hotdeals')->whereHas('hotdeals', function ($query) {
+            $date = date('Y-m-d h:i:s');
+            $query->where('endDate', '>', $date);
+        })->pluck('fkproductId')->toarray();
+
+        
+        $productId = Product::where('status', 'active')->pluck('productId')->toarray();
+        $differenceArray = array_diff($productId, $hotdealsProduct);
+        // dd($differenceArray);
+        $product = Product::whereIn('productId', $differenceArray)->get();
+        // dd($product);
         return datatables()->of($product)
             ->addColumn('category', function ($product) {
                 if ($product->category) {
@@ -62,19 +73,19 @@ class HotDealsController extends Controller
     public function save_deals(Request $r)
     {
         // dd($r->all());
-        $this->validate($r,[
+        $this->validate($r, [
             'startDate' => 'required|date_format:Y-m-d H:i:s|after:today|before:endDate',
             'endDate' => 'required|date_format:Y-m-d H:i:s|after:startDate',
             'amount' => 'required|numeric',
             'percentage' => 'required',
-            'hotDeals_name' =>'required',
-//            'imageLink' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'hotDeals_name' => 'required',
+            //            'imageLink' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'status' => 'required'
         ]);
         $deals = new Hotdeals();
         $deals->hotDeals_name = $r->hotDeals_name;
-        $deals->startDate =date('Y-m-d h:i:s', strtotime($r->startDate));
-        $deals->endDate =date('Y-m-d h:i:s', strtotime($r->endDate));
+        $deals->startDate = date('Y-m-d h:i:s', strtotime($r->startDate));
+        $deals->endDate = date('Y-m-d h:i:s', strtotime($r->endDate));
         $deals->amount = $r->amount;
         $deals->percentage = $r->percentage;
         $deals->status = $r->status;
@@ -91,17 +102,17 @@ class HotDealsController extends Controller
         return redirect()->route('hotdeals');
     }
 
-    public function update(Request $r,$id)
+    public function update(Request $r, $id)
     {
         // dd($r->all());
 
-        $this->validate($r,[
+        $this->validate($r, [
             'startDate' => 'required|date_format:Y-m-d H:i:s|after:today|before:endDate',
             'endDate' => 'required|date_format:Y-m-d H:i:s|after:startDate',
             'amount' => 'required|numeric',
             'percentage' => 'required',
-            'hotdeals_name' =>'required',
-//            'imageLink' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+            'hotdeals_name' => 'required',
+            //            'imageLink' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
             'status' => 'required'
         ]);
         $deals = Hotdeals::findOrFail($r->id);
@@ -120,14 +131,17 @@ class HotDealsController extends Controller
 
     public function showDeals()
     {
-        $hotDeals =Hotdeals::select('hotdeals.*', DB::raw('DATE_FORMAT(hotdeals.startDate, "%a, %b %D, %Y. %l: %i %p") as startdate'), 
-                    DB::raw('DATE_FORMAT(hotdeals.endDate, "%a, %b %D, %Y. %l: %i %p") as enddate'));
+        $hotDeals = Hotdeals::select(
+            'hotdeals.*',
+            DB::raw('DATE_FORMAT(hotdeals.startDate, "%a, %b %D, %Y. %l: %i %p") as startdate'),
+            DB::raw('DATE_FORMAT(hotdeals.endDate, "%a, %b %D, %Y. %l: %i %p") as enddate')
+        );
         // ->get();
-// dd($hotDeals);
+        // dd($hotDeals);
 
         // $hotDeals = Hotdeals::select('hotdeals.startDate',
-            // DB::raw("date(SUM(CASE WHEN stock_record.type = 'in' AND stock_record.identifier = 'purchase' THEN stock_record.stock END), 0) as totalPurchase"),
-            // DB::raw("date('Y-m-d H:i:s', st) as startdate"),
+        // DB::raw("date(SUM(CASE WHEN stock_record.type = 'in' AND stock_record.identifier = 'purchase' THEN stock_record.stock END), 0) as totalPurchase"),
+        // DB::raw("date('Y-m-d H:i:s', st) as startdate"),
         //    );
         //    dd($hotDeals->get());
         // $hotDeals = Hotdeals::all();
@@ -142,26 +156,24 @@ class HotDealsController extends Controller
             ->addColumn('percentage', '{{$percentage}}%')
             ->rawColumns(['status', 'percentage'])
             ->setRowAttr([
-                'align'=>'center',
-                'height'=>'50%',
+                'align' => 'center',
+                'height' => '50%',
             ])->make(true);
     }
 
     public function delete(Request $r)
     {
         $hotdeals = Hotdeals::findOrFail($r->hotDealsId);
-        $dealsProducts = HotDealsProduct::where('fkhotdealsId',$r->hotDealsId)->get();
-        
-      
-        if(count( $dealsProducts)>0)
-        {
-            foreach($dealsProducts as $dealsProduct){
+        $dealsProducts = HotDealsProduct::where('fkhotdealsId', $r->hotDealsId)->get();
+
+
+        if (count($dealsProducts) > 0) {
+            foreach ($dealsProducts as $dealsProduct) {
                 $dealsProduct->delete();
             }
             $hotdeals->delete();
-        }
-        else{
-        $hotdeals->delete();
+        } else {
+            $hotdeals->delete();
         }
         return response()->json();
         // $deals = Hotdeals::findOrFail($r->hotDealsId);
@@ -183,42 +195,44 @@ class HotDealsController extends Controller
         // $deals->delete();
         // }
     }
-    public function showDealProduct($id){
-        $dealsProduct = HotDealsProduct::with('product','hotdeals')->where('fkhotdealsId',$id)->get();
+    public function showDealProduct($id)
+    {
+        $dealsProduct = HotDealsProduct::with('product', 'hotdeals')->where('fkhotdealsId', $id)->get();
         // dd($dealsProduct);
         // return response()->json(['success'=> $dealsProduct]);
 
-    //    return $dealsProduct[0]->hotdeals;
-        return view('hotdeals.showProduct',compact('dealsProduct','id'));
+        //    return $dealsProduct[0]->hotdeals;
+        return view('hotdeals.showProduct', compact('dealsProduct', 'id'));
     }
 
-    public function hotProduct($id){
-        $hotProduct= HotDealsProduct::find($id);
+    public function hotProduct($id)
+    {
+        $hotProduct = HotDealsProduct::find($id);
     }
 
     public function addProduct($id)
     {
-        $currentProduct=HotDealsProduct::where('fkhotdealsId',$id)->get()->pluck('fkproductId');
-        return view('hotdeals.addProduct',compact('currentProduct','id'));
+        $currentProduct = HotDealsProduct::where('fkhotdealsId', $id)->get()->pluck('fkproductId');
+        return view('hotdeals.addProduct', compact('currentProduct', 'id'));
     }
 
     public function productInsert(Request $request)
     {
-        $hotProducts=HotDealsProduct::where('fkhotdealsId',$request->id)->get();
-        if(count($hotProducts)>0){
-            $quantity= $hotProducts->first()->quantity ;
+        $hotProducts = HotDealsProduct::where('fkhotdealsId', $request->id)->get();
+        if (count($hotProducts) > 0) {
+            $quantity = $hotProducts->first()->quantity;
         }
-        HotDealsProduct::where('fkhotdealsId',$request->id)->delete();
-        if(!empty($request->value)){
-        foreach ($request->value as $key => $item) {
-            $hotProduct=new HotDealsProduct();
-            $hotProduct->fkhotdealsId=$request->id;
-            $hotProduct->fkproductId=$item;
-            $hotProduct->quantity=$quantity ??100;
-            $hotProduct->save();
+        HotDealsProduct::where('fkhotdealsId', $request->id)->delete();
+        if (!empty($request->value)) {
+            foreach ($request->value as $key => $item) {
+                $hotProduct = new HotDealsProduct();
+                $hotProduct->fkhotdealsId = $request->id;
+                $hotProduct->fkproductId = $item;
+                $hotProduct->quantity = $quantity ?? 100;
+                $hotProduct->save();
+            }
         }
-    }
 
-        return response()->json('success',200);
+        return response()->json('success', 200);
     }
 }

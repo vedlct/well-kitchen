@@ -170,15 +170,15 @@
                                                                                 class="pe-7s-cart"></i> Add to cart</a>
                                                                     @endif
                                                                     @if ($sku->product()->first()->type == 'variation')
-                                                                        <a title="Add To Cart"
+                                                                        <a title="Add To Cart" 
                                                                             href="{{ route('product.details', $sku->skuId) }}"><i
                                                                                 class="pe-7s-cart"></i> Add to cart</a>
                                                                     @endif
                                                                     {{-- <a title="Add To Cart" href="javascript: void(0)"><i class="pe-7s-cart"></i> Add to cart</a> --}}
                                                                 </div>
                                                                 <div class="pro-same-action pro-quickview">
-                                                                    <a href="#" data-toggle="modal"
-                                                                        data-target="#exampleModal"><i
+                                                                    <a href="#" data-toggle="modal" class="quickView"
+                                                                        data-target="#exampleModal" data-sku_id="{{ $sku->skuId }}"><i
                                                                             class="pe-7s-look"></i></a>
                                                                 </div>
                                                             </div>

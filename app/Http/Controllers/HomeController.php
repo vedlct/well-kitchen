@@ -116,21 +116,26 @@ class HomeController extends Controller
         }
         $images = $sku->product->images()->get();
 
-        $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first();
+        // $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->first();
+        $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->where('hotdeals.percentage', '>', 0)->first();
         $oldprice = null;
         if(empty($hotDeal)){
             $saleprice = $sku->salePrice ;
+            return response()->json(['sku'=>$sku, 'hotdeal'=>$hotDeal, 'saleprice'=>$saleprice, 'finalRating'=>$finalRating, 'reviews'=>$reviews, 'revCount'=>$revCount, 'oldprice'=>$oldprice, 'images'=>$images]);
         }
 
         if(!empty($hotDeal)) {
+            // dd($hotDeal);
              $percentage = $hotDeal->hotdeals->percentage;
-             $afterDiscountPrice = ($sku->salePrice) - (($sku->salePrice) * $percentage) / 100;
+             $afterDiscountPrice = round(($sku->regularPrice) - (($sku->regularPrice) * $percentage) / 100);
 
-            $saleprice = $afterDiscountPrice;
+            // $saleprice = $afterDiscountPrice;
             $oldprice = $sku->salePrice;
+
+            return response()->json(['sku'=>$sku, 'hotdeal'=>$hotDeal, 'afterDiscountPrice'=>$afterDiscountPrice, 'finalRating'=>$finalRating, 'reviews'=>$reviews, 'revCount'=>$revCount, 'oldprice'=>$oldprice, 'images'=>$images]);
          }
 
-        return response()->json(['sku'=>$sku, 'hotdeal'=>$hotDeal, 'saleprice'=>$saleprice, 'finalRating'=>$finalRating, 'reviews'=>$reviews, 'revCount'=>$revCount, 'oldprice'=>$oldprice, 'images'=>$images]);
+        // return response()->json(['sku'=>$sku, 'hotdeal'=>$hotDeal, 'saleprice'=>$saleprice, 'finalRating'=>$finalRating, 'reviews'=>$reviews, 'revCount'=>$revCount, 'oldprice'=>$oldprice, 'images'=>$images]);
     }
 
     public function addToCart(Request $request){
@@ -223,6 +228,7 @@ class HomeController extends Controller
                 )
             ]);
             // $cartPage= view('layouts.partials.cartNav')->render();
+            Session::put('catUpdate', 'update');
             $cartPage=\Cart::getContent();
             $cartQuantity=\Cart::getContent()->count();
             $total = number_format(\Cart::getSubTotal());

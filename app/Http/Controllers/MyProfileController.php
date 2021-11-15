@@ -29,15 +29,15 @@ class MyProfileController extends Controller
         $this->validate($request, [
             'firstName' => 'required|max:50',
             'lastName' => 'required',
-            'email' => 'required|email|unique:user,email,' . Auth::user()->userId . ',userId',
-            'phone' => 'required|unique:user,phone,' . Auth::user()->userId . ',userId|unique:customer,phone,'.Auth::user()->userId.',fkuserId'
+            // 'email' => 'required|email|unique:user,email,' . Auth::user()->userId . ',userId',
+            // 'phone' => 'required|unique:user,phone,' . Auth::user()->userId . ',userId|unique:customer,phone,'.Auth::user()->userId.',fkuserId'
         ]);
 
         $user = User::where('userId',$request->userId)->first();
         $user->firstName = $request->firstName;
         $user->lastName = $request->lastName;
-        $user->email = $request->email;
-        $user->phone = $request->phone;
+        // $user->email = $request->email;
+        // $user->phone = $request->phone;
         $user->save();
 
         $customer = Customer::where('fkuserId',$user->userId)->first();

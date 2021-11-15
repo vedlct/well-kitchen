@@ -37,7 +37,7 @@
                                             <div class="col-lg-6 col-md-12">
                                                 <div class="billing-info">
                                                     <label>Email Address</label>
-                                                    <input type="email" name="email" value=" {{$user->email}}">
+                                                    <input type="email" name="email" value=" {{$user->email}}" readonly>
                                                     <span class="text-danger"><b>{{  $errors->first('email') }}</b></span>
                                                 </div>
                                             </div>
@@ -45,7 +45,7 @@
                                                 <div class="billing-info">
                                                     <label>Phone</label>
                                                     {{-- <input type="text" name="phone" value="{{$customer?$customer->phone:''}}"> --}}
-                                                    <input type="text" name="phone" value="{{$user->phone}}">
+                                                    <input type="text" name="phone" value="{{$user->phone}}" readonly>
                                                     <span class="text-danger"><b>{{  $errors->first('phone') }}</b></span>
                                                 </div>
                                             </div>
