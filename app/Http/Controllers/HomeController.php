@@ -228,7 +228,16 @@ class HomeController extends Controller
                 )
             ]);
             // $cartPage= view('layouts.partials.cartNav')->render();
-            Session::put('catUpdate', 'update');
+            if(Session::has('sub') && Session::has('discountAmount') && Session::has('promoCode')){
+                $discountAmount = (\Cart::getSubTotal() * Session::get('promoCode')) / 100;
+                
+                $newTotal = \Cart::getSubTotal() - $discountAmount;
+                Session::put('sub', $newTotal);
+                Session::put('discountAmount', $discountAmount);
+            // dd( Session::get('sub'));
+            }
+
+            
             $cartPage=\Cart::getContent();
             $cartQuantity=\Cart::getContent()->count();
             $total = number_format(\Cart::getSubTotal());
@@ -251,6 +260,17 @@ class HomeController extends Controller
             \Cart::clear();
             \Cart::clearCartConditions();
         }
+
+        if(Session::has('sub') && Session::has('discountAmount') && Session::has('promoCode')){
+            $discountAmount = (\Cart::getSubTotal() * Session::get('promoCode')) / 100;
+            
+            $newTotal = \Cart::getSubTotal() - $discountAmount;
+            Session::put('sub', $newTotal);
+            Session::put('discountAmount', $discountAmount);
+        // dd( Session::get('sub'));
+        }
+
+        
         $cartQuantity=\Cart::getContent()->count();
         $cart=\Cart::getContent();
         $subTotal =\Cart::getSubTotal();
