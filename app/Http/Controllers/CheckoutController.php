@@ -158,10 +158,12 @@ class CheckoutController extends Controller
             $order->discount = Session::get('discountAmount');
         }
         if (Session::has('sub')) {
-            $order->orderTotal = Session::get('sub') + $deliveryFee;
+            // $order->orderTotal = Session::get('sub') + $deliveryFee;
+            $order->orderTotal = Session::get('sub');
         }
         if (!Session::has('sub')) {
-            $order->orderTotal = \Cart::getSubTotal() + $deliveryFee;
+            // $order->orderTotal = \Cart::getSubTotal() + $deliveryFee;
+            $order->orderTotal = \Cart::getSubTotal() ;
         }
         // $order->paymentType = 'cod';
         $order->payment_status = 'unpaid';

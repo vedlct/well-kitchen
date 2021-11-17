@@ -246,7 +246,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/discount', [OrderController::class, 'discount'])->name('discount');
         Route::post('/order-submit', [OrderController::class, 'orderInsert'])->name('insert');
         Route::get('/show', [OrderController::class, 'index'])->name('index');
-        Route::post('/order-list', [OrderController::class, 'list'])->name('list');
+        // Route::post('/order-list', [OrderController::class, 'list'])->name('list');
         Route::get('/order-details/{id}', [OrderController::class, 'details'])->name('details');
         Route::post('/order-status', [OrderController::class, 'orderStatus'])->name('orderStatus');
         // Route::get('/order-edit/{id}', [OrderController::class, 'orderEdit'])->name('orderEdit');
