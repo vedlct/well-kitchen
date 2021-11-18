@@ -24,7 +24,7 @@ class CategoryController extends Controller
 
         $skuss = Sku::with('product')->whereHas('product', function ($query) use ($categoryId) {
             $query->where('status', 'active')->where('categoryId', $categoryId);
-        })->paginate(12);
+        })->get();
 
         $skuIds = Sku::with('product')->whereHas('product', function ($query) use ($categoryId) {
             $query->where('status', 'active')->where('categoryId', $categoryId);

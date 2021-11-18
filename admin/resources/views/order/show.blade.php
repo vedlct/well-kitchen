@@ -108,6 +108,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    @if($order->orderedProduct->count() > 0) 
                                     @foreach ($order->orderedProduct as $key => $item)
                                         <tr>
                                           {{-- @dd($item); --}}
@@ -144,12 +145,22 @@
                                         <td colspan="7" class="text-right"> <b>Delivery Fee</b> </td>
                                         <td>+{{$order->deliveryFee ?? 0}}</td>
                                     </tr>
-                                    @if(!empty($order->discount))
+                                  
                                     <tr>
-                                        <td colspan="7" class="text-right"> <b>Order Total</b> </td>
-                                        <td>{{($order->orderTotal + $order->deliveryFee - $order->discount) }}</td>
+                                        <td colspan="7" class="text-right"> <b>Order Total </b> </td>
+                                        @if(!empty($order->discount))
+                                        <td>{{number_format($order->orderedProduct->sum('total') + $order->deliveryFee  -$order->discount)  }}</td> 
+                                        @else
+                                        <td>{{number_format($order->orderedProduct->sum('total') + $order->deliveryFee)  }}</td> 
+                                        @endif
                                     </tr>
+                                    @else
+                                    <tr>
+                                      <td colspan="7" class="text-center"> <b>No Product in this  order</b> </td>
+                                      
+                                  </tr>
                                     @endif
+                                    
                                     </tbody>
                                 </table>
                                 </div>
@@ -168,7 +179,12 @@
                               </div>
                               <div class="col-md-4 mb-1">
                                 {{-- <h4 class="text-warning">Due: {{($order->orderTotal+$order->deliveryFee) - $order->paidAmount()}}</h4> --}}
-                                <h4 class="text-warning">Due: ৳{{number_format((float)$order->orderTotal - $order->paidAmount(), 2, '.', '')}}</h4>
+                                {{-- <h4 class="text-warning">Due: ৳{{number_format((float)$order->orderTotal - $order->paidAmount(), 2, '.', '')}}</h4> --}}
+                                @if(!empty($order->discount))
+                                <h4 class="text-warning">Due: ৳{{number_format($order->orderedProduct->sum('total') + $order->deliveryFee  -$order->discount)  }}</h4>
+                                @else
+                                <h4 class="text-warning">Due: ৳{{number_format($order->orderedProduct->sum('total') + $order->deliveryFee )  }}</h4>
+                                @endif
                               </div>
                               <div class="col-md-4 mb-1 text-sm-right">
                                 {{-- <button type="button" class="btn btn-danger btn-min-width">Refund</button> --}}
