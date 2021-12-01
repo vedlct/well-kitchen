@@ -71,6 +71,12 @@
                                             <strong>{{ $message }}</strong>
                                         </span>
                                         @enderror
+                                        <input type="password" name="password_confirmation" required placeholder="Confirm Password">
+                                        @error('password_confirmation')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                        @enderror
                                         <div class="button-box">
                                             <button type="submit"><span>Register</span></button>
                                         </div>

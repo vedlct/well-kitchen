@@ -107,6 +107,8 @@ class UserController extends Controller
     {
         $this->validate($request, [
             'phone' => 'required|numeric|digits:11|unique:user,phone',
+            'password' => 'min:6|required_with:password_confirmation|same:password_confirmation',
+            'password_confirmation' => 'min:6'
         ]);
 
 //        $user = new User();

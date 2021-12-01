@@ -124,6 +124,11 @@
                                                 <div class="billing-info">
                                                     <label for="password-confirm">Confirm New Password</label>
                                                     <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
+                                                    @error('newPassword')
+                                                    <span class="invalid-feedback" role="alert">
+                                                        <strong>{{ $message }}</strong>
+                                                    </span>
+                                                @enderror
                                                 </div>
                                             </div>
                                         </div>
