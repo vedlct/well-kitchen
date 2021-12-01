@@ -166,6 +166,27 @@ class UserController extends Controller
         file_get_contents('https://msms.techcloudltd.com/pages/RequestSMS.php?user_name='.urlencode($userName).'&pass_word='.urlencode($password).'&brand='.urlencode($brand).'&type=1&masking=2&destination='.urlencode($phone).'&sms='.urlencode($sms), false, stream_context_create($arrContextOptions));
     }
 
+    public static function SendRecoverPasswordSms($phone)
+    {
+        $userName = 'wellkitchen';
+        $password = 'wellkitchen@123';
+        $brand = '';
+        $arrContextOptions = [
+            'ssl' => [
+                'verify_peer' => false,
+                'verify_peer_name' => false,
+            ],
+        ];
+        $balance = file_get_contents('https://msms.techcloudltd.com/pages/RequestBalance.php?user_name='.urlencode($userName).'&pass_word='.urlencode($password), false, stream_context_create($arrContextOptions)); /* balance api*/
+        $bn = ['১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯', '০'];
+        $en = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'];
+        $otp = mt_rand(1000, 9999);
+        Session::forget('otp');
+        Session::put('otp', $otp);
+        $sms = 'প্রিয় গ্রাহক আপনার পাসওয়ার্ডটি পরিবর্তনের জন্য ও টি পি: '.str_replace($en, $bn, $otp).' এটি পরবর্তী ৩ ঘন্টার জন্য কার্যকর থাকবে ! ';
+        file_get_contents('https://msms.techcloudltd.com/pages/RequestSMS.php?user_name='.urlencode($userName).'&pass_word='.urlencode($password).'&brand='.urlencode($brand).'&type=1&masking=2&destination='.urlencode($phone).'&sms='.urlencode($sms), false, stream_context_create($arrContextOptions));
+    }
+
     public function OtpResend(Request $request)
     {
         $this->SendSms($request->phone);

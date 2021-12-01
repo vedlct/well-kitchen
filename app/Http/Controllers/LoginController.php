@@ -95,7 +95,7 @@ class LoginController extends Controller
         $user=User::where('phone',$request->phone)->first();
         if (!empty($user)) {
             Session::put('forgotPassword',$user);
-            UserController::SendSms($request->phone);
+            UserController::SendRecoverPasswordSms($request->phone);
             Session::put('phone',$user->phone);
             return redirect()->route('Register.otp.index');
         }
