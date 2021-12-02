@@ -88,6 +88,8 @@ class CheckoutController extends Controller
             //            'email' => 'required',
             'phone' => 'required',
             'billingAddress' => 'required',
+            'fkshipment_zoneId' => 'required',
+            'payment' => 'required',
         ]);
 
         if (!Auth::user()) {

@@ -228,6 +228,9 @@
                                 <label class="form-check-label" for="cod">
                                     Cash on delivery
                                 </label>
+                                @error('payment')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -235,7 +238,7 @@
 
                         {{-- <a class="btn-hover">  Place Order</a> --}}
                         @if(Auth::check())
-                        <button class="btn-hover"  type="submit">Place Order</button>
+                        <button class="btn-hover"  type="submit" id="orderPlaced">Place Order</button>
                             @endif
                         @if(!Auth::check())
                         <a class="btn-hover" href="{{route('login')}}">Place Order</a>
@@ -261,6 +264,11 @@
 @section('js')
 {{--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  --}}
     <script>
+
+$('.orderPlaced').click(function(){
+   $(this).prop('disabled', true);
+});
+
 
 function shippingZone() {
             var shipping_zone = $('.zone').val();
