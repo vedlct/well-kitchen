@@ -56,11 +56,10 @@ class CheckoutController extends Controller
     {
         $deliveryFee = Charges::where('fkshipment_zoneId', $request->shipping_zone)->pluck('deliveryFee')->first();
         if (!empty(Session::get('sub'))) {
-            
-            if (!empty(Session::get('catUpdate'))) {
-               
-                $orderTotal = round((\Cart::getSubTotal() + $deliveryFee) - number_format(Session::get('discountAmount')));
 
+            if (!empty(Session::get('catUpdate'))) {
+
+                $orderTotal = round((\Cart::getSubTotal() + $deliveryFee) - number_format(Session::get('discountAmount')));
             } else {
                 $orderTotal = number_format(Session::get('sub') + $deliveryFee);
                 //            Session::forget('shipTotal');
@@ -81,7 +80,7 @@ class CheckoutController extends Controller
 
     public function checkoutSubmit(Request $request)
     {
-        // dd($request->all());
+        // dd(\Cart::getContent()->count());
 
         $validated = $request->validate([
             'first_name' => 'required|max:50',
@@ -100,6 +99,7 @@ class CheckoutController extends Controller
         }
 
         // dd($customer);
+
 
         if (!Auth::user() && empty($customer)) {
             $guestUser =  new User();
@@ -151,89 +151,90 @@ class CheckoutController extends Controller
         $deliveryFee = 0;
         $deliveryFee += Charges::where('fkshipment_zoneId', $request->fkshipment_zoneId)->pluck('deliveryFee')->first();
         // dd($customer);
+        if (\Cart::getContent()->count() > 0) {
+            $order = new Order();
+            $order->fkcustomerId = $customer ? $customer->customerId : '';
+            $order->note = $request->message;
+            $order->deliveryFee = $deliveryFee;
+            if (Session::has('discountAmount')) {
+                $order->discount = Session::get('discountAmount');
+            }
+            if (Session::has('sub')) {
+                // $order->orderTotal = Session::get('sub') + $deliveryFee;
+                $order->orderTotal = Session::get('sub');
+            }
+            if (!Session::has('sub')) {
+                // $order->orderTotal = \Cart::getSubTotal() + $deliveryFee;
+                $order->orderTotal = \Cart::getSubTotal();
+            }
+            // $order->paymentType = 'cod';
+            $order->payment_status = 'unpaid';
+            $order->payment_type = $request->payment;
+            // $order->delivery_commission_type = 'taka';
+            $order->save();
 
-        $order = new Order();
-        $order->fkcustomerId = $customer ? $customer->customerId : '';
-        $order->note = $request->message;
-        $order->deliveryFee = $deliveryFee;
-        if (Session::has('discountAmount')) {
-            $order->discount = Session::get('discountAmount');
-        }
-        if (Session::has('sub')) {
-            // $order->orderTotal = Session::get('sub') + $deliveryFee;
-            $order->orderTotal = Session::get('sub');
-        }
-        if (!Session::has('sub')) {
-            // $order->orderTotal = \Cart::getSubTotal() + $deliveryFee;
-            $order->orderTotal = \Cart::getSubTotal() ;
-        }
-        // $order->paymentType = 'cod';
-        $order->payment_status = 'unpaid';
-        $order->payment_type = $request->payment;
-        // $order->delivery_commission_type = 'taka';
-        $order->save();
 
+            $order_status_log = new OrderStatusLog();
+            $order_status_log->order_id = $order->orderId;
+            $order_status_log->status = 1;
+            $order_status_log->note = $order->note;
+            $order_status_log->save();
 
-        $order_status_log = new OrderStatusLog();
-        $order_status_log->order_id = $order->orderId;
-        $order_status_log->status = 1;
-        $order_status_log->note = $order->note;
-        $order_status_log->save();
+            foreach (\Cart::getContent() as $cartData) {
+                // @dd($cartData);
+                $q = $cartData['quantity'];
+                // dd($q);
+                $order_item = new OrderProduct();
+                $order_item->fkorderId = $order->orderId;
+                $order_item->quiantity = $cartData->quantity;
+                $order_item->price = $cartData->price;
+                $order_item->total = $cartData->price * $cartData->quantity;
+                $order_item->fkskuId = $cartData->id;
+                $order_item->save();
 
-        foreach (\Cart::getContent() as $cartData) {
-            // @dd($cartData);
-            $q = $cartData['quantity'];
-            // dd($q);
-            $order_item = new OrderProduct();
-            $order_item->fkorderId = $order->orderId;
-            $order_item->quiantity = $cartData->quantity;
-            $order_item->price = $cartData->price;
-            $order_item->total = $cartData->price * $cartData->quantity;
-            $order_item->fkskuId = $cartData->id;
-            $order_item->save();
+                $batches = StockRecord::where('fkskuId', $cartData->id)->pluck('batchId')->unique();
+                // dd($batches);
+                $stockAvailable = [];
+                foreach ($batches as $batchId) {
+                    $inStock = StockRecord::where('batchId', $batchId)->where('type', 'in')->sum('stock');
+                    $outStock = StockRecord::where('batchId', $batchId)->where('type', 'out')->sum('stock');
+                    $stockAvailable[$batchId] = $inStock - $outStock;
+                }
 
-            $batches = StockRecord::where('fkskuId', $cartData->id)->pluck('batchId')->unique();
-            // dd($batches);
-            $stockAvailable = [];
-            foreach ($batches as $batchId) {
-                $inStock = StockRecord::where('batchId', $batchId)->where('type', 'in')->sum('stock');
-                $outStock = StockRecord::where('batchId', $batchId)->where('type', 'out')->sum('stock');
-                $stockAvailable[$batchId] = $inStock - $outStock;
+                $maxStock = max($stockAvailable);
+                $check = $maxStock - $q;
+                if ($q > $maxStock) {
+                    $q = $maxStock;
+                }
+
+                $batchId = array_keys($stockAvailable, $maxStock);
+
+                $batch = Batch::where('batchId', $batchId)->pluck('batchId')->first();
+                $price = Batch::where('batchId', $batchId)->pluck('salePrice')->first();
+                // $order_item->price = $price;
+                // $order_item->total = $q * $price;
+                $order_item->batch_id = $batch;
+                $order_item->save();
+
+                $stock_record = new StockRecord();
+                $stock_record->batchId = $batch;
+                $stock_record->fkskuId = $cartData->id;
+                $stock_record->order_id = $order->orderId;
+                $stock_record->stock = $q;
+                $stock_record->type = 'out';
+                $stock_record->identifier = 'sale';
+                $stock_record->save();
+
+                if ($check <= 0) {
+                    $quantity = abs($check);
+                    $sku = $cartData->id;
+                    $order = $order->orderId;
+                    $this->OrderStock($quantity, $sku, $order, $order_item);
+                }
             }
 
-            $maxStock = max($stockAvailable);
-            $check = $maxStock - $q;
-            if ($q > $maxStock) {
-                $q = $maxStock;
-            }
-
-            $batchId = array_keys($stockAvailable, $maxStock);
-
-            $batch = Batch::where('batchId', $batchId)->pluck('batchId')->first();
-            $price = Batch::where('batchId', $batchId)->pluck('salePrice')->first();
-            // $order_item->price = $price;
-            // $order_item->total = $q * $price;
-            $order_item->batch_id = $batch;
-            $order_item->save();
-
-            $stock_record = new StockRecord();
-            $stock_record->batchId = $batch;
-            $stock_record->fkskuId = $cartData->id;
-            $stock_record->order_id = $order->orderId;
-            $stock_record->stock = $q;
-            $stock_record->type = 'out';
-            $stock_record->identifier = 'sale';
-            $stock_record->save();
-
-            if ($check <= 0) {
-                $quantity = abs($check);
-                $sku = $cartData->id;
-                $order = $order->orderId;
-                $this->OrderStock($quantity, $sku, $order, $order_item);
-            }
+            \Cart::clear();
         }
-
-        \Cart::clear();
         Session::flash('success', 'Order placed successfully');
         if (Session::has('discountAmount')) {
             Session::forget('discountAmount');
