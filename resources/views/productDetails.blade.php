@@ -1,4 +1,8 @@
 @extends('layouts.layout')
+@section('title', $product->productName)
+@section('meta_keywords', $product->meta_keywords)
+@section('meta_description', $product->meta_description)
+
 @section('container')
 <div class="breadcrumb-area pt-35">
     <div class="container">
@@ -546,7 +550,7 @@
         </div>
     </div>
 </div>
-<!-- share modal end --> 
+<!-- share modal end -->
 
 @endsection
 
@@ -594,7 +598,7 @@
 
         $(".prod-details-small-img").click(function(){
 
-            setTimeout(function(){ 
+            setTimeout(function(){
                 $(".prod-details-big-img img").removeClass("elvZoom");
                 $(".prod-details-big-img.active img").addClass("elvZoom");
                 $('.zoomContainer').hide();

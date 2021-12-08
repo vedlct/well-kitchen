@@ -330,7 +330,8 @@
                 <div class="col-6 col-xl-3 col-md-6 col-lg-4 col-sm-6">
                     <div class="product-wrap-5 mb-25">
                         <div class="product-img">
-                            <a href="{{ route('product.details', $sku->skuId) }}">
+{{--                            <a href="{{ route('product.details', ['id'=>$sku->skuId,'name'=>$sku->product->slug]) }}">--}}
+                            <a href="{{ route('product.details', $sku->product->slug) }}">
                                 <img src="{{ asset('admin/public/featureImage/' . $sku->product->featureImage) }}"
                                     alt="">
                             </a>
@@ -546,8 +547,6 @@
         </div>
         <div class="row">
             @foreach ($recommendeds->unique('fkproductId') as $sku)
-
-
                 <div class="col-6 col-xl-3 col-md-6 col-lg-4 col-sm-6">
                     <div class="product-wrap-5 mb-25">
                         <div class="product-img">

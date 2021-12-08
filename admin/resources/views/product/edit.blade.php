@@ -283,6 +283,24 @@
                                                                     </select>
                                                                 </div>
                                                             </div>
+                                                            <div class="col-md-4 col-lg-4 col-xl-3">
+                                                                <div class="form-group">
+                                                                    <label>Meta Keyword</label>
+                                                                    <input type="text" class="form-control" placeholder="Meta Keywords" value="{{ $product->meta_keywords }}" name="meta_keywords">
+                                                                    @error('meta_keywords')
+                                                                    <div style="color: red" class=" mb-2">{{ $message }}</div>
+                                                                    @enderror
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4 col-lg-4 col-xl-3">
+                                                                <div class="form-group">
+                                                                    <label>Meta Description</label>
+                                                                    <input type="text" class="form-control" placeholder="Meta Description" value="{{ $product->meta_description }}" name="meta_description">
+                                                                    @error('meta_description')
+                                                                    <div style="color: red" class=" mb-2">{{ $message }}</div>
+                                                                    @enderror
+                                                                </div>
+                                                            </div>
                                                             <div id="productTypeMain" class="col-md-4 col-lg-4 col-xl-3">
                                                                 <div class="form-group">
                                                                     <label for="newArrival" >New arrival </label>
