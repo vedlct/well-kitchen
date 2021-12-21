@@ -159,8 +159,10 @@ class ProductController extends Controller
         $product = new Product();
         $product->productCode = $request->productCode;
         $product->productName = $request->productName;
-        $product->slug = $request->slug;
+        $product->slug = str_replace(' ', '-', $request->slug);
         $product->tag = $request->tag;
+        $product->meta_keywords = $request->meta_keywords;
+        $product->meta_description = $request->meta_description;
         $product->categoryId = $request->categoryId;
         $product->fkbrandId = $request->fkbrandId;
         $product->fkidproduct_unit = $request->fkidproduct_unit;
@@ -560,8 +562,10 @@ class ProductController extends Controller
 
         $product->productCode = $request->productCode;
         $product->productName = $request->productName;
-        $product->slug = $request->slug;
+        $product->slug = str_replace(' ', '-', $request->slug);
         $product->tag = $request->tag;
+        $product->meta_keywords = $request->meta_keywords;
+        $product->meta_description = $request->meta_description;
         $product->categoryId = $request->categoryId;
         $product->fkbrandId = $request->fkbrandId;
         $product->fkidproduct_unit = $request->fkidproduct_unit;

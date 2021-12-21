@@ -4,7 +4,11 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Well Kitchen</title>
+    <title>@yield('title', 'Well Kitchen')</title>
+    <meta name="keywords" content="@yield('meta_keywords','some default keywords')">
+    <meta name="description" content="@yield('meta_description','default description')">
+    <link rel="canonical" href="{{url()->current()}}"/>
+
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->

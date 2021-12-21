@@ -61,7 +61,8 @@ Route::post('quick-view',[HomeController::class,'quickView'])->name('product.qui
 
 
 //product
-Route::get('product-details/{id}', [ProductController::class, 'productDetails'])->name('product.details');
+Route::get('product-details/{slug?}', [ProductController::class, 'productDetails'])->name('product.details');
+//Route::get('product-details/{id}', [ProductController::class, 'productDetails'])->name('product.details');
 Route::post('variation/color/choose',[ProductController::class,'colorChoose'])->name('color.choose');
 Route::get('compare/{skuId}',[ProductController::class,'compare'])->name('product.compare');
 Route::post('compare/search',[ProductController::class,'compareSearch'])->name('product.compareSearch');

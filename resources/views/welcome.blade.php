@@ -190,7 +190,7 @@
                     <div class="product-wrap mb-25">
                         <div class="product-img">
 {{-- <a href="product-details.html"> --}}
-                        <a href="{{ route('product.details', $sku->skuId) }}">
+                        <a href="{{ route('product.details', $sku->product->slug) }}">
                                                 <img class="default-img"
                                                     src="{{ asset('admin/public/featureImage/'.$sku->product->featureImage) }}"
                                                     alt="">
@@ -233,7 +233,7 @@
                                                     @endif
                     @if ($sku->product->type == 'variation')
                         <a title="Add To Cart"
-                            href="{{ route('product.details', $sku->skuId) }}"><i
+                            href="{{ route('product.details', $sku->product->slug) }}"><i
                                                                 class="pe-7s-cart"></i> Add to cart</a>
                                                     @endif
                         </div>
@@ -246,7 +246,7 @@
                                         </div>
                                         <div class="product-content text-center">
                                             <h3><a
-                                                    href="{{ route('product.details', $sku->skuId) }}">{{ substr($sku->product->productName, 0, 16)."..." }}</a>
+                                                    href="{{ route('product.details', $sku->product->slug) }}">{{ substr($sku->product->productName, 0, 16)."..." }}</a>
                                             </h3>
                                             <div class="product-price">
                                                 {{-- <span>৳  {{$sku->salePrice}}</span> --}}
@@ -330,7 +330,9 @@
                 <div class="col-6 col-xl-3 col-md-6 col-lg-4 col-sm-6">
                     <div class="product-wrap-5 mb-25">
                         <div class="product-img">
-                            <a href="{{ route('product.details', $sku->skuId) }}">
+{{--                            <a href="{{ route('product.details', ['id'=>$sku->skuId,'name'=>$sku->product->slug]) }}">--}}
+                            <a href="{{ route('product.details', $sku->product->slug) }}">
+{{--                            <a href="{{ route('product.details', $sku->skuId) }}">--}}
                                 <img src="{{ asset('admin/public/featureImage/' . $sku->product->featureImage) }}"
                                     alt="">
                             </a>
@@ -363,7 +365,7 @@
                                         onclick="addTocart({{ $sku->skuId }})"><i class="pe-7s-cart"></i></a>
                                     @endif
                                     @if ($sku->product->type == 'variation')
-                                    <a title="Add To Cart" href="{{ route('product.details', $sku->skuId) }}"><i
+                                    <a title="Add To Cart" href="{{ route('product.details', $sku->product->slug) }}"><i
                                             class="pe-7s-cart"></i></a>
                                     @endif
                                 </div>
@@ -375,7 +377,7 @@
                         </div>
                         <div class="product-content-5 text-center">
                             <h3><a
-                                    href="{{ route('product.details', $sku->skuId) }}">{{ substr($sku->product->productName, 0, 16)."..." }}</a>
+                                    href="{{ route('product.details', $sku->product->slug) }}">{{ substr($sku->product->productName, 0, 16)."..." }}</a>
                             </h3>
                             <div class="price-5">
                                 {{-- <span>৳  {{$sku->salePrice}}</span> --}}
@@ -475,7 +477,7 @@
                                         class="pe-7s-cart"></i> Add to cart</a>
                                 @endif
                                 @if($sku->product->type == "variation")
-                                <a title="Add To Cart" href="{{ route('product.details', $sku->skuId) }}"><i
+                                <a title="Add To Cart" href="{{ route('product.details', $sku->product->slug) }}"><i
                                         class="pe-7s-cart"></i> Add to cart</a>
                                 @endif
                             </div>
@@ -546,12 +548,10 @@
         </div>
         <div class="row">
             @foreach ($recommendeds->unique('fkproductId') as $sku)
-
-
                 <div class="col-6 col-xl-3 col-md-6 col-lg-4 col-sm-6">
                     <div class="product-wrap-5 mb-25">
                         <div class="product-img">
-                            <a href="{{ route('product.details', $sku->skuId) }}">
+                            <a href="{{ route('product.details', $sku->product->slug) }}">
                                 <img src="{{ asset('admin/public/featureImage/' . $sku->product->featureImage) }}"
                                     alt="">
                             </a>
@@ -596,7 +596,7 @@
                                         onclick="addTocart({{ $sku->skuId }})"><i class="pe-7s-cart"></i></a>
                                     @endif
                                     @if ($sku->product->type == 'variation')
-                                    <a title="Add To Cart" href="{{ route('product.details', $sku->skuId) }}"><i
+                                    <a title="Add To Cart" href="{{ route('product.details', $sku->product->slug) }}"><i
                                             class="pe-7s-cart"></i></a>
                                     @endif
 
@@ -609,7 +609,7 @@
                         </div>
                         <div class="product-content-5 text-center">
                             <h3><a
-                                    href="{{ route('product.details', $sku->skuId) }}">{{ substr($sku->product->productName, 0, 16)."..." }}</a>
+                                    href="{{ route('product.details', $sku->product->slug) }}">{{ substr($sku->product->productName, 0, 16)."..." }}</a>
                             </h3>
                             <div class="price-5">
                                 {{-- <span>৳  {{$sku->salePrice}}</span> --}}
@@ -682,11 +682,10 @@ $query->where('categoryId', $category->categoryId)->where('status', 'active');
         <div class="row">
             @foreach ($catSkus->unique('fkproductId') as $key => $sku)
 
-
                 <div class="col-6 col-xl-3 col-md-6 col-lg-4 col-sm-6 {{ $key>3 ? 'd-none d-md-block' : '' }} ">
                     <div class="product-wrap-5 mb-25">
                         <div class="product-img">
-                            <a href="{{ route('product.details', $sku->skuId) }}">
+                            <a href="{{ route('product.details', $sku->product->slug) }}">
                                 <img src="{{ asset('admin/public/featureImage/' . $sku->product->featureImage) }}"
                                     alt="">
                             </a>
@@ -730,7 +729,7 @@ $query->where('categoryId', $category->categoryId)->where('status', 'active');
                                         onclick="addTocart({{ $sku->skuId }})"><i class="pe-7s-cart"></i></a>
                                     @endif
                                     @if ($sku->product->type == 'variation')
-                                    <a title="Add To Cart" href="{{ route('product.details', $sku->skuId) }}"><i
+                                    <a title="Add To Cart" href="{{ route('product.details', $sku->product->slug) }}"><i
                                             class="pe-7s-cart"></i></a>
                                     @endif
 
@@ -743,7 +742,7 @@ $query->where('categoryId', $category->categoryId)->where('status', 'active');
                         </div>
                         <div class="product-content-5 text-center">
                             <h3><a
-                                    href="{{ route('product.details', $sku->skuId) }}">{{ substr($sku->product->productName, 0, 16)."..." }}</a>
+                                    href="{{ route('product.details', $sku->product->slug) }}">{{ substr($sku->product->productName, 0, 16)."..." }}</a>
                             </h3>
                             <div class="price-5">
                                 {{-- <span>৳  {{$sku->salePrice}}</span> --}}
@@ -994,7 +993,7 @@ $query->where('categoryId', $category->categoryId)->where('status', 'active');
                                     onclick="addTocart({{ $sku->skuId }})"><i class="pe-7s-cart"></i> Add to cart</a>
                                 @endif
                                 @if($sku->product->type == "variation")
-                                <a title="Add To Cart" href="{{ route('product.details', $sku->skuId) }}"><i
+                                <a title="Add To Cart" href="{{ route('product.details', $sku->product->slug) }}"><i
                                         class="pe-7s-cart"></i> Add to cart</a>
                                 @endif
                             </div>

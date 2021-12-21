@@ -17,12 +17,19 @@ use Session;
 
 class ProductController extends Controller
 {
-    public function productDetails($id)
+    public function productDetails($slug)
     {
+        $id = Sku::where('fkproductId', Product::where('slug', $slug)
+            ->pluck('productId'))
+            ->where('status', 'active')
+            ->pluck('skuId');
+        $id = $id[0];
+
+
         $parentCategory = null;
         $subCategory = null;
         // dd(\Request::ip());
-        // dd($id);
+
 
         //insert command for views
 
