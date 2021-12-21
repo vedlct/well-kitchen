@@ -125,7 +125,7 @@
                     <li><a href="{{route('contact')}}">Contact</a>
                     <li><a href="{{route('offers')}}">Offers</a>
                         @foreach($menu->where('menuType','Header')->sortByDesc('menuOrder')->take(8) as $headerMenu)
-                            <li><a href="{{route('page',$headerMenu->fkpageId)}}">{{$headerMenu->menuName}}</a>
+                            <li><a href="{{route('page',@$headerMenu->page->slug)}}">{{$headerMenu->menuName}}</a>
                         @endforeach
 
                 <!-- demo category start -->
@@ -482,7 +482,7 @@
                                             <li><a href="404.html">404 page </a></li>
                                         </ul>
                                     </li> --}}
-                                        <li><a href="{{route('page',$headerMenu->fkpageId)}}">{{$headerMenu->menuName}}</a>
+                                        <li><a href="{{route('page',$headerMenu->page->slug)}}">{{$headerMenu->menuName}}</a>
                                     @endforeach
                                 </ul>
                             </nav>

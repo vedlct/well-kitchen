@@ -80,7 +80,7 @@ Route::post('/search-category-product' ,[CategoryController::class,'searchByProd
     Route::get('remove-wishlist/{id}',[WishlistController::class,'RemoveItem'])->name('wishlistRemove');
 
 
-    Route::get('page/{id}',[PageController::class,'index'])->name('page');
+    Route::get('page/{slug?}',[PageController::class,'index'])->name('page');
 
     Route::post('review-submit',[ReviewController::class,'ReviewSubmit'])->name('review.submit')->middleware('auth');
 
