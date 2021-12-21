@@ -31,9 +31,9 @@
                                     <div class="card-body">
                                         <form class="form" action="{{ route('page.store') }}" method="post" enctype="multipart/form-data">
                                             @csrf
-                                            
+
                                             <div class="form-body">
-                                                
+
                                                 <div class="form-group">
                                                     <label>Page Title</label>
                                                     <input class="form-control" type="text" name="pageTitle" placeholder="Page Name" value="{{old('pageTitle', $pageInfo->pageTitle ?? null)}}">
@@ -54,6 +54,20 @@
                                                     @if($errors->has('image'))
                                                         <span class="text-danger"><b>{{$errors->first('image')}}</b></span>
                                                     @endif
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Meta Keyword</label>
+                                                    <input type="text" class="form-control" placeholder="Meta Keywords" value="{{ old('meta_keywords') }}" name="meta_keywords">
+                                                    @error('meta_keywords')
+                                                    <div style="color: red" class=" mb-2">{{ $message }}</div>
+                                                    @enderror
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Meta Description</label>
+                                                    <input type="text" class="form-control" placeholder="Meta Description" value="{{ old('meta_description') }}" name="meta_description">
+                                                    @error('meta_description')
+                                                    <div style="color: red" class=" mb-2">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Status</label>
@@ -89,4 +103,4 @@
             CKEDITOR.replace('details');
         });
         </script>
-@endsection        
+@endsection

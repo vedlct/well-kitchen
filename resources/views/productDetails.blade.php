@@ -1,7 +1,7 @@
 @extends('layouts.layout')
-@section('title', $product->productName)
-@section('meta_keywords', $product->meta_keywords)
-@section('meta_description', $product->meta_description)
+@section('title', @$product->productName)
+@section('meta_keywords', @$product->meta_keywords)
+@section('meta_description', @$product->meta_description)
 
 @section('container')
 <div class="breadcrumb-area pt-35">

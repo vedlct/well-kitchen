@@ -59,6 +59,8 @@ class PageController extends Controller
         // }
         $page->pageTitle = $r->pageTitle;
         $page->details = $r->details;
+        $page->meta_keywords = $r->meta_keywords;
+        $page->meta_description = $r->meta_description;
         $page->status = $r->status;
         $page->save();
 
@@ -76,7 +78,7 @@ class PageController extends Controller
     public function edit($pageId){
         $page =Page::where('pageId', $pageId)->first();
          return view('page.edit', compact('page'));
-    
+
     }
 
     public function update(Request $r, $pageId){
@@ -87,6 +89,8 @@ class PageController extends Controller
         $page = Page::where('pageId', $pageId)->first();
         $page->pageTitle = $r->pageTitle;
         $page->details = $r->details;
+        $page->meta_keywords = $r->meta_keywords;
+        $page->meta_description = $r->meta_description;
         $page->status = $r->status;
         $page->save();
 
