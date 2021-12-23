@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use datatables;
 use App\Models\Page;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 use Session;
 use File;
@@ -58,6 +59,7 @@ class PageController extends Controller
             $page = new Page();
         // }
         $page->pageTitle = $r->pageTitle;
+        $page->slug = Str::slug($r->pageTitle);
         $page->details = $r->details;
         $page->meta_keywords = $r->meta_keywords;
         $page->meta_description = $r->meta_description;
@@ -88,6 +90,7 @@ class PageController extends Controller
 
         $page = Page::where('pageId', $pageId)->first();
         $page->pageTitle = $r->pageTitle;
+        $page->slug = Str::slug($r->pageTitle);
         $page->details = $r->details;
         $page->meta_keywords = $r->meta_keywords;
         $page->meta_description = $r->meta_description;

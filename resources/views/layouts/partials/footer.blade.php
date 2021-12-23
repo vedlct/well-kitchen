@@ -35,7 +35,7 @@
                         <div class="footer-list">
                             <ul>
                                 @foreach($menu->where('menuType','Footer')->sortByDesc('menuOrder')->take(4) as $footerMenu)
-                                <li><a href="{{route('page',$footerMenu->fkpageId)}}">{{$footerMenu->menuName}}</a></li>
+                                <li><a href="{{route('page',@$footerMenu->page->slug)}}">{{$footerMenu->menuName}}</a></li>
                                 @endforeach
                             </ul>
                         </div>
@@ -248,7 +248,7 @@
 
 
 
-             
+
                 $(".reviewsCount").html(data.revCount);
 
                 if(data.finalRating > 0) {

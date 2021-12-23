@@ -7,14 +7,14 @@
         </div>
 
 
-        
+
 
 
         <div>
             <div class="row" id="">
 
                 @foreach ($skus->unique('fkproductId') as $sku)
-                   
+
                     @php
                         $hotDeal = $sku->product->hotdealProducts
                             ->where('hotdeals.status', 'Available')
@@ -28,7 +28,7 @@
                         <div class="col-6 col-md-3 shop-col-item">
                             <div class="product-wrap mb-25 scroll-zoom">
                                 <div class="product-img">
-                                    <a href="{{ route('product.details', $sku->skuId) }}">
+                                    <a href="{{ route('product.details', $sku->product->slug) }}">
                                         <img class="default-img"
                                             src="{{ asset('admin/public/featureImage/' . $sku->product()->first()->featureImage) }}"
                                             alt="">
@@ -60,7 +60,7 @@
                                         <span class="blue discount">-{{ $sku->discount }}%</span>
                                     @endif
 
-            
+
 
                                     @if ($sku->product->isrecommended == 1)
                                         <span class="pink">Feature</span>
@@ -79,11 +79,11 @@
                                                         class="pe-7s-cart"></i> Add to cart</a>
                                             @endif
                                             @if ($sku->product()->first()->type == 'variation')
-                                                <a title="Add To Cart" 
-                                                    href="{{ route('product.details', $sku->skuId) }}"><i
+                                                <a title="Add To Cart"
+                                                    href="{{ route('product.details', $sku->product->slug) }}"><i
                                                         class="pe-7s-cart"></i> Add to cart</a>
                                             @endif
-                                         
+
                                         </div>
                                         <div class="pro-same-action pro-quickview">
                                             <a href="#" data-toggle="modal" class="quickView"
@@ -94,10 +94,10 @@
                                 </div>
                                 <div class="product-content text-center">
                                     <h3><a
-                                            href="{{ route('product.details', $sku->skuId) }}">{{ substr($sku->product()->first()->productName, 0, 16) . '...' }}</a>
+                                            href="{{ route('product.details', $sku->product->slug) }}">{{ substr($sku->product()->first()->productName, 0, 16) . '...' }}</a>
                                     </h3>
                                     <div class="product-price">
-                                 
+
 
 
                                         @php
@@ -166,7 +166,7 @@
         </div>
 
 
-       
+
 
 
 

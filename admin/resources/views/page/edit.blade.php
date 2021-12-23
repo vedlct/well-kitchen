@@ -65,14 +65,14 @@
                                                 @endif
                                                 <div class="form-group">
                                                     <label>Meta Keyword</label>
-                                                    <input type="text" class="form-control" placeholder="Meta Keywords" value="{{ $product->meta_keywords }}" name="meta_keywords">
+                                                    <input type="text" class="form-control" placeholder="Meta Keywords" value="{{ $page->meta_keywords }}" name="meta_keywords">
                                                     @error('meta_keywords')
                                                     <div style="color: red" class=" mb-2">{{ $message }}</div>
                                                     @enderror
                                                 </div>
                                                 <div class="form-group">
                                                     <label>Meta Description</label>
-                                                    <input type="text" class="form-control" placeholder="Meta Description" value="{{ $product->meta_description }}" name="meta_description">
+                                                    <input type="text" class="form-control" placeholder="Meta Description" value="{{ $page->meta_description }}" name="meta_description">
                                                     @error('meta_description')
                                                     <div style="color: red" class=" mb-2">{{ $message }}</div>
                                                     @enderror
