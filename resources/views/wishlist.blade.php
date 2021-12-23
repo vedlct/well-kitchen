@@ -27,7 +27,8 @@
                                 @foreach ($lists as $item)
                                     <tr>
                                         <td class="product-thumbnail">
-                                            <a href=" {{route('product.details',$item->product->sku->first()->skuId)}} "><img src="{{asset('admin/public/featureImage/'.$item->product->featureImage)}}" alt=""></a>
+                                            <a href=" {{route('product.details',$item->product->slug)}} "><img src="{{asset('admin/public/featureImage/'.$item->product->featureImage)}}" alt=""></a>
+{{--                                            <a href=" {{route('product.details',$item->product->sku->first()->skuId)}} "><img src="{{asset('admin/public/featureImage/'.$item->product->featureImage)}}" alt=""></a>--}}
                                         </td>
                                         <td class="product-name"><a href="#">{{$item->product->productName}}</a></td>
                                         <td class="product-price-cart"><span class="amount">৳{{$item->product->sku->first()->regularPrice}}</span></td>
@@ -43,7 +44,8 @@
                                             <a href="#" onclick="addTocart({{$item->product->sku->first()->skuId}})">add to cart</a>
                                             @endif
                                             @if($item->product->type == 'variation')
-                                            <a href="{{route('product.details',$item->product->sku->first()->skuId)}}">add to cart</a>
+                                            <a href="{{route('product.details',$item->product->slug)}}">add to cart</a>
+{{--                                            <a href="{{route('product.details',$item->product->sku->first()->skuId)}}">add to cart</a>--}}
                                             @endif
                                         </td>
                                         <td class="product-wishlist-cart">

@@ -37,7 +37,7 @@
                             <div class="compareOneHide">
                             <img src="{{asset('admin/public/featureImage/'.$sku->product->featureImage)}}" alt="" class="img-fluid mb-3 w-100">
                             <h4 class="text-center">
-                                <a href="{{route('product.details', $sku->skuId)}}">{{$sku->product->productName}}</a>
+                                <a href="{{route('product.details', $sku->product->slug)}}">{{$sku->product->productName}}</a>
                             </h4>
                             <h5 class="text-center compare-price">{{$sku->salePrice}}৳</h5>
                             </div>

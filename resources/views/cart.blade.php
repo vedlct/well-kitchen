@@ -25,12 +25,12 @@
                                         <tr class="cartRow{{ $item->associatedModel->sku->first()->skuId }}">
                                             <td class="product-thumbnail">
                                                 <a
-                                                    href="{{ route('product.details', $item->associatedModel->sku->first()->skuId) }}"><img
+                                                    href="{{ route('product.details', $item->associatedModel->sku->first()->product->slug) }}"><img
                                                         src="{{ url('admin/public/featureImage/') . '/' . $item->associatedModel->featureImage }}"
                                                         alt=""></a>
                                             </td>
                                             <td class="product-name"><a
-                                                    href="{{ route('product.details', $item->associatedModel->sku->first()->skuId) }}">{{ $item->associatedModel->productName }}</a>
+                                                    href="{{ route('product.details', $item->associatedModel->sku->first()->product->slug) }}">{{ $item->associatedModel->productName }}</a>
                                             </td>
                                             <td>
                                                 @if ($item->attributes['variations'])

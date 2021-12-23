@@ -83,7 +83,7 @@
                         <i class="fa fa-angle-right float-right"></i>
                     </a>
                     @else
-                    <a  href="{{route('category.products', $parentCategory->categoryId)}}">{{ $parentCategory->categoryName }}</a>
+                    <a  href="{{route('category.products', @$parentCategory->slug)}}">{{ $parentCategory->categoryName }}</a>
                     @endif
 
                     <!-- sub category -->
@@ -93,7 +93,7 @@
                         <li>
                             @if($subSubCategories->where('subParent', $subCategory->categoryId)->count() > 0)
 
-                            <a  href="{{route('category.products', $parentCategory->categoryId)}}" >View All</a>
+                            <a  href="{{route('category.products', @$parentCategory->slug)}}" >View All</a>
 
                             <a class="d-block collapsed" data-toggle="collapse" href="#oneTwo{{$keyItem}} " role="button" aria-expanded="false" aria-controls="showCategorySubmenu">{{ $subCategory->categoryName }}
 
@@ -101,15 +101,15 @@
 
                             </a>
                             @else
-                            <a  href="{{route('category.products', $subCategory->categoryId)}}" >{{ $subCategory->categoryName }}</a>
+                            <a  href="{{route('category.products', @$subCategory->slug)}}" >{{ $subCategory->categoryName }}</a>
                             @endif
                             <!-- sub sub category -->
                             <div class="collapse" id="oneTwo{{$keyItem}}" style="">
                                 <ul class="ml-3">
                                     @foreach($subSubCategories->where('subParent', $subCategory->categoryId) as $subParentCategory)
                                     <li>
-                                        <a  href="{{route('category.products', $subCategory->categoryId)}}" >View All</a>
-                                        <a href="{{route('category.products', $subParentCategory->categoryId)}}"> {{ $subParentCategory->categoryName }}</a>
+                                        <a  href="{{route('category.products', @$subCategory->slug)}}" >View All</a>
+                                        <a href="{{route('category.products', @$subParentCategory->slug)}}"> {{ $subParentCategory->categoryName }}</a>
                                     </li>
                                     @endforeach
                                 </ul>
@@ -384,7 +384,7 @@
                             <ul class="parent-category list-group list-group-flush">
                                 @foreach($allCategories as $parentCategory)
                                     <li class="list-group-item @if($subCategories->where('parent', $parentCategory->categoryId)->count() > 0) has-sub-category @endif">
-                                        <a href="{{route('category.products', $parentCategory->categoryId)}}" class="d-block">
+                                        <a href="{{route('category.products', @$parentCategory->slug)}}" class="d-block">
                                             {{ $parentCategory->categoryName }}
                                             @if($subCategories->where('parent', $parentCategory->categoryId)->count() > 0)
                                                 <i class="fa fa-angle-right float-right"></i>
@@ -395,7 +395,7 @@
                                             <ul class="sub-category list-group list-group-flush">
                                                 @foreach($subCategories->where('parent', $parentCategory->categoryId) as $subCategory)
                                                     <li class="list-group-item">
-                                                        <a href="{{route('category.products', $subCategory->categoryId)}}">{{ $subCategory->categoryName }}</a>
+                                                        <a href="{{route('category.products', @$subCategory->slug)}}">{{ $subCategory->categoryName }}</a>
                                                     </li>
                                                 @endforeach
                                             </ul>
@@ -418,7 +418,7 @@
                                         @foreach($allCategories as $parentCategory)
                                         <li>
 
-                                            <a href="{{route('category.products', $parentCategory->categoryId)}}">{{ $parentCategory->categoryName }}
+                                            <a href="{{route('category.products', @$parentCategory->slug)}}">{{ $parentCategory->categoryName }}
                                                 @if($subCategories->where('parent', $parentCategory->categoryId)->count() > 0)
                                                 <i class="fa fa-angle-right float-right"></i>
                                                 @endif
@@ -428,7 +428,7 @@
                                                 @foreach($subCategories->where('parent', $parentCategory->categoryId) as $subCategory)
                                                 <li>
 
-                                                    <a href="{{route('category.products', $subCategory->categoryId)}}">{{ $subCategory->categoryName }}
+                                                    <a href="{{route('category.products', @$subCategory->slug)}}">{{ $subCategory->categoryName }}
                                                         @if($subSubCategories->where('subParent', $subCategory->categoryId)->count() > 0)
                                                         <i class="fa fa-angle-right float-right"></i>
                                                         @endif
@@ -436,7 +436,7 @@
                                                     @foreach($subSubCategories->where('subParent', $subCategory->categoryId) as $subParentCategory)
                                                     <ul>
                                                         @foreach($subSubCategories->where('subParent', $subCategory->categoryId) as $subParentCategory)
-                                                            <li><a href="{{route('category.products', $subParentCategory->categoryId)}}">{{ $subParentCategory->categoryName }} </a>
+                                                            <li><a href="{{route('category.products', @$subParentCategory->slug)}}">{{ $subParentCategory->categoryName }} </a>
 
                                                             </li>
                                                         @endforeach

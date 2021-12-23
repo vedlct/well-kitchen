@@ -16,14 +16,14 @@
                 </li> --}}
                 @if($subCategory != null)
                     @if($parentCategory != null)
-                        <li class="active"><a href="{{route('category.products', $parentCategory->categoryId)}}">{{$parentCategory->categoryName}}</a></li>
+                        <li class="active"><a href="{{route('category.products', @$parentCategory->slug)}}">{{$parentCategory->categoryName}}</a></li>
                     @endif
 
-                        <li class="active"><a href="{{route('category.products', $subCategory->categoryId)}}">{{$subCategory->categoryName}}</a></li>
+                        <li class="active"><a href="{{route('category.products', @$subCategory->slug)}}">{{$subCategory->categoryName}}</a></li>
 
                     @else
                     @if($parentCategory != null)
-                        <li class="active"><a href="{{route('category.products', $parentCategory->categoryId)}}">{{$parentCategory->categoryName}}</a></li>
+                        <li class="active"><a href="{{route('category.products', @$parentCategory->slug)}}">{{$parentCategory->categoryName}}</a></li>
                     @endif
                 @endif
                 @if($categoryId != null)
@@ -410,7 +410,7 @@
                 {{--  @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->where('hotdeals.percentage', '>', 0)->first()@endphp  --}}
                 <div class="product-wrap mb-25">
                     <div class="product-img">
-                        <a href="{{route('product.details',$sku->skuId)}}">
+                        <a href="{{route('product.details',$sku->product->slug)}}">
                            <img class="default-img" src="{{asset('admin/public/featureImage/'.$sku->product->featureImage)}}" alt="">
                         </a>
                         @if($sku->product->newarrived == 1)
@@ -453,7 +453,7 @@
                                     <a title="Add To Cart" href="javascript: void(0)" onclick="addTocart({{$sku->skuId}})"><i class="pe-7s-cart"></i>Add to cart</a>
                                 @endif
                                 @if($sku->product->type == "variation")
-                                    <a title="Add To Cart" href="{{route('product.details',$sku->skuId)}}" ><i class="pe-7s-cart"></i>Add to cart</a>
+                                    <a title="Add To Cart" href="{{route('product.details',$sku->product->slug)}}" ><i class="pe-7s-cart"></i>Add to cart</a>
                                 @endif
                             </div>
                             <div class="pro-same-action pro-quickview">
@@ -465,7 +465,7 @@
                         </div>
                     </div>
                     <div class="product-content text-center">
-                        <h3><a href="{{route('product.details',$sku->skuId)}}">{{ substr($sku->product->productName, 0, 16)."..." }}</a></h3>
+                        <h3><a href="{{route('product.details',$sku->product->slug)}}">{{ substr($sku->product->productName, 0, 16)."..." }}</a></h3>
                         <div class="product-price">
 
                             @php $hotDeal = $sku->product->hotdealProducts->where('hotdeals.status', 'Available')->where('hotdeals.startDate', '<=', date('Y-m-d H:i:s'))->where('hotdeals.endDate', '>=', date('Y-m-d H:i:s'))->where('hotdeals.percentage', '>', 0)->first()@endphp

@@ -15,9 +15,12 @@ use DB;
 
 class CategoryController extends Controller
 {
-    public function categoryProducts($categoryId = null)
+    public function categoryProducts($slug = null)
     {
         // dd($categoryId);
+        $categoryIdFind=Category::where('slug', $slug)->first();
+        $categoryId = $categoryIdFind->categoryId;
+
         $parentCategory = null;
         $subCategory = null;
         $minmaxPrice =  null;
@@ -50,7 +53,7 @@ class CategoryController extends Controller
                 ->groupBy('product.categoryId')
                 ->first();
 
-            // dd($skuss); 
+            // dd($skuss);
 
         }
 
@@ -91,7 +94,7 @@ class CategoryController extends Controller
     //         $skuss = Sku::with('product')->whereIn('skuId', $skusIds)->whereHas('product', function ($query) {
     //             $query->where('status', 'active');
     //         })->get();
-           
+
     //         $categoryId = $skuss->first()->product->categoryId;
 
     //         $category = $skuss->first()->product->category;
@@ -158,7 +161,7 @@ class CategoryController extends Controller
 
             $category = $skuss->first()->product->category;
 
-           
+
 
 
             if ($category) {
@@ -293,7 +296,7 @@ class CategoryController extends Controller
             // if ($skip < 0) {
             //     $skip = 0;
             // }
-    
+
             // $skuss = $skuss->skip($skip)->paginate($per_paginate);
         }
         if (!empty($request->price) && $request->price == 'Low to High') {
@@ -303,7 +306,7 @@ class CategoryController extends Controller
             // if ($skip < 0) {
             //     $skip = 0;
             // }
-    
+
             // $skuss = $skuss->skip($skip)->paginate($per_paginate);
         }
 
@@ -312,7 +315,7 @@ class CategoryController extends Controller
         }
         if (!empty($request->price) && $request->price == 'z-a') {
             $skuss = $skuss->with('product')->get()->sortByDesc('product.productName');
-           
+
         }
 
         if (!empty($request->price) && $request->price == 'instock') {
