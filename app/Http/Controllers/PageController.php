@@ -7,9 +7,9 @@ use App\Models\Page;
 
 class PageController extends Controller
 {
-    public function index($id)
+    public function index($slug)
     {
-        $page=Page::findOrfail($id);
+        $page=Page::where('slug', $slug)->first();
         return view('page',compact('page'));
     }
 }

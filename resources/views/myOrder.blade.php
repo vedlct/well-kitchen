@@ -25,12 +25,12 @@
                                             @foreach ($item->orderedProduct as $orderitem)
                                                 <tr>
                                                     <td class="product-thumbnail">
-                                                        <a href="{{ route('product.details', $orderitem->sku->skuId) }}"><img
+                                                        <a href="{{ route('product.details', $orderitem->sku->product->slug) }}"><img
                                                                 src="{{ asset('admin/public/featureImage/' . $orderitem->sku->product->featureImage) }}"
                                                                 alt=""></a>
                                                     </td>
                                                     <td class="product-name"><a
-                                                            href="{{ route('product.details', $orderitem->sku->skuId) }}">{{ $orderitem->sku->product->productName }}</a>
+                                                            href="{{ route('product.details', $orderitem->sku->product->slug) }}">{{ $orderitem->sku->product->productName }}</a>
                                                     </td>
                                                     <td class="product-price-cart"><span
                                                             class="amount">&#2547;{{ $orderitem->sku->salePrice }}</span>

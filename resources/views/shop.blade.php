@@ -14,18 +14,18 @@
                     @if ($subCategory != null)
                         @if ($parentCategory != null)
                             <li class="active"><a
-                                    href="{{ route('category.products', $parentCategory->categoryId) }}">{{ $parentCategory->categoryName }}</a>
+                                    href="{{ route('category.products', @$parentCategory->slug) }}">{{ $parentCategory->categoryName }}</a>
                             </li>
                         @endif
 
                         <li class="active"><a
-                                href="{{ route('category.products', $subCategory->categoryId) }}">{{ $subCategory->categoryName }}</a>
+                                href="{{ route('category.products', @$subCategory->slug) }}">{{ $subCategory->categoryName }}</a>
                         </li>
 
                     @else
                         @if ($parentCategory != null)
                             <li class="active"><a
-                                    href="{{ route('category.products', $parentCategory->categoryId) }}">{{ $parentCategory->categoryName }}</a>
+                                    href="{{ route('category.products', @$parentCategory->slug) }}">{{ $parentCategory->categoryName }}</a>
                             </li>
                         @endif
                     @endif
@@ -117,7 +117,7 @@
                                                 <div class="col-6 col-md-3 shop-col-item">
                                                     <div class="product-wrap mb-25 scroll-zoom">
                                                         <div class="product-img">
-                                                            <a href="{{ route('product.details', $sku->skuId) }}">
+                                                            <a href="{{ route('product.details', $sku->product->slug) }}">
                                                                 <img class="default-img"
                                                                     src="{{ asset('admin/public/featureImage/' . $sku->product()->first()->featureImage) }}"
                                                                     alt="">
@@ -170,8 +170,8 @@
                                                                                 class="pe-7s-cart"></i> Add to cart</a>
                                                                     @endif
                                                                     @if ($sku->product()->first()->type == 'variation')
-                                                                        <a title="Add To Cart" 
-                                                                            href="{{ route('product.details', $sku->skuId) }}"><i
+                                                                        <a title="Add To Cart"
+                                                                            href="{{ route('product.details', $sku->product->slug) }}"><i
                                                                                 class="pe-7s-cart"></i> Add to cart</a>
                                                                     @endif
                                                                     {{-- <a title="Add To Cart" href="javascript: void(0)"><i class="pe-7s-cart"></i> Add to cart</a> --}}
@@ -185,7 +185,7 @@
                                                         </div>
                                                         <div class="product-content text-center">
                                                             <h3><a
-                                                                    href="{{ route('product.details', $sku->skuId) }}">{{ substr($sku->product()->first()->productName, 0, 16) . '...' }}</a>
+                                                                    href="{{ route('product.details', $sku->product->slug) }}">{{ substr($sku->product()->first()->productName, 0, 16) . '...' }}</a>
                                                             </h3>
                                                             <div class="product-price">
                                                                 {{-- <span>৳  {{$sku->salePrice}}</span> --}}

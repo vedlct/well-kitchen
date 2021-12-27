@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Datatables;
+use Illuminate\Support\Str;
 use Session;
 use File;
 use Intervention\Image\Facades\Image;
@@ -49,6 +50,7 @@ class CategoryController extends Controller
 
         $category = new Category();
         $category->categoryName = $request->categoryName;
+        $category->slug = Str::slug($request->categoryName);
         $category->parent = $request->parent;
         $category->subParent = $request->subParent;
         $category->homeShow = $request->homeShow;
@@ -79,6 +81,7 @@ class CategoryController extends Controller
 
         $category = Category::where('categoryId', $categoryId)->first();
         $category->categoryName = $request->categoryName;
+        $category->slug = Str::slug($request->categoryName);
         $category->parent = $request->parent;
         $category->subParent = $request->subParent;
         $category->homeShow = $request->homeShow;

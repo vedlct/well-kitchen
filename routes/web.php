@@ -45,7 +45,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/offers', [HomeController::class, 'offers'])->name('offers');
 Route::get('/offers/product/{id}', [HomeController::class, 'offersProduct'])->name('offers.product');
 // Route::get('/product-details/{id}', [HomeController::class, 'productDetails'])->name('product.details');
-Route::get('/categories/{categoryId?}', [CategoryController::class, 'categoryProducts'])->name('category.products');
+Route::get('/categories/{slug?}', [CategoryController::class, 'categoryProducts'])->name('category.products');
 Route::get('/feature/all/products', [CategoryController::class, 'featureviewAll'])->name('feature.viewAll');
 Route::post('filter/products',[CategoryController::class,'filterProducts'])->name('filter.products');
 Route::post('filter-price/products',[CategoryController::class,'filterProductsPrice'])->name('price.filter');
@@ -80,7 +80,7 @@ Route::post('/search-category-product' ,[CategoryController::class,'searchByProd
     Route::get('remove-wishlist/{id}',[WishlistController::class,'RemoveItem'])->name('wishlistRemove');
 
 
-    Route::get('page/{id}',[PageController::class,'index'])->name('page');
+    Route::get('page/{slug?}',[PageController::class,'index'])->name('page');
 
     Route::post('review-submit',[ReviewController::class,'ReviewSubmit'])->name('review.submit')->middleware('auth');
 

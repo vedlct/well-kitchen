@@ -39,7 +39,7 @@
                 <ul class="row nav nav-tabs" id="nav-tab" role="tablist">
                     @foreach ($categories as $key=>$category)
         <li class="col-md-6 col-lg-3 col-6 mb-3">
-            <a class="{{$key == 0 ? 'active' : '' }}" href="{{route('category.products', $category->categoryId)}}">
+            <a class="{{$key == 0 ? 'active' : '' }}" href="{{route('category.products', @$category->slug)}}">
                             <div class="category-name h-100">
                                 <h4 class="mb-0">
                                     <span>{{$category->categoryName}}</span>
@@ -71,7 +71,7 @@
 
             @if(count($categoryFS->products) > 0 && !empty($categoryFS->imageLink))
             <div class="col-img category_image banner-2">
-                <a href="{{route('category.products', $categoryFS->categoryId)}}" style="">
+                <a href="{{route('category.products', @$categoryFS->slug)}}" style="">
                     <img class="default-img" src="{{ asset('admin/public/categoryImage/'.$categoryFS->imageLink) }}"
                         alt="">
                     <p style="text-align: center; margin-top: 12px; font-weight: 600;">{{$categoryFS->categoryName}}
@@ -442,7 +442,7 @@
                 @if (!empty($sku->product))
                 <div class="product-wrap mb-25">
                     <div class="product-img">
-                        <a href="{{route('product.details',$sku->skuId)}}">
+                        <a href="{{route('product.details',$sku->product->slug)}}">
                             <img class="default-img"
                                 src="{{asset('admin/public/featureImage/'.$sku->product->featureImage)}}" alt="">
                         </a>
@@ -490,7 +490,7 @@
                     </div>
                     <div class="product-content text-center">
                         <h3>
-                            <a href="{{route('product.details',$sku->skuId)}}">{{ substr($sku->product->productName, 0, 16)."..." }}</a>
+                            <a href="{{route('product.details',$sku->product->slug)}}">{{ substr($sku->product->productName, 0, 16)."..." }}</a>
                         </h3>
                         <div class="product-price">
 
@@ -790,7 +790,7 @@ $query->where('categoryId', $category->categoryId)->where('status', 'active');
 
         </div>
         <div class="text-center">
-            <a href="{{ route('category.products', $category->categoryId) }}" class="btn btn-secondary">View
+            <a href="{{ route('category.products', @$category->slug) }}" class="btn btn-secondary">View
                 All
                 Products</a>
         </div>
@@ -958,7 +958,7 @@ $query->where('categoryId', $category->categoryId)->where('status', 'active');
                 @if (!empty($sku->product))
                 <div class="product-wrap mb-25">
                     <div class="product-img">
-                        <a href="{{route('product.details',$sku->skuId)}}">
+                        <a href="{{route('product.details',$sku->product->slug)}}">
                             <img class="default-img"
                                 src="{{asset('admin/public/featureImage/'.$sku->product->featureImage)}}" alt="">
                         </a>
@@ -1006,7 +1006,7 @@ $query->where('categoryId', $category->categoryId)->where('status', 'active');
                     </div>
                     <div class="product-content text-center">
                         <h3>
-                            <a href="{{route('product.details',$sku->skuId)}}">{{ substr($sku->product->productName, 0, 16)."..." }}</a>
+                            <a href="{{route('product.details',$sku->product->slug)}}">{{ substr($sku->product->productName, 0, 16)."..." }}</a>
                         </h3>
                         <div class="product-price">
 
