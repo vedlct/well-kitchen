@@ -189,6 +189,12 @@ class HomeController extends Controller
             //     $percentage = $hotDeal->hotdeals->percentage;
             //     $afterDiscountPrice = ($sku->salePrice) - (($sku->salePrice)*$percentage)/100;
             // }
+// dd(Sesion::has('promoCode'));
+
+// else{
+// // dd('no session');
+// }
+
 
             \Cart::add(array(
                 'id' => $sku->skuId,
@@ -206,6 +212,20 @@ class HomeController extends Controller
             $cart=\Cart::getContent();
             $cartQuantity=\Cart::getContent()->count();
             $total = number_format(\Cart::getSubTotal());
+
+            if(Session::has('promoCode')){
+                $cuponAmount =  Session::get('promoCode');
+                
+                // dd((\Cart::getSubTotal() * $cuponAmount) / 100);
+                $increasediscount = (\Cart::getSubTotal() * $cuponAmount) / 100;
+                $newTotal = \Cart::getSubTotal() - $increasediscount;
+                // dd($cuponAmount);
+                // $discountAmount = Session::get('discountAmount');
+                // $increasediscount = $cuponAmount + $discountAmount;
+                // dd($increasediscount);
+                Session::put('discountAmount', $increasediscount);
+                Session::put('sub', $newTotal);
+            }
             return response()->json(['cartPage'=>$cartPage, 'cart'=>$cart, 'cartQuantity'=>$cartQuantity, 'total'=>$total],200);
         } else {
             return response()->json(['Quantity'=>'Stock not available'],400);
