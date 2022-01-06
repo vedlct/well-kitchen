@@ -163,6 +163,10 @@ class CheckoutController extends Controller
                 // $order->orderTotal = Session::get('sub') + $deliveryFee;
                 $order->orderTotal = Session::get('sub');
             }
+            if (Session::has('promoId')) {
+                // $order->orderTotal = Session::get('sub') + $deliveryFee;
+                $order->promoId = Session::get('promoId');
+            }
             if (!Session::has('sub')) {
                 // $order->orderTotal = \Cart::getSubTotal() + $deliveryFee;
                 $order->orderTotal = \Cart::getSubTotal();

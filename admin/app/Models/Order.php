@@ -40,6 +40,11 @@ class Order extends Model
     {
         return $this->hasOne('App\Models\DeliveryServiceBalance', 'orderId', 'orderId');
     }
+    
+    public function promo()
+    {
+        return $this->hasOne('App\Models\Promo','promo_id', 'promoId');
+    }
 
     public function lastStatus()
     {
