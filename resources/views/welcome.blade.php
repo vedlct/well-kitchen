@@ -952,7 +952,7 @@ $query->where('categoryId', $category->categoryId)->where('status', 'active');
             <h2>Hot Selling Products</h2>
         </div>
         <div class="product-slider-active-2 owl-carousel owl-dot-none owl-products-nav">
-            @foreach ($mostViewskus->unique('fkproductId') as $sku)
+            @foreach ($mostViewskus->unique('fkproductId')->take(10) as $sku)
 
 
                 @if (!empty($sku->product))

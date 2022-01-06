@@ -163,6 +163,10 @@ class CheckoutController extends Controller
                 // $order->orderTotal = Session::get('sub') + $deliveryFee;
                 $order->orderTotal = Session::get('sub');
             }
+            if (Session::has('promoId')) {
+                // $order->orderTotal = Session::get('sub') + $deliveryFee;
+                $order->promoId = Session::get('promoId');
+            }
             if (!Session::has('sub')) {
                 // $order->orderTotal = \Cart::getSubTotal() + $deliveryFee;
                 $order->orderTotal = \Cart::getSubTotal();
@@ -190,6 +194,7 @@ class CheckoutController extends Controller
                 $order_item->price = $cartData->price;
                 $order_item->total = $cartData->price * $cartData->quantity;
                 $order_item->fkskuId = $cartData->id;
+                $order_item->batch_id = $cartData->attributes->batchId ?? '0';
                 $order_item->save();
 
                 $batches = StockRecord::where('fkskuId', $cartData->id)->pluck('batchId')->unique();
@@ -213,11 +218,11 @@ class CheckoutController extends Controller
                 $price = Batch::where('batchId', $batchId)->pluck('salePrice')->first();
                 // $order_item->price = $price;
                 // $order_item->total = $q * $price;
-                $order_item->batch_id = $batch;
-                $order_item->save();
+                
+            
 
                 $stock_record = new StockRecord();
-                $stock_record->batchId = $batch;
+                $stock_record->batchId = $cartData->attributes->batchId ?? '0';
                 $stock_record->fkskuId = $cartData->id;
                 $stock_record->order_id = $order->orderId;
                 $stock_record->stock = $q;
@@ -229,7 +234,7 @@ class CheckoutController extends Controller
                     $quantity = abs($check);
                     $sku = $cartData->id;
                     $order = $order->orderId;
-                    $this->OrderStock($quantity, $sku, $order, $order_item);
+                    $this->OrderStock($quantity, $sku, $order, $order_item, $cartData);
                 }
             }
 
@@ -247,7 +252,7 @@ class CheckoutController extends Controller
         return redirect('/');
     }
 
-    public function OrderStock($quantity, $sku, $order, $order_item)
+    public function OrderStock($quantity, $sku, $order, $order_item, $cartData)
     {
         $batches = StockRecord::where('fkskuId', $sku)->pluck('batchId')->unique();
         $stockAvailable = [];
@@ -270,11 +275,11 @@ class CheckoutController extends Controller
 
         $order_item->price = $price;
         $order_item->total = $quantity * $price;
-        $order_item->batch_id = $batch;
+        $order_item->batch_id = $cartData->attributes->batchId ?? '0';
         $order_item->save();
 
         $stock_record = new StockRecord();
-        $stock_record->batchId = $batch;
+        $stock_record->batchId = $cartData->attributes->batchId ?? '0';
         $stock_record->fkskuId = $sku;
         $stock_record->order_id = $order;
         $stock_record->stock = $quantity;
@@ -286,7 +291,7 @@ class CheckoutController extends Controller
             $quantity = abs($check);
             $sku = $sku;
             $order = $order;
-            return $this->OrderStock($quantity, $sku, $order, $order_item);
+            return $this->OrderStock($quantity, $sku, $order, $order_item, $cartData);
         }
         return redirect()->route('home');
     }

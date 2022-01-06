@@ -638,10 +638,15 @@ class OrderController extends Controller
     private function returnOrder($data)
     {
         try {
-            $orderedProduct = OrderProduct::with('order', 'order.orderStatusLogs')->find($data['orderItemId']);
+            $orderedProduct = OrderProduct::with('order','order.promo', 'order.orderStatusLogs')->find($data['orderItemId']);
+            // dd($orderedProduct->order->promo->discount);
             DB::transaction(function () use ($data, $orderedProduct) {
+                
+                $orderedProductdiscount = ($orderedProduct->price * $orderedProduct->order->promo->discount) / 100; 
+                // dd($orderedProduct->order->discount - );
+                $orderDiscount = 
                 $orderedProduct->quiantity = $data['previousQuantity'] - $data['returnQuantity'];
-                $orderedProduct->total = ($data['returnQuantity'] - $data['returnQuantity']) * $orderedProduct->price;
+                $orderedProduct->total = ($data['previousQuantity'] - $data['returnQuantity']) * $orderedProduct->price;
                 $orderedProduct->returned = $orderedProduct->returned + $data['returnQuantity'];
                 if ($data['previousQuantity'] - $data['returnQuantity'] == 0) {
                     $orderedProduct->discount = 0;
@@ -658,6 +663,7 @@ class OrderController extends Controller
                 $stock->save();
 
                 $orderedProduct->order->orderTotal = OrderProduct::where('fkorderId', $orderedProduct->fkorderId)->sum('total');
+                $orderedProduct->order->discount = $orderedProduct->order->discount - $orderedProductdiscount;
                 $orderedProduct->order->save();
             });
             // $return = $orderedProduct->fkorderId;
