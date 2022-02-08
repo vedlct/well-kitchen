@@ -52,21 +52,11 @@ class WishlistController extends Controller
                   return response()->json(['error'=>'itemHas']);
               }
            
-              
-              
-
-        //    $sku = Sku::where('skuId', $id)->first();
-        //    $wishList=new Wishlist();
-        //    $wishList->fkproductId=$id;
-        //    $wishList->fkcustomerId=Auth::user()->userId;
-        //    $wishList->save();
-        //    Session::flash('success','Item added to wishlist');
-        //    return back();
+        
 
        } else {
         return response()->json(['error'=>'login']);
-        //    Session::flash('error','You need to be logged in to add item to wishlist');
-        //    return back();
+       
        }
 
    }

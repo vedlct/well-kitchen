@@ -261,19 +261,19 @@
                         ${cartItems}
 
                                 ${getSubTotal != 0 ? `<div class="d-flex justify-content-between"><div> <h5>Sub-Total:</h5> </div>
-                                    <div class="">
-                                    <h5>&#2547;${response.total}</h5>
+                                        <div class="">
+                                        <h5>&#2547;${response.total}</h5>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row my-md-5 my-4">
-                                    <div class="col-6">
-                                        <a href="{{ route('cart') }}" class="btn btn-secondary w-100">View Cart</a>
+                                    <div class="row my-md-5 my-4">
+                                        <div class="col-6">
+                                            <a href="{{ route('cart') }}" class="btn btn-secondary w-100">View Cart</a>
+                                        </div>
+                                        <div class="col-6">
+                                            <a href="{{ route('checkout.index') }}" class="btn btn-danger w-100">checkout</a>
+                                        </div>
                                     </div>
-                                    <div class="col-6">
-                                        <a href="{{ route('checkout.index') }}" class="btn btn-danger w-100">checkout</a>
-                                    </div>
-                                </div>
-                                </div>` :`<p style="font-weight: bold; font-size: 14px; text-align: center">Cart Is Empty</p>` }
+                                    </div>` :`<p style="font-weight: bold; font-size: 14px; text-align: center">Cart Is Empty</p>` }
                         </section>`)
 
                 },

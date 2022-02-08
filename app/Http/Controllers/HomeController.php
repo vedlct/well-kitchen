@@ -185,15 +185,7 @@ class HomeController extends Controller
             }
 
 
-            // if(!empty($hotDeal)){
-            //     $percentage = $hotDeal->hotdeals->percentage;
-            //     $afterDiscountPrice = ($sku->salePrice) - (($sku->salePrice)*$percentage)/100;
-            // }
-// dd(Sesion::has('promoCode'));
-
-// else{
-// // dd('no session');
-// }
+           
 
 
             \Cart::add(array(
