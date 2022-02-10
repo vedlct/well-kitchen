@@ -20,6 +20,11 @@ class Order extends Model
     {
         return $this->hasOne('App\Models\Customer', 'customerId', 'fkcustomerId');
     }
+    
+    public function promo()
+    {
+        return $this->hasOne('App\Models\Promo', 'promo_id','promoId');
+    }
 
     public function transaction()
     {

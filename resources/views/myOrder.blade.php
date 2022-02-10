@@ -32,16 +32,41 @@
                                                     <td class="product-name"><a
                                                             href="{{ route('product.details', $orderitem->sku->product->slug) }}">{{ $orderitem->sku->product->productName }}</a>
                                                     </td>
+                                                    {{-- @dd(isset($item->promo)); --}}
+                                                    @if(isset($item->promo))
+                                                    @php
+                                                        
+                                                        $discouontAmount =  $item->promo->discount;
+                                                        $amountReduce = ($orderitem->sku->salePrice * $discouontAmount) /100;
+                                                        $actualPrice = $orderitem->sku->salePrice - $amountReduce;
+
+                                                    @endphp
                                                     <td class="product-price-cart"><span
-                                                            class="amount">&#2547;{{ $orderitem->sku->salePrice }}</span>
+                                                            class="amount">&#2547;{{ $actualPrice  }}</span>
                                                     </td>
+                                                    @else
+                                                    <td class="product-price-cart"><span
+                                                        class="amount">&#2547;{{ $orderitem->sku->salePrice }}</span>
+                                                    </td>
+                                                    @endif
                                                     <td class="product-quantity">
                                                         <span class="amount">{{ $orderitem->quiantity }}</span>
                                                     </td>
                                                     <td class="product-quantity">
                                                         <span class="amount">{{ $item->created_at }}</span>
                                                     </td>
+                                                    @if(isset($item->promo))
+                                                    @php
+                                                        
+                                                        $discouontAmount =  $item->promo->discount;
+                                                        $amountReduce = ($orderitem->total * $discouontAmount) /100;
+                                                        $actualPrice = $orderitem->total - $amountReduce;
+
+                                                    @endphp
+                                                    <td class="product-subtotal">&#2547;{{ $actualPrice}}</td>
+                                                    @else
                                                     <td class="product-subtotal">&#2547;{{ $orderitem->total }}</td>
+                                                    @endif
                                                     <td class="product-wishlist-cart">
                                                         @if (!empty($item->last_status))
                                                             <button

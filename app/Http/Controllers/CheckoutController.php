@@ -185,9 +185,8 @@ class CheckoutController extends Controller
             $order_status_log->save();
 
             foreach (\Cart::getContent() as $cartData) {
-                // @dd($cartData);
                 $q = $cartData['quantity'];
-                // dd($q);
+
                 $order_item = new OrderProduct();
                 $order_item->fkorderId = $order->orderId;
                 $order_item->quiantity = $cartData->quantity;
@@ -205,21 +204,24 @@ class CheckoutController extends Controller
                     $outStock = StockRecord::where('batchId', $batchId)->where('type', 'out')->sum('stock');
                     $stockAvailable[$batchId] = $inStock - $outStock;
                 }
-
+                // dd($stockAvailable);
                 $maxStock = max($stockAvailable);
                 $check = $maxStock - $q;
+                // dd($check <= 0);
+                // dd($maxStock >= $q);
+                // dd($maxStock, $q);
                 if ($q > $maxStock) {
                     $q = $maxStock;
                 }
 
                 $batchId = array_keys($stockAvailable, $maxStock);
-
                 $batch = Batch::where('batchId', $batchId)->pluck('batchId')->first();
+                // dd($batch);
                 $price = Batch::where('batchId', $batchId)->pluck('salePrice')->first();
                 // $order_item->price = $price;
                 // $order_item->total = $q * $price;
-                
-            
+
+
 
                 $stock_record = new StockRecord();
                 $stock_record->batchId = $cartData->attributes->batchId ?? '0';
@@ -230,12 +232,22 @@ class CheckoutController extends Controller
                 $stock_record->identifier = 'sale';
                 $stock_record->save();
 
-                if ($check <= 0) {
-                    $quantity = abs($check);
-                    $sku = $cartData->id;
-                    $order = $order->orderId;
-                    $this->OrderStock($quantity, $sku, $order, $order_item, $cartData);
-                }
+                // if ($check <= 0) {
+                //     $quantity = abs($check);
+                //     $sku = $cartData->id;
+                //     $order = $order->orderId;
+                //     $this->OrderStock($quantity, $sku, $order, $order_item, $cartData);
+                // }
+
+
+                // if ($maxStock >= $q) {
+                //     $quantity = abs($q);
+                //     $sku = $cartData->id;
+                //     dd($order->orderId);
+                //     $order = $order->orderId;
+
+                //     $this->OrderStock($quantity, $sku, $order, $order_item, $cartData);
+                // }
             }
 
             \Cart::clear();

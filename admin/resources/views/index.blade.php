@@ -47,7 +47,7 @@
                             <div class="col-lg-4 col-sm-6">
                                 <div class="card card-bg-amin">
                                     <div class="card-body text-center">
-                                        <h2 class="card-title text-white">{{ abs($totalOrder->todayOrder) }}</h2>
+                                        <h2 class="card-title text-white">{{ abs($todayOrder->totalOrder) }}</h2>
                                         <h6 class="card-subtitle text-white">Todays Order</h6>
                                     </div>
                                 </div>

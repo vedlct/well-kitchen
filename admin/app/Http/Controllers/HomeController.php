@@ -35,7 +35,7 @@ class HomeController extends Controller
             ->where('order_info.created_at', '>=', $date.' 00:00:00')
             ->where('order_info.created_at', '<=', $date.' 23:59:59')
             ->first();
-
+// dd($todayOrder->totalOrder);
         $purchasePrice = Batch::select(DB::raw('COALESCE(SUM(batch.purchasePrice), 0) as totalPurchasePrice'))
             ->where('batch.created_at', '>=', $date.' 00:00:00')
             ->where('batch.created_at', '<=', $date.' 23:59:59')
@@ -48,7 +48,7 @@ class HomeController extends Controller
 
         $totalOrder = Order::select(DB::raw('COALESCE(COUNT(*), 0) as totalOrder'))
             ->first();
-
+// dd($totalOrder->todayOrder);
         $orderComplete = Order::select(DB::raw('COALESCE(COUNT(*), 0) as totalOrderComplete'))
             ->where('order_info.last_status', '=', 'complete')
             ->first();
