@@ -103,6 +103,7 @@ Route::post('/search-category-product' ,[CategoryController::class,'searchByProd
 
 
     Route::get('my-order',[MyOrderController::class,'index'])->name('myOrder')->middleware('auth');
+    Route::get('my-order-details/{id}',[MyOrderController::class,'orderdetails'])->name('myOrder.details');
 
 
 

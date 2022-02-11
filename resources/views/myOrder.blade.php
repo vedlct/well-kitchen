@@ -10,17 +10,24 @@
                             <table>
                                 <thead>
                                     <tr>
-                                        <th>Image</th>
+                                        {{-- <th>Image</th>
                                         <th>Product Name</th>
                                         <th>Until Price</th>
                                         <th>Qty</th>
                                         <th>Date</th>
                                         <th>Subtotal</th>
+                                        <th>Status</th> --}}
+                                        <th>OrderId</th>
+                                        {{-- <th>phone</th> --}}
+                                        <th>order Total</th>
+                                        <th>Paid total</th>
                                         <th>Status</th>
+                                        <th>order date</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @if ($orderedProducts->count() > 0)
+                                {{-- <tbody>
+                                    @if($orderedProducts->count() > 0)
                                         @foreach ($orderedProducts as $item)
                                             @foreach ($item->orderedProduct as $orderitem)
                                                 <tr>
@@ -32,7 +39,6 @@
                                                     <td class="product-name"><a
                                                             href="{{ route('product.details', $orderitem->sku->product->slug) }}">{{ $orderitem->sku->product->productName }}</a>
                                                     </td>
-                                                    {{-- @dd(isset($item->promo)); --}}
                                                     @if(isset($item->promo))
                                                     @php
                                                         
@@ -78,6 +84,35 @@
                                                     </td>
                                                 </tr>
                                             @endforeach
+                                        @endforeach
+                                    @endif
+                                </tbody> --}}
+                                <tbody>
+                                    @if($orderedProducts->count() > 0)
+                                        @foreach ($orderedProducts as $item)
+                                            {{-- @foreach ($item->orderedProduct as $orderitem) --}}
+                                                <tr>
+                                                    <td class="product-thumbnail">
+                                                        {{ $item->orderId }}
+                                                    </td>
+                                                    <td class="product-thumbnail">
+                                                        {{ $item->orderTotal + $item->deliveryFee }}
+                                                    </td>
+                                                    <td class="product-thumbnail">
+                                                        {{ $item->transaction->sum('amount') }}
+                                                    </td>
+                                                    <td class="product-thumbnail">
+                                                        {{ $item->payment_status }}
+                                                    </td>
+                                                    <td class="product-thumbnail">
+                                                        {{ $item->created_at->toDayDateTimeString() }}
+                                                    </td>
+                                                    <td class="product-thumbnail">
+                                                        <a href="{{ route('myOrder.details',$item->orderId) }}"><i class="fa fa-eye"></i></a>
+                                                    </td>
+                                                   
+                                                </tr>
+                                            {{-- @endforeach --}}
                                         @endforeach
                                     @endif
                                 </tbody>
