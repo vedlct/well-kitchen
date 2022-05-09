@@ -179,6 +179,9 @@
                     <li class="nav-item set-unit">
                         <a href="{{ route('shipping.index') }}"><span class="menu-title" data-i18n="">Shipping details</span></a>
                     </li>
+                    <li class="nav-item set-unit">
+                        <a href="{{ route('deliveryService.index') }}"><span class="menu-title" data-i18n="">Delivery Info</span></a>
+                    </li>
                     <li class="nav-item set-store">
                         <a href="{{ route('store.index') }}"><span class="menu-title" data-i18n="">Store</span></a>
                     </li>

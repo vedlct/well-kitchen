@@ -34,7 +34,7 @@
                                         <input type="text" name="amount" id="amount" class="form-control" value="{{$order->orderTotal ?? ''}}" readonly>
                                     </div>
                                 </div>
-    
+
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="deliveryFee">Due amount:</label>
@@ -59,7 +59,7 @@
                                         <input type="text" name="deliveryFee" id="deliveryFee" class="form-control" value="{{$order->deliveryFee ?? ''}}" >
                                     </div>
                                 </div>
-                                
+
                                  <div class="col-lg-12">
                                     <div class="form-group">
                                         <label for="deliveryFee">Collect amount:</label>
@@ -70,7 +70,7 @@
                         </div>
                         <div class="form-group">
                             <textarea class="form-control" id="note" name="note" rows="4" cols="50" placeholder="Enter note here..">
-                               
+
                             </textarea>
                         </div>
                     </div>
@@ -85,7 +85,7 @@
 </div>
 <script>
     function changeStatus(...data){
-        
+
         let status=_.head(data);
         let orderId=_.last(data);
         if(status=="OnDelivery")
@@ -95,7 +95,7 @@
         else{
             $('#deliverdNew').hide()
         }
-        
+
         // $.ajax({
         //     type: "POST",
         //     url: "{{route('order.statusChangeSubmit')}}",
@@ -104,7 +104,7 @@
         //         '_token':"{{csrf_token()}}",
         //         },
         //     success: function (response) {
-                
+
         //     }
         // });
     }
@@ -121,11 +121,11 @@
             let newStatus=$('#status').val();
             $('#viewStatus').html(`Status: ${newStatus}`);
             $('#mainStatus').html(`Status: ${newStatus}`);
-            $('#statusChangeModal').modal('hide'); 
+            $('#statusChangeModal').modal('hide');
             toastr.success('The status is changed')
             let url=location.href;
             if(!url.match('order-details')){
-                $('#orderTable').DataTable().draw() 
+                $('#orderTable').DataTable().draw()
             }
         },
         error: function (err) {
@@ -143,6 +143,6 @@
     });
     }
 
-    
-    
+
+
 </script>

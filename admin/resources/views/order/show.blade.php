@@ -80,14 +80,14 @@
                           </div>
                       </div>
                     </div>
-                    
+
                     <!-- total table -->
                     @if(!empty($order->orderedProduct))
                         <div class="card">
                           <div class="mt-2 mr-2 text-sm-right">
                             {{-- <button type="button" class="btn btn-danger btn-min-width">Refund</button> --}}
                             <button type="button" class="btn btn-success btn-min-width" onclick="addProduct({{$order->orderId}})">Add Product</button>
-                          </div>    
+                          </div>
                         <div class="card-content collapse show">
                             <div class="card-body">
                                 <div class="product-detail-table table-responsive">
@@ -108,7 +108,7 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @if($order->orderedProduct->count() > 0) 
+                                    @if($order->orderedProduct->count() > 0)
                                     @foreach ($order->orderedProduct as $key => $item)
                                         <tr>
                                           {{-- @dd($item); --}}
@@ -145,22 +145,22 @@
                                         <td colspan="7" class="text-right"> <b>Delivery Fee</b> </td>
                                         <td>+{{$order->deliveryFee ?? 0}}</td>
                                     </tr>
-                                  
+
                                     <tr>
                                         <td colspan="7" class="text-right"> <b>Order Total </b> </td>
                                         @if(!empty($order->discount))
-                                        <td>{{number_format($order->orderedProduct->sum('total') + $order->deliveryFee  -$order->discount)  }}</td> 
+                                        <td>{{number_format($order->orderedProduct->sum('total') + $order->deliveryFee  -$order->discount)  }}</td>
                                         @else
-                                        <td>{{number_format($order->orderedProduct->sum('total') + $order->deliveryFee)  }}</td> 
+                                        <td>{{number_format($order->orderedProduct->sum('total') + $order->deliveryFee)  }}</td>
                                         @endif
                                     </tr>
                                     @else
                                     <tr>
                                       <td colspan="7" class="text-center"> <b>No Product in this  order</b> </td>
-                                      
+
                                   </tr>
                                     @endif
-                                    
+
                                     </tbody>
                                 </table>
                                 </div>
@@ -320,7 +320,7 @@
           }
         });
   }
-  
+
   function addPayment(data){
     console.log(data);
     $.ajax({
@@ -368,7 +368,7 @@
                 }
             });
   }
-  
+
   function delProduct(orderItemId){
     // alert(orderItemId);
     if(!confirm("Delete This product?")){
@@ -389,8 +389,8 @@
                 }
             });
 
-        
-            
+
+
   }
 
 
