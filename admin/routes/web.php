@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DeliveryServiceController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\PromoController;
 use Illuminate\Support\Facades\Auth;
@@ -425,6 +426,17 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('shipping-add', [ShippingController::class,'create'])->name('add');
         Route::post('shipping-add',[ShippingController::class,'store'])->name('store');
         Route::post('/shipping-change-status',[ShippingController::class,'shippingChangeStatus'])->name('change.status');
+    });
+
+     //Delivery Service
+     Route::group(['prefix'=>'deliveryService','as' => 'deliveryService.'], function () {
+        Route::get('deliveryService', [DeliveryServiceController::class, 'index'])->name('index');
+        Route::get('deliveryService-edit/{id}', [DeliveryServiceController::class, 'edit'])->name('edit');
+        Route::post('deliveryService-update/{id}', [DeliveryServiceController::class, 'update'])->name('update');
+        Route::post('deliveryService-list',[DeliveryServiceController::class,'list'])->name('list');
+        Route::get('deliveryService-add', [DeliveryServiceController::class,'create'])->name('add');
+        Route::post('deliveryService-store',[DeliveryServiceController::class,'store'])->name('store');
+        Route::post('deliveryService-delete',[DeliveryServiceController::class,'delete'])->name('delete');
     });
 });
 
