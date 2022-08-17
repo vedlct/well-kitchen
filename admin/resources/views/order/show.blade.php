@@ -180,11 +180,9 @@
                               <div class="col-md-4 mb-1">
                                 {{-- <h4 class="text-warning">Due: {{($order->orderTotal+$order->deliveryFee) - $order->paidAmount()}}</h4> --}}
                                 {{-- <h4 class="text-warning">Due: ৳{{number_format((float)$order->orderTotal - $order->paidAmount(), 2, '.', '')}}</h4> --}}
-                                @if(!empty($order->discount))
-                                <h4 class="text-warning">Due: ৳{{number_format($order->orderedProduct->sum('total') + $order->deliveryFee  -$order->discount)  }}</h4>
-                                @else
-                                <h4 class="text-warning">Due: ৳{{number_format($order->orderedProduct->sum('total') + $order->deliveryFee )  }}</h4>
-                                @endif
+                                
+                                <h4 class="text-warning">Due: ৳{{ $dueAmount  }}</h4>
+                            
                               </div>
                               <div class="col-md-4 mb-1 text-sm-right">
                                 {{-- <button type="button" class="btn btn-danger btn-min-width">Refund</button> --}}

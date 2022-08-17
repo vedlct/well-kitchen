@@ -28,17 +28,25 @@
                         </div>
                         <div id="deliverdNew" style="display: none" >
                             <div class="row ">
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="deliveryFee">Total amount</label>
+                                      
                                         <input type="text" name="amount" id="amount" class="form-control" value="{{$order->orderTotal ?? ''}}" readonly>
+                                       
                                     </div>
                                 </div>
     
-                                <div class="col-lg-6">
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="deliveryFee">Discount:</label>
+                                        <input type="text" name="dueAmount" id="dueAmount" class="form-control" value="{{-$order->discount?? 0}}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
                                     <div class="form-group">
                                         <label for="deliveryFee">Due amount:</label>
-                                        <input type="text" name="dueAmount" id="dueAmount" class="form-control" value="{{$dueAmount ?? $order->orderTotal}}">
+                                        <input type="text" name="dueAmount" id="dueAmount" class="form-control" value="{{$dueAmount ?? $order->orderTotal}}" readonly>
                                     </div>
                                 </div>
 
@@ -56,7 +64,7 @@
                                 <div class="col-lg-6">
                                     <div class="form-group">
                                         <label for="deliveryFee">Delivery Fee</label>
-                                        <input type="text" name="deliveryFee" id="deliveryFee" class="form-control" value="{{$order->deliveryFee ?? ''}}" >
+                                        <input type="text" name="deliveryFee" id="deliveryFee" class="form-control" value="{{$order->deliveryFee ?? ''}}" readonly >
                                     </div>
                                 </div>
                                 

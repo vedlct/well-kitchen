@@ -466,7 +466,16 @@ class OrderController extends Controller
         $order = Order::with('customer.user', 'orderedProduct.sku.product', 'orderStatusLogs.author', 'transaction', 'delivery', 'lastStatus')->find($id);
         // return $order->paidAmount();
         // dd($order);
-        return view('order.show', compact('order'));
+        $orderPaidAmount = Transaction::where([['fkorderId', $order->orderId], ['payment_type', '!=', 'return']])->sum('amount');
+        if(isset($order->discount)){
+            $totalWith = $order->orderTotal - $order->discount + $order->deliveryFee;
+            $dueAmount = $totalWith - $orderPaidAmount;
+        }else{
+
+            $dueAmount = $order->orderTotal - $orderPaidAmount;
+        }
+        // dd($dueAmount);
+        return view('order.show', compact('order','dueAmount'));
     }
 
     public function orderStatus(Request $request)
@@ -475,7 +484,15 @@ class OrderController extends Controller
         $order = Order::with('customer.user', 'orderedProduct.sku.product', 'orderStatusLogs.author', 'transaction', 'delivery', 'lastStatus')->find($request->id);
         $deliveryServices = DeliveryService::all();
         $orderPaidAmount = Transaction::where([['fkorderId', $order->orderId], ['payment_type', '!=', 'return']])->sum('amount');
-        $dueAmount = $order->orderTotal - $orderPaidAmount;
+
+        if(isset($order->discount)){
+            $totalWith = $order->orderTotal - $order->discount + $order->deliveryFee;
+            $dueAmount = $totalWith - $orderPaidAmount;
+        }else{
+
+            $dueAmount = $order->orderTotal - $orderPaidAmount;
+        }
+
         $modal = view('order.orderStatusModal', compact('order', 'deliveryServices', 'dueAmount'))->render();
 
         return response()->json($modal);
